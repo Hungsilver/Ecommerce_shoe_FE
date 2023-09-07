@@ -6,9 +6,22 @@ import { NavbarAdminComponent } from './navbar/navbar.component';
 import { SidebarAdminComponent } from './sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MenuModule } from 'primeng/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
-  imports: [RouterModule, MatSlideToggleModule],
+  imports: [
+    RouterModule,
+    MatSlideToggleModule,
+    MatIconModule,
+    MatMenuModule,
+    MatButtonModule,
+    MenuModule,
+    ToastModule,
+  ],
   exports: [LayoutAdminComponent],
   declarations: [
     LayoutAdminComponent,
