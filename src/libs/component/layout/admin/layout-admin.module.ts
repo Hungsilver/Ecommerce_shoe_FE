@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+// import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { LayoutAdminComponent } from './layout-admin.component';
 import { FooterAdminComponent } from './footer/footer.component';
