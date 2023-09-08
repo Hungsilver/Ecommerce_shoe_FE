@@ -23,4 +23,16 @@ export class ProductService {
       );
     });
   }
+
+  getProductById(id: Number): Promise<IProduct> {
+    return new Promise<IProduct>((resolve, reject) => {
+      this.productService.get(`${this.url}/${id}`).subscribe(
+        (result) => {
+          return resolve(result);
+        },
+        (err) => reject(err)
+      );
+      // console.log(`${this.url}\`)
+    });
+  }
 }

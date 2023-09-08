@@ -1,1 +1,29 @@
-<p>detail works!</p>
+<main>
+  <div class="row">
+    <!-- {{ product | json }} -->
+    <div class="my-3">Home/login</div>
+    <div class="col-sm-6">
+      <div class="card">
+        <img class="card-img-top" src="{{ product.image }}" alt="logo" />
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <form>
+        <h1>{{ product.name }}</h1>
+        <span>${{ product.price }}</span>
+        <ul>
+          <li>Color:{{ product.name }}</li>
+          <li>Brand:{{ product.name }}</li>
+        </ul>
+        <input
+          type="number"
+          min="1"
+          max="50"
+          value="1"
+          class="form-control"
+          style="width: 80px"
+        />
+      </form>
+    </div>
+  </div>
+</main>

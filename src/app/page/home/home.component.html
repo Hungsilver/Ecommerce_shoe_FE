@@ -1,1 +1,66 @@
-<p>home works!</p>
+<div class="banner">
+  <span>Discount 20%</span>
+</div>
+<main>
+  <div class="product-show">
+    <div class="card">
+      <img
+        class="card-img-top"
+        src="https://demo.evershop.io/assets/homepage/banner/men-shoes.jpeg"
+      />
+      <!-- ../../../assets/image/image-home/kid-shoes.png -->
+      <div class="card-body">
+        <h3 class="card-title">MEN SHOES COLLECTION</h3>
+        <p class="card-text">
+          Constructed from luxury nylons, leathers, and custom hardware,
+          featuring sport details such as hidden breathing vents, waterproof +
+          antimicrobial linings, and more.
+        </p>
+      </div>
+    </div>
+    <div class="card">
+      <img
+        class="card-img-top"
+        src="https://demo.evershop.io/assets/homepage/banner/men-shoes.jpeg"
+      />
+      <div class="card-body">
+        <h3 class="card-title">MEN SHOES COLLECTION</h3>
+        <p class="card-text">
+          Constructed from luxury nylons, leathers, and custom hardware,
+          featuring sport details such as hidden breathing vents, waterproof +
+          antimicrobial linings, and more.
+        </p>
+      </div>
+    </div>
+    <div class="card">
+      <img
+        class="card-img-top"
+        src="https://demo.evershop.io/assets/homepage/banner/men-shoes.jpeg"
+      />
+      <div class="card-body">
+        <h3 class="card-title">MEN SHOES COLLECTION</h3>
+        <p class="card-text">
+          Constructed from luxury nylons, leathers, and custom hardware,
+          featuring sport details such as hidden breathing vents, waterproof +
+          antimicrobial linings, and more.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="featured-product">
+    <h3 class="product-title">FEATURED PRODUCTS</h3>
+    <div class="list-product">
+      <div class="card" *ngFor="let p of products">
+        <a [routerLink]="['product', p.id]">
+          <img class="card-img-top" src="{{ p.image }}" />
+        </a>
+        <div class="card-body">
+          <a href="product/{{ p.id }}">
+            <h3 class="card-title">{{ p.name }}</h3>
+          </a>
+          <p class="card-text">${{ p.price }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
