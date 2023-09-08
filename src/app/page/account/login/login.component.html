@@ -3,24 +3,36 @@
     <a class="form-link" href="/">Home/</a>
   </div>
   <div class="card">
-    <form class="">
+    <form class="" [formGroup]="formLogin" (submit)="onSubmit()">
       <div class="card-title">
         <h2 class="text-center" style="font-size: 2rem">Login</h2>
       </div>
       <div class="mb-3">
-        <input type="email" class="form-control" placeholder="Email" />
+        <input
+          type="email"
+          formControlName="email"
+          class="form-control"
+          placeholder="Email"
+          required
+        />
       </div>
       <div class="mb-3">
-        <input type="password" class="form-control" placeholder="Password" />
+        <input
+          type="password"
+          formControlName="password"
+          class="form-control"
+          placeholder="Password"
+          required
+        />
       </div>
-      <button class="btn w-100 text-white">SIGN IN</button>
+      <button type="submit" class="btn w-100 text-white">SIGN IN</button>
     </form>
     <div
       class="d-flex justify-content-center gap-3 my-3"
       style="font-size: 1rem"
     >
-      <a routerLink="register">Create an account</a>
-      <a routerLink="fogetpass">Forgot your password?</a>
+      <a href="register">Create an account</a>
+      <a href="forget-pass">Forgot your password?</a>
     </div>
   </div>
 </main>

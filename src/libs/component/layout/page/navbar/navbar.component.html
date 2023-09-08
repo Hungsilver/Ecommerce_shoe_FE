@@ -36,7 +36,11 @@
       <span class="pi pi-search"></span>
     </a>
     <a routerLink="/">
-      <span class="pi pi-shopping-cart"></span>
+      <span
+        class="pi pi-shopping-cart"
+        pBadge
+        value="{{ quantityInCart }}"
+      ></span>
     </a>
     <a routerLink="login">
       <span class="pi pi-user"></span>

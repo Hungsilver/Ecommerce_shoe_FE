@@ -8,6 +8,9 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
 import { FogetpassComponent } from './account/fogetpass/fogetpass.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
+import { BadgeModule } from 'primeng/badge';
 
 //
 const routes: Routes = [
@@ -21,8 +24,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), CommonModule],
-  exports: [RouterModule],
+  imports: [
+    RouterModule.forChild(routes),
+    CommonModule,
+    ReactiveFormsModule,
+    ToastModule,
+    FormsModule,
+    BadgeModule,
+  ],
+  exports: [],
   declarations: [
     DetailComponent,
     HomeComponent,
