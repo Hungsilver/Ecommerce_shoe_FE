@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-fogetpass',
-  templateUrl: './fogetpass.component.html',
-  styleUrls: ['./fogetpass.component.scss'],
+  selector: 'app-forgotPass',
+  templateUrl: './forgot-pass.component.html',
+  styleUrls: ['./forgot-pass.component.scss'],
 })
-export class FogetpassComponent {
-  constructor(private formBuilder: FormBuilder) {}
+export class ForgotPassComponent {
+  constructor(private formBuilder: FormBuilder) { }
 
   formForget: FormGroup = this.formBuilder.group({
     email: ['', [Validators.email]],

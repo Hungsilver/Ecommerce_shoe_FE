@@ -7,10 +7,13 @@ import { ProductComponent } from './product/product.component';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
-import { FogetpassComponent } from './account/fogetpass/fogetpass.component';
+import { ForgotPassComponent } from './account/forgot-pass/forgot-pass.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { BadgeModule } from 'primeng/badge';
+import { DropdownModule } from 'primeng/dropdown';
+import { SliderModule } from 'primeng/slider';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 //
 const routes: Routes = [
@@ -20,7 +23,7 @@ const routes: Routes = [
   { path: 'order', component: OrderComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'forget-pass', component: FogetpassComponent },
+  { path: 'forgot-pass', component: ForgotPassComponent },
 ];
 
 @NgModule({
@@ -31,6 +34,9 @@ const routes: Routes = [
     ToastModule,
     FormsModule,
     BadgeModule,
+    DropdownModule,
+    SliderModule,
+    BreadcrumbModule
   ],
   exports: [],
   declarations: [
@@ -40,8 +46,8 @@ const routes: Routes = [
     ProductComponent,
     LoginComponent,
     RegisterComponent,
-    FogetpassComponent,
+    ForgotPassComponent,
   ],
   providers: [],
 })
-export class PageModule {}
+export class PageModule { }

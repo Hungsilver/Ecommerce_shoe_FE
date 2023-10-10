@@ -1,1 +1,41 @@
-<p>product works!</p>
+<main>
+  <!-- <div class="mt-5 mb-2">Home/Product</div> -->
+  <p-breadcrumb class="max-w-full mt-5 mb-2" [model]="items" [home]="home"></p-breadcrumb>
+  <div class="bg-info p-5 banner">
+    <h1>PRODUCT</h1>
+  </div>
+  <div class="row my-3">
+    <div class="col-xl-3">
+      <h3 class="my-3">SHOP BY</h3>
+      <div>
+        <h3>PRICE</h3>
+        <div class="d-flex justify-content-between">
+          <h5 class="">{{ rangeValues[0] }}</h5>
+          <h5 class="">{{ rangeValues[1] }}</h5>
+        </div>
+        <p-slider [(ngModel)]="rangeValues" [min]="0" [max]="10000000" [range]="true"
+          (onSlideEnd)="getData()"></p-slider>
+      </div>
+      <div class="my-3">
+        <h3>COLOR</h3>
+        <div class="form-group">
+          <input *ngFor="let o; of" type="checkbox" name="" id="" />
+          <label for=""></label>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-9">
+      <div class="sort d-flex justify-content-end gap-3">
+        <span class="d-flex align-items-center">Sort by</span>
+        <div>
+          <select onchange="sortBy($event)" name="sortBy" class="form-select">
+            <option value="nameasc">Name asc</option>
+            <option value="sdfs">Name desc</option>
+            <option value="esfsf">Price asc</option>
+            <option value="wef">Price desc</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
