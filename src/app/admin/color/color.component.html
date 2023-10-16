@@ -1,0 +1,16 @@
+<p-button (click)="showDialog()" icon="pi pi-external-link" label="Show"></p-button>
+<p-dialog header="Header" [(visible)]="visible" [style]="{width: '50vw'}">
+    <div>
+
+        <input type="text" pInputText [(ngModel)]="color.name" />
+        <button (click)="showAge()">show tuoi</button>
+        <br>
+        <input type="text" pInputText [(ngModel)]="sanpham.name" />
+        <button (click)="addSp()">add sp</button>
+        <br>
+        <div class="flex align-items-center">
+            <p-radioButton name="pizza" value="Cheese" [(ngModel)]="ingredient" inputId="ingredient1"></p-radioButton>
+            <label for="ingredient1" class="ml-2">Cheese</label>
+        </div>
+    </div>
+</p-dialog>
