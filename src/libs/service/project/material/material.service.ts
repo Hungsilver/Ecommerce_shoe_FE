@@ -1,20 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IProduct } from './product.module';
+import { IMaterial } from './material.module';
 import { RootRequestService } from '../../request/product-request.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  url: string = 'products-detail';
+  url: string = 'color';
 
   constructor(
-    private http: HttpClient,
     private rootRequestService: RootRequestService
   ) { }
-  getProducts(): Promise<IProduct[]> {
-    return new Promise<IProduct[]>((resolve, reject) => {
+  getColors(): Promise<IMaterial[]> {
+    return new Promise<IMaterial[]>((resolve, reject) => {
       this.rootRequestService.get(`${this.url}`).subscribe(
         (result) => {
           return resolve(result);
@@ -24,9 +23,9 @@ export class ProductService {
     });
   }
 
-  getProductById(id: Number): Promise<IProduct> {
-    return new Promise<IProduct>((resolve, reject) => {
-      this.rootRequestService.get(`${this.url}/${id}`).subscribe(
+  getColorByName(name: string): Promise<IMaterial> {
+    return new Promise<IMaterial>((resolve, reject) => {
+      this.rootRequestService.get(`${this.url}/${name}`).subscribe(
         (result) => {
           return resolve(result);
         },

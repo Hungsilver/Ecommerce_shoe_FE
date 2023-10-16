@@ -8,7 +8,10 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent },
+  {
+    path: '',
+    component: DashboardComponent
+  },
   { path: 'product-detail', component: ProductDetailComponent },
 ];
 @NgModule({
@@ -23,4 +26,4 @@ const routes: Routes = [
   declarations: [DashboardComponent, ProductDetailComponent],
   providers: [],
 })
-export class AdminModule {}
+export class AdminModule { }

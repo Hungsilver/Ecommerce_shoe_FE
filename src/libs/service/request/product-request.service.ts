@@ -9,7 +9,7 @@ import { environment } from "src/environment/environment";
     providedIn: "root"
 })
 
-export class ProductRequestService extends AbstractAPIService {
+export class RootRequestService extends AbstractAPIService {
 
     constructor(
         public override http: HttpClient,

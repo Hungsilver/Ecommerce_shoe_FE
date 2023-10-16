@@ -9,6 +9,7 @@ import { LayoutPageModule } from 'src/libs/component/layout/page/layout-page.mod
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Page404Component } from './page404/page404.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -34,4 +35,4 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

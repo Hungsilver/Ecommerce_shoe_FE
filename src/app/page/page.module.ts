@@ -14,11 +14,15 @@ import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
 import { SliderModule } from 'primeng/slider';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { CartComponent } from './cart/cart.component';
+import { TableModule } from 'primeng/table';
+import { CheckoutComponent } from './checkout/checkout.component';
 
-//
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'product', component: ProductComponent },
+  { path: 'cart', component: CartComponent },
+  { path: 'checkout', component: CheckoutComponent },
   { path: 'product/:id', component: DetailComponent },
   { path: 'order', component: OrderComponent },
   { path: 'login', component: LoginComponent },
@@ -36,7 +40,8 @@ const routes: Routes = [
     BadgeModule,
     DropdownModule,
     SliderModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    TableModule
   ],
   exports: [],
   declarations: [
@@ -47,6 +52,8 @@ const routes: Routes = [
     LoginComponent,
     RegisterComponent,
     ForgotPassComponent,
+    CartComponent,
+    CheckoutComponent,
   ],
   providers: [],
 })
