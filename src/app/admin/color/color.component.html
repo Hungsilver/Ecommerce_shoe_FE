@@ -1,16 +1,37 @@
-<p-button (click)="showDialog()" icon="pi pi-external-link" label="Show"></p-button>
-<p-dialog header="Header" [(visible)]="visible" [style]="{width: '50vw'}">
+<span class="p-input-icon-left">
+    <i class="pi pi-search"></i>
+    <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+</span>
+<div class="card">
+    <p-table [value]="colors" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 30%;">STT</th>
+                <th (click)="sortByName()" style="width: 40%;cursor: pointer;">Tên <i [ngClass]="iconSortName"></i></th>
+                <th style="width: 30%;">Trạng thái</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-color let-rowIndex="rowIndex">
+            <tr>
+                <td>{{ colors.indexOf(color) + 1 + searchQuery.pageSize *
+                    (searchQuery.page - 1) }}</td>
+                <td>{{ color.ten }}</td>
+                <td>{{ color.trangThai }}</td>
+            </tr>
+        </ng-template>
+
+    </p-table>
     <div>
 
-        <input type="text" pInputText [(ngModel)]="color.name" />
-        <button (click)="showAge()">show tuoi</button>
-        <br>
-        <input type="text" pInputText [(ngModel)]="sanpham.name" />
-        <button (click)="addSp()">add sp</button>
-        <br>
-        <div class="flex align-items-center">
-            <p-radioButton name="pizza" value="Cheese" [(ngModel)]="ingredient" inputId="ingredient1"></p-radioButton>
-            <label for="ingredient1" class="ml-2">Cheese</label>
+        <div class="d-flex justify-content-end gap-1">
+            <p-dropdown [options]="listTotalPage" [(ngModel)]="searchQuery.page" optionLabel="name"></p-dropdown>
+
+            <div class="button-pagination" (click)="getAll('page','prev')">
+                <i class="pi pi-angle-left"></i>
+            </div>
+            <div class="button-pagination" (click)="getAll('page','next')">
+                <i class="pi pi-angle-right"></i>
+            </div>
         </div>
     </div>
-</p-dialog>
+</div>

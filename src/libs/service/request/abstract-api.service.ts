@@ -2,9 +2,9 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
 
-export class AbstractAPIService {
+export class BaseRequestAbstractService {
   baseUrl!: string;
-  constructor(protected http: HttpClient, protected route: Router) {}
+  constructor(protected http: HttpClient, protected route: Router) { }
 
   protected options(params: HttpParams): {
     headers: HttpHeaders;

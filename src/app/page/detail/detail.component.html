@@ -4,31 +4,22 @@
     <div class="my-3">Home/login</div>
     <div class="col-sm-6">
       <div class="card">
-        <img class="card-img-top" src="{{ product.image }}" alt="logo" />
+        <!-- <img class="card-img-top" src="{{ productDetail.image }}" alt="logo" /> -->
       </div>
     </div>
     <div class="col-sm-6">
       <form (submit)="addToCart()">
-        <h1>{{ product.name }}</h1>
-        <span>${{ product.price }}</span>
+        <!-- <h1>{{ productDetail. }}</h1>
         <ul>
-          <li>Color:{{ product.name }}</li>
-          <li>Brand:{{ product.name }}</li>
-        </ul>
-        <input
-          type="number"
-          min="1"
-          max="50"
-          value="1"
-          [(ngModel)]="quantity"
-          name="quantity"
-          class="form-control"
-          style="width: 80px"
-        />
+          <li>Color:{{ productDetail.name }}</li>
+          <li>Brand:{{ productDetail.name }}</li> -->
+        <!-- </ul> -->
+        <input type="number" min="1" max="50" value="1" [(ngModel)]="quantity" name="quantity" class="form-control"
+          style="width: 80px" />
         <button class="btn btn-outline-dark w-100 mt-3" type="submit">
           Add to cart
         </button>
-        <div class="size my-3">
+        <!-- <div class="size my-3">
           <button
             type="button"
             class="btn btn-outline-dark me-2"
@@ -38,23 +29,18 @@
           >
             {{ s }}
           </button>
-        </div>
-        <div class="color">
-          <button
-            type="button"
-            class="btn btn-outline-dark me-2 mb-1"
-            *ngFor="let c of product.color"
-            (click)="getColorSelected(c)"
-            [class.selectedBtnColor]="selectedColor === c"
-          >
+        </div> -->
+        <!-- <div class="color">
+          <button type="button" class="btn btn-outline-dark me-2 mb-1" *ngFor="let c of product.color"
+            (click)="getColorSelected(c)" [class.selectedBtnColor]="selectedColor === c">
             {{ c }}
           </button>
-        </div>
+        </div> -->
         <span class="text-danger" *ngIf="errorSelected">
           {{ errorSelected }}
         </span>
         <div class="mt-5">
-          {{ product.description }}
+          <!-- {{ product.description }} -->
         </div>
       </form>
     </div>

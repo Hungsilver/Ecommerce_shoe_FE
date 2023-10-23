@@ -1,10 +1,10 @@
 import { Injectable, OnInit } from '@angular/core';
-import { RootRequestService } from '../../request/product-request.service';
+import { BaseRequestService } from '../../request/base-request.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductDetailService implements OnInit {
     constructor(
-        private rootRequestService: RootRequestService
+        private BaseRequestService: BaseRequestService
     ) { }
 
     ngOnInit(): void {

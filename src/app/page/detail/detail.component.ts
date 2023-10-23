@@ -9,11 +9,10 @@ import { ProductService } from 'src/libs/service/project/product/product.service
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
-  product: IProduct = {};
+  productDetail!: IProduct;
   id!: Number;
   quantity: number = 1;
   selectedSize: string | undefined;
-  selectedColor: string | undefined;
   errorSelected: string | undefined;
 
   constructor(
@@ -24,11 +23,11 @@ export class DetailComponent implements OnInit {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
   }
   ngOnInit(): void {
-    this.productService.getProductById(this.id).then((p) => (this.product = p));
+    this.productService.getProductById(this.id).then((p) => (this.productDetail = p));
   }
 
   addToCart() {
-    if (!this.selectedColor || !this.selectedSize) {
+    if (!this.selectedSize) {
       this.errorSelected = 'Vui lòng chọn option';
     } else {
       this.errorSelected = undefined;
@@ -38,7 +37,7 @@ export class DetailComponent implements OnInit {
   getSizeSelected(value: string) {
     this.selectedSize = value;
   }
-  getColorSelected(value: string) {
-    this.selectedColor = value;
-  }
+  // getColorSelected(value: string) {
+  //   this.selectedColor = value;
+  // }
 }

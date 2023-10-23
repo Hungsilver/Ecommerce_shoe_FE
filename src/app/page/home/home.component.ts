@@ -9,10 +9,11 @@ import { ProductService } from 'src/libs/service/project/product/product.service
 })
 export class HomeComponent implements OnInit {
   products: IProduct[] = [];
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) { }
   ngOnInit(): void {
-    this.productService
-      .getProducts()
-      .then((p) => (this.products = p.slice(0, 4)));
+    // this.productService
+    //   .getProducts()
+    //   .then((p) => (this.products = p.slice(0, 4)));
+    this.products = this.productService.getProducts().slice(0, 4);
   }
 }

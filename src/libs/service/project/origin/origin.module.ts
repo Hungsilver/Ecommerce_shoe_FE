@@ -1,4 +1,5 @@
-export interface IColor {
+export interface IOrigin {
   id?: number;
   name?: string;
+  trangThai?: number
 }
