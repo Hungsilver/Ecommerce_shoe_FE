@@ -1,20 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IColor } from './origin.module';
-import { RootRequestService } from '../../request/product-request.service';
+import { IOrigin } from './origin.module';
+import { BaseRequestService } from '../../request/base-request.service';
+import { IReqApi } from 'src/libs/common/interface/interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductService {
-  url: string = 'color';
+export class OriginService {
+  url: string = 'origin';
 
   constructor(
-    private rootRequestService: RootRequestService
+    private BaseRequestService: BaseRequestService
   ) { }
-  getColors(): Promise<IColor[]> {
-    return new Promise<IColor[]>((resolve, reject) => {
-      this.rootRequestService.get(`${this.url}`).subscribe(
+  getOrigins(params?: any): Promise<IReqApi<IOrigin[]>> {
+    return new Promise<IReqApi<IOrigin[]>>((resolve, reject) => {
+      this.BaseRequestService.get(`${this.url}`, params).subscribe(
         (result) => {
           return resolve(result);
         },
@@ -23,14 +24,14 @@ export class ProductService {
     });
   }
 
-  getColorByName(name: string): Promise<IColor> {
-    return new Promise<IColor>((resolve, reject) => {
-      this.rootRequestService.get(`${this.url}/${name}`).subscribe(
-        (result) => {
-          return resolve(result);
-        },
-        (err) => reject(err)
-      );
-    });
-  }
+  // getOriginByName(name: string): Promise<IColor> {
+  //   return new Promise<IColor>((resolve, reject) => {
+  //     this.BaseRequestService.get(`${this.url}/${name}`).subscribe(
+  //       (result) => {
+  //         return resolve(result);
+  //       },
+  //       (err) => reject(err)
+  //     );
+  //   });
+  // }
 }

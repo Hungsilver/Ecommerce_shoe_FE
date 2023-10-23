@@ -4,10 +4,7 @@
 <main>
   <div class="product-show">
     <div class="card">
-      <img
-        class="card-img-top"
-        src="https://demo.evershop.io/assets/homepage/banner/men-shoes.jpeg"
-      />
+      <img class="card-img-top" src="https://demo.evershop.io/assets/homepage/banner/men-shoes.jpeg" />
       <!-- ../../../assets/image/image-home/kid-shoes.png -->
       <div class="card-body">
         <h3 class="card-title">MEN SHOES COLLECTION</h3>
@@ -19,10 +16,7 @@
       </div>
     </div>
     <div class="card">
-      <img
-        class="card-img-top"
-        src="https://demo.evershop.io/assets/homepage/banner/men-shoes.jpeg"
-      />
+      <img class="card-img-top" src="https://demo.evershop.io/assets/homepage/banner/men-shoes.jpeg" />
       <div class="card-body">
         <h3 class="card-title">MEN SHOES COLLECTION</h3>
         <p class="card-text">
@@ -33,10 +27,7 @@
       </div>
     </div>
     <div class="card">
-      <img
-        class="card-img-top"
-        src="https://demo.evershop.io/assets/homepage/banner/men-shoes.jpeg"
-      />
+      <img class="card-img-top" src="https://demo.evershop.io/assets/homepage/banner/men-shoes.jpeg" />
       <div class="card-body">
         <h3 class="card-title">MEN SHOES COLLECTION</h3>
         <p class="card-text">
@@ -52,13 +43,12 @@
     <div class="list-product">
       <div class="card" *ngFor="let p of products">
         <a [routerLink]="['product', p.id]">
-          <img class="card-img-top" src="{{ p.image }}" />
+          <img class="card-img-top" src="{{ p.anhChinh }}" />
         </a>
         <div class="card-body">
           <a href="product/{{ p.id }}">
-            <h3 class="card-title">{{ p.name }}</h3>
+            <h3 class="card-title">{{ p.ten }}</h3>
           </a>
-          <p class="card-text">${{ p.price }}</p>
         </div>
       </div>
     </div>

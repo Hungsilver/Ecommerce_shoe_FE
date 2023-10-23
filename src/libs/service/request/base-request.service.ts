@@ -1,15 +1,15 @@
 import { Injectable } from "@angular/core";
-import { AbstractAPIService } from "./abstract-api.service";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { environment } from "src/environment/environment";
+import { BaseRequestAbstractService } from "./abstract-api.service";
 
 
 @Injectable({
     providedIn: "root"
 })
 
-export class RootRequestService extends AbstractAPIService {
+export class BaseRequestService extends BaseRequestAbstractService {
 
     constructor(
         public override http: HttpClient,
@@ -20,6 +20,6 @@ export class RootRequestService extends AbstractAPIService {
     }
 
     refreshAPIUrl() {
-        this.baseUrl = `${environment.api.productsDetail}/`;
+        this.baseUrl = `${environment.api.main}/`;
     }
 }

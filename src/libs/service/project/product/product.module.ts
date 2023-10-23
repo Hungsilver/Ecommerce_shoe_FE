@@ -1,10 +1,12 @@
 export interface IProduct {
   id?: number;
-  name?: string;
-  price?: number;
-  image?: string;
-  size?: string;
-  color?: string;
-  description?: string;
-  createDate?: string;
+  ma?: string;
+  ten?: string;
+  anhChinh?: string;
+  moTa?: string;
+  thuongHieu?: any;
+  xuatXu?: any;
+  giaThapNhat: number;
+  giaCaoNhat: number;
+  trangThai?: number;
 }

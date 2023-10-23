@@ -21,9 +21,9 @@ export class ProductComponent implements OnInit {
   home: MenuItem | undefined;
 
   ngOnInit(): void {
-    this.productService.getProducts().then((p) => {
-      this.products = p;
-    });
+    // this.productService.getProducts().then((p) => {
+    //   this.products = p;
+    // });
     this.minPrice = 0;
     this.maxPrice = 10000000;
     this.rangeValues = [this.minPrice, this.maxPrice];
