@@ -89,8 +89,9 @@ export class OriginComponent implements OnInit {
       width: '400px',
       height: '500px',
       data: {
-        animal: 'panda'
-      }
+        type: "add",
+        origin: {}
+      },
     })
   }
   openDialogEdit(origin: any) {
@@ -98,17 +99,22 @@ export class OriginComponent implements OnInit {
       width: '400px',
       height: '500px',
       data: {
-        ...origin
+        type: 'update',
+        origin: origin,
       }
     })
   }
   openDialogDelete(origin: any) {
-    this.dialog.open(OriginDialogComponent, {
+    const dialogRef = this.dialog.open(OriginDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
-        animal: 'panda'
+        type: 'delete',
+        origin: origin
       }
+    })
+    dialogRef.afterClosed().subscribe(data => {
+      this.getAll();
     })
   }
 }

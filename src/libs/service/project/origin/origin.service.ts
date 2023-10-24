@@ -23,15 +23,34 @@ export class OriginService {
       );
     });
   }
+  createOrigin(body: any): Promise<IReqApi<IOrigin[]>> {
+    return new Promise<IReqApi<IOrigin[]>>((resolve, reject) => {
+      this.BaseRequestService.post(`${this.url}`, body).subscribe(
+        (result) => {
+          return resolve(result);
+        },
+        (err) => reject(err)
+      );
+    });
+  }
+  updateOrigin(body: any, id?: any): Promise<IReqApi<IOrigin[]>> {
+    return new Promise<IReqApi<IOrigin[]>>((resolve, reject) => {
+      this.BaseRequestService.put(`${this.url}/${id}`, body).subscribe(
+        (result) => {
+          return resolve(result);
+        },
+        (err) => reject(err)
+      );
+    });
+  }
+  deleteOrigin(id: any): Promise<IReqApi<IOrigin[]>> {
+    return new Promise<IReqApi<IOrigin[]>>((resolve, reject) => {
+      this.BaseRequestService.delete(`${this.url}/${id}`).subscribe(
+        (result) => {
+        },
+        (err) => reject(err)
+      );
+    });
+  }
 
-  // getOriginByName(name: string): Promise<IColor> {
-  //   return new Promise<IColor>((resolve, reject) => {
-  //     this.BaseRequestService.get(`${this.url}/${name}`).subscribe(
-  //       (result) => {
-  //         return resolve(result);
-  //       },
-  //       (err) => reject(err)
-  //     );
-  //   });
-  // }
 }
