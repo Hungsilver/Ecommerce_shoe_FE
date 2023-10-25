@@ -20,15 +20,23 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { NewProductComponent } from './product/new-product/new-product.component';
+import { OrderComponent } from '../page/order/order.component';
+// import { CouponComponent } from './coupon/coupon.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent
+    component: DashboardComponent,
   },
   { path: 'product-detail', component: ProductDetailComponent },
   { path: 'mau-sac', component: ColorComponent },
   { path: 'xuat-xu', component: OriginComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'new-product', component: NewProductComponent },
+  { path: 'product-detail', component: ProductDetailComponent },
+  { path: 'Order', component: OrderComponent },
+  // { path: 'new-coupon', component: CouponComponent },
 ];
 @NgModule({
   imports: [
@@ -47,7 +55,7 @@ const routes: Routes = [
     MatIconModule,
     MatButtonModule,
     MatSlideToggleModule,
-    MatSelectModule
+    MatSelectModule,
   ],
   exports: [RouterModule],
   declarations: [
@@ -55,8 +63,8 @@ const routes: Routes = [
     ProductDetailComponent,
     ColorComponent,
     OriginComponent,
-    OriginDialogComponent
+    OriginDialogComponent,
   ],
   providers: [],
 })
-export class AdminModule { }
+export class AdminModule {}

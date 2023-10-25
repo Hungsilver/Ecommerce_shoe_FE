@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarAdminComponent {
-
   first: number = 0;
 
   rows: number = 10;
