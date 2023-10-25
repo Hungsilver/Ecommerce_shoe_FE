@@ -22,6 +22,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { NewProductComponent } from './product/new-product/new-product.component';
 import { OrderComponent } from '../page/order/order.component';
+import { EditProductComponent } from './product/edit-product/edit-product.component';
 // import { CouponComponent } from './coupon/coupon.component';
 
 const routes: Routes = [
@@ -33,8 +34,8 @@ const routes: Routes = [
   { path: 'mau-sac', component: ColorComponent },
   { path: 'xuat-xu', component: OriginComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'edit-product', component: EditProductComponent },
   { path: 'new-product', component: NewProductComponent },
-  { path: 'product-detail', component: ProductDetailComponent },
   { path: 'Order', component: OrderComponent },
   // { path: 'new-coupon', component: CouponComponent },
 ];
