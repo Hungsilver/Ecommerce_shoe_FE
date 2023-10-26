@@ -21,15 +21,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { ToastModule } from 'primeng/toast';
+import { NewProductComponent } from './product/new-product/new-product.component';
+import { OrderComponent } from '../page/order/order.component';
+import { EditProductComponent } from './product/edit-product/edit-product.component';
+// import { CouponComponent } from './coupon/coupon.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent
   },
   { path: 'product-detail', component: ProductDetailComponent },
   { path: 'mau-sac', component: ColorComponent },
   { path: 'xuat-xu', component: OriginComponent },
+  { path: 'edit-product', component: EditProductComponent },
+  { path: 'new-product', component: NewProductComponent },
+  { path: 'Order', component: OrderComponent },
+  // { path: 'new-coupon', component: CouponComponent },
 ];
 @NgModule({
   imports: [
@@ -57,7 +64,6 @@ const routes: Routes = [
     ProductDetailComponent,
     ColorComponent,
     OriginComponent,
-    OriginDialogComponent
   ],
   providers: [],
 })
