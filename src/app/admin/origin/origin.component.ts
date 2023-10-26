@@ -1,7 +1,7 @@
 import { SlicePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { OriginService } from 'src/libs/service/project/origin/origin.service';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, } from '@angular/material/dialog';
 import { OriginDialogComponent } from './origin-dialog/origin-dialog.component';
 
 @Component({
@@ -85,7 +85,7 @@ export class OriginComponent implements OnInit {
   }
 
   openDialog() {
-    this.dialog.open(OriginDialogComponent, {
+    const dialogRef = this.dialog.open(OriginDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
@@ -93,15 +93,21 @@ export class OriginComponent implements OnInit {
         origin: {}
       },
     })
+    dialogRef.afterClosed().subscribe(data => {
+      this.getAll();
+    })
   }
   openDialogEdit(origin: any) {
-    this.dialog.open(OriginDialogComponent, {
+    const dialogRef = this.dialog.open(OriginDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
         type: 'update',
         origin: origin,
       }
+    })
+    dialogRef.afterClosed().subscribe(data => {
+      this.getAll();
     })
   }
   openDialogDelete(origin: any) {

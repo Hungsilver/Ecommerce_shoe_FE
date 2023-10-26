@@ -20,6 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { ToastModule } from 'primeng/toast';
 
 const routes: Routes = [
   {
@@ -47,7 +48,8 @@ const routes: Routes = [
     MatIconModule,
     MatButtonModule,
     MatSlideToggleModule,
-    MatSelectModule
+    MatSelectModule,
+    ToastModule
   ],
   exports: [RouterModule],
   declarations: [
