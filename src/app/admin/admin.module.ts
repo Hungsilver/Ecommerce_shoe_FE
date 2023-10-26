@@ -56,7 +56,7 @@ const routes: Routes = [
     MatButtonModule,
     MatSlideToggleModule,
     MatSelectModule,
-    ToastModule
+    ToastModule,
   ],
   exports: [RouterModule],
   declarations: [
@@ -64,6 +64,7 @@ const routes: Routes = [
     ProductDetailComponent,
     ColorComponent,
     OriginComponent,
+    OriginDialogComponent
   ],
   providers: [],
 })
