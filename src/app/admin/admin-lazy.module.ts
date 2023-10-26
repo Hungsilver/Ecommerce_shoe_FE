@@ -20,6 +20,7 @@ import { OriginComponent } from './origin/origin.component';
 import { OriginDialogComponent } from './origin/origin-dialog/origin-dialog.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ProductHomeComponent } from './product/components/product-home/product-home.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         ProductDetailComponent,
         ColorComponent,
         OriginComponent,
-        OriginDialogComponent
+        OriginDialogComponent,
+        ProductHomeComponent
     ],
     providers: [],
 })
