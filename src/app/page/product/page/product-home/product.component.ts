@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { IProduct } from 'src/app/page/product/service/product.module';
@@ -12,24 +13,19 @@ export class ProductComponent implements OnInit {
   minPrice!: number;
   maxPrice!: number;
   rangeValues!: number[];
-  products!: IProduct[];
+  products: IProduct[] = []
   colors!: string[];
-
-  constructor(private productService: ProductService) { }
   items: MenuItem[] | undefined;
-
   home: MenuItem | undefined;
+  constructor(private productService: ProductService, private http: HttpClient) { }
 
   ngOnInit(): void {
-    // this.productService.getProducts().then((p) => {
-    //   this.products = p;
-    // });
+    this.products = this.productService.getProducts();
     this.minPrice = 0;
     this.maxPrice = 10000000;
     this.rangeValues = [this.minPrice, this.maxPrice];
-    this.items = [{ label: 'Computer' }, { label: 'Notebook' }];
-
-    this.home = { icon: 'pi pi-home', routerLink: '/' };
+    this.items = [];
+    this.home = { label: 'Home', routerLink: '/' };
   }
   getData() {
     console.log(this.rangeValues[0] + '---' + this, this.rangeValues[1]);
@@ -37,4 +33,5 @@ export class ProductComponent implements OnInit {
   sortBy(event: any) {
     console.log(event.target.value);
   }
+
 }
