@@ -219,6 +219,50 @@ export class ProductService {
       numberOfElements: 10,
       empty: false,
     };
+  attributes: any = {
+    mauSac: [
+      { id: 1, ten: 'do', trangThai: 1 },
+      { id: 2, ten: 'xanh', trangThai: 1 },
+      { id: 3, ten: 'vang', trangThai: 1 },
+      { id: 4, ten: 'trang', trangThai: 1 },
+      { id: 5, ten: 'den', trangThai: 1 },
+    ],
+    kichCo: [
+      { id: 1, ten: '35', trangThai: 1 },
+      { id: 2, ten: '36', trangThai: 1 },
+      { id: 3, ten: '37', trangThai: 1 },
+      { id: 4, ten: '38', trangThai: 1 },
+      { id: 5, ten: '39', trangThai: 1 },
+    ],
+    chatLieuGiay: [
+      { id: 1, ten: 'Da lộn', trangThai: 1 },
+      { id: 2, ten: 'Vải', trangThai: 1 },
+      { id: 3, ten: 'Da thật', trangThai: 1 },
+      { id: 4, ten: 'Nilon', trangThai: 1 },
+      { id: 5, ten: 'Gỗ', trangThai: 1 },
+    ],
+    chatLieuDeGiay: [
+      { id: 1, ten: 'Cao su', trangThai: 1 },
+      { id: 2, ten: 'Da tổng hợp', trangThai: 1 },
+      { id: 3, ten: 'Cotton', trangThai: 1 },
+      { id: 4, ten: 'Bố', trangThai: 1 },
+      { id: 5, ten: 'Lụa', trangThai: 1 },
+    ],
+    xuatXu: [
+      { id: 1, ten: 'Việt Nam', trangThai: 1 },
+      { id: 2, ten: 'Mỹ', trangThai: 1 },
+      { id: 3, ten: 'Nhật Bản', trangThai: 1 },
+      { id: 4, ten: 'Pháp', trangThai: 1 },
+      { id: 5, ten: 'Hà Lan', trangThai: 1 },
+    ],
+    thuongHieu: [
+      { id: 1, ten: 'Adidas', trangThai: 1 },
+      { id: 2, ten: 'Nike', trangThai: 1 },
+      { id: 3, ten: 'Converse', trangThai: 1 },
+      { id: 4, ten: 'Puma', trangThai: 1 },
+      { id: 5, ten: 'Vans', trangThai: 1 },
+    ],
+  };
 
 
   constructor(
@@ -230,6 +274,9 @@ export class ProductService {
 
   getProducts(): IProduct[] {
     return this.products.content;
+  }
+  getAttributes(): any[] {
+    return this.attributes;
   }
 
   // getProducts(): Promise<IProduct[]> {

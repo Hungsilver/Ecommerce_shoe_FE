@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { IProduct } from 'src/app/page/product/service/product.module';
 import { ProductService } from 'src/app/page/product/service/product.service';
@@ -14,6 +14,7 @@ export class ProductComponent implements OnInit {
   maxPrice!: number;
   rangeValues!: number[];
   products: IProduct[] = []
+  attributes: any[] = []
   colors!: string[];
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
@@ -21,6 +22,7 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.products = this.productService.getProducts();
+    this.attributes = this.productService.getAttributes();
     this.minPrice = 0;
     this.maxPrice = 10000000;
     this.rangeValues = [this.minPrice, this.maxPrice];
