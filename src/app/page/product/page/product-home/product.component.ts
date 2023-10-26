@@ -1,7 +1,7 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { IProduct } from 'src/libs/service/project/product/product.module';
-import { ProductService } from 'src/libs/service/project/product/product.service';
+import { IProduct } from 'src/app/page/product/service/product.module';
+import { ProductService } from 'src/app/page/product/service/product.service';
 
 @Component({
   selector: 'app-product',
