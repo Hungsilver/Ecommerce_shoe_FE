@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { ColorDialogComponent } from '../../components/color-dialog/color-dialog.component';
 
 @Component({
   selector: 'app-color',
   templateUrl: './color.component.html',
-  styleUrls: ['./color.component.scss']
+  styleUrls: ['./color.component.scss'],
 })
 export class ColorComponent implements OnInit {
   colors!: any;
@@ -15,7 +17,7 @@ export class ColorComponent implements OnInit {
   // iconSortName = 'pi pi-sort-amount-down-alt';
   iconSortName = 'pi pi-sort-amount-up';
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     this.searchQuery.page = 1;
     this.searchQuery.pageSize = 10;
   }
@@ -32,14 +34,25 @@ export class ColorComponent implements OnInit {
   }
   sortByName() {
     if (this.iconSortName === 'pi pi-sort-amount-up') {
-      this.iconSortName = 'pi pi-sort-amount-down-alt'
+      this.iconSortName = 'pi pi-sort-amount-down-alt';
     } else if (this.iconSortName === 'pi pi-sort-amount-down-alt') {
-      this.iconSortName = 'pi pi-sort-amount-up'
+      this.iconSortName = 'pi pi-sort-amount-up';
     }
-
   }
-  getAll(type?: 'page' | 'rows', action?: 'prev' | 'next'): void {
+  getAll(type?: 'page' | 'rows', action?: 'prev' | 'next'): void {}
 
+  openDialog() {
+    const dialogRef = this.dialog.open(ColorDialogComponent, {
+      width: '300px',
+      height: '200px',
+      // data: {
+      //   color: 1,
+      //   type: 'add',
+      // },
+    });
+
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
   }
-
 }
