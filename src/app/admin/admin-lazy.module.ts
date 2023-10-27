@@ -21,35 +21,38 @@ import { OriginDialogComponent } from './origin/origin-dialog/origin-dialog.comp
 // import {CouponComponent} from './coupon/coupon.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ProductHomeComponent } from './product/components/product-home/product-home.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ChartModule,
-    TableModule,
-    ButtonModule,
-    DialogModule,
-    InputTextModule,
-    RadioButtonModule,
-    PaginatorModule,
-    MatDialogModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    MatSelectModule,
-    ToastModule,
-  ],
-  exports: [],
-  declarations: [
-    DashboardComponent,
-    ProductDetailComponent,
-    ColorComponent,
-    OriginComponent,
-    OriginDialogComponent,
-  ],
-  providers: [],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ChartModule,
+        TableModule,
+        ButtonModule,
+        DialogModule,
+        InputTextModule,
+        RadioButtonModule,
+        PaginatorModule,
+        MatDialogModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+        MatSlideToggleModule,
+        MatSelectModule,
+        ToastModule
+
+    ],
+    exports: [],
+    declarations: [
+        DashboardComponent,
+        ProductDetailComponent,
+        ColorComponent,
+        OriginComponent,
+        OriginDialogComponent,
+        ProductHomeComponent
+    ],
+    providers: [],
 })
 export class AdminLazyModule {}
