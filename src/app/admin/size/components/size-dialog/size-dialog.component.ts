@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { SizeService } from 'src/libs/service/project/size/size.service';
+import { SizeService } from '../../service/size.service';
 @Component({
   selector: 'app-size-dialog',
   templateUrl: './size-dialog.component.html',
@@ -17,6 +17,7 @@ export class SizeDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private sizeService: SizeService,
+    private dialog: MatDialog,
   ) {
     this.type = data.type;
     this.size = data.size;
@@ -24,11 +25,17 @@ export class SizeDialogComponent implements OnInit {
   addOrigin() {
     this.sizeService.createSize(this.size).then(res => {
       console.log('data created', res.content);
+      if (res) {
+        this.dialog.closeAll();
+      }
     })
   }
   updateOrigin() {
     this.sizeService.updateSize(this.size, this.size.id).then(res => {
       console.log('data updated', res.content);
+      if (res) {
+        this.dialog.closeAll();
+      }
     })
   }
   deleteOrigin() {

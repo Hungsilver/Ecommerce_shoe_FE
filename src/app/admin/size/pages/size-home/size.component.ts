@@ -1,20 +1,23 @@
 import { SlicePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MaterialSolesService } from 'src/libs/service/project/material-soles/material-soles.service';
+import { SizeService } from '../../service/size.service';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { MaterialSolesDialogComponent } from './material-soles-dialog/material-soles-dialog.component';
+import { SizeDialogComponent } from '../../components/size-dialog/size-dialog.component';
 @Component({
-  selector: 'app-material-soles',
-  templateUrl: './material-soles.component.html',
-  styleUrls: ['./material-soles.component.scss']
+  selector: 'app-size',
+  templateUrl: './size.component.html',
+  styleUrls: ['./size.component.scss']
 })
-export class MaterialSolesComponent implements OnInit {
-  materials!: any;
+export class SizeComponent implements OnInit {
+
+  sizes!: any;
   searchQuery: any = {};
   listTotalPage: any = [];
 
+
+
   iconSortName = 'pi pi-sort-amount-up';
-  constructor(private materialSoles: MaterialSolesService,
+  constructor(private sizeService: SizeService,
     private dialog: MatDialog
   ) {
     this.searchQuery.page = 1;
@@ -28,6 +31,7 @@ export class MaterialSolesComponent implements OnInit {
   onPageChange() {
     this.getAll();
   }
+
 
   sortByName() {
     if (this.iconSortName === 'pi pi-sort-amount-up') {
@@ -44,6 +48,7 @@ export class MaterialSolesComponent implements OnInit {
 
   }
 
+
   getAll(action?: 'prev' | 'next'): void {
     if (action) {
       if (action === 'prev' && Number(this.searchQuery.page) > 1) {
@@ -59,16 +64,17 @@ export class MaterialSolesComponent implements OnInit {
         }
       });
     }
-    this.materialSoles.getMaterials(this.searchQuery).then(material => {
-      if (material && material.content) {
-        this.materials = material.content;
-        this.listTotalPage = this.getTotalPage(material.totalPages)
-        console.log(material)
+    this.sizeService.getSize(this.searchQuery).then(size => {
+      if (size && size.content) {
+        this.sizes = size.content;
+        this.listTotalPage = this.getTotalPage(size.totalPages)
+        console.log(size)
       }
 
     })
     console.log(this.searchQuery)
   }
+
   getTotalPage(totalPages: number) {
     let listTotalPage = []
 
@@ -84,37 +90,44 @@ export class MaterialSolesComponent implements OnInit {
   }
 
   openDialog() {
-    this.dialog.open(MaterialSolesDialogComponent, {
+    const dialogRef = this.dialog.open(SizeDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
         type: "add",
-        origin: {}
+        size: {}
       },
     })
+    dialogRef.afterClosed().subscribe(data => {
+      this.getAll();
+    })
   }
-  openDialogEdit(material: any) {
-    this.dialog.open(MaterialSolesDialogComponent, {
+  openDialogEdit(size: any) {
+    const dialogRef = this.dialog.open(SizeDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
         type: 'update',
-        material: material,
-      }
-    })
-  }
-  openDialogDelete(material: any) {
-    const dialogRef = this.dialog.open(MaterialSolesDialogComponent, {
-      width: '400px',
-      height: '500px',
-      data: {
-        type: 'delete',
-        material: material
+        size: size,
       }
     })
     dialogRef.afterClosed().subscribe(data => {
       this.getAll();
     })
   }
+  openDialogDelete(size: any) {
+    const dialogRef = this.dialog.open(SizeDialogComponent, {
+      width: '400px',
+      height: '500px',
+      data: {
+        type: 'delete',
+        size: size
+      }
+    })
+    dialogRef.afterClosed().subscribe(data => {
+      this.getAll();
+    })
+  }
+
 
 }

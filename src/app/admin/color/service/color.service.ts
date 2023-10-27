@@ -60,25 +60,4 @@ export class ColorService {
   }
 
 
-  // getColors(): Promise<IColor[]> {
-  //   return new Promise<IColor[]>((resolve, reject) => {
-  //     this.BaseRequestService.get(`${this.url}`).subscribe(
-  //       (result) => {
-  //         return resolve(result);
-  //       },
-  //       (err) => reject(err)
-  //     );
-  //   });
-  // }
-
-  // getColorByName(name: string): Promise<IColor> {
-  //   return new Promise<IColor>((resolve, reject) => {
-  //     this.BaseRequestService.get(`${this.url}/${name}`).subscribe(
-  //       (result) => {
-  //         return resolve(result);
-  //       },
-  //       (err) => reject(err)
-  //     );
-  //   });
-  // }
 }

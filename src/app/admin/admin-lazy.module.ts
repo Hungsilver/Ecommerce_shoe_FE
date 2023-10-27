@@ -21,6 +21,13 @@ import { OriginDialogComponent } from './origin/origin-dialog/origin-dialog.comp
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductHomeComponent } from './product/components/product-home/product-home.component';
+import { ColorDialogComponent } from './color/components/color-dialog/color-dialog.component';
+import { MaterialComponent } from './material/pages/material-home/material.component';
+import { MaterialDialogComponent } from './material/components/material-dialog/material-dialog.component';
+import { MaterialSolesComponent } from './material-soles/pages/material-soles-home/material-soles.component';
+import { MaterialSolesDialogComponent } from './material-soles/components/material-soles-dialog/material-soles-dialog.component';
+import { SizeComponent } from './size/pages/size-home/size.component';
+import { SizeDialogComponent } from './size/components/size-dialog/size-dialog.component';
 
 
 @NgModule({
@@ -48,10 +55,18 @@ import { ProductHomeComponent } from './product/components/product-home/product-
     declarations: [
         DashboardComponent,
         ProductDetailComponent,
-        ColorComponent,
         OriginComponent,
         OriginDialogComponent,
-        ProductHomeComponent
+        ProductHomeComponent,
+        ColorComponent,
+        ColorDialogComponent,
+        MaterialComponent,
+        MaterialDialogComponent,
+        MaterialSolesComponent,
+        MaterialSolesDialogComponent,
+        SizeComponent,
+        SizeDialogComponent,
+
     ],
     providers: [],
 })

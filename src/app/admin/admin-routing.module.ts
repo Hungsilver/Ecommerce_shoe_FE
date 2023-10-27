@@ -5,13 +5,18 @@ import { OriginComponent } from "./origin/origin.component";
 import { OrderComponent } from "../page/order/order.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { NgModule } from "@angular/core";
-
+import { MaterialComponent } from "./material/pages/material-home/material.component"
+import { MaterialSolesComponent } from "./material-soles/pages/material-soles-home/material-soles.component";
+import { SizeComponent } from "./size/pages/size-home/size.component";
 const routes: Routes = [
     { path: '', component: DashboardComponent },
     { path: 'product-detail', component: ProductDetailComponent },
     { path: 'mau-sac', component: ColorComponent },
     { path: 'xuat-xu', component: OriginComponent },
     { path: 'Order', component: OrderComponent },
+    { path: 'chat-lieu-giay', component: MaterialComponent },
+    { path: 'chat-lieu-de-giay', component: MaterialSolesComponent },
+    { path: 'kich-co', component: SizeComponent },
     // { path: 'new-coupon', component: CouponComponent },
 ];
 

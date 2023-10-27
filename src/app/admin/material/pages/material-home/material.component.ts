@@ -1,8 +1,8 @@
 import { SlicePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MaterialService } from 'src/libs/service/project/material/material.service';
+import { MaterialService } from '../../service/material.service'
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { MaterialDialogComponent } from './material-dialog/material-dialog.component';
+import { MaterialDialogComponent } from '../../components/material-dialog/material-dialog.component';
 @Component({
   selector: 'app-material',
   templateUrl: './material.component.html',
@@ -83,7 +83,7 @@ export class MaterialComponent implements OnInit {
     this.getAll();
   }
   openDialog() {
-    this.dialog.open(MaterialDialogComponent, {
+    const dialogRef = this.dialog.open(MaterialDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
@@ -91,15 +91,21 @@ export class MaterialComponent implements OnInit {
         material: {}
       },
     })
+    dialogRef.afterClosed().subscribe(data => {
+      this.getAll();
+    })
   }
   openDialogEdit(material: any) {
-    this.dialog.open(MaterialDialogComponent, {
+    const dialogRef = this.dialog.open(MaterialDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
         type: 'update',
         material: material,
       }
+    })
+    dialogRef.afterClosed().subscribe(data => {
+      this.getAll();
     })
   }
   openDialogDelete(material: any) {

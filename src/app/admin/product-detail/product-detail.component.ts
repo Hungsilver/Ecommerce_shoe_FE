@@ -59,7 +59,8 @@ export class ProductDetailComponent implements OnInit {
         }
       });
     }
-    this.productDetail.getProductDetails(this.searchQuery).then(productl => {
+
+    this.productDetailService.getProductDetails(this.searchQuery).then(productl => {
       if (productl && productl.content) {
         this.productDetail = productl.content;
         this.listTotalPage = this.getTotalPage(productl.totalPages)

@@ -2,12 +2,13 @@
     <span class="p-input-icon-left">
         <i class="pi pi-search"></i>
         <input type="text" pInputText [(ngModel)]="searchQuery.keyword" (keyup.enter)="searchByName()" />
+        <p-dropdown [options]="listTotalPage" [(ngModel)]="searchQuery.page" optionLabel="name"></p-dropdown>
     </span>
     <button mat-button (click)="openDialog()">Thêm</button>
 
 </div>
 <div class="card">
-    <p-table [value]="materials" [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table [value]="materialsoles" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
                 <th style="width: 20%;">STT</th>
@@ -16,17 +17,17 @@
                 <th style="width: 20%;"></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-material let-rowIndex="rowIndex">
+        <ng-template pTemplate="body" let-materialsole let-rowIndex="rowIndex">
             <tr>
-                <td>{{ materials.indexOf(material) + 1 + searchQuery.pageSize *
+                <td>{{ materialsoles.indexOf(materialsole) + 1 + searchQuery.pageSize *
                     (searchQuery.page - 1) }}</td>
-                <td>{{ material.ten }}</td>
-                <td>{{ material.trangThai?'Hoạt động':'Kh hoạt động' }}</td>
+                <td>{{ materialsole.ten }}</td>
+                <td>{{ materialsole.trangThai?'Hoạt động':'Kh hoạt động' }}</td>
                 <td>
-                    <span (click)="openDialogEdit(material)">
+                    <span (click)="openDialogEdit(materialsole)">
                         <i class="pi pi-file-edit"></i>
                     </span>
-                    <span (click)="openDialogDelete(material)">
+                    <span (click)="openDialogDelete(materialsole)">
                         <i class="pi pi-delete-left"></i>
                     </span>
                 </td>

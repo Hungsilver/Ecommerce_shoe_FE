@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { MaterialService } from 'src/libs/service/project/material/material.service';
+import { MaterialService } from '../../service/material.service'
 
 @Component({
   selector: 'app-material-dialog',
@@ -16,6 +16,7 @@ export class MaterialDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private materialService: MaterialService,
+    private dialog: MatDialog,
   ) {
     this.type = data.type;
     this.material = data.material;
@@ -23,14 +24,21 @@ export class MaterialDialogComponent implements OnInit {
   addMaterial() {
     this.materialService.createMaterial(this.material).then(res => {
       console.log('data created', res.content);
+      if (res) {
+        this.dialog.closeAll();
+      }
     })
   }
   updateMaterial() {
-    this.materialService.updateMaterial(this.material, this.material.id).then(res => {
+    this.materialService.updateMaterials(this.material, this.material.id).then(res => {
       console.log('data updated', res.content);
+      if (res) {
+        this.dialog.closeAll();
+      }
     })
   }
   deleteMaterial() {
-    this.materialService.deleteMaterial(this.material.id);
+    this.materialService.deleteMaterials(this.material.id);
+
   }
 }

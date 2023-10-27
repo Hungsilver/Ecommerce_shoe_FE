@@ -1,23 +1,20 @@
 import { SlicePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { SizeService } from 'src/libs/service/project/size/size.service';
+import { MaterialSolesService } from '../../service/material-soles.service';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { SizeDialogComponent } from './size-dialog/size-dialog.component';
+import { MaterialSolesDialogComponent } from '../../components/material-soles-dialog/material-soles-dialog.component';
 @Component({
-  selector: 'app-size',
-  templateUrl: './size.component.html',
-  styleUrls: ['./size.component.scss']
+  selector: 'app-material-soles',
+  templateUrl: './material-soles.component.html',
+  styleUrls: ['./material-soles.component.scss']
 })
-export class SizeComponent implements OnInit {
-
-  sizes!: any;
+export class MaterialSolesComponent implements OnInit {
+  materialsoles!: any;
   searchQuery: any = {};
   listTotalPage: any = [];
 
-
-
   iconSortName = 'pi pi-sort-amount-up';
-  constructor(private sizeService: SizeService,
+  constructor(private materialSoles: MaterialSolesService,
     private dialog: MatDialog
   ) {
     this.searchQuery.page = 1;
@@ -31,7 +28,6 @@ export class SizeComponent implements OnInit {
   onPageChange() {
     this.getAll();
   }
-
 
   sortByName() {
     if (this.iconSortName === 'pi pi-sort-amount-up') {
@@ -48,7 +44,6 @@ export class SizeComponent implements OnInit {
 
   }
 
-
   getAll(action?: 'prev' | 'next'): void {
     if (action) {
       if (action === 'prev' && Number(this.searchQuery.page) > 1) {
@@ -64,17 +59,16 @@ export class SizeComponent implements OnInit {
         }
       });
     }
-    this.sizeService.getSizes(this.searchQuery).then(size => {
-      if (size && size.content) {
-        this.sizes = size.content;
-        this.listTotalPage = this.getTotalPage(size.totalPages)
-        console.log(size)
+    this.materialSoles.getMaterials(this.searchQuery).then(material => {
+      if (material && material.content) {
+        this.materialsoles = material.content;
+        this.listTotalPage = this.getTotalPage(material.totalPages)
+        console.log(material)
       }
 
     })
     console.log(this.searchQuery)
   }
-
   getTotalPage(totalPages: number) {
     let listTotalPage = []
 
@@ -90,38 +84,43 @@ export class SizeComponent implements OnInit {
   }
 
   openDialog() {
-    this.dialog.open(SizeDialogComponent, {
+    const dialogRef = this.dialog.open(MaterialSolesDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
         type: "add",
-        size: {}
+        material: {}
       },
     })
+    dialogRef.afterClosed().subscribe(data => {
+      this.getAll();
+    })
   }
-  openDialogEdit(size: any) {
-    this.dialog.open(SizeDialogComponent, {
+  openDialogEdit(material: any) {
+    const dialogRef = this.dialog.open(MaterialSolesDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
         type: 'update',
-        size: size,
-      }
-    })
-  }
-  openDialogDelete(size: any) {
-    const dialogRef = this.dialog.open(SizeDialogComponent, {
-      width: '400px',
-      height: '500px',
-      data: {
-        type: 'delete',
-        size: size
+        material: material,
       }
     })
     dialogRef.afterClosed().subscribe(data => {
       this.getAll();
     })
   }
-
+  openDialogDelete(material: any) {
+    const dialogRef = this.dialog.open(MaterialSolesDialogComponent, {
+      width: '400px',
+      height: '500px',
+      data: {
+        type: 'delete',
+        material: material
+      }
+    })
+    dialogRef.afterClosed().subscribe(data => {
+      this.getAll();
+    })
+  }
 
 }
