@@ -7,11 +7,9 @@ import { BaseRequestService } from '../../request/base-request.service';
   providedIn: 'root',
 })
 export class ProductService {
-  url: string = 'color';
+  url: string = 'material-soles';
 
-  constructor(
-    private BaseRequestService: BaseRequestService
-  ) { }
+  constructor(private BaseRequestService: BaseRequestService) {}
   getColors(): Promise<IMaterial[]> {
     return new Promise<IMaterial[]>((resolve, reject) => {
       this.BaseRequestService.get(`${this.url}`).subscribe(

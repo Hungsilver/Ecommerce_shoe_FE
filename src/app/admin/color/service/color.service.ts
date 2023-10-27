@@ -8,7 +8,7 @@ import { BaseRequestService } from 'src/libs/service/request/base-request.servic
   providedIn: 'root',
 })
 export class ColorService {
-  url: string = 'color';
+  url: string = 'colors';
 
   constructor(private baseRequestService: BaseRequestService) {}
   getColors(params?: any): Promise<IReqApi<IColor[]>> {
