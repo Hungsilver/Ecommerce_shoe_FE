@@ -18,11 +18,9 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OriginComponent } from './origin/origin.component';
 import { OriginDialogComponent } from './origin/origin-dialog/origin-dialog.component';
-// import {CouponComponent} from './coupon/coupon.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductHomeComponent } from './product/components/product-home/product-home.component';
-import { ColorDialogComponent } from './color/components/color-dialog/color-dialog.component';
 import { MaterialComponent } from './material/pages/material-home/material.component';
 import { MaterialDialogComponent } from './material/components/material-dialog/material-dialog.component';
 import { MaterialSolesComponent } from './material-soles/pages/material-soles-home/material-soles.component';
@@ -31,46 +29,6 @@ import { SizeComponent } from './size/pages/size-home/size.component';
 import { SizeDialogComponent } from './size/components/size-dialog/size-dialog.component';
 
 @NgModule({
-<<<<<<< HEAD
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ChartModule,
-        TableModule,
-        ButtonModule,
-        DialogModule,
-        InputTextModule,
-        RadioButtonModule,
-        PaginatorModule,
-        MatDialogModule,
-        MatInputModule,
-        MatIconModule,
-        MatButtonModule,
-        MatSlideToggleModule,
-        MatSelectModule,
-        ToastModule
-
-    ],
-    exports: [],
-    declarations: [
-        DashboardComponent,
-        ProductDetailComponent,
-        OriginComponent,
-        OriginDialogComponent,
-        ProductHomeComponent,
-        ColorComponent,
-        ColorDialogComponent,
-        MaterialComponent,
-        MaterialDialogComponent,
-        MaterialSolesComponent,
-        MaterialSolesDialogComponent,
-        SizeComponent,
-        SizeDialogComponent,
-
-    ],
-    providers: [],
-=======
   imports: [
     CommonModule,
     FormsModule,
@@ -96,10 +54,14 @@ import { SizeDialogComponent } from './size/components/size-dialog/size-dialog.c
     ProductDetailComponent,
     ColorComponent,
     OriginComponent,
-    OriginDialogComponent,
     ProductHomeComponent,
+    MaterialComponent,
+    MaterialDialogComponent,
+    MaterialSolesComponent,
+    MaterialSolesDialogComponent,
+    SizeComponent,
+    SizeDialogComponent,
   ],
   providers: [],
->>>>>>> develop
 })
-export class AdminLazyModule {}
+export class AdminLazyModule { }
