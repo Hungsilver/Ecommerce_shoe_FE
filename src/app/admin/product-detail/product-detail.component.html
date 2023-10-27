@@ -1,1 +1,52 @@
-<p>product-detail works!</p>
+<span class="p-input-icon-left">
+  <i class="pi pi-search"></i>
+  <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+  <p-dropdown
+    [options]="listTotalPage"
+    [(ngModel)]="searchQuery.page"
+    optionLabel="name"
+  ></p-dropdown>
+</span>
+<div class="button-container">
+  <button (click)="navigateToNewProduct()">Thêm Sản Phẩm</button>
+</div>
+
+<div class="card">
+  <p-table [value]="product" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 30%">STT</th>
+        <th (click)="sortByName()" style="width: 40%; cursor: pointer">
+          Tên <i [ngClass]="iconSortName"></i>
+        </th>
+        <th style="width: 30%">Ảnh</th>
+        <th style="width: 30%">Giá</th>
+        <th style="width: 30%"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-color let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          {{
+            product.indexOf(color) +
+              1 +
+              searchQuery.pageSize * (searchQuery.page - 1)
+          }}
+        </td>
+        <td>{{ product.sanpham }}</td>
+        <td>{{ product.anhSanPham }}</td>
+        <td>{{ product.giaBan }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <div>
+    <div class="d-flex justify-content-end gap-1">
+      <div class="button-pagination" (click)="getAll('prev')">
+        <i class="pi pi-angle-left"></i>
+      </div>
+      <div class="button-pagination" (click)="getAll('next')">
+        <i class="pi pi-angle-right"></i>
+      </div>
+    </div>
+  </div>
+</div>

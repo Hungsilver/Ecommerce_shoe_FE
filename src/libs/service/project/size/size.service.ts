@@ -7,6 +7,7 @@ import { IReqApi } from 'src/libs/common/interface/interfaces';
 @Injectable({
   providedIn: 'root',
 })
+<<<<<<< HEAD
 export class SizeService {
   url: string = 'size';
 
@@ -16,6 +17,15 @@ export class SizeService {
   getSizes(params?: any): Promise<IReqApi<ISize[]>> {
     return new Promise<IReqApi<ISize[]>>((resolve, reject) => {
       this.BaseRequestService.get(`${this.url}`, params).subscribe(
+=======
+export class ProductService {
+  url: string = 'material-soles';
+
+  constructor(private BaseRequestService: BaseRequestService) {}
+  getColors(): Promise<IMaterial[]> {
+    return new Promise<IMaterial[]>((resolve, reject) => {
+      this.BaseRequestService.get(`${this.url}`).subscribe(
+>>>>>>> develop
         (result) => {
           return resolve(result);
         },

@@ -18,6 +18,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OriginComponent } from './origin/origin.component';
 import { OriginDialogComponent } from './origin/origin-dialog/origin-dialog.component';
+// import {CouponComponent} from './coupon/coupon.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductHomeComponent } from './product/components/product-home/product-home.component';
@@ -29,8 +30,8 @@ import { MaterialSolesDialogComponent } from './material-soles/components/materi
 import { SizeComponent } from './size/pages/size-home/size.component';
 import { SizeDialogComponent } from './size/components/size-dialog/size-dialog.component';
 
-
 @NgModule({
+<<<<<<< HEAD
     imports: [
         CommonModule,
         FormsModule,
@@ -69,5 +70,36 @@ import { SizeDialogComponent } from './size/components/size-dialog/size-dialog.c
 
     ],
     providers: [],
+=======
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ChartModule,
+    TableModule,
+    ButtonModule,
+    DialogModule,
+    InputTextModule,
+    RadioButtonModule,
+    PaginatorModule,
+    MatDialogModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatSelectModule,
+    ToastModule,
+  ],
+  exports: [],
+  declarations: [
+    DashboardComponent,
+    ProductDetailComponent,
+    ColorComponent,
+    OriginComponent,
+    OriginDialogComponent,
+    ProductHomeComponent,
+  ],
+  providers: [],
+>>>>>>> develop
 })
-export class AdminLazyModule { }
+export class AdminLazyModule {}

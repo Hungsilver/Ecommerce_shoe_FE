@@ -1,13 +1,18 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { SlicePipe } from '@angular/common';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { ColorService } from '../../service/color.service';
+=======
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+>>>>>>> develop
 import { ColorDialogComponent } from '../../components/color-dialog/color-dialog.component';
 
 @Component({
   selector: 'app-color',
   templateUrl: './color.component.html',
-  styleUrls: ['./color.component.scss']
+  styleUrls: ['./color.component.scss'],
 })
 export class ColorComponent implements OnInit {
   colors!: any;
@@ -16,9 +21,14 @@ export class ColorComponent implements OnInit {
   listTotalPage: any = [];
 
   iconSortName = 'pi pi-sort-amount-up';
+<<<<<<< HEAD
   constructor(private colorService: ColorService,
     private dialog: MatDialog
   ) {
+=======
+
+  constructor(private dialog: MatDialog) {
+>>>>>>> develop
     this.searchQuery.page = 1;
     this.searchQuery.pageSize = 10;
   }
@@ -33,6 +43,7 @@ export class ColorComponent implements OnInit {
 
   sortByName() {
     if (this.iconSortName === 'pi pi-sort-amount-up') {
+<<<<<<< HEAD
       this.searchQuery['sortField'] = 'ten';
       this.searchQuery['isSortDesc'] = false;
       this.getAll();
@@ -42,9 +53,14 @@ export class ColorComponent implements OnInit {
       this.searchQuery['isSortDesc'] = true;
       this.getAll();
       this.iconSortName = 'pi pi-sort-amount-up'
+=======
+      this.iconSortName = 'pi pi-sort-amount-down-alt';
+    } else if (this.iconSortName === 'pi pi-sort-amount-down-alt') {
+      this.iconSortName = 'pi pi-sort-amount-up';
+>>>>>>> develop
     }
-
   }
+<<<<<<< HEAD
 
   getAll(action?: 'prev' | 'next'): void {
     if (action) {
@@ -125,6 +141,22 @@ export class ColorComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       this.getAll();
     })
-  }
+=======
+  getAll(type?: 'page' | 'rows', action?: 'prev' | 'next'): void {}
 
+  openDialog() {
+    const dialogRef = this.dialog.open(ColorDialogComponent, {
+      width: '300px',
+      height: '200px',
+      // data: {
+      //   color: 1,
+      //   type: 'add',
+      // },
+    });
+
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
+>>>>>>> develop
+  }
 }
