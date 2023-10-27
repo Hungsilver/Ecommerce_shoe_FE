@@ -23,6 +23,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { ColorDialogComponent } from './color/color-dialog/color-dialog.component';
+import { SizeDialogComponent } from './size/size-dialog/size-dialog.component';
+import { MaterialComponent } from './material/material.component';
+import { MaterialDialogComponent } from './material/material-dialog/material-dialog.component';
+import { MaterialSolesComponent } from './material-soles/material-soles.component';
+import { MaterialSolesDialogComponent } from './material-soles/material-soles-dialog/material-soles-dialog.component';
 
 const routes: Routes = [
   {
@@ -33,6 +39,8 @@ const routes: Routes = [
   { path: 'size', component: SizeComponent },
   { path: 'mau-sac', component: ColorComponent },
   { path: 'xuat-xu', component: OriginComponent },
+  { path: 'chat-lieu-giay', component: MaterialComponent },
+  { path: 'chat-lieu-de-giay', component: MaterialSolesComponent },
 ];
 @NgModule({
   imports: [
@@ -61,7 +69,13 @@ const routes: Routes = [
     ColorComponent,
     OriginComponent,
     OriginDialogComponent,
-    SizeComponent
+    SizeComponent,
+    ColorDialogComponent,
+    SizeDialogComponent,
+    MaterialComponent,
+    MaterialDialogComponent,
+    MaterialSolesComponent,
+    MaterialSolesDialogComponent
   ],
 
   providers: [],

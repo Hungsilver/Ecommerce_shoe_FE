@@ -1,22 +1,21 @@
-import { Component, OnInit } from '@angular/core';
 import { SlicePipe } from '@angular/common';
-import { ColorService } from 'src/libs/service/project/color/color.service';
+import { Component, OnInit } from '@angular/core';
+import { MaterialService } from 'src/libs/service/project/material/material.service';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { ColorDialogComponent } from './color-dialog/color-dialog.component';
-
+import { MaterialDialogComponent } from './material-dialog/material-dialog.component';
 @Component({
-  selector: 'app-color',
-  templateUrl: './color.component.html',
-  styleUrls: ['./color.component.scss']
+  selector: 'app-material',
+  templateUrl: './material.component.html',
+  styleUrls: ['./material.component.scss']
 })
-export class ColorComponent implements OnInit {
-  colors!: any;
-  // first: number = 0;
+export class MaterialComponent implements OnInit {
+
+  materials!: any;
   searchQuery: any = {};
   listTotalPage: any = [];
 
   iconSortName = 'pi pi-sort-amount-up';
-  constructor(private colorService: ColorService,
+  constructor(private materialService: MaterialService,
     private dialog: MatDialog
   ) {
     this.searchQuery.page = 1;
@@ -30,7 +29,6 @@ export class ColorComponent implements OnInit {
   onPageChange() {
     this.getAll();
   }
-
   sortByName() {
     if (this.iconSortName === 'pi pi-sort-amount-up') {
       this.searchQuery['sortField'] = 'ten';
@@ -45,6 +43,7 @@ export class ColorComponent implements OnInit {
     }
 
   }
+
 
   getAll(action?: 'prev' | 'next'): void {
     if (action) {
@@ -61,18 +60,16 @@ export class ColorComponent implements OnInit {
         }
       });
     }
-    this.colorService.getColors(this.searchQuery).then(color => {
-      if (color && color.content) {
-        this.colors = color.content;
-        this.listTotalPage = this.getTotalPage(color.totalPages)
-        console.log(color)
+    this.materialService.getMaterials(this.searchQuery).then(material => {
+      if (material && material.content) {
+        this.materials = material.content;
+        this.listTotalPage = this.getTotalPage(material.totalPages)
+        console.log(material)
       }
 
     })
     console.log(this.searchQuery)
   }
-
-
   getTotalPage(totalPages: number) {
     let listTotalPage = []
 
@@ -85,72 +82,37 @@ export class ColorComponent implements OnInit {
     this.searchQuery['keyword'] = this.searchQuery.keyword;
     this.getAll();
   }
-
-
   openDialog() {
-    this.dialog.open(ColorDialogComponent, {
+    this.dialog.open(MaterialDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
         type: "add",
-        color: {}
+        material: {}
       },
     })
   }
-  openDialogEdit(color: any) {
-    this.dialog.open(ColorDialogComponent, {
+  openDialogEdit(material: any) {
+    this.dialog.open(MaterialDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
         type: 'update',
-        color: color,
+        material: material,
       }
     })
   }
-  openDialogDelete(color: any) {
-    const dialogRef = this.dialog.open(ColorDialogComponent, {
+  openDialogDelete(material: any) {
+    const dialogRef = this.dialog.open(MaterialDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
         type: 'delete',
-        color: color
+        material: material
       }
     })
     dialogRef.afterClosed().subscribe(data => {
       this.getAll();
     })
   }
-
-
-  // rows: number = 10;
-  // iconSortName = 'pi pi-sort-amount-down-alt';
-  // iconSortName = 'pi pi-sort-amount-up';
-
-  // constructor() {
-  //   this.searchQuery.page = 1;
-  //   this.searchQuery.pageSize = 10;
-  // }
-  // ngOnInit(): void {
-  //   this.colors = [
-  //     { id: 1, ten: 'do', trangThai: 1 },
-  //     { id: 2, ten: 'xanh', trangThai: 1 },
-  //     { id: 3, ten: 'vang', trangThai: 1 },
-  //   ];
-  // }
-  // onPageChange(event: any) {
-  //   this.first = event.first;
-  //   this.rows = event.rows;
-  // }
-  // sortByName() {
-  //   if (this.iconSortName === 'pi pi-sort-amount-up') {
-  //     this.iconSortName = 'pi pi-sort-amount-down-alt'
-  //   } else if (this.iconSortName === 'pi pi-sort-amount-down-alt') {
-  //     this.iconSortName = 'pi pi-sort-amount-up'
-  //   }
-
-  // }
-  // getAll(type?: 'page' | 'rows', action?: 'prev' | 'next'): void {
-
-  // }
-
 }

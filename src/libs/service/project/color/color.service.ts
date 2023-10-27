@@ -2,19 +2,21 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IColor } from './color.module';
 import { BaseRequestService } from '../../request/base-request.service';
-
+import { IReqApi } from 'src/libs/common/interface/interfaces';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductService {
-  url: string = 'color';
+export class ColorService {
+  url: string = 'colors';
 
   constructor(
     private BaseRequestService: BaseRequestService
   ) { }
-  getColors(): Promise<IColor[]> {
-    return new Promise<IColor[]>((resolve, reject) => {
-      this.BaseRequestService.get(`${this.url}`).subscribe(
+
+
+  getColors(params?: any): Promise<IReqApi<IColor[]>> {
+    return new Promise<IReqApi<IColor[]>>((resolve, reject) => {
+      this.BaseRequestService.get(`${this.url}`, params).subscribe(
         (result) => {
           return resolve(result);
         },
@@ -23,9 +25,10 @@ export class ProductService {
     });
   }
 
-  getColorByName(name: string): Promise<IColor> {
-    return new Promise<IColor>((resolve, reject) => {
-      this.BaseRequestService.get(`${this.url}/${name}`).subscribe(
+
+  createColor(body: any): Promise<IReqApi<IColor[]>> {
+    return new Promise<IReqApi<IColor[]>>((resolve, reject) => {
+      this.BaseRequestService.post(`${this.url}`, body).subscribe(
         (result) => {
           return resolve(result);
         },
@@ -33,4 +36,48 @@ export class ProductService {
       );
     });
   }
+
+  updateColor(body: any, id?: any): Promise<IReqApi<IColor[]>> {
+    return new Promise<IReqApi<IColor[]>>((resolve, reject) => {
+      this.BaseRequestService.put(`${this.url}/${id}`, body).subscribe(
+        (result) => {
+          return resolve(result);
+        },
+        (err) => reject(err)
+      );
+    });
+  }
+
+  deleteColor(id: any): Promise<IReqApi<IColor[]>> {
+    return new Promise<IReqApi<IColor[]>>((resolve, reject) => {
+      this.BaseRequestService.delete(`${this.url}/${id}`).subscribe(
+        (result) => {
+        },
+        (err) => reject(err)
+      );
+    });
+  }
+
+
+  // getColors(): Promise<IColor[]> {
+  //   return new Promise<IColor[]>((resolve, reject) => {
+  //     this.BaseRequestService.get(`${this.url}`).subscribe(
+  //       (result) => {
+  //         return resolve(result);
+  //       },
+  //       (err) => reject(err)
+  //     );
+  //   });
+  // }
+
+  // getColorByName(name: string): Promise<IColor> {
+  //   return new Promise<IColor>((resolve, reject) => {
+  //     this.BaseRequestService.get(`${this.url}/${name}`).subscribe(
+  //       (result) => {
+  //         return resolve(result);
+  //       },
+  //       (err) => reject(err)
+  //     );
+  //   });
+  // }
 }
