@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IColor } from './color.module';
-import { BaseRequestService } from '../../request/base-request.service';
+import { BaseRequestService } from '../../../../libs/service/request/base-request.service';
 import { IReqApi } from 'src/libs/common/interface/interfaces';
+
 @Injectable({
   providedIn: 'root',
 })

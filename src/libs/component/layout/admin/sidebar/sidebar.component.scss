@@ -1,35 +1,46 @@
+$primary-color: #4caf50;
+$secondary-color: #e1e4e1;
+$background-color: #f5f5f5;
+
 aside {
-  padding-top: 10px;
-  background-color: #f5f5f5;
+  width: 200px; /* Giảm kích thước thanh bên */
   height: 100vh;
+  background-color: $background-color;
 
-  // position: absolute;
-  // position: fixed;
-  // left: 0rem;
-  // width: 250px;
-
-  ul {
-    list-style: none;
-    padding: 0;
-    li {
-      padding: 10px 0 10px 18px;
-    }
-    li:hover {
-      background-color: #f0eded;
-    }
-  }
-  a {
-    text-decoration: none;
-    font-size: 1rem;
-    color: inherit;
-  }
-  span {
-    font-size: 1rem;
-    padding-right: 10px;
-  }
   .box {
+    padding: 10px; /* Giảm padding cho hộp */
+    margin-bottom: 20px; /* Tạo khoảng cách giữa hai hộp */
+
     label {
-      padding: 0px 10px 10px 10px;
+      display: block;
+      font-size: 20px; /* Giảm kích thước chữ */
+      color: $primary-color;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+
+      a {
+        text-decoration: none;
+        color: #333;
+
+        li {
+          display: flex;
+          align-items: center;
+          margin-bottom: 8px; /* Giảm khoảng cách giữa các mục */
+
+          span {
+            margin-right: 8px; /* Giảm khoảng cách giữa biểu tượng và văn bản */
+          }
+
+          &:hover {
+            background-color: $secondary-color;
+            color: #fff;
+          }
+        }
+      }
     }
   }
 }

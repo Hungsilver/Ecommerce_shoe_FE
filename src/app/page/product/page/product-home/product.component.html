@@ -29,13 +29,23 @@
         <span class="d-flex align-items-center">Sort by</span>
         <div>
           <select onchange="sortBy($event)" name="sortBy" class="form-select">
-            <option value="nameasc">Name asc</option>
-            <option value="sdfs">Name desc</option>
-            <option value="esfsf">Price asc</option>
-            <option value="wef">Price desc</option>
+            <option value="0">Name asc</option>
+            <option value="1">Name desc</option>
+            <option value="2">Price asc</option>
+            <option value="3">Price desc</option>
           </select>
         </div>
       </div>
+      <div class="list-product">
+        <div class="product-item" *ngFor="let product of products;let i = index">
+          <img src="/assets/image/product/{{product.anhChinh}}" alt="">
+          <div class="product-content">
+            <h4>{{product.ten}}</h4>
+            <span>Khoảng giá</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </main>
