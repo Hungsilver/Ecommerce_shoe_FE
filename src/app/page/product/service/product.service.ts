@@ -228,9 +228,6 @@ export class ProductService {
 
   }
 
-  // getProducts(): IProduct[] {
-  //   return this.products.content;
-  // }
   getProducts(params?: any): Promise<IReqApi<IProduct[]>> {
     return new Promise<IReqApi<IProduct[]>>((resolve, reject) => {
       this.baseRequestService.get(`${this.url}`, params).subscribe(
@@ -242,8 +239,8 @@ export class ProductService {
     });
   }
 
-  getProductById(id: Number): Promise<IReqApi<IProduct>> {
-    return new Promise<IReqApi<IProduct>>((resolve, reject) => {
+  getProductById(id: Number): Promise<IProduct> {
+    return new Promise<IProduct>((resolve, reject) => {
       this.baseRequestService.get(`${this.url}/${id}`).subscribe(
         (result) => {
           return resolve(result);

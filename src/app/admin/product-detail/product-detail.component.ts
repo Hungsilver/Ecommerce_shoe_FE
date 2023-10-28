@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product/service/product.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ProductHomeComponent } from '../product/components/product-home/product-home.component';
+import { ProductHomeComponent } from '../product/pages/product-home/product-home.component';
 import { Router } from '@angular/router';
 
 @Component({
