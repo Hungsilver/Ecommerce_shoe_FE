@@ -17,9 +17,11 @@ main {
       // background-color: rgb(231, 237, 226);
       height: 349px;
 
-      img {
-        width: 100%;
-        background: #f6f6f6;
+      a {
+        img {
+          width: 100%;
+          background: #f6f6f6;
+        }
       }
 
       .product-content {
@@ -45,6 +47,13 @@ main {
         span {}
       }
     }
+  }
+
+  .button-pagination {
+    border: 1px solid rgb(163, 149, 149);
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
   }
 
 

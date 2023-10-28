@@ -4,7 +4,7 @@ import { ColorComponent } from './color/pages/color-home/color.component';
 import { OriginComponent } from './origin/origin.component';
 import { OrderComponent } from '../page/order/order.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ProductHomeComponent } from './product/components/product-home/product-home.component';
+import { ProductHomeComponent } from './product/pages/product-home/product-home.component';
 import { NgModule } from '@angular/core';
 import { MaterialComponent } from './material/pages/material-home/material.component';
 import { MaterialSolesComponent } from './material-soles/pages/material-soles-home/material-soles.component';

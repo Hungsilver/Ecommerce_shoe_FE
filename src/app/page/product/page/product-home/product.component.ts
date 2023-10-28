@@ -22,42 +22,44 @@ export class ProductComponent implements OnInit {
   listTotalPage: any = [];
   colors: any[] = []
   origins: any[] = []
+  typeSort: any = [];
 
   constructor(
     private productService: ProductService,
     private colorService: ColorService,
     private originService: OriginService,) {
+    this.query.page = 1;
+    this.query.pageSize = 10;
     this.query.origin = []
     this.query.color = []
+    this.minPrice = 1;
+    this.maxPrice = 3000000;
   }
 
   ngOnInit(): void {
-    this.query.page = 1;
-    this.query.pageSize = 10;
-    this.initData()
-    this.minPrice = 1;
-    this.maxPrice = 3000000;
-    // this.rangeValues = [this.query.minPrice, this.query.maxPrice];
     this.rangeValues = [this.minPrice, this.maxPrice];
     this.items = [];
     this.home = { label: 'Home', routerLink: '/' };
+    this.typeSort = [
+      { name: 'Giá tăng dần', value: false },
+      { name: 'Giá giảm dần', value: true },
+    ]
+    // this.query.minPrice = this.minPrice;
+    // this.query.maxPrice = this.maxPrice;
+    this.initData()
+    this.getAll();
   }
 
-  getData() {
 
-  }
-  sortBy(event: any) {
-    console.log(event.target.value);
-  }
 
   initData() {
     //call api getminmax price
     //
-    this.productService.getProducts(this.query).then(res => {
-      if (res) {
-        this.products = res.content;
-      }
-    })
+    // this.productService.getProducts(this.query).then(res => {
+    //   if (res) {
+    //     this.products = res.content;
+    //   }
+    // })
     this.colorService.getColors().then(res => {
       if (res) {
         this.colors = res.content;
@@ -69,53 +71,44 @@ export class ProductComponent implements OnInit {
       }
     })
   }
-  filter() {
+
+
+  getAll(action?: 'prev' | 'next'): void {
     this.query.minPrice = this.rangeValues[0];
     this.query.maxPrice = this.rangeValues[1];
-    let objParams = { ...this.query };
-    Object.keys(objParams).forEach(key => {
-      let value = objParams[key];
-      if (!value || value?.length === 0 || value === '') {
-        delete objParams[key];
-      } else if (Array.isArray(value) && value.length > 0) {
-        objParams[key] = objParams[key].join(',');
-      }
-    })
-    this.productService.filter(objParams).then(res => {
-      if (res) {
-        this.products = res.content;
-      }
-    })
-  }
-  onPageChange() { }
-  getAll(action?: 'prev' | 'next'): void {
+    let params = { ...this.query }
     if (action) {
-      if (action === 'prev' && Number(this.query.page) > 1) {
-        this.query.page = this.query.page - 1
+      if (action === 'prev' && Number(params.page) > 1) {
+        params.page = params.page - 1
       }
       if (action === 'next' &&
-        Number(this.query.page) + 1 <= this.listTotalPage.length) {
-        this.query.page = this.query.page + 1
+        Number(params.page) + 1 <= this.listTotalPage.length) {
+        params.page = params.page + 1
       }
-      Object.keys(this.query).forEach(key => {
-        if (this.query[key] === null || this.query[key] === '') {
-          delete this.query[key];
-        }
-      });
     }
-    this.originService.getOrigins(this.query).then(origin => {
-      if (origin && origin.content) {
-        this.origins = origin.content;
-        this.listTotalPage = this.getTotalPage(origin.totalPages)
-        console.log(origin)
-      }
 
+    Object.keys(params).forEach(key => {
+      let value = params[key]
+      if (value === null || value === undefined || value === '') {
+        delete params[key];
+      } else if (Array.isArray(value)) {
+        if (value.length > 0) {
+          params[key] = value.join(',');
+        } else {
+          delete params[key];
+        }
+      }
+    });
+
+    this.productService.filter(params).then(product => {
+      if (product && product.content) {
+        this.products = product.content;
+        this.listTotalPage = this.getTotalPage(product.totalPages)
+      }
     })
-    console.log(this.query)
   }
   getTotalPage(totalPages: number) {
     let listTotalPage = []
-
     for (let i = 1; i <= totalPages; i++) {
       listTotalPage.push(i);
     }

@@ -20,7 +20,7 @@ import { OriginComponent } from './origin/origin.component';
 import { OriginDialogComponent } from './origin/origin-dialog/origin-dialog.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ProductHomeComponent } from './product/components/product-home/product-home.component';
+import { ProductHomeComponent } from './product/pages/product-home/product-home.component';
 import { MaterialComponent } from './material/pages/material-home/material.component';
 import { MaterialDialogComponent } from './material/components/material-dialog/material-dialog.component';
 import { MaterialSolesComponent } from './material-soles/pages/material-soles-home/material-soles.component';
