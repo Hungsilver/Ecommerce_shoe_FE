@@ -1,24 +1,23 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
-import { IProductDetails } from './product-detail.module';
-import { BaseRequestService } from '../../request/base-request.service';
+import { Injectable } from '@angular/core';
+import { IMaterial } from './material.module';
+import { BaseRequestService } from '../../../../libs/service/request/base-request.service';
 import { IReqApi } from 'src/libs/common/interface/interfaces';
 
-@Injectable({ providedIn: 'root' })
-export class ProductDetailService implements OnInit {
 
-    url: string = 'product-detail';
+@Injectable({
+    providedIn: 'root',
+})
+export class MaterialService {
+    url: string = 'shoe-material';
 
     constructor(
         private BaseRequestService: BaseRequestService
     ) { }
 
-    ngOnInit(): void {
 
-    }
-
-    getProductDetails(params?: any): Promise<IReqApi<IProductDetails[]>> {
-        return new Promise<IReqApi<IProductDetails[]>>((resolve, reject) => {
+    getMaterials(params?: any): Promise<IReqApi<IMaterial[]>> {
+        return new Promise<IReqApi<IMaterial[]>>((resolve, reject) => {
             this.BaseRequestService.get(`${this.url}`, params).subscribe(
                 (result) => {
                     return resolve(result);
@@ -27,8 +26,10 @@ export class ProductDetailService implements OnInit {
             );
         });
     }
-    createProductDetail(body: any): Promise<IReqApi<IProductDetails[]>> {
-        return new Promise<IReqApi<IProductDetails[]>>((resolve, reject) => {
+
+
+    createMaterial(body: any): Promise<IReqApi<IMaterial>> {
+        return new Promise<IReqApi<IMaterial>>((resolve, reject) => {
             this.BaseRequestService.post(`${this.url}`, body).subscribe(
                 (result) => {
                     return resolve(result);
@@ -37,8 +38,9 @@ export class ProductDetailService implements OnInit {
             );
         });
     }
-    updateProductDetail(body: any, id?: any): Promise<IReqApi<IProductDetails[]>> {
-        return new Promise<IReqApi<IProductDetails[]>>((resolve, reject) => {
+
+    updateMaterials(body: any, id?: any): Promise<IReqApi<IMaterial>> {
+        return new Promise<IReqApi<IMaterial>>((resolve, reject) => {
             this.BaseRequestService.put(`${this.url}/${id}`, body).subscribe(
                 (result) => {
                     return resolve(result);
@@ -47,8 +49,9 @@ export class ProductDetailService implements OnInit {
             );
         });
     }
-    deleteProductDetail(id: any): Promise<IReqApi<IProductDetails[]>> {
-        return new Promise<IReqApi<IProductDetails[]>>((resolve, reject) => {
+
+    deleteMaterials(id: any): Promise<IReqApi<IMaterial>> {
+        return new Promise<IReqApi<IMaterial>>((resolve, reject) => {
             this.BaseRequestService.delete(`${this.url}/${id}`).subscribe(
                 (result) => {
                 },
@@ -56,5 +59,6 @@ export class ProductDetailService implements OnInit {
             );
         });
     }
+
 
 }

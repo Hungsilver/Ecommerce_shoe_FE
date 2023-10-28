@@ -18,10 +18,16 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OriginComponent } from './origin/origin.component';
 import { OriginDialogComponent } from './origin/origin-dialog/origin-dialog.component';
-// import {CouponComponent} from './coupon/coupon.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductHomeComponent } from './product/components/product-home/product-home.component';
+import { MaterialComponent } from './material/pages/material-home/material.component';
+import { MaterialDialogComponent } from './material/components/material-dialog/material-dialog.component';
+import { MaterialSolesComponent } from './material-soles/pages/material-soles-home/material-soles.component';
+import { MaterialSolesDialogComponent } from './material-soles/components/material-soles-dialog/material-soles-dialog.component';
+import { SizeComponent } from './size/pages/size-home/size.component';
+import { SizeDialogComponent } from './size/components/size-dialog/size-dialog.component';
+import { ColorDialogComponent } from './color/components/color-dialog/color-dialog.component';
 
 @NgModule({
   imports: [
@@ -48,10 +54,18 @@ import { ProductHomeComponent } from './product/components/product-home/product-
     DashboardComponent,
     ProductDetailComponent,
     ColorComponent,
+    ColorDialogComponent,
     OriginComponent,
-    OriginDialogComponent,
     ProductHomeComponent,
+    MaterialComponent,
+    MaterialDialogComponent,
+    MaterialSolesComponent,
+    MaterialSolesDialogComponent,
+    SizeComponent,
+    SizeDialogComponent,
+    OriginDialogComponent
+
   ],
   providers: [],
 })
-export class AdminLazyModule {}
+export class AdminLazyModule { }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { MessageService } from 'primeng/api';
+// import { MessageService } from 'primeng/api';
 import { OriginService } from 'src/libs/service/project/origin/origin.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { OriginService } from 'src/libs/service/project/origin/origin.service';
 export class OriginDialogComponent implements OnInit {
   origin: any = {};
   type: any;
-  ngOnInit(): void {}
+  ngOnInit(): void { }
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private originService: OriginService,

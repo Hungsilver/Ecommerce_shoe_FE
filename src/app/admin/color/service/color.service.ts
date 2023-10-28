@@ -10,7 +10,7 @@ import { BaseRequestService } from 'src/libs/service/request/base-request.servic
 export class ColorService {
   url: string = 'colors';
 
-  constructor(private baseRequestService: BaseRequestService) {}
+  constructor(private baseRequestService: BaseRequestService) { }
   getColors(params?: any): Promise<IReqApi<IColor[]>> {
     return new Promise<IReqApi<IColor[]>>((resolve, reject) => {
       this.baseRequestService.get(`${this.url}`, params).subscribe(
@@ -44,7 +44,7 @@ export class ColorService {
   deleteColor(id: any): Promise<IReqApi<IColor[]>> {
     return new Promise<IReqApi<IColor[]>>((resolve, reject) => {
       this.baseRequestService.delete(`${this.url}/${id}`).subscribe(
-        (result) => {},
+        (result) => { },
         (err) => reject(err)
       );
     });

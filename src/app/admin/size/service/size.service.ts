@@ -1,24 +1,20 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
-import { IProductDetails } from './product-detail.module';
-import { BaseRequestService } from '../../request/base-request.service';
+import { Injectable } from '@angular/core';
+import { ISize } from './size.module';
+import { BaseRequestService } from '../../../../libs/service/request/base-request.service';
 import { IReqApi } from 'src/libs/common/interface/interfaces';
-
-@Injectable({ providedIn: 'root' })
-export class ProductDetailService implements OnInit {
-
-    url: string = 'product-detail';
+@Injectable({
+    providedIn: 'root',
+})
+export class SizeService {
+    url: string = 'size';
 
     constructor(
         private BaseRequestService: BaseRequestService
     ) { }
 
-    ngOnInit(): void {
-
-    }
-
-    getProductDetails(params?: any): Promise<IReqApi<IProductDetails[]>> {
-        return new Promise<IReqApi<IProductDetails[]>>((resolve, reject) => {
+    getSize(params?: any): Promise<IReqApi<ISize[]>> {
+        return new Promise<IReqApi<ISize[]>>((resolve, reject) => {
             this.BaseRequestService.get(`${this.url}`, params).subscribe(
                 (result) => {
                     return resolve(result);
@@ -27,8 +23,8 @@ export class ProductDetailService implements OnInit {
             );
         });
     }
-    createProductDetail(body: any): Promise<IReqApi<IProductDetails[]>> {
-        return new Promise<IReqApi<IProductDetails[]>>((resolve, reject) => {
+    createSize(body: any): Promise<IReqApi<ISize>> {
+        return new Promise<IReqApi<ISize>>((resolve, reject) => {
             this.BaseRequestService.post(`${this.url}`, body).subscribe(
                 (result) => {
                     return resolve(result);
@@ -37,8 +33,8 @@ export class ProductDetailService implements OnInit {
             );
         });
     }
-    updateProductDetail(body: any, id?: any): Promise<IReqApi<IProductDetails[]>> {
-        return new Promise<IReqApi<IProductDetails[]>>((resolve, reject) => {
+    updateSize(body: any, id?: any): Promise<IReqApi<ISize>> {
+        return new Promise<IReqApi<ISize>>((resolve, reject) => {
             this.BaseRequestService.put(`${this.url}/${id}`, body).subscribe(
                 (result) => {
                     return resolve(result);
@@ -47,8 +43,8 @@ export class ProductDetailService implements OnInit {
             );
         });
     }
-    deleteProductDetail(id: any): Promise<IReqApi<IProductDetails[]>> {
-        return new Promise<IReqApi<IProductDetails[]>>((resolve, reject) => {
+    deleteSize(id: any): Promise<IReqApi<ISize[]>> {
+        return new Promise<IReqApi<ISize[]>>((resolve, reject) => {
             this.BaseRequestService.delete(`${this.url}/${id}`).subscribe(
                 (result) => {
                 },

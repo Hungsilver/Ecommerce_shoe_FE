@@ -1,22 +1,23 @@
-import { Component, OnInit } from '@angular/core';
 import { SlicePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { SizeService } from '../../service/size.service';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { ColorService } from '../../service/color.service';
-import { ColorDialogComponent } from '../../components/color-dialog/color-dialog.component';
-
+import { SizeDialogComponent } from '../../components/size-dialog/size-dialog.component';
 @Component({
-  selector: 'app-color',
-  templateUrl: './color.component.html',
-  styleUrls: ['./color.component.scss'],
+  selector: 'app-size',
+  templateUrl: './size.component.html',
+  styleUrls: ['./size.component.scss']
 })
-export class ColorComponent implements OnInit {
-  colors!: any;
-  // first: number = 0;
+export class SizeComponent implements OnInit {
+
+  sizes!: any;
   searchQuery: any = {};
   listTotalPage: any = [];
 
+
+
   iconSortName = 'pi pi-sort-amount-up';
-  constructor(private colorService: ColorService,
+  constructor(private sizeService: SizeService,
     private dialog: MatDialog
   ) {
     this.searchQuery.page = 1;
@@ -31,6 +32,7 @@ export class ColorComponent implements OnInit {
     this.getAll();
   }
 
+
   sortByName() {
     if (this.iconSortName === 'pi pi-sort-amount-up') {
       this.searchQuery['sortField'] = 'ten';
@@ -43,7 +45,9 @@ export class ColorComponent implements OnInit {
       this.getAll();
       this.iconSortName = 'pi pi-sort-amount-up'
     }
+
   }
+
 
   getAll(action?: 'prev' | 'next'): void {
     if (action) {
@@ -60,17 +64,16 @@ export class ColorComponent implements OnInit {
         }
       });
     }
-    this.colorService.getColors(this.searchQuery).then(color => {
-      if (color && color.content) {
-        this.colors = color.content;
-        this.listTotalPage = this.getTotalPage(color.totalPages)
-        console.log(color)
+    this.sizeService.getSize(this.searchQuery).then(size => {
+      if (size && size.content) {
+        this.sizes = size.content;
+        this.listTotalPage = this.getTotalPage(size.totalPages)
+        console.log(size)
       }
 
     })
     console.log(this.searchQuery)
   }
-
 
   getTotalPage(totalPages: number) {
     let listTotalPage = []
@@ -80,49 +83,51 @@ export class ColorComponent implements OnInit {
     }
     return listTotalPage;
   }
+
   searchByName() {
     this.searchQuery['keyword'] = this.searchQuery.keyword;
     this.getAll();
   }
 
-
   openDialog() {
-    const dialogRef = this.dialog.open(ColorDialogComponent, {
+    const dialogRef = this.dialog.open(SizeDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
         type: "add",
-        color: {}
+        size: {}
       },
     })
     dialogRef.afterClosed().subscribe(data => {
       this.getAll();
     })
   }
-  openDialogEdit(color: any) {
-    const dialogRef = this.dialog.open(ColorDialogComponent, {
+  openDialogEdit(size: any) {
+    const dialogRef = this.dialog.open(SizeDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
         type: 'update',
-        color: color,
+        size: size,
       }
     })
     dialogRef.afterClosed().subscribe(data => {
       this.getAll();
     })
   }
-  openDialogDelete(color: any) {
-    const dialogRef = this.dialog.open(ColorDialogComponent, {
+  openDialogDelete(size: any) {
+    const dialogRef = this.dialog.open(SizeDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
         type: 'delete',
-        color: color
+        size: size
       }
     })
     dialogRef.afterClosed().subscribe(data => {
       this.getAll();
     })
   }
+
+
 }
