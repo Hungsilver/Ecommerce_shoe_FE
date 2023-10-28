@@ -18,7 +18,8 @@ export class ProductComponent implements OnInit {
   products: IProduct[] = [];
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
-  objectParams: any = {}
+  query: any = {}
+  listTotalPage: any = [];
   colors: any[] = []
   origins: any[] = []
 
@@ -26,17 +27,17 @@ export class ProductComponent implements OnInit {
     private productService: ProductService,
     private colorService: ColorService,
     private originService: OriginService,) {
-    this.objectParams.origin = []
-    this.objectParams.color = []
+    this.query.origin = []
+    this.query.color = []
   }
 
   ngOnInit(): void {
-    this.objectParams.page = 1;
-    this.objectParams.pageSize = 10;
+    this.query.page = 1;
+    this.query.pageSize = 10;
     this.initData()
     this.minPrice = 1;
     this.maxPrice = 3000000;
-    // this.rangeValues = [this.objectParams.minPrice, this.objectParams.maxPrice];
+    // this.rangeValues = [this.query.minPrice, this.query.maxPrice];
     this.rangeValues = [this.minPrice, this.maxPrice];
     this.items = [];
     this.home = { label: 'Home', routerLink: '/' };
@@ -52,7 +53,7 @@ export class ProductComponent implements OnInit {
   initData() {
     //call api getminmax price
     //
-    this.productService.getProducts(this.objectParams).then(res => {
+    this.productService.getProducts(this.query).then(res => {
       if (res) {
         this.products = res.content;
       }
@@ -69,9 +70,9 @@ export class ProductComponent implements OnInit {
     })
   }
   filter() {
-    this.objectParams.minPrice = this.rangeValues[0];
-    this.objectParams.maxPrice = this.rangeValues[1];
-    let objParams = { ...this.objectParams };
+    this.query.minPrice = this.rangeValues[0];
+    this.query.maxPrice = this.rangeValues[1];
+    let objParams = { ...this.query };
     Object.keys(objParams).forEach(key => {
       let value = objParams[key];
       if (!value || value?.length === 0 || value === '') {
@@ -86,5 +87,38 @@ export class ProductComponent implements OnInit {
       }
     })
   }
+  onPageChange() { }
+  getAll(action?: 'prev' | 'next'): void {
+    if (action) {
+      if (action === 'prev' && Number(this.query.page) > 1) {
+        this.query.page = this.query.page - 1
+      }
+      if (action === 'next' &&
+        Number(this.query.page) + 1 <= this.listTotalPage.length) {
+        this.query.page = this.query.page + 1
+      }
+      Object.keys(this.query).forEach(key => {
+        if (this.query[key] === null || this.query[key] === '') {
+          delete this.query[key];
+        }
+      });
+    }
+    this.originService.getOrigins(this.query).then(origin => {
+      if (origin && origin.content) {
+        this.origins = origin.content;
+        this.listTotalPage = this.getTotalPage(origin.totalPages)
+        console.log(origin)
+      }
 
+    })
+    console.log(this.query)
+  }
+  getTotalPage(totalPages: number) {
+    let listTotalPage = []
+
+    for (let i = 1; i <= totalPages; i++) {
+      listTotalPage.push(i);
+    }
+    return listTotalPage;
+  }
 }

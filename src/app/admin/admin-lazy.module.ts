@@ -28,6 +28,7 @@ import { MaterialSolesDialogComponent } from './material-soles/components/materi
 import { SizeComponent } from './size/pages/size-home/size.component';
 import { SizeDialogComponent } from './size/components/size-dialog/size-dialog.component';
 import { ColorDialogComponent } from './color/components/color-dialog/color-dialog.component';
+import { UploadFileComponent } from './upload-file/upload-file.component';
 
 @NgModule({
   imports: [
@@ -63,8 +64,8 @@ import { ColorDialogComponent } from './color/components/color-dialog/color-dial
     MaterialSolesDialogComponent,
     SizeComponent,
     SizeDialogComponent,
-    OriginDialogComponent
-
+    OriginDialogComponent,
+    UploadFileComponent
   ],
   providers: [],
 })
