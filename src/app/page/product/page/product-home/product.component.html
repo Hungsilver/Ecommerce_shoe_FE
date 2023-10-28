@@ -21,7 +21,7 @@
         <div class="flex flex-column gap-2">
           <div *ngFor="let color of colors" class="field-checkbox">
             <p-checkbox (onChange)="filter()" name="color" [label]="color.ten" [value]="color.id"
-              [(ngModel)]="objectParams.color" [inputId]="color.key"></p-checkbox>
+              [(ngModel)]="query.color" [inputId]="color.key"></p-checkbox>
             <label [for]="color.key">{{ color.name }}</label>
           </div>
         </div>
@@ -31,7 +31,7 @@
         <div class="flex flex-column gap-2">
           <div *ngFor="let origin of origins" class="field-checkbox">
             <p-checkbox (onChange)="filter()" name="origin" [label]="origin.ten" [value]="origin.id"
-              [(ngModel)]="objectParams.origin" [inputId]="origin.key"></p-checkbox>
+              [(ngModel)]="query.origin" [inputId]="origin.key"></p-checkbox>
             <label [for]="origin.key">{{ origin.name }}</label>
           </div>
         </div>
@@ -59,6 +59,18 @@
               <h4>{{product.ten}}</h4>
             </a>
             <span>Khoảng giá</span>
+          </div>
+        </div>
+        <div>
+          <div class="d-flex justify-content-end gap-1">
+            <p-dropdown (onChange)="onPageChange()" [options]="listTotalPage" [(ngModel)]="query.page"></p-dropdown>
+
+            <div class="button-pagination" (click)="getAll('prev')">
+              <i class="pi pi-angle-left"></i>
+            </div>
+            <div class="button-pagination" (click)="getAll('next')">
+              <i class="pi pi-angle-right"></i>
+            </div>
           </div>
         </div>
       </div>
