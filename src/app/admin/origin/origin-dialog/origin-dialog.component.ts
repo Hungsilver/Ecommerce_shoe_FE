@@ -11,17 +11,12 @@ import { OriginService } from 'src/libs/service/project/origin/origin.service';
 export class OriginDialogComponent implements OnInit {
   origin: any = {};
   type: any;
-  ngOnInit(): void {}
+  ngOnInit(): void { }
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private originService: OriginService,
-<<<<<<< HEAD
-    private dialog: MatDialog,
-    // private messageService: MessageService
-=======
     private dialog: MatDialog
   ) // private messageService: MessageService
->>>>>>> develop
 
   {
     this.type = data.type;
@@ -34,10 +29,6 @@ export class OriginDialogComponent implements OnInit {
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'add thành công' });
       } else {
         // this.messageService.add({ severity: 'error', summary: 'Error', detail: 'add thất bại' });
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
       }
     });
   }

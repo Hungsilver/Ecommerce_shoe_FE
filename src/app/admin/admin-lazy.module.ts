@@ -27,6 +27,7 @@ import { MaterialSolesComponent } from './material-soles/pages/material-soles-ho
 import { MaterialSolesDialogComponent } from './material-soles/components/material-soles-dialog/material-soles-dialog.component';
 import { SizeComponent } from './size/pages/size-home/size.component';
 import { SizeDialogComponent } from './size/components/size-dialog/size-dialog.component';
+import { ColorDialogComponent } from './color/components/color-dialog/color-dialog.component';
 
 @NgModule({
   imports: [
@@ -53,6 +54,7 @@ import { SizeDialogComponent } from './size/components/size-dialog/size-dialog.c
     DashboardComponent,
     ProductDetailComponent,
     ColorComponent,
+    ColorDialogComponent,
     OriginComponent,
     ProductHomeComponent,
     MaterialComponent,
@@ -61,6 +63,8 @@ import { SizeDialogComponent } from './size/components/size-dialog/size-dialog.c
     MaterialSolesDialogComponent,
     SizeComponent,
     SizeDialogComponent,
+    OriginDialogComponent
+
   ],
   providers: [],
 })
