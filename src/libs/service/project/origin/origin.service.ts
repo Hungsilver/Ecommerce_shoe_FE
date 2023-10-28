@@ -23,8 +23,8 @@ export class OriginService {
       );
     });
   }
-  createOrigin(body: any): Promise<IReqApi<IOrigin[]>> {
-    return new Promise<IReqApi<IOrigin[]>>((resolve, reject) => {
+  createOrigin(body: any): Promise<IReqApi<IOrigin>> {
+    return new Promise<IReqApi<IOrigin>>((resolve, reject) => {
       this.BaseRequestService.post(`${this.url}`, body).subscribe(
         (result) => {
           return resolve(result);
@@ -33,8 +33,8 @@ export class OriginService {
       );
     });
   }
-  updateOrigin(body: any, id?: any): Promise<IReqApi<IOrigin[]>> {
-    return new Promise<IReqApi<IOrigin[]>>((resolve, reject) => {
+  updateOrigin(body: any, id?: any): Promise<IReqApi<IOrigin>> {
+    return new Promise<IReqApi<IOrigin>>((resolve, reject) => {
       this.BaseRequestService.put(`${this.url}/${id}`, body).subscribe(
         (result) => {
           return resolve(result);
@@ -43,8 +43,8 @@ export class OriginService {
       );
     });
   }
-  deleteOrigin(id: any): Promise<IReqApi<IOrigin[]>> {
-    return new Promise<IReqApi<IOrigin[]>>((resolve, reject) => {
+  deleteOrigin(id: any): Promise<IReqApi<IOrigin>> {
+    return new Promise<IReqApi<IOrigin>>((resolve, reject) => {
       this.BaseRequestService.delete(`${this.url}/${id}`).subscribe(
         (result) => {
         },

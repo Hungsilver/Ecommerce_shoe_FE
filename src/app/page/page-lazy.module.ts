@@ -16,6 +16,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { CartComponent } from './cart/cart.component';
 import { TableModule } from 'primeng/table';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 
@@ -29,7 +30,8 @@ import { CheckoutComponent } from './checkout/checkout.component';
         DropdownModule,
         SliderModule,
         BreadcrumbModule,
-        TableModule
+        TableModule,
+        CheckboxModule
     ],
     declarations: [
         DetailComponent,

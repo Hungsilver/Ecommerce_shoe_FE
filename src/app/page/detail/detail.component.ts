@@ -23,7 +23,7 @@ export class DetailComponent implements OnInit {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
   }
   ngOnInit(): void {
-    this.productService.getProductById(this.id).then((p) => (this.productDetail = p));
+    this.productService.getProductById(this.id).then((p) => (this.productDetail = p.content));
   }
 
   addToCart() {

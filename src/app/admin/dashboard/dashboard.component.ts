@@ -20,8 +20,8 @@ export class DashboardComponent implements OnInit {
   constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
-    // this.productService.getProducts().then((p) => (this.products = p));
-    this.products = this.productService.getProducts();
+    this.productService.getProducts().then((p) => (this.products = p.content));
+    // this.products = this.productService.getProducts()
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue(

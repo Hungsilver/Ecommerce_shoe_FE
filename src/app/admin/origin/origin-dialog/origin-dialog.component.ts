@@ -41,5 +41,6 @@ export class OriginDialogComponent implements OnInit {
   }
   deleteOrigin() {
     this.originService.deleteOrigin(this.origin.id);
+    this.dialog.closeAll()
   }
 }

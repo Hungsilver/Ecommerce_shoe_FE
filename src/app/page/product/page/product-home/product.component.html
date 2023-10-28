@@ -13,14 +13,27 @@
           <h5 class="">{{ rangeValues[0] }}</h5>
           <h5 class="">{{ rangeValues[1] }}</h5>
         </div>
-        <p-slider [(ngModel)]="rangeValues" [min]="0" [max]="10000000" [range]="true"
-          (onSlideEnd)="getData()"></p-slider>
+        <p-slider [(ngModel)]="rangeValues" [min]="minPrice" [max]="maxPrice" [range]="true"
+          (onSlideEnd)="filter()"></p-slider>
       </div>
       <div class="my-3">
-        <h3>COLOR</h3>
-        <div class="form-group">
-          <input *ngFor="let o; of" type="checkbox" name="" id="" />
-          <label for=""></label>
+        <h3>Màu sắc</h3>
+        <div class="flex flex-column gap-2">
+          <div *ngFor="let color of colors" class="field-checkbox">
+            <p-checkbox (onChange)="filter()" name="color" [label]="color.ten" [value]="color.id"
+              [(ngModel)]="objectParams.color" [inputId]="color.key"></p-checkbox>
+            <label [for]="color.key">{{ color.name }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="my-3">
+        <h3>Xuất xứ</h3>
+        <div class="flex flex-column gap-2">
+          <div *ngFor="let origin of origins" class="field-checkbox">
+            <p-checkbox (onChange)="filter()" name="origin" [label]="origin.ten" [value]="origin.id"
+              [(ngModel)]="objectParams.origin" [inputId]="origin.key"></p-checkbox>
+            <label [for]="origin.key">{{ origin.name }}</label>
+          </div>
         </div>
       </div>
     </div>
@@ -36,15 +49,20 @@
           </select>
         </div>
       </div>
-      <div class="list-product">
+      <div class="list-product mt-2">
         <div class="product-item" *ngFor="let product of products;let i = index">
-          <img src="/assets/image/product/{{product.anhChinh}}" alt="">
+          <a href="#">
+            <img src="{{product.anhChinh}}" alt="">
+          </a>
           <div class="product-content">
-            <h4>{{product.ten}}</h4>
+            <a href="#">
+              <h4>{{product.ten}}</h4>
+            </a>
             <span>Khoảng giá</span>
           </div>
         </div>
       </div>
+
 
     </div>
   </div>
