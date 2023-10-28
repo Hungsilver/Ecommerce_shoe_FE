@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { MessageService } from 'primeng/api';
+// import { MessageService } from 'primeng/api';
 import { OriginService } from 'src/libs/service/project/origin/origin.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class OriginDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private originService: OriginService,
     private dialog: MatDialog,
-    private messageService: MessageService
+    // private messageService: MessageService
 
   ) {
     this.type = data.type;
@@ -28,9 +28,9 @@ export class OriginDialogComponent implements OnInit {
     this.originService.createOrigin(this.origin).then(res => {
       if (res) {
         this.dialog.closeAll();
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'add thành công' });
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'add thành công' });
       } else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'add thất bại' });
+        // this.messageService.add({ severity: 'error', summary: 'Error', detail: 'add thất bại' });
 
       }
     })
@@ -44,6 +44,7 @@ export class OriginDialogComponent implements OnInit {
   }
   deleteOrigin() {
     this.originService.deleteOrigin(this.origin.id);
+    this.dialog.closeAll()
   }
 
 }

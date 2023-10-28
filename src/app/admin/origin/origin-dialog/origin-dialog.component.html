@@ -16,6 +16,7 @@
                     <mat-icon>close</mat-icon>
                 </button>
             </mat-form-field>
+            <!-- <ng-container *ngIf="type === 'update'"> -->
             <mat-form-field>
                 <mat-label>Chọn trạng thái</mat-label>
                 <mat-select [(ngModel)]="origin.trangThai">
@@ -23,6 +24,7 @@
                     <mat-option [value]="0">Ngưng Hoạt động</mat-option>
                 </mat-select>
             </mat-form-field>
+            <!-- </ng-container> -->
         </div>
     </mat-dialog-content>
     <mat-dialog-actions>
@@ -43,4 +45,4 @@
         <button mat-button mat-dialog-close>Hủy</button>
     </mat-dialog-actions>
 </ng-container>
-<p-toast></p-toast>
+<!-- <p-toast></p-toast> -->

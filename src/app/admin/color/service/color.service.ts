@@ -2,18 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IColor } from './color.module';
 import { BaseRequestService } from '../../../../libs/service/request/base-request.service';
+import { IReqApi } from 'src/libs/common/interface/interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductService {
-  url: string = 'color';
+export class ColorService {
+  url: string = 'colors';
 
   constructor(
     private BaseRequestService: BaseRequestService
   ) { }
-  getColors(): Promise<IColor[]> {
-    return new Promise<IColor[]>((resolve, reject) => {
+  getColors(): Promise<IReqApi<IColor[]>> {
+    return new Promise<IReqApi<IColor[]>>((resolve, reject) => {
       this.BaseRequestService.get(`${this.url}`).subscribe(
         (result) => {
           return resolve(result);
@@ -23,8 +24,8 @@ export class ProductService {
     });
   }
 
-  getColorByName(name: string): Promise<IColor> {
-    return new Promise<IColor>((resolve, reject) => {
+  getColorByName(name: string): Promise<IReqApi<IColor>> {
+    return new Promise<IReqApi<IColor>>((resolve, reject) => {
       this.BaseRequestService.get(`${this.url}/${name}`).subscribe(
         (result) => {
           return resolve(result);

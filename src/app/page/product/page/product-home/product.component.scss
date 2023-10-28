@@ -25,12 +25,21 @@ main {
       .product-content {
         padding: 10px;
 
-        h4 {
-          width: 250px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          margin: 0;
+        a {
+          text-decoration: none;
+          color: black;
+
+          &:hover {
+            color: rgb(79, 153, 200);
+          }
+
+          h4 {
+            width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin: 0;
+          }
         }
 
         span {}

@@ -40,7 +40,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         MatButtonModule,
         MatSlideToggleModule,
         MatSelectModule,
-        ToastModule
+        ToastModule,
+
 
     ],
     exports: [],
