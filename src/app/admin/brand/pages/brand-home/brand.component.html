@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-between">
+    <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+        <p-dropdown [options]="listTotalPage" [(ngModel)]="searchQuery.page" optionLabel="name"></p-dropdown>
+    </span>
+    <button mat-button (click)="openDialog()">Open dialog</button>
+</div>
+
+
+<div class="card">
+    <p-table [value]="brands" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 20%;">STT</th>
+                <th (click)="sortByName()" style="width: 30%;cursor: pointer;">Tên <i [ngClass]="iconSortName"></i></th>
+                <th style="width: 30%;">Trạng thái</th>
+                <th style="width: 20%;"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-brand let-rowIndex="rowIndex">
+            <tr>
+                <td>
+                    {{
+                    brands.indexOf(brand) +
+                    1 +
+                    searchQuery.pageSize * (searchQuery.page - 1)
+                    }}
+                </td>
+                <td>{{ brand.ten }}</td>
+                <td>{{ brand.trangThai?'Hoạt động':'Kh hoạt động' }}</td>
+                <td>
+                    <span (click)="openDialogEdit(brand)">
+                        <i class="pi pi-file-edit"></i>
+                    </span>
+                    <span (click)="openDialogDelete(brand)">
+                        <i class="pi pi-delete-left"></i>
+                    </span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <div>
+        <div class="d-flex justify-content-end gap-1">
+            <p-dropdown (onChange)="onPageChange()" [options]="listTotalPage"
+                [(ngModel)]="searchQuery.page"></p-dropdown>
+
+            <div class="button-pagination" (click)="getAll( 'prev')">
+                <i class="pi pi-angle-left"></i>
+            </div>
+            <div class="button-pagination" (click)="getAll( 'next')">
+                <i class="pi pi-angle-right"></i>
+            </div>
+        </div>
+    </div>
+</div>

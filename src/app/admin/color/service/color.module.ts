@@ -1,4 +1,5 @@
 export interface IColor {
   id?: number;
-  name?: string;
+  ten?: string;
+  trangThai?: number
 }

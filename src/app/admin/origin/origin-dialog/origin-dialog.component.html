@@ -10,13 +10,7 @@
       <mat-form-field class="example-form-field">
         <mat-label>Tên</mat-label>
         <input matInput type="text" [(ngModel)]="origin.ten" />
-        <button
-          *ngIf="origin?.ten"
-          matSuffix
-          mat-icon-button
-          aria-label="Clear"
-          (click)="origin.ten = ''"
-        >
+        <button *ngIf="origin?.ten" matSuffix mat-icon-button aria-label="Clear" (click)="origin.ten = ''">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
@@ -47,4 +41,3 @@
     <button mat-button mat-dialog-close>Hủy</button>
   </mat-dialog-actions>
 </ng-container>
-<!-- <p-toast></p-toast> -->

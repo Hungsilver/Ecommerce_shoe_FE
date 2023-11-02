@@ -1,6 +1,5 @@
 .banner {
-  // background: url(/assets/image/banner/banner.png);
-  background: url(./banner.png);
+  background: url(/assets/image/banner/banner.png);
   background-size: cover;
   align-items: center;
   height: 490px;
@@ -12,45 +11,56 @@
     font-size: 40px;
   }
 }
+
 main {
   width: 75%;
   margin: 0 auto;
   margin-bottom: 30px;
 }
+
 .product-show {
   margin-top: 20px;
   display: flex;
   gap: 1.4rem;
   justify-content: space-evenly;
 }
+
 .featured-product {
   margin-top: 80px;
+
   .product-title {
     margin-bottom: 30px;
     text-align: center;
     font-size: 20px;
   }
+
   a {
     text-decoration: none;
     color: inherit;
   }
+
   a:hover {
     text-decoration: underline;
   }
 }
+
 .list-product {
   display: flex;
   gap: 2rem;
+
   .card-img-top {
     background-color: #e2e5ec;
+
     img {
       height: 258px;
     }
   }
+
   .card-body {
     padding: 5px 0;
   }
 }
+
 .card {
   border: none;
 }

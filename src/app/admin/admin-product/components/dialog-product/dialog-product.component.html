@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-between">
+    <h2 mat-dialog-title>
+        Sản phẩm
+    </h2>
+    <div mat-dialog-title mat-dialog-actions>
+        <button mat-button mat-dialog-close>Close</button>
+    </div>
+</div>
+<ng-container *ngIf="type && type==='add'|| type==='update'">
+    <mat-dialog-content class="mat-typography">
+        <div class="container-fluid">
+            <mat-form-field class="example-form-field">
+                <mat-label>Tên</mat-label>
+                <input matInput type="text" [(ngModel)]="product.ten">
+                <button *ngIf="product?.ten" matSuffix mat-icon-button aria-label="Clear" (click)="product.ten=''">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <mat-form-field class="example-form-field">
+                <mat-label>Danh mục</mat-label>
+                <mat-select [(ngModel)]="categories">
+                    <!-- Giả sử có một danh sách danh mục cố định hoặc từ server -->
+                    <mat-option *ngFor="let category of categories" [value]="category.id">{{category.ten}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Chọn trạng thái</mat-label>
+                <mat-select [(ngModel)]="product.trangThai">
+                    <mat-option [value]="1">Hoạt động</mat-option>
+                    <mat-option [value]="0">Ngưng Hoạt động</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <ng-container *ngIf="type&&type=== 'add'">
+            <button mat-button (click)="addProduct()">Xác nhận add</button>
+        </ng-container>
+        <ng-container *ngIf="type=== 'update'">
+            <button mat-button (click)="updateProduct()">Xác nhận update</button>
+        </ng-container>
+    </mat-dialog-actions>
+</ng-container>
+<ng-container *ngIf="type==='delete'">
+    <mat-dialog-content>
+        <h1>Bạn xác nhận xóa !</h1>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button (click)="deleteProduct()">Xác nhận</button>
+        <button mat-button mat-dialog-close>Hủy</button>
+    </mat-dialog-actions>
+</ng-container>

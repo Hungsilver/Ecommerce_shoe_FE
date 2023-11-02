@@ -1,5 +1,5 @@
-export interface IMaterial {
+export interface ISize {
   id: number;
-  name: string;
+  name: number;
   status?: number
 }
