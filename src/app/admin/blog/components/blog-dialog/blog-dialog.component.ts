@@ -1,46 +1,48 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
-import { ColorService } from '../../service/color.service';
-
+import { BlogService } from '../../service/blog.service';
 @Component({
-  selector: 'app-color-dialog',
-  templateUrl: './color-dialog.component.html',
-  styleUrls: ['./color-dialog.component.scss'],
+  selector: 'app-blog-dialog',
+  templateUrl: './blog-dialog.component.html',
+  styleUrls: ['./blog-dialog.component.scss']
 })
-export class ColorDialogComponent implements OnInit {
-  color: any = {};
+export class BlogDialogComponent implements OnInit {
+
+  blog: any = {};
   type: any;
   ngOnInit(): void {
 
   }
 
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private colorService: ColorService,
+    private blogService: BlogService,
     private dialog: MatDialog,
   ) {
     this.type = data.type;
-    this.color = data.color;
+    this.blog = data.blog;
   }
-  addColor() {
-    this.colorService.createColor(this.color).then(res => {
+  addBlog() {
+    this.blogService.createBlog(this.blog).then(res => {
       console.log('data created', res.content);
       if (res) {
         this.dialog.closeAll();
       }
     })
   }
-  updateColor() {
-    this.colorService.updateColor(this.color, this.color.id).then(res => {
+  updateBlog() {
+    this.blogService.updateBlog(this.blog, this.blog.id).then(res => {
       if (res) {
         this.dialog.closeAll();
       }
       console.log('data updated', res.content);
     })
   }
-  deleteColor() {
-    this.colorService.deleteColor(this.color.id);
+  deleteBlog() {
+    this.blogService.deleteBlog(this.blog.id);
     this.dialog.closeAll()
   }
+
 }

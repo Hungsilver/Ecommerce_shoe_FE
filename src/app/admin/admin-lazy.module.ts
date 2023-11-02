@@ -29,6 +29,20 @@ import { SizeComponent } from './size/pages/size-home/size.component';
 import { SizeDialogComponent } from './size/components/size-dialog/size-dialog.component';
 import { ColorDialogComponent } from './color/components/color-dialog/color-dialog.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
+import { BrandComponent } from './brand/pages/brand-home/brand.component';
+import { BrandDialogComponent } from './brand/components/brand-dialog/brand-dialog.component';
+import { CategoryHomeComponent } from './category/pages/category-home/category-home.component';
+import { CategoryDialogComponent } from './category/components/category-dialog/category-dialog.component';
+import { HomeProductComponent } from './admin-product/pages/home-product/home-product.component';
+import { DialogProductComponent } from './admin-product/components/dialog-product/dialog-product.component';
+import { CustomerHomeComponent } from './customer/pages/customer-home/customer-home.component';
+import { CustomerDialogComponent } from './customer/components/customer-dialog/customer-dialog.component';
+import { BlogHomeComponent } from './blog/pages/blog-home/blog-home.component';
+import { BlogDialogComponent } from './blog/components/blog-dialog/blog-dialog.component';
+import { AddressHomeComponent } from './address/pages/address-home/address-home.component';
+import { AddressDialogComponent } from './address/components/address-dialog/address-dialog.component';
+import { StaffHomeComponent } from './staff/pages/staff-home/staff-home.component';
+import { StaffDialogComponent } from './staff/components/staff-dialog/staff-dialog.component';
 
 @NgModule({
   imports: [
@@ -65,7 +79,21 @@ import { UploadFileComponent } from './upload-file/upload-file.component';
     SizeComponent,
     SizeDialogComponent,
     OriginDialogComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    BrandComponent,
+    BrandDialogComponent,
+    CategoryHomeComponent,
+    CategoryDialogComponent,
+    HomeProductComponent,
+    DialogProductComponent,
+    CustomerHomeComponent,
+    CustomerDialogComponent,
+    BlogHomeComponent,
+    BlogDialogComponent,
+    AddressHomeComponent,
+    AddressDialogComponent,
+    StaffHomeComponent,
+    StaffDialogComponent,
   ],
   providers: [],
 })
