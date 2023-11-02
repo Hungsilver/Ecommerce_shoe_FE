@@ -12,7 +12,7 @@
 </div>
 
 <div class="card">
-  <p-table [value]="product" [tableStyle]="{ 'min-width': '50rem' }">
+  <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>
         <th style="width: 30%">STT</th>
@@ -24,17 +24,17 @@
         <th style="width: 30%"></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-color let-rowIndex="rowIndex">
+    <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
       <tr>
         <td>
           {{
-            product.indexOf(color) +
+            products.indexOf(product) +
               1 +
               searchQuery.pageSize * (searchQuery.page - 1)
           }}
         </td>
         <td>{{ product.sanpham }}</td>
-        <td>{{ product.anhSanPham }}</td>
+        <!-- <td>{{ product.anhSanPham }}</td> -->
         <td>{{ product.giaBan }}</td>
       </tr>
     </ng-template>

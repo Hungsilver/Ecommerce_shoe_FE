@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./product-detail.component.scss'],
 })
 export class ProductDetailComponent implements OnInit {
-  product!: any;
+  products!: any;
   searchQuery: any = {};
   listTotalPage: any = [];
 
@@ -64,7 +64,7 @@ export class ProductDetailComponent implements OnInit {
     }
     this.productService.getProducts(this.searchQuery).then((product) => {
       if (product && product.content) {
-        this.product = product.content;
+        this.products = product.content;
         this.listTotalPage = this.getTotalPage(product.totalPages);
         console.log(product);
       }
