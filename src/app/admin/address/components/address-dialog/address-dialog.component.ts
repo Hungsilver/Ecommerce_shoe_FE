@@ -1,46 +1,49 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
-import { ColorService } from '../../service/color.service';
+import { AddressService } from '../../service/address.service';
 
 @Component({
-  selector: 'app-color-dialog',
-  templateUrl: './color-dialog.component.html',
-  styleUrls: ['./color-dialog.component.scss'],
+  selector: 'app-address-dialog',
+  templateUrl: './address-dialog.component.html',
+  styleUrls: ['./address-dialog.component.scss']
 })
-export class ColorDialogComponent implements OnInit {
-  color: any = {};
+export class AddressDialogComponent implements OnInit {
+
+  address: any = {};
   type: any;
   ngOnInit(): void {
 
   }
 
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private colorService: ColorService,
+    private addressService: AddressService,
     private dialog: MatDialog,
   ) {
     this.type = data.type;
-    this.color = data.color;
+    this.address = data.address;
   }
-  addColor() {
-    this.colorService.createColor(this.color).then(res => {
+  addAddress() {
+    this.addressService.createAddress(this.address).then(res => {
       console.log('data created', res.content);
       if (res) {
         this.dialog.closeAll();
       }
     })
   }
-  updateColor() {
-    this.colorService.updateColor(this.color, this.color.id).then(res => {
+  updateAddress() {
+    this.addressService.updateAdress(this.address, this.address.id).then(res => {
       if (res) {
         this.dialog.closeAll();
       }
       console.log('data updated', res.content);
     })
   }
-  deleteColor() {
-    this.colorService.deleteColor(this.color.id);
+  deleteAddress() {
+    this.addressService.deleteAddress(this.address.id);
     this.dialog.closeAll()
   }
+
 }
