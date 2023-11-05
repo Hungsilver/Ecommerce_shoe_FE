@@ -25,38 +25,74 @@ export class DetailComponent implements OnInit {
     private router: Router
   ) {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
+    this.query.size = null;
+    this.query.shoe_material = null;
+    this.query.color = null;
+    this.query.shoe_sole_material = null;
   }
+
   ngOnInit(): void {
     this.productService.getProductById(this.id).then((p) => {
-      this.product = p;
-      let mauSacSet = new Set();
-      let kickCoSet = new Set();
-      let chatLieuGiaySet = new Set();
-      let chatLieuDeGiaySet = new Set();
-      this.product.listChiTietSanPham.forEach(ctsp => {
-        mauSacSet.add(ctsp.mauSac)
-        kickCoSet.add(ctsp.kichCo)
-        chatLieuGiaySet.add(ctsp.chatLieuGiay)
-        chatLieuDeGiaySet.add(ctsp.chatLieuDeGiay)
-      });
-      this.mauSacs = [...mauSacSet];
-      this.kichCos = [...kickCoSet];
-      this.chatLieuGiays = [...chatLieuGiaySet];
-      this.chatLieuDeGiays = [...chatLieuDeGiaySet];
-      console.log(chatLieuDeGiaySet)
+      if (p) {
+        this.product = p;
+        this.handleShowAttributes(this.product.listChiTietSanPham)
+      }
+    });
+  }
+
+  getAll() {
+    Object.keys(this.query).forEach(key => {
+      if (this.query[key] === null || this.query[key] === undefined || this.query[key] === '') {
+        delete this.query[key]
+      }
+    })
+    // this.productService.filter
+  }
+
+  handleShowAttributes(ctsp: any[]) {
+    ctsp.forEach(ctsp => {
+      let isExistMS = this.mauSacs.findIndex((item: any) => JSON.stringify(item) === JSON.stringify(ctsp.mauSac))
+      let isExistKC = this.kichCos.findIndex((item: any) => JSON.stringify(item) === JSON.stringify(ctsp.kichCo))
+      let isExistCLG = this.chatLieuGiays.findIndex((item: any) => JSON.stringify(item) === JSON.stringify(ctsp.chatLieuGiay))
+      let isExistCLDG = this.chatLieuDeGiays.findIndex((item: any) => JSON.stringify(item) === JSON.stringify(ctsp.chatLieuDeGiay))
+      if (isExistMS === -1 || this.mauSacs.length === 0) {
+        this.mauSacs.push(ctsp.mauSac)
+      }
+      if (isExistKC === -1 || this.kichCos.length === 0) {
+        this.kichCos.push(ctsp.kichCo)
+      }
+      if (isExistCLG === -1 || this.chatLieuGiays.length === 0) {
+        this.chatLieuGiays.push(ctsp.chatLieuGiay)
+      }
+      if (isExistCLDG === -1 || this.chatLieuDeGiays.length === 0) {
+        this.chatLieuDeGiays.push(ctsp.chatLieuDeGiay)
+      }
     });
   }
 
   addToCart() {
-    // if (!this.selectedSize) {
-    //   this.errorSelected = 'Vui lòng chọn option';
-    // } else {
-    //   this.errorSelected = undefined;
-    //   this.router.navigateByUrl('/');
-    // }
+    this.errorSelected = undefined;
+    Object.keys(this.query).forEach(key => {
+      if (this.query[key] === null) {
+        this.errorSelected = 'Vui lòng chọn option';
+      }
+    })
+    if (!this.errorSelected) {
+      this.errorSelected = undefined;
+      // this.router.navigateByUrl('/product/2');
+      // this.findProductDetail();
+    }
   }
+
+  findProductDetail() {
+    this.product.listChiTietSanPham.filter(ctsp => {
+      ctsp.mauSac.id === 1
+    })
+  }
+
   getKichCo(kichCo: any) {
     this.query.size = kichCo;
+    // this.findProductDetail();
   }
   getMauSac(obj: any) {
     this.query.color = obj;
