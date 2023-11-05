@@ -1,15 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { MessageService } from 'primeng/api';
-import { ColorService } from '../../service/color.service';
+// import { MessageService } from 'primeng/api';
+import { CategoryService } from '../../service/category.service';
+
 
 @Component({
-  selector: 'app-color-dialog',
-  templateUrl: './color-dialog.component.html',
-  styleUrls: ['./color-dialog.component.scss'],
+  selector: 'app-category-dialog',
+  templateUrl: './category-dialog.component.html',
+  styleUrls: ['./category-dialog.component.scss']
 })
-export class ColorDialogComponent implements OnInit {
-  color: any = {};
+export class CategoryDialogComponent implements OnInit {
+
+  category: any = {};
   type: any;
   ngOnInit(): void {
 
@@ -17,14 +19,14 @@ export class ColorDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private colorService: ColorService,
+    private categoryService: CategoryService,
     private dialog: MatDialog,
   ) {
     this.type = data.type;
-    this.color = data.color;
+    this.category = data.category;
   }
   addColor() {
-    this.colorService.createColor(this.color).then(res => {
+    this.categoryService.createCategory(this.category).then(res => {
       console.log('data created', res.content);
       if (res) {
         this.dialog.closeAll();
@@ -32,7 +34,7 @@ export class ColorDialogComponent implements OnInit {
     })
   }
   updateColor() {
-    this.colorService.updateColor(this.color, this.color.id).then(res => {
+    this.categoryService.updateCategory(this.category, this.category.id).then(res => {
       if (res) {
         this.dialog.closeAll();
       }
@@ -40,7 +42,8 @@ export class ColorDialogComponent implements OnInit {
     })
   }
   deleteColor() {
-    this.colorService.deleteColor(this.color.id);
+    this.categoryService.deleteCategory(this.category.id);
     this.dialog.closeAll()
   }
+
 }

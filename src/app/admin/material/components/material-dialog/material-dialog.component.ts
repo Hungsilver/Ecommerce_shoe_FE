@@ -39,6 +39,6 @@ export class MaterialDialogComponent implements OnInit {
   }
   deleteMaterial() {
     this.materialService.deleteMaterials(this.material.id);
-
+    this.dialog.closeAll();
   }
 }
