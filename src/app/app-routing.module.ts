@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutAdminComponent } from 'src/libs/component/layout/admin/layout-admin.component';
 import { LayoutPageComponent } from 'src/libs/component/layout/page/layout-page.component';
 import { Page404Component } from './page404/page404.component';
+import { authAdminGuard, authUserGuard } from 'src/libs/service/request/auth.guard';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
     path: 'admin',
     component: LayoutAdminComponent, //load component layout
     //load router outlet
+    canActivateChild: [authAdminGuard],
     loadChildren: () =>
       import('./admin/admin.module').then((m) => m.AdminModule),
   },
@@ -25,7 +27,15 @@ const routes: Routes = [
       import('./page/page.module').then((m) => m.PageModule),
   },
   {
+    path: 'auth',
+    component: LayoutPageComponent,
+    //load router outlet
+    loadChildren: () =>
+      import('../libs/component/account/account.module').then((m) => m.AccountModule),
+  },
+  {
     path: 'checkout',
+    canActivateChild: [authUserGuard],
     component: LayoutPageComponent,
     //load router outlet
     loadChildren: () =>

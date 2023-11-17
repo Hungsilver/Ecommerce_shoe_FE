@@ -48,6 +48,7 @@
         <div class="card-body">
           <a href="product/{{ p.id }}">
             <h3 class="card-title">{{ p.ten }}</h3>
+            <p>{{p.listChiTietSanPham[0].giaBan| currency:'VND'}}</p>
           </a>
         </div>
       </div>

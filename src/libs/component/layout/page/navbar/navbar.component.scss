@@ -1,19 +1,27 @@
 $backgr: #3a3a3a;
+
 .header {
+  // position: fixed;
+  // width: 100%;
+  // z-index: 99;
+  // background: rgba(158, 144, 144, 0.8);
   height: 81px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 3rem;
+
   .header-icon {
     span {
       font-size: 1.3rem;
       margin-right: 15px;
     }
+
     a {
       color: inherit;
     }
   }
+
   .header-link {
     a {
       text-decoration: none;
