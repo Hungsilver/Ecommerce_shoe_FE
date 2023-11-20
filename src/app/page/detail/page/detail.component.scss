@@ -12,4 +12,14 @@ main {
     color: white;
   }
 
+  ul {
+    list-style: none;
+  }
+
+}
+
+:host ::ng-deep {
+  .p-breadcrumb {
+    border: none;
+  }
 }

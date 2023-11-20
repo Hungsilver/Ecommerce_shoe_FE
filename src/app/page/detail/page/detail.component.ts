@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MenuItem } from 'primeng/api';
 import { IProduct } from 'src/app/page/product/service/product.module';
 import { ProductService } from 'src/app/page/product/service/product.service';
 
@@ -19,6 +20,10 @@ export class DetailComponent implements OnInit {
   chatLieuDeGiays: any = [];
   mauSacs: any = [];
   kichCos: any = [];
+  priceProduct: number = 0;
+  productDetailSelected: any = {};
+  items: MenuItem[] | undefined;
+  home: MenuItem | undefined;
 
   constructor(
     private productService: ProductService,
@@ -33,11 +38,16 @@ export class DetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.items = [{ label: 'Chi tiết sản phẩm' }];
+
+    this.home = { icon: '', label: 'Trang chủ', routerLink: '/' };
+
     this.productService.getProductById(this.id).then((p) => {
       if (p) {
         this.product = p;
         this.productDetailsByAttribute = p.listChiTietSanPham;
         this.handleShowAttributes(this.product.listChiTietSanPham)
+        this.priceProduct = p.listChiTietSanPham[0].giaBan;
       }
     });
   }
@@ -48,9 +58,8 @@ export class DetailComponent implements OnInit {
   //       delete this.query[key]
   //     }
   //   })
-
   // }
-  // productDetailByAtr: any = {};
+
   handleShowAttributes(ctsp: any[]) {
     ctsp.forEach(ctsp => {
       let isExistMS = this.mauSacs.findIndex((item: any) => item.id === ctsp?.mauSac?.id)
@@ -145,8 +154,11 @@ export class DetailComponent implements OnInit {
       }
     });
     this.kichCos.forEach((item: any) => {
-      if (newSize.includes(item)) {
-        console.log(item)
+      if (newSize.includes(JSON.stringify(item))) {
+        console.log('nam trong')
+        item.isDisable = false;
+      } else {
+        item.isDisable = true;
       }
     })
   }

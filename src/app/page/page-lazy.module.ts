@@ -17,7 +17,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-import { NotificationComponent } from 'src/libs/component/notification/notification.component';
+
 
 
 @NgModule({
@@ -43,7 +43,6 @@ import { NotificationComponent } from 'src/libs/component/notification/notificat
         ProductComponent,
         CartComponent,
         CheckoutComponent,
-        NotificationComponent
     ],
 })
 export class PageLazyModule { }

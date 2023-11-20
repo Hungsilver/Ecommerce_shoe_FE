@@ -17,4 +17,4 @@ import { BadgeModule } from 'primeng/badge';
   ],
   providers: [],
 })
-export class LayoutPageModule {}
+export class LayoutPageModule { }

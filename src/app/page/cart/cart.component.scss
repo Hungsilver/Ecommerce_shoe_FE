@@ -1,12 +1,13 @@
 main {
     width: 75%;
     margin: 0 auto;
+    height: 70vh;
 
     .content {
         display: flex;
         gap: 20px;
 
-        .card {
+        .cards {
             width: 80%;
 
             .table-product-detail {

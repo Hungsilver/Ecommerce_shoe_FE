@@ -15,7 +15,7 @@ const routes: Routes = [
     path: 'admin',
     component: LayoutAdminComponent, //load component layout
     //load router outlet
-    canActivateChild: [authAdminGuard],
+    // canActivateChild: [authAdminGuard],
     loadChildren: () =>
       import('./admin/admin.module').then((m) => m.AdminModule),
   },
@@ -35,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: 'checkout',
-    canActivateChild: [authUserGuard],
+    // canActivateChild: [authUserGuard],
     component: LayoutPageComponent,
     //load router outlet
     loadChildren: () =>

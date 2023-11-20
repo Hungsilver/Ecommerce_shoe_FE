@@ -1,9 +1,9 @@
 <main style="margin-bottom: 200px">
   <div class="row">
-    <div class="my-3">Home/login</div>
+    <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
     <ng-container *ngIf="product">
       <div class="col-sm-6">
-        <div class="card">
+        <div class="cards">
           <img class="card-img-top" src="{{product.anhChinh}}" alt="logo" />
         </div>
       </div>
@@ -14,13 +14,14 @@
             <li><b>Xuất xứ</b>: {{ product.xuatXu.ten }}</li>
             <li><b>Thương Hiệu</b>: {{ product.thuongHieu.ten }}</li>
           </ul>
+          <h3>Giá: {{priceProduct}}</h3>
           <input type="number" min="1" max="50" value="1" [(ngModel)]="quantity" name="quantity" class="form-control"
             style="width: 80px" />
 
           <div class="size my-3">
             <ng-container *ngFor="let kichCo of kichCos">
-              <button type="button" [disabled]="kichCo.isDisable===true" class="btn btn-outline-dark me-2"
-                (click)="getKichCo(kichCo)" [class.selectedBtn]="attributes?.kichCo?.id=== kichCo.id">
+              <button type="button" class="btn btn-outline-dark me-2" (click)="getKichCo(kichCo)"
+                [class.selectedBtn]="attributes?.kichCo?.id=== kichCo.id">
                 {{ kichCo.size }}
               </button>
             </ng-container>
