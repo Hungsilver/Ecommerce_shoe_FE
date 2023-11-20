@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -8,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 export class CartComponent implements OnInit {
   products!: any[];
   subTotal: number = 21000;
+  constructor(
+    private router: Router
+  ) {
 
+  }
   ngOnInit(): void {
     this.products = [{
       id: '1000',
@@ -25,5 +30,8 @@ export class CartComponent implements OnInit {
       rating: 5,
       total: 120000
     }]
+  }
+  checkout() {
+    this.router.navigate(['/checkout'])
   }
 }

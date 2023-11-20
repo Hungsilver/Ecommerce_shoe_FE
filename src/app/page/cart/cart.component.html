@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <h1 class="mt-5">Cart</h1>
         <div class="content">
-            <div class="card">
+            <div class="cards">
                 <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem', }">
                     <ng-template pTemplate="header">
                         <tr>
@@ -36,7 +36,7 @@
             <div>
                 <h3>Order summary</h3>
                 <p>Sub total {{subTotal}}</p>
-                <button>CHECKOUT</button>
+                <button (click)="checkout()">CHECKOUT</button>
             </div>
 
         </div>
