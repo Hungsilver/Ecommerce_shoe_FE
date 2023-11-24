@@ -25,6 +25,7 @@ export class DetailComponent implements OnInit {
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
 
+
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
@@ -48,6 +49,7 @@ export class DetailComponent implements OnInit {
         this.productDetailsByAttribute = p.listChiTietSanPham;
         this.handleShowAttributes(this.product.listChiTietSanPham)
         this.priceProduct = p.listChiTietSanPham[0].giaBan;
+        this.query = this.productDetailsByAttribute[0];
       }
     });
   }
@@ -90,8 +92,8 @@ export class DetailComponent implements OnInit {
     })
     if (!this.errorSelected) {
       this.errorSelected = undefined;
-      // this.router.navigateByUrl('/product/2');
-      // this.findProductDetail();
+
+
     }
   }
 
@@ -101,35 +103,34 @@ export class DetailComponent implements OnInit {
   //   })
   // }
 
-  attributes: any = {}
 
   getProductDetailByAttributes() {
     let newSize: any[] = [];
     let newColor: any[] = [];
     let newCL: any[] = [];
     let newCLDG: any[] = [];
-    console.log(this.attributes)
+    console.log(this.query)
     this.productDetailsByAttribute = this.product?.listChiTietSanPham;
     console.log('first list:', this.productDetailsByAttribute)
 
-    if (this.attributes?.kichCo && this.attributes?.kichCo !== '') {
+    if (this.query?.kichCo && this.query?.kichCo !== '') {
       this.productDetailsByAttribute = this.productDetailsByAttribute.filter((item: any) =>
-        this.attributes?.kichCo?.id === item.kichCo?.id
+        this.query?.kichCo?.id === item.kichCo?.id
       )
     }
-    if (this.attributes?.mauSac && this.attributes?.mauSac !== '') {
+    if (this.query?.mauSac && this.query?.mauSac !== '') {
       this.productDetailsByAttribute = this.productDetailsByAttribute.filter((item: any) =>
-        this.attributes?.mauSac?.id === item.mauSac?.id
+        this.query?.mauSac?.id === item.mauSac?.id
       )
     }
-    if (this.attributes?.chatLieuGiay && this.attributes?.chatLieuGiay !== '') {
+    if (this.query?.chatLieuGiay && this.query?.chatLieuGiay !== '') {
       this.productDetailsByAttribute = this.productDetailsByAttribute.filter((item: any) =>
-        this.attributes?.chatLieuGiay?.id === item.chatLieuGiay?.id
+        this.query?.chatLieuGiay?.id === item.chatLieuGiay?.id
       )
     }
-    if (this.attributes?.chatLieuDeGiay && this.attributes?.chatLieuDeGiay !== '') {
+    if (this.query?.chatLieuDeGiay && this.query?.chatLieuDeGiay !== '') {
       this.productDetailsByAttribute = this.productDetailsByAttribute.filter((item: any) =>
-        this.attributes?.chatLieuDeGiay?.id === item.chatLieuDeGiay?.id
+        this.query?.chatLieuDeGiay?.id === item.chatLieuDeGiay?.id
       )
     }
     console.log('products end', this.productDetailsByAttribute)
@@ -164,19 +165,19 @@ export class DetailComponent implements OnInit {
   }
 
   getKichCo(kichCo: any) {
-    this.attributes.kichCo = kichCo;
+    this.query.kichCo = kichCo;
     this.getProductDetailByAttributes();
   }
   getMauSac(ms: any) {
-    this.attributes.mauSac = ms;
+    this.query.mauSac = ms;
     this.getProductDetailByAttributes()
   }
   getChatLieu(cl: any) {
-    this.attributes.chatLieuGiay = cl;
+    this.query.chatLieuGiay = cl;
     this.getProductDetailByAttributes();
   }
   getChatLieuDe(cld: any) {
-    this.attributes.chatLieuDeGiay = cld;
+    this.query.chatLieuDeGiay = cld;
     this.getProductDetailByAttributes();
   }
 }
