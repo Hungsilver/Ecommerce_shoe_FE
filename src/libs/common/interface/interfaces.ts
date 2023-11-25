@@ -1,16 +1,4 @@
-// export interface IReqApi<T> {
-//   errorMessages: {
-//     errorCode: string;
-//     errors: {
-//       fieldName: string;
-//       errorValues: string[];
-//       exactValues: string[];
-//     };
-//   }[];
-//   isOK: boolean;
-//   statusCode: number;
-//   result: T;
-// }
+
 export interface IReqApi<T> {
   content: T,
   pageable: {
@@ -38,4 +26,10 @@ export interface IReqApi<T> {
   first: boolean,
   numberOfElements: number,
   empty: boolean
+}
+
+export interface IRoleGuard {
+  ADMIN: 'admin';
+  USER: 'user';
+  CUSTOMER: 'customer'
 }

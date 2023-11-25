@@ -12,8 +12,8 @@ export class CategoryService {
     url: string = 'category';
 
     constructor(private baseRequestService: BaseRequestService) { }
-    getCategory(params?: any): Promise<IReqApi<ICategory[]>> {
-        return new Promise<IReqApi<ICategory[]>>((resolve, reject) => {
+    getCategory(params?: any): Promise<IReqApi<ICategory>> {
+        return new Promise<IReqApi<ICategory>>((resolve, reject) => {
             this.baseRequestService.get(`${this.url}`, params).subscribe(
                 (result) => {
                     return resolve(result);

@@ -19,7 +19,7 @@
   <div class="header-menu">
     <ul>
       <li><a routerLink="product">Trang chủ</a></li>
-      <li><a routerLink="product">Giới thiệu</a></li>
+      <li><a routerLink="product">Sản phẩm</a></li>
       <li><a routerLink="product">Về chúng tôi</a></li>
       <li><a routerLink="product">Giới thiệu</a></li>
     </ul>
@@ -30,11 +30,17 @@
     <a routerLink="/">
       <span class="pi pi-search"></span>
     </a>
-    <a routerLink="cart">
+    <a routerLink="/cart">
       <span class="pi pi-shopping-cart" pBadge value="{{ quantityInCart }}"></span>
     </a>
-    <a routerLink="login">
-      <span class="pi pi-user"></span>
-    </a>
+
+    <ng-container *ngIf="customerInfo">
+      <span>userInfo.ten</span>
+    </ng-container>
+    <ng-container *ngIf="!customerInfo">
+      <a routerLink="/auth/login">
+        <span class="pi pi-user"></span>
+      </a>
+    </ng-container>
   </div>
 </nav>
