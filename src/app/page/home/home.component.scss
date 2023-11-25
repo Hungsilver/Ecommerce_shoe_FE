@@ -46,21 +46,30 @@ main {
 
 .list-product {
   display: flex;
+  justify-content: space-between;
   gap: 2rem;
 
-  .card-img-top {
-    background-color: #e2e5ec;
+  .cards {
+    .card-img-top {
+      background-color: #e2e5ec;
 
-    img {
-      height: 258px;
+      img {
+        height: 258px;
+      }
+    }
+
+    .card-body {
+      padding: 5px 0;
     }
   }
 
-  .card-body {
-    padding: 5px 0;
+  div {
+    a img {
+      // height: 150px;
+      // width: 150px;
+      object-fit: cover;
+    }
   }
-}
 
-.card {
-  border: none;
+
 }

@@ -1,12 +1,25 @@
 main {
   width: 75%;
   margin: 0 auto;
+
+  .selectedBtn {
+    background-color: gray;
+    color: white;
+  }
+
+  .selectedBtnColor {
+    background-color: gray;
+    color: white;
+  }
+
+  ul {
+    list-style: none;
+  }
+
 }
-.selectedBtn {
-  background-color: gray;
-  color: white;
-}
-.selectedBtnColor {
-  background-color: gray;
-  color: white;
+
+:host ::ng-deep {
+  .p-breadcrumb {
+    border: none;
+  }
 }

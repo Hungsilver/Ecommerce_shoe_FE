@@ -39,15 +39,32 @@
     </div>
   </div>
   <div class="featured-product">
-    <h3 class="product-title">FEATURED PRODUCTS</h3>
+    <h3 class="product-title">Sản phẩm nổi bật</h3>
     <div class="list-product">
-      <div class="card" *ngFor="let p of products">
+      <div class="cards" *ngFor="let p of products">
         <a [routerLink]="['product', p.id]">
           <img class="card-img-top" src="{{ p.anhChinh }}" />
         </a>
         <div class="card-body">
           <a href="product/{{ p.id }}">
             <h3 class="card-title">{{ p.ten }}</h3>
+            <p>{{p.listChiTietSanPham[0].giaBan| currency:'VND'}}</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="featured-product">
+    <h3 class="product-title">Sản phẩm bán chạy</h3>
+    <div class="list-product">
+      <div class="cards" *ngFor="let p of products">
+        <a [routerLink]="['product', p.id]">
+          <img class="card-img-top" src="{{ p.anhChinh }}" />
+        </a>
+        <div class="card-body">
+          <a href="product/{{ p.id }}">
+            <h3 class="card-title">{{ p.ten }}</h3>
+            <p>{{p.listChiTietSanPham[0].giaBan| currency:'VND'}}</p>
           </a>
         </div>
       </div>

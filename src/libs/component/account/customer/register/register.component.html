@@ -1,0 +1,38 @@
+<main>
+  <div class="link-location">
+    <a class="form-link" href="/">Home/register</a>
+  </div>
+  <div class="card">
+    <form [formGroup]="myForm" (submit)="onSubmit()">
+      <div class="card-title">
+        <h2 class="text-center" style="font-size: 2rem">
+          Create A New Account
+        </h2>
+      </div>
+      <div class="mb-3">
+        <input type="text" class="form-control" placeholder="Full Name" formControlName="fullName" required />
+        <div class="alert alert-danger" *ngIf="
+            myForm.get('fullName')?.hasError('required') &&
+            (myForm.touched || myForm.dirty)
+          ">
+          Username is required
+        </div>
+      </div>
+      <div class="mb-3">
+        <input type="email" class="form-control" placeholder="Email" formControlName="email" required />
+      </div>
+      <div class="mb-3">
+        <input type="password" class="form-control" placeholder="Password" name="password" formControlName="password"
+          required />
+      </div>
+
+      <button pButton pRipple type="submit" class="p-button-success btn w-100 text-white">
+        SIGN UP
+      </button>
+    </form>
+    <div class="d-flex justify-content-center gap-3 my-3" style="font-size: 1rem">
+      <span>Already have an account? </span>
+      <a href="login">Login</a>
+    </div>
+  </div>
+</main>
