@@ -43,6 +43,14 @@ import { AddressHomeComponent } from './address/pages/address-home/address-home.
 import { AddressDialogComponent } from './address/components/address-dialog/address-dialog.component';
 import { StaffHomeComponent } from './staff/pages/staff-home/staff-home.component';
 import { StaffDialogComponent } from './staff/components/staff-dialog/staff-dialog.component';
+import { TestNewComponent } from './test-new/test-new.component';
+import { NComponent } from './test-new/n/n.component';
+import { SalesComponent } from './sales/sales.component';
+
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   imports: [
@@ -63,6 +71,11 @@ import { StaffDialogComponent } from './staff/components/staff-dialog/staff-dial
     MatSlideToggleModule,
     MatSelectModule,
     ToastModule,
+    MatGridListModule,
+    MatTableModule,
+    MatTabsModule,
+    MatDividerModule,
+
   ],
   exports: [],
   declarations: [
@@ -94,6 +107,9 @@ import { StaffDialogComponent } from './staff/components/staff-dialog/staff-dial
     AddressDialogComponent,
     StaffHomeComponent,
     StaffDialogComponent,
+    TestNewComponent,
+    NComponent,
+    SalesComponent,
   ],
   providers: [],
 })
