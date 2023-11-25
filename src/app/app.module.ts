@@ -13,6 +13,7 @@ import { Page404Component } from './page404/page404.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageModule } from './page/page.module';
+import { NgToastModule } from 'ng-angular-popup';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -38,6 +39,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
     BrowserAnimationsModule,
+    NgToastModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
