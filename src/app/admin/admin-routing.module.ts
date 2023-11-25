@@ -17,6 +17,10 @@ import { CustomerHomeComponent } from './customer/pages/customer-home/customer-h
 import { BlogHomeComponent } from './blog/pages/blog-home/blog-home.component';
 import { AddressHomeComponent } from './address/pages/address-home/address-home.component';
 import { StaffHomeComponent } from './staff/pages/staff-home/staff-home.component';
+import { TestNewComponent } from './test-new/test-new.component';
+import { NComponent } from './test-new/n/n.component';
+import { SalesComponent } from './sales/sales.component';
+
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -38,6 +42,10 @@ const routes: Routes = [
   { path: 'gioi-thieu', component: BlogHomeComponent },
   { path: 'dia-chi', component: AddressHomeComponent },
   { path: 'nhan-vien', component: StaffHomeComponent },
+  { path: 'test-p', component: TestNewComponent },
+  { path: 'test-n', component: NComponent },
+  { path: 'sales', component: SalesComponent },
+
   // { path: 'new-coupon', component: CouponComponent },
 ];
 

@@ -6,7 +6,7 @@ import { AdminLazyModule } from './admin-lazy.module';
 @NgModule({
   imports: [
     AdminLazyModule,
-    AdminRoutingModule
+    AdminRoutingModule,
   ],
   exports: [AdminLazyModule],
   declarations: [],
