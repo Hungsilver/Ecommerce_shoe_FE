@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationService } from 'src/libs/service/notification/notification.service';
-import { BaseAuthService } from 'src/libs/service/request/auth.service';
 import { CacheService } from 'src/libs/service/request/cache.service';
 
 @Component({
@@ -16,7 +15,6 @@ export class LoginAdminComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private cacheService: CacheService,
-    private authService: BaseAuthService,
     // private notificationService: NotificationService
   ) { }
   formLogin: FormGroup = this.formBuilder.group({

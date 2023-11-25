@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BaseAuthService } from 'src/libs/service/request/auth.service';
+import { AuthCustomerService } from '../../serviceAuth/authCustomerService.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +11,10 @@ import { BaseAuthService } from 'src/libs/service/request/auth.service';
 export class LoginComponent {
   userLogin!: any;
   constructor(private formBuilder: FormBuilder,
-    private authService: BaseAuthService
+    private authCustomService: AuthCustomerService,
+    private notification: Toast,
+
+
   ) { }
   formLogin: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -20,13 +23,11 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.formLogin.valid) {
-      this.authService.authenticateUser(this.formLogin.value).subscribe(data => {
-        if (data && data?.content) {
+      this.authCustomService.loginCustomer(this.formLogin.value).then(res => {
+        if (res) {
 
         }
       })
-      // alert(JSON.stringify(this.formLogin.value));
-
     }
   }
 }
