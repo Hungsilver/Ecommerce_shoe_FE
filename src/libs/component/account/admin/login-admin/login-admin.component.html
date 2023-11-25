@@ -1,0 +1,23 @@
+<main>
+  <div class="link-location">
+    <a class="form-link" href="/">Home/</a>
+  </div>
+  <div class="card">
+    <form class="" [formGroup]="formLogin" (submit)="onSubmit()">
+      <div class="card-title">
+        <h2 class="text-center" style="font-size: 2rem">Login Admin</h2>
+      </div>
+      <div class="mb-3">
+        <input type="email" formControlName="email" class="form-control" placeholder="Email" required />
+      </div>
+      <div class="mb-3">
+        <input type="password" formControlName="password" class="form-control" placeholder="Password" required />
+      </div>
+      <button type="submit" [disabled]="!formLogin.valid" class="btn w-100 text-white">SIGN IN</button>
+    </form>
+    <div class="d-flex justify-content-center gap-3 my-3" style="font-size: 1rem">
+      <a href="register">Create an account</a>
+      <a href="forget-pass">Forgot your password?</a>
+    </div>
+  </div>
+</main>

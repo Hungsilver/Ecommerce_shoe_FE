@@ -4,9 +4,6 @@ import { HomeComponent } from './home/home.component';
 import { OrderComponent } from './order/order.component';
 import { ProductComponent } from './product/page/product-home/product.component';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './account/login/login.component';
-import { RegisterComponent } from './account/register/register.component';
-import { ForgotPassComponent } from './account/forgot-pass/forgot-pass.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { BadgeModule } from 'primeng/badge';
@@ -17,6 +14,9 @@ import { CartComponent } from './cart/cart.component';
 import { TableModule } from 'primeng/table';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { CheckboxModule } from 'primeng/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -31,16 +31,16 @@ import { CheckboxModule } from 'primeng/checkbox';
         SliderModule,
         BreadcrumbModule,
         TableModule,
-        CheckboxModule
+        CheckboxModule,
+        MatButtonModule,
+        MatSnackBarModule,
+        MatIconModule,
     ],
     declarations: [
         DetailComponent,
         HomeComponent,
         OrderComponent,
         ProductComponent,
-        LoginComponent,
-        RegisterComponent,
-        ForgotPassComponent,
         CartComponent,
         CheckoutComponent,
     ],

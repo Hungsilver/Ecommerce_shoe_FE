@@ -14,10 +14,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageModule } from './page/page.module';
 import { NgToastModule } from 'ng-angular-popup';
+import { AccountModule } from 'src/libs/component/account/account.module';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +34,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     PageModule,
+    AccountModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

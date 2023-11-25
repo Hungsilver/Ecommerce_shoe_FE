@@ -10,6 +10,7 @@ export interface IProduct {
   thuongHieu?: any;
   xuatXu?: any;
   danhMuc?: any;
+  // giaNiemYet: number;
   listChiTietSanPham: any[];
 }
 
