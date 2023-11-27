@@ -4,8 +4,8 @@ export interface IProduct {
     ten?: string;
     anhChinh?: string | null;
     moTa?: string;
-    ngayTao?: string;
-    ngayCapNhat?: string;
+    ngayTao?: string | null;
+    ngayCapNhat?: string | null;
     trangThai?: number;
     thuongHieu?: any;
     xuatXu?: any;

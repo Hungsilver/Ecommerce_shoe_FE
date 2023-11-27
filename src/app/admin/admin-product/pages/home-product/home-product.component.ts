@@ -4,7 +4,8 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/d
 import { ProductService } from '../../service/product.service';
 import { DialogProductComponent } from '../../components/dialog-product/dialog-product.component';
 import { CategoryService } from '../../../category/service/category.service';
-
+import { BrandService } from 'src/app/admin/brand/service/brand.service';
+import { OriginService } from 'src/libs/service/project/origin/origin.service';
 @Component({
   selector: 'app-home-product',
   templateUrl: './home-product.component.html',
@@ -13,6 +14,8 @@ import { CategoryService } from '../../../category/service/category.service';
 export class HomeProductComponent implements OnInit {
   products!: any;
   category: any = [];
+  origin: any = [];
+  brand: any = [];
   searchQuery: any = {};
   listTotalPage: any = [];
 
@@ -20,6 +23,8 @@ export class HomeProductComponent implements OnInit {
   // constructor(private categoryService: CategoryService)
   constructor(private productService: ProductService,
     private categoryService: CategoryService,
+    private originService: OriginService,
+    private brandService: BrandService,
     private dialog: MatDialog
   ) {
     this.searchQuery.page = 1;
@@ -31,7 +36,12 @@ export class HomeProductComponent implements OnInit {
     this.categoryService.getCategory().then(data => {
       this.category = data.content;
     })
-
+    this.originService.getOrigins().then(data => {
+      this.origin = data.content;
+    })
+    this.brandService.getBrand().then(data => {
+      this.brand = data.content;
+    })
   }
   onPageChange() {
     this.getAll();
@@ -99,6 +109,8 @@ export class HomeProductComponent implements OnInit {
         type: "add",
         product: {},
         categories: this.category,
+        brands: this.brand,
+        origins: this.origin,
       },
     })
     dialogRef.afterClosed().subscribe(data => {
@@ -112,6 +124,13 @@ export class HomeProductComponent implements OnInit {
       data: {
         type: 'update',
         product: product,
+        categories: this.category,
+        brands: this.brand,
+        origins: this.origin,
+
+        selectedCategoryId: product.danhMuc ? product.danhMuc.id : null,
+        selectedBrandId: product.thuongHieu ? product.thuongHieu.id : null,
+        // selectedOriginId: product.xuatXu ? product.xuatXu.id : null,
       }
     })
     dialogRef.afterClosed().subscribe(data => {

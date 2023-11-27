@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IReqApi } from 'src/libs/common/interface/interfaces';
 import { IProduct } from './product.module';
@@ -11,12 +11,34 @@ import { ICategory } from '../../category/service/category.module';
     providedIn: 'root',
 })
 export class ProductService {
+
     url: string = 'product';
 
     constructor(private baseRequestService: BaseRequestService) { }
+
+    private getHttpOptions() {
+        return {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+        };
+    }
+
     getProduct(params?: any): Promise<IReqApi<IProduct[]>> {
         return new Promise<IReqApi<IProduct[]>>((resolve, reject) => {
             this.baseRequestService.get(`${this.url}`, params).subscribe(
+                (result) => {
+                    return resolve(result);
+                },
+                (err) => reject(err)
+            );
+        });
+    }
+
+
+    createProduct(body: any): Promise<IReqApi<IProduct>> {
+        return new Promise<IReqApi<IProduct>>((resolve, reject) => {
+            this.baseRequestService.post(`${this.url}`, body, this.getHttpOptions).subscribe(
                 (result) => {
                     return resolve(result);
                 },
@@ -36,19 +58,9 @@ export class ProductService {
         });
     }
 
-    createProduct(body: any): Promise<IReqApi<IProduct[]>> {
-        return new Promise<IReqApi<IProduct[]>>((resolve, reject) => {
-            this.baseRequestService.post(`${this.url}`, body).subscribe(
-                (result) => {
-                    return resolve(result);
-                },
-                (err) => reject(err)
-            );
-        });
-    }
-    updateProduct(body: any, id?: any): Promise<IReqApi<IProduct[]>> {
-        return new Promise<IReqApi<IProduct[]>>((resolve, reject) => {
-            this.baseRequestService.put(`${this.url}/${id}`, body).subscribe(
+    updateProduct(body: any, id?: any): Promise<IReqApi<IProduct>> {
+        return new Promise<IReqApi<IProduct>>((resolve, reject) => {
+            this.baseRequestService.put(`${this.url}/${id}`, body, this.getHttpOptions).subscribe(
                 (result) => {
                     return resolve(result);
                 },

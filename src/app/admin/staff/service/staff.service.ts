@@ -13,8 +13,8 @@ export class StaffService {
     url: string = 'staff';
 
     constructor(private baseRequestService: BaseRequestService) { }
-    getStaff(params?: any): Promise<IReqApi<IStaff[]>> {
-        return new Promise<IReqApi<IStaff[]>>((resolve, reject) => {
+    getStaff(params?: any): Promise<IReqApi<IStaff>> {
+        return new Promise<IReqApi<IStaff>>((resolve, reject) => {
             this.baseRequestService.get(`${this.url}`, params).subscribe(
                 (result) => {
                     return resolve(result);
