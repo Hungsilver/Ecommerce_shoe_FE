@@ -6,8 +6,8 @@ import { IReqApi } from 'src/libs/common/interface/interfaces';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductService {
-  url: string = 'product';
+export class ProductDetailService {
+  url: string = 'product-detail';
 
   constructor(private baseRequestService: BaseRequestService) {}
   getProducts(params?: any): Promise<IReqApi<IProduct[]>> {
@@ -20,8 +20,8 @@ export class ProductService {
       );
     });
   }
-  createProduct(body: any): Promise<IReqApi<IProduct[]>> {
-    return new Promise<IReqApi<IProduct[]>>((resolve, reject) => {
+  createProduct(body: any): Promise<IReqApi<IProduct>> {
+    return new Promise<IReqApi<IProduct>>((resolve, reject) => {
       this.baseRequestService.post(`${this.url}`, body).subscribe(
         (result) => {
           return resolve(result);

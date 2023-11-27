@@ -14,13 +14,12 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ColorComponent } from './color/pages/color-home/color.component';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductDetailComponent } from './product-detail/page/product-detail/product-detail.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OriginComponent } from './origin/origin.component';
 import { OriginDialogComponent } from './origin/origin-dialog/origin-dialog.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ProductHomeComponent } from './product/pages/product-home/product-home.component';
 import { MaterialComponent } from './material/pages/material-home/material.component';
 import { MaterialDialogComponent } from './material/components/material-dialog/material-dialog.component';
 import { MaterialSolesComponent } from './material-soles/pages/material-soles-home/material-soles.component';
@@ -43,6 +42,7 @@ import { AddressHomeComponent } from './address/pages/address-home/address-home.
 import { AddressDialogComponent } from './address/components/address-dialog/address-dialog.component';
 import { StaffHomeComponent } from './staff/pages/staff-home/staff-home.component';
 import { StaffDialogComponent } from './staff/components/staff-dialog/staff-dialog.component';
+import { NewProductDetailComponent } from './product-detail/page/new-product-detail/new-product-detail.component';
 
 @NgModule({
   imports: [
@@ -71,7 +71,7 @@ import { StaffDialogComponent } from './staff/components/staff-dialog/staff-dial
     ColorComponent,
     ColorDialogComponent,
     OriginComponent,
-    ProductHomeComponent,
+    NewProductDetailComponent,
     MaterialComponent,
     MaterialDialogComponent,
     MaterialSolesComponent,

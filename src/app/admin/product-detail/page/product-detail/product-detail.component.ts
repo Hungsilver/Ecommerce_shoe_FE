@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../product/service/product.service';
+import { ProductDetailService } from '../../services/product.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ProductHomeComponent } from '../product/pages/product-home/product-home.component';
-import { Router } from '@angular/router';
+import { Router,RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -17,7 +16,7 @@ export class ProductDetailComponent implements OnInit {
   // iconSortName = 'pi pi-sort-amount-down-alt';
   iconSortName = 'pi pi-sort-amount-up';
   constructor(
-    private productService: ProductService,
+    private productDetailService: ProductDetailService,
     private dialog: MatDialog,
     private router: Router
   ) {
@@ -62,7 +61,7 @@ export class ProductDetailComponent implements OnInit {
         }
       });
     }
-    this.productService.getProducts(this.searchQuery).then((product) => {
+    this.productDetailService.getProducts(this.searchQuery).then((product) => {
       if (product && product.content) {
         this.products = product.content;
         this.listTotalPage = this.getTotalPage(product.totalPages);
@@ -83,7 +82,8 @@ export class ProductDetailComponent implements OnInit {
     this.searchQuery['keyword'] = this.searchQuery.keyword;
     this.getAll();
   }
+  
   navigateToNewProduct() {
-    this.router.navigate(['/admin/product/new']);
+    this.router.navigate(['/admin/chi-tiet-san-pham/moi']);
   }
 }

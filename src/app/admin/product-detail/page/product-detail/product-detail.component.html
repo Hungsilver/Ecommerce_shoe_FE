@@ -10,18 +10,25 @@
 <div class="button-container">
   <button (click)="navigateToNewProduct()">Thêm Sản Phẩm</button>
 </div>
-
 <div class="card">
   <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 30%">STT</th>
-        <th (click)="sortByName()" style="width: 40%; cursor: pointer">
-          Tên <i [ngClass]="iconSortName"></i>
+        <th style="width: 10%">STT</th>
+        <th (click)="sortByName()" style="width: 10%; cursor: pointer">
+          Mã <i [ngClass]="iconSortName"></i>
         </th>
-        <th style="width: 30%">Ảnh</th>
+        <th style="width: 20%">Sản Phẩm</th>
         <th style="width: 30%">Giá</th>
-        <th style="width: 30%"></th>
+        <th style="width: 20%">Màu Sắc</th>
+        <th style="width: 30%">Kích Cỡ</th>
+        <th style="width: 50%">Ngày Tạo</th>
+        <th style="width: 50%">Ngày Cập Nhật</th> 
+        <th style="width: 30%">Chất Liệu Giày</th>
+        <th style="width: 30%">Chất Liệu Đế Giày</th>
+        <th style="width: 30%">Số Lượng</th>
+        <th style="width: 30%">Trạng Thái</th>
+ 
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
@@ -33,9 +40,17 @@
               searchQuery.pageSize * (searchQuery.page - 1)
           }}
         </td>
-        <td>{{ product.sanpham }}</td>
-        <!-- <td>{{ product.anhSanPham }}</td> -->
+        <td>{{ product.ma }}</td>
+        <td>{{ product.sanPham?.ten }}</td>
         <td>{{ product.giaBan }}</td>
+        <td>{{ product.mauSac?.ten }}</td>
+        <td>{{ product.kichCo?.size }}</td>
+        <td>{{ product.ngayTao }}</td>
+        <td>{{ product.ngayCapNhat }}</td>    
+        <td>{{ product.chatLieuGiay?.ten }}</td>
+        <td>{{ product.chatLieuDeGiay?.ten }}</td>
+        <td>{{ product.soLuong }}</td>
+        <td>{{ product.trangThai?'Hoạt động':'Kh hoạt động' }}</td>
       </tr>
     </ng-template>
   </p-table>
