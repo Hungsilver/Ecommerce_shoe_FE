@@ -21,7 +21,6 @@ import { TestNewComponent } from './test-new/test-new.component';
 import { NComponent } from './test-new/n/n.component';
 import { SalesComponent } from './sales/sales.component';
 
-
 const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'product', component: ProductDetailComponent },
@@ -40,6 +39,7 @@ const routes: Routes = [
   { path: 'san-pham', component: HomeProductComponent },
   { path: 'khach-hang', component: CustomerHomeComponent },
   { path: 'gioi-thieu', component: BlogHomeComponent },
+  // {path:'gioi-thieu/new',component:blogsnewComponent},
   { path: 'dia-chi', component: AddressHomeComponent },
   { path: 'nhan-vien', component: StaffHomeComponent },
   { path: 'test-p', component: TestNewComponent },
