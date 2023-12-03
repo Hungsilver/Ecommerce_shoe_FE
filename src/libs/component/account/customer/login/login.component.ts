@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthCustomerService } from '../../serviceAuth/authCustomerService.service';
+import { NgToastService } from 'ng-angular-popup';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -12,13 +14,11 @@ export class LoginComponent {
   userLogin!: any;
   constructor(private formBuilder: FormBuilder,
     private authCustomService: AuthCustomerService,
-    // private notification: Toast,
-
-
+    private notificationService: ToastrService
   ) { }
   formLogin: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.maxLength(15)]],
+    matKhau: ['', [Validators.required, Validators.maxLength(15)]],
   });
 
   onSubmit() {
@@ -29,5 +29,6 @@ export class LoginComponent {
         }
       })
     }
+
   }
 }

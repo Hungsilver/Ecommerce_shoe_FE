@@ -3,7 +3,7 @@ import { IBodyLogin } from 'src/libs/service/project/login/login.model';
 import { BaseRequestService } from 'src/libs/service/request/base-request.service';
 
 @Injectable({ providedIn: 'root' })
-export class authAdminService {
+export class AuthAdminService {
     constructor(
         private baseService: BaseRequestService
     ) { }

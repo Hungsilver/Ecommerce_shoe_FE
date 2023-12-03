@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { IProduct } from 'src/app/page/product/service/product.module';
 import { ProductService } from 'src/app/page/product/service/product.service';
+import { DetailService } from '../service/detail.service';
 
 @Component({
   selector: 'app-detail',
@@ -16,6 +17,8 @@ export class DetailComponent implements OnInit {
   quantity: number = 1;
   errorSelected: string | undefined;
   query: any = {}
+  params: any = {}
+  idProductDetail!: number;
   chatLieuGiays: any = [];
   chatLieuDeGiays: any = [];
   mauSacs: any = [];
@@ -28,6 +31,7 @@ export class DetailComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
+    private detailService: DetailService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -49,7 +53,8 @@ export class DetailComponent implements OnInit {
         this.productDetailsByAttribute = p.listChiTietSanPham;
         this.handleShowAttributes(this.product.listChiTietSanPham)
         this.priceProduct = p.listChiTietSanPham[0].giaBan;
-        this.query = this.productDetailsByAttribute[0];
+        // this.query = this.productDetailsByAttribute[0];
+        this.params.id = this.productDetailsByAttribute[0]?.id;
       }
     });
   }
@@ -88,13 +93,18 @@ export class DetailComponent implements OnInit {
     Object.keys(this.query).forEach(key => {
       if (this.query[key] === null) {
         this.errorSelected = 'Vui lòng chọn option';
+        return;
       }
     })
     if (!this.errorSelected) {
       this.errorSelected = undefined;
-
-
     }
+    this.params.quantity = this.quantity;
+    this.detailService.addToCart(this.params).then(data => {
+      if (data) {
+        console.log(data)
+      }
+    })
   }
 
   // findProductDetail() {

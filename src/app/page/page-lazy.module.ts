@@ -5,7 +5,6 @@ import { OrderComponent } from './order/order.component';
 import { ProductComponent } from './product/page/product-home/product.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ToastModule } from 'primeng/toast';
 import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
 import { SliderModule } from 'primeng/slider';
@@ -25,7 +24,6 @@ import { MatIconModule } from '@angular/material/icon';
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        ToastModule,
         BadgeModule,
         DropdownModule,
         SliderModule,
