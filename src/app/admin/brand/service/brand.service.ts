@@ -9,7 +9,7 @@ import { BaseRequestService } from '../../../../libs/service/request/base-reques
     providedIn: 'root',
 })
 export class BrandService {
-    url: string = 'trademark';
+    url: string = 'brand';
 
     constructor(private baseRequestService: BaseRequestService) { }
     getBrand(params?: any): Promise<IReqApi<IBrand[]>> {

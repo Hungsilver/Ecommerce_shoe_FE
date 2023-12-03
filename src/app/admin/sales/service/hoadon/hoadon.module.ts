@@ -1,7 +1,6 @@
 export interface IHoaDon {
     id?: number;
     maHoaDon?: string;
-    tenKhachHang?: string;
     soDienThoai?: string;
     diaChi?: string;
     phuongXa?: string;
@@ -19,5 +18,5 @@ export interface IHoaDon {
     nhanVien?: any;
     khachHang?: any;
 
-    maHoaDonObj?: any;
 }
+// tenKhachHang?: string;

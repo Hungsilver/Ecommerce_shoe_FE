@@ -18,7 +18,6 @@ export class CTSPService {
     ) { }
 
     getctspByKeyword(param: any): Promise<IChiTietSanPham | null> {
-        // const params = { keyword: keyword };
         return new Promise<IChiTietSanPham | null>((resolve, reject) => {
             this.BaseRequestService.get(`${this.url}/findByMa`, param).subscribe(
                 (result: any) => {

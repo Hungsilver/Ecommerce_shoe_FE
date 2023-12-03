@@ -1,9 +1,11 @@
 <button mat-raised-button (click)="addTab()">Tạo hóa đơn</button>
-<!-- <button>QR Code sản phẩm</button> -->
+
 <br>
 <br>
 
-<mat-tab-group>
+<mat-tab-group (selectedTabChange)="onTabChange($event)">
+
+
     <mat-tab *ngFor="let tab of tabs; let i = index" label="{{ tab }}">
         <ng-template mat-tab-label class="test">
             <div class="tab-label-container">
@@ -15,35 +17,45 @@
         </ng-template>
 
         <p>Nội dung của {{ tab }}</p>
-        <!-- Bổ sung vào template của component -->
         <input type="text" name="productCode" [(ngModel)]="productCode.ma" placeholder="Tìm kiếm sản phẩm" width="300px"
             required>
         <button type="submit" (click)="searchProductByKeyword()">Tìm kiếm</button>
 
-        <div *ngIf="searchResult">
-            <table>
+        <div>
+            <table table-hover>
                 <thead>
                     <tr>
                         <th>Mã</th>
                         <th>Tên sản phẩm</th>
+                        <th>Màu sắc</th>
+                        <th>Kích cỡ</th>
                         <th>Số lượng</th>
                         <th>Giá bán</th>
+                        <th></th>
+                        <!-- <th></th> -->
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let searchResult of searchResults[tab]">
                         <td>{{ searchResult.ma }}</td>
                         <td>{{ searchResult.sanPham?.ten }}</td>
+                        <td>{{ searchResult.mauSac?.ten }}</td>
+                        <td>{{ searchResult.kichCo?.size }}</td>
                         <td>{{ searchResult.soLuong }}</td>
                         <td>{{ searchResult.giaBan }}</td>
+                        <td>
+                            <button mat-icon-button (click)="addToCart(searchResult)">
+                                <i class="material-icons">shopping_cart_checkout</i>
+                            </button>
+                        </td>
+                        <!-- <td>
+                                <i class="material-icons">highlight_remove</i>
+                            </td> -->
 
                     </tr>
                 </tbody>
             </table>
         </div>
-
-        <!-- <div *ngIf="errorMessage">{{ errorMessage }}</div> -->
-
 
         <br>
         <div class="text-container">
@@ -52,40 +64,37 @@
         </div>
 
         <br>
-        <!-- <br> -->
         <mat-grid-list cols="2" rowHeight="2:1">
 
             <mat-grid-tile>
-
-                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-                    <ng-container matColumnDef="position">
-                        <th mat-header-cell *matHeaderCellDef> Mã HD </th>
-                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef>Mã SP </th>
-                        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="weight">
-                        <th mat-header-cell *matHeaderCellDef> Số lượng </th>
-                        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="symbol">
-                        <th mat-header-cell *matHeaderCellDef> Đơn giá</th>
-                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                    </ng-container>
-
-                    <!-- <i class="material-icons">highlight_remove</i> -->
-
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Mã HĐ</th>
+                            <th scope="col">Mã SP</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let chiTiet of hoaDonChiTiet[selectedTab]">
+                            <td>{{ chiTiet.chiTietSanPham?.ma }}</td>
+                            <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
+                            <td>{{ chiTiet.soLuong }}</td>
+                            <td>{{ chiTiet.donGia }}</td>
+                            <td>
+                                <!-- Thêm nút để gọi hàm removeItemFromInvoice -->
+                                <button mat-icon-button (click)="removeItemFromInvoice(chiTiet.id)">
+                                    <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
-
             </mat-grid-tile>
+
+
             <br>
 
             <mat-grid-tile class="test">
@@ -98,20 +107,17 @@
                         </div>
                         <div class="col">
                             <label class="form-label">Khách hàng:</label>
-                            <input type="text" class="form-control">
+                            <!-- <input type="text" class="form-control"> -->
+                            <input type="text" class="form-control" [value]="currentCustomerName" disabled>
                         </div>
+
                     </div>
 
-                    <!-- <div class="mb-3">
-                        <label class="form-label">Mã HĐ:</label>
-                        <input type="text" class="form-control" id="exampleInputHD">
-                    </div> -->
-
-                    <!-- <div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label">Mã HĐ:</label>
                         <input type="text" class="form-control" [id]="'exampleInputHD_' + i"
                             [value]="currentInvoiceCodes[i]">
-                    </div> -->
+                    </div>
 
                     <div class="row mb-3">
                         <div class="col">
@@ -163,45 +169,6 @@
                     <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
                 </form>
             </mat-grid-tile>
-
-            <!-- <div class="text-container">
-                <span>Danh sách sản phẩm</span>
-            </div>
-            <mat-grid-tile class="grid-3">
-
-                <div class="card">
-                    <p-table [value]="ctsps" [tableStyle]="{ 'min-width': '30rem' }">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th style="width: 5%;">Mã SP</th>
-                                <th style="width: 15%;">Tên SP </th>
-                                <th style="width: 5%;">Kích cỡ </th>
-                                <th style="width: 5%;">Màu sắc</th>
-                                <th style="width: 10%;">Giá bán</th>
-                                <th style="width: 5%;">Số lượng</th>
-
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-ctsp let-rowIndex="rowIndex">
-                            <tr>
-                            
-                                <td>{{ ctsp.ma }}</td>
-                                <td>{{ ctsp.sanPham?.ten }}</td>
-                                <td>{{ ctsp.kichCo?.size }}</td>
-                                <td>{{ ctsp.mauSac?.ten }}</td>
-                                <td>{{ ctsp.giaBan }}</td>
-                                <td>{{ ctsp.soLuong }}</td>
-
-                            </tr>
-                        </ng-template>
-                    </p-table>
-            
-                </div>
-
-            </mat-grid-tile> -->
-
-            <!-- ô số 2 -->
-
 
         </mat-grid-list>
 
