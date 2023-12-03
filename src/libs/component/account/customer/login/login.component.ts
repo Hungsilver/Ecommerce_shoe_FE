@@ -25,7 +25,7 @@ export class LoginComponent {
     if (this.formLogin.valid) {
       this.authCustomService.loginCustomer(this.formLogin.value).then(res => {
         if (res) {
-
+          console.log(res)
         }
       })
     }
