@@ -13,8 +13,8 @@ import { Page404Component } from './page404/page404.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageModule } from './page/page.module';
-import { NgToastModule } from 'ng-angular-popup';
 import { AccountModule } from 'src/libs/component/account/account.module';
+import { ToastrModule } from 'ngx-toastr';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -43,7 +43,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
     BrowserAnimationsModule,
-    NgToastModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

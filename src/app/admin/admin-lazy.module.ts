@@ -12,7 +12,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PaginatorModule } from 'primeng/paginator';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { ColorComponent } from './color/pages/color-home/color.component';
 import { ProductDetailComponent } from './product-detail/page/product-detail/product-detail.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -69,7 +68,6 @@ import { MatDividerModule } from '@angular/material/divider';
     MatButtonModule,
     MatSlideToggleModule,
     MatSelectModule,
-    ToastModule,
     MatGridListModule,
     MatTableModule,
     MatTabsModule,
