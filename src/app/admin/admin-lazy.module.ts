@@ -43,6 +43,13 @@ import { AddressDialogComponent } from './address/components/address-dialog/addr
 import { StaffHomeComponent } from './staff/pages/staff-home/staff-home.component';
 import { StaffDialogComponent } from './staff/components/staff-dialog/staff-dialog.component';
 import { NewProductDetailComponent } from './product-detail/page/new-product-detail/new-product-detail.component';
+import { TestNewComponent } from './test-new/test-new.component';
+import { NComponent } from './test-new/n/n.component';
+import { SalesComponent } from './sales/sales.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   imports: [
@@ -63,6 +70,11 @@ import { NewProductDetailComponent } from './product-detail/page/new-product-det
     MatSlideToggleModule,
     MatSelectModule,
     ToastModule,
+    MatGridListModule,
+    MatTableModule,
+    MatTabsModule,
+    MatDividerModule,
+
   ],
   exports: [],
   declarations: [
@@ -94,6 +106,9 @@ import { NewProductDetailComponent } from './product-detail/page/new-product-det
     AddressDialogComponent,
     StaffHomeComponent,
     StaffDialogComponent,
+    TestNewComponent,
+    NComponent,
+    SalesComponent,
   ],
   providers: [],
 })
