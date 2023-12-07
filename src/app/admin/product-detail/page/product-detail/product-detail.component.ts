@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../product/service/product.service';
+import { ProductDetailService } from '../../services/product.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ProductHomeComponent } from '../product/pages/product-home/product-home.component';
-import { Router } from '@angular/router';
+import { Router,RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -10,14 +9,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./product-detail.component.scss'],
 })
 export class ProductDetailComponent implements OnInit {
-  product!: any;
+  products!: any;
   searchQuery: any = {};
   listTotalPage: any = [];
 
   // iconSortName = 'pi pi-sort-amount-down-alt';
   iconSortName = 'pi pi-sort-amount-up';
   constructor(
-    private productService: ProductService,
+    private productDetailService: ProductDetailService,
     private dialog: MatDialog,
     private router: Router
   ) {
@@ -45,7 +44,13 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  getAll(action?: 'prev' | 'next'): void {
+  // activeTab: string = 'active'; // Mặc định là tab Hoạt Động
+
+  // changeTab(tab: string): void {
+  //   this.activeTab = tab;
+  // }
+
+  getAll(action?: 'prev' | 'next' | 'active'): void {
     if (action) {
       if (action === 'prev' && Number(this.searchQuery.page) > 1) {
         this.searchQuery.page = this.searchQuery.page - 1;
@@ -56,21 +61,26 @@ export class ProductDetailComponent implements OnInit {
       ) {
         this.searchQuery.page = this.searchQuery.page + 1;
       }
+      // Thêm trạng thái hoạt động là 1
+      if (action === 'active') {
+        this.searchQuery.page = 1;
+      }
       Object.keys(this.searchQuery).forEach((key) => {
         if (this.searchQuery[key] === null || this.searchQuery[key] === '') {
           delete this.searchQuery[key];
         }
       });
     }
-    this.productService.getProducts(this.searchQuery).then((product) => {
+    this.productDetailService.getProducts(this.searchQuery).then((product) =>{
       if (product && product.content) {
-        this.product = product.content;
+        this.products = product.content;
         this.listTotalPage = this.getTotalPage(product.totalPages);
         console.log(product);
       }
     });
     console.log(this.searchQuery);
   }
+  
   getTotalPage(totalPages: number) {
     let listTotalPage = [];
 
@@ -83,7 +93,8 @@ export class ProductDetailComponent implements OnInit {
     this.searchQuery['keyword'] = this.searchQuery.keyword;
     this.getAll();
   }
+  
   navigateToNewProduct() {
-    this.router.navigate(['/admin/product/new']);
+    this.router.navigate(['/admin/chi-tiet-san-pham/moi']);
   }
 }

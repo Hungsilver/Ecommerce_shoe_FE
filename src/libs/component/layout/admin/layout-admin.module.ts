@@ -10,7 +10,6 @@ import { MenuModule } from 'primeng/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   imports: [
@@ -20,7 +19,6 @@ import { ToastModule } from 'primeng/toast';
     MatMenuModule,
     MatButtonModule,
     MenuModule,
-    ToastModule,
   ],
   exports: [LayoutAdminComponent],
   declarations: [
@@ -31,4 +29,4 @@ import { ToastModule } from 'primeng/toast';
   ],
   providers: [],
 })
-export class LayoutAdminModule {}
+export class LayoutAdminModule { }

@@ -1,4 +1,9 @@
 export interface IBodyLogin {
-  username: string,
+  email: string,
+  password: string
+}
+export interface IBodyRegister {
+  fullName: string,
+  email: string,
   password: string
 }
