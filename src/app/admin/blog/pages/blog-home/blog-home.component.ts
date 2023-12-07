@@ -91,8 +91,9 @@ export class BlogHomeComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(BlogDialogComponent, {
-      width: '400px',
-      height: '500px',
+      width: '1500px',
+      height: '600px',
+
       data: {
         type: "add",
         blog: {}
@@ -104,8 +105,8 @@ export class BlogHomeComponent implements OnInit {
   }
   openDialogEdit(blog: any) {
     const dialogRef = this.dialog.open(BlogDialogComponent, {
-      width: '400px',
-      height: '500px',
+      width: '1500px',
+      height: '600px',
       data: {
         type: 'update',
         blog: blog,

@@ -1,46 +1,153 @@
 <div class="d-flex justify-content-between">
-    <h2 mat-dialog-title>
-        Giới thiệu
-    </h2>
-    <div mat-dialog-title mat-dialog-actions>
-        <button mat-button mat-dialog-close>Close</button>
-    </div>
+  <h2 mat-dialog-title>Giới thiệu</h2>
+  <div mat-dialog-title mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+  </div>
 </div>
-<ng-container *ngIf="type && type==='add'|| type==='update'">
-    <mat-dialog-content class="mat-typography">
-        <div class="container-fluid">
+<ng-container *ngIf="(type && type === 'add') || type === 'update'">
+  <mat-dialog-content class="mat-typography">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <div class="col-6">
             <mat-form-field class="example-form-field">
-                <mat-label>Tên</mat-label>
-                <input matInput type="text" [(ngModel)]="blog.tenGioiThieu">
-                <button *ngIf="blog?.tenGioiThieu" matSuffix mat-icon-button aria-label="Clear"
-                    (click)="blog.tenGioiThieu=''">
-                    <mat-icon>close</mat-icon>
-                </button>
+              <mat-label>Tên</mat-label>
+              <input matInput type="text" [(ngModel)]="blog.tenGioiThieu" />
+              <button
+                *ngIf="blog?.tenGioiThieu"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="blog.tenGioiThieu = ''"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
             </mat-form-field>
-            <mat-form-field>
-                <mat-label>Chọn trạng thái</mat-label>
-                <mat-select [(ngModel)]="blog.trangThai">
-                    <mat-option [value]="1">Hoạt động</mat-option>
-                    <mat-option [value]="0">Ngưng Hoạt động</mat-option>
-                </mat-select>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Nội dung</mat-label>
+              <textarea matInput [(ngModel)]="blog.noiDung" rows="6"></textarea>
+              <button
+                *ngIf="blog?.noiDung"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="blog.noiDung = ''"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
             </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Mô Tả</mat-label>
+              <textarea matInput [(ngModel)]="blog.moTa" rows="2"></textarea>
+              <button
+                *ngIf="blog?.moTa"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="blog.moTa = ''"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
         </div>
-    </mat-dialog-content>
-    <mat-dialog-actions>
-        <ng-container *ngIf="type&&type=== 'add'">
-            <button mat-button (click)="addBlog()">Xác nhận add</button>
-        </ng-container>
-        <ng-container *ngIf="type=== 'update'">
-            <button mat-button (click)="updateBlog()">Xác nhận update</button>
-        </ng-container>
-    </mat-dialog-actions>
+        <div class="col">
+          <div class="row">
+            <div class="row col-3 image-preview-container">
+              <label for="file-upload">Logo</label>
+              <input
+                type="file"
+                [(ngModel)]="blog.logo"
+                id="file-upload"
+                (change)="onFileChange($event)"
+                multiple
+              />
+              <div class=" col-3 preview" id="test">
+                <img [src]="logoUrl" id="preview-selected-image" class="image-preview"/>
+              </div>
+            </div>
+            <div class="row col-3 image-preview-container">
+              <label for="file-upload">Banner</label>
+              <input
+                type="file"
+                [(ngModel)]="blog.banner"
+                id="file-upload"
+                (change)="onFileChange($event)"
+                multiple
+              />
+              <div class="col-3 preview" id="test">
+                <img [src]="bannerUrl" id="preview-selected-image" class="image-preview" />
+              </div>
+            </div>
+          </div>
+            <br>
+            <br>
+          <!-- <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Ngày Tạo</mat-label>
+              <input matInput type="date" [(ngModel)]="blog.ngayTao" />
+              <button
+                *ngIf="blog?.ngayTao"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="blog.ngayTao = ''"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Ngày Xóa</mat-label>
+              <input matInput type="date" [(ngModel)]="blog.ngayXoa" />
+              <button
+                *ngIf="blog?.ngayXoa"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="blog.ngayXoa = ''"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div> -->
+
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Chọn trạng thái</mat-label>
+              <mat-select [(ngModel)]="blog.trangThai">
+                <mat-option [value]="1">Hoạt động</mat-option>
+                <mat-option [value]="0">Ngưng Hoạt động</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <ng-container *ngIf="type && type === 'add'">
+      <button mat-button (click)="addBlog()">Xác nhận add</button>
+    </ng-container>
+    <ng-container *ngIf="type === 'update'">
+      <button mat-button (click)="updateBlog()">Xác nhận update</button>
+    </ng-container>
+  </mat-dialog-actions>
 </ng-container>
-<ng-container *ngIf="type==='delete'">
-    <mat-dialog-content>
-        <h1>Bạn xác nhận xóa !</h1>
-    </mat-dialog-content>
-    <mat-dialog-actions>
-        <button mat-button (click)="deleteBlog()">Xác nhận</button>
-        <button mat-button mat-dialog-close>Hủy</button>
-    </mat-dialog-actions>
+<ng-container *ngIf="type === 'delete'">
+  <mat-dialog-content>
+    <h1>Bạn xác nhận xóa !</h1>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="deleteBlog()">Xác nhận</button>
+    <button mat-button mat-dialog-close>Hủy</button>
+  </mat-dialog-actions>
 </ng-container>
+
+<!-- <input type="file" (change)="onFileChange($event)"  multiple> -->
+<!-- <button (click)="deleteImage('truyền đường dẫn ảnh vào đây')">Delete</button> -->
