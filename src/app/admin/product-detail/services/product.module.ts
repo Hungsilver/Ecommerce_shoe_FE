@@ -1,4 +1,4 @@
-export interface IProduct {
+export interface IProductDetail {
   id: number;
   ma?:string;
   soLuong?: number;

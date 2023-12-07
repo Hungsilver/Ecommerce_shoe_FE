@@ -44,7 +44,13 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  getAll(action?: 'prev' | 'next'): void {
+  // activeTab: string = 'active'; // Mặc định là tab Hoạt Động
+
+  // changeTab(tab: string): void {
+  //   this.activeTab = tab;
+  // }
+
+  getAll(action?: 'prev' | 'next' | 'active'): void {
     if (action) {
       if (action === 'prev' && Number(this.searchQuery.page) > 1) {
         this.searchQuery.page = this.searchQuery.page - 1;
@@ -55,13 +61,17 @@ export class ProductDetailComponent implements OnInit {
       ) {
         this.searchQuery.page = this.searchQuery.page + 1;
       }
+      // Thêm trạng thái hoạt động là 1
+      if (action === 'active') {
+        this.searchQuery.page = 1;
+      }
       Object.keys(this.searchQuery).forEach((key) => {
         if (this.searchQuery[key] === null || this.searchQuery[key] === '') {
           delete this.searchQuery[key];
         }
       });
     }
-    this.productDetailService.getProducts(this.searchQuery).then((product) => {
+    this.productDetailService.getProducts(this.searchQuery).then((product) =>{
       if (product && product.content) {
         this.products = product.content;
         this.listTotalPage = this.getTotalPage(product.totalPages);
@@ -70,6 +80,7 @@ export class ProductDetailComponent implements OnInit {
     });
     console.log(this.searchQuery);
   }
+  
   getTotalPage(totalPages: number) {
     let listTotalPage = [];
 

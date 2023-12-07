@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseRequestService } from 'src/libs/service/request/base-request.service';
-import { IProduct } from './product.module';
+import { IProductDetail } from './product.module';
 import { IReqApi } from 'src/libs/common/interface/interfaces';
 
 @Injectable({
@@ -10,8 +10,13 @@ export class ProductDetailService {
   url: string = 'product-detail';
 
   constructor(private baseRequestService: BaseRequestService) {}
-  getProducts(params?: any): Promise<IReqApi<IProduct[]>> {
-    return new Promise<IReqApi<IProduct[]>>((resolve, reject) => {
+  getProducts(params?: any, activeStatus: number = 0): Promise<IReqApi<IProductDetail[]>> {
+    // Thêm trạng thái hoạt động vào params nếu activeStatus là 1
+    if (activeStatus === 1) {
+      params = { ...params, active: 1 };
+    }
+  
+    return new Promise<IReqApi<IProductDetail[]>>((resolve, reject) => {
       this.baseRequestService.get(`${this.url}`, params).subscribe(
         (result) => {
           return resolve(result);
@@ -20,8 +25,9 @@ export class ProductDetailService {
       );
     });
   }
-  createProduct(body: any): Promise<IReqApi<IProduct>> {
-    return new Promise<IReqApi<IProduct>>((resolve, reject) => {
+  
+  createProduct(body: any): Promise<IReqApi<IProductDetail>> {
+    return new Promise<IReqApi<IProductDetail>>((resolve, reject) => {
       this.baseRequestService.post(`${this.url}`, body).subscribe(
         (result) => {
           return resolve(result);
@@ -30,8 +36,8 @@ export class ProductDetailService {
       );
     });
   }
-  updateProduct(body: any, id?: any): Promise<IReqApi<IProduct[]>> {
-    return new Promise<IReqApi<IProduct[]>>((resolve, reject) => {
+  updateProduct(body: any, id?: any): Promise<IReqApi<IProductDetail[]>> {
+    return new Promise<IReqApi<IProductDetail[]>>((resolve, reject) => {
       this.baseRequestService.put(`${this.url}/${id}`, body).subscribe(
         (result) => {
           return resolve(result);
@@ -40,8 +46,8 @@ export class ProductDetailService {
       );
     });
   }
-  deleteProduct(id: any): Promise<IReqApi<IProduct[]>> {
-    return new Promise<IReqApi<IProduct[]>>((resolve, reject) => {
+  deleteProduct(id: any): Promise<IReqApi<IProductDetail[]>> {
+    return new Promise<IReqApi<IProductDetail[]>>((resolve, reject) => {
       this.baseRequestService.delete(`${this.url}/${id}`).subscribe(
         (result) => {},
         (err) => reject(err)

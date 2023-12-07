@@ -1,47 +1,52 @@
 <div class="container">
     <h2>Danh Sách Chi Tiết Sản Phẩm</h2>
-    <form (submit)="onSubmit()">
+    <form>
       <div class="form-group">
         <label for="ngayTao">Sản Phẩm:</label>
-        <input type="text" class="form-control" id="sanPham" [(ngModel)]="newProduct.sanPham" name="sanPham" required>
+        <select type="text" class="form-control" id="sanPham" [(ngModel)]="newProduct.sanPham" name="sanPham" required>
+          <option *ngFor="let sp of SanPhams"  [value]="sp.id">{{ sp.ten }}</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="soLuong">Số Lượng:</label>
-        <input type="number" class="form-control" id="soLuong" [(ngModel)]="newProduct.soLuong" name="soLuong" required>
+        <input type="number" class="form-control" id="soLuong" [(ngModel)]="newProduct.soLuong" name="soLuong"  required>
       </div>
       <div class="form-group">
         <label for="giaBan">Giá:</label>
-        <input type="number" class="form-control" id="giaBan" [(ngModel)]="newProduct.giaBan" name="giaBan" required>
+        <input type="number" class="form-control" id="giaBan" [(ngModel)]="newProduct.giaBan" name="giaBan"   required>
       </div>
       <div class="form-group">
         <label for="mauSac">Màu Sắc:</label>
         <select class="form-control" id="mauSac" [(ngModel)]="newProduct.mauSac" name="mauSac" required>
-          <option  *ngFor="let ms of mauSacs">{{ ms.ten }}</option>
+          <option  *ngFor="let ms of mauSacs"  [value]="ms.id">{{ ms.ten }}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="kichCo">Kích Cỡ:</label>
         <select class="form-control" id="kichCo" [(ngModel)]="newProduct.kichCo" name="kichCo" required>       
-          <option  [value]="kc.id" *ngFor="let kc of kichCos" >{{ kc.size }}</option>
+          <option  [value]="kc.id" *ngFor="let kc of kichCos" [value]="kc.id" >{{ kc.size }}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="chatLieuGiay">Chất Liệu Giày:</label>
         <select class="form-control" id="chatLieuGiay" [(ngModel)]="newProduct.chatLieuGiay" name="name" required>
-          <option *ngFor="let clg of chatLieuGiays" >{{ clg.ten }}</option>
+          <option *ngFor="let clg of chatLieuGiays"[value]="clg.id" >{{ clg.ten }}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="chatLieuDeGiay">Chất Liệu Đế Giày:</label>
         <select class="form-control" id="chatLieuDeGiay" [(ngModel)]="newProduct.chatLieuDeGiay" name="chatLieuDeGiay" required>
-          <option *ngFor="let cldg of chatLieuDeGiays" >{{ cldg.ten }}</option>
+          <option *ngFor="let cldg of chatLieuDeGiays" [value]="cldg.id" >{{ cldg.ten }}</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="ngayTao">Trạng Thái:</label>
-        <input type="text" class="form-control" id="trangThai" [(ngModel)]="newProduct.trangThai" name="trangThai" required>
+        <label for="trangThai">Trạng Thái:</label>
+        <select type="text" class="form-control" id="trangThai" [(ngModel)]="newProduct.trangThai" name="trangThai" required>
+        <option [value]="1">Hoạt động</option>
+        <option [value]="0">Không Hoạt động</option>
+        </select>
       </div>
-      <button type="submit" class="btn btn-primary">Lưu</button>
+      <button type="submit" class="btn btn-primary" (click)="saveProductDetail()">Lưu</button>
     </form>
   </div>
   
