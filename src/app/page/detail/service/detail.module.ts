@@ -2,5 +2,6 @@ export interface IProductDetail {
     id: number,
     mauSac: any,
     moTa: string,
-    kichCo: any
+    kichCo: any,
+    soLuong: number
 }

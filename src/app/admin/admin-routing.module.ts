@@ -1,10 +1,9 @@
 import { RouterModule, Routes } from '@angular/router';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductDetailComponent } from './product-detail/page/product-detail/product-detail.component';
 import { ColorComponent } from './color/pages/color-home/color.component';
 import { OriginComponent } from './origin/origin.component';
 import { OrderComponent } from '../page/order/order.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ProductHomeComponent } from './product/pages/product-home/product-home.component';
 import { NgModule } from '@angular/core';
 import { MaterialComponent } from './material/pages/material-home/material.component';
 import { MaterialSolesComponent } from './material-soles/pages/material-soles-home/material-soles.component';
@@ -17,10 +16,10 @@ import { CustomerHomeComponent } from './customer/pages/customer-home/customer-h
 import { BlogHomeComponent } from './blog/pages/blog-home/blog-home.component';
 import { AddressHomeComponent } from './address/pages/address-home/address-home.component';
 import { StaffHomeComponent } from './staff/pages/staff-home/staff-home.component';
+import { NewProductDetailComponent } from './product-detail/page/new-product-detail/new-product-detail.component';
 import { TestNewComponent } from './test-new/test-new.component';
 import { NComponent } from './test-new/n/n.component';
 import { SalesComponent } from './sales/sales.component';
-import { blogsnewComponent } from './blogs-new/blogs-new.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -29,8 +28,8 @@ const routes: Routes = [
   { path: 'xuat-xu', component: OriginComponent },
   { path: 'Order', component: OrderComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'product/new', component: ProductHomeComponent },
-  { path: 'product-detail', component: ProductDetailComponent },
+  { path: 'chi-tiet-san-pham/moi', component: NewProductDetailComponent },
+  { path: 'chi-tiet-san-pham', component: ProductDetailComponent },
   { path: 'chat-lieu-giay', component: MaterialComponent },
   { path: 'chat-lieu-de-giay', component: MaterialSolesComponent },
   { path: 'kich-co', component: SizeComponent },
@@ -40,7 +39,6 @@ const routes: Routes = [
   { path: 'san-pham', component: HomeProductComponent },
   { path: 'khach-hang', component: CustomerHomeComponent },
   { path: 'gioi-thieu', component: BlogHomeComponent },
-  {path:'gioi-thieu/new',component:blogsnewComponent},
   { path: 'dia-chi', component: AddressHomeComponent },
   { path: 'nhan-vien', component: StaffHomeComponent },
   { path: 'test-p', component: TestNewComponent },

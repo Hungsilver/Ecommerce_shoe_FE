@@ -1,0 +1,138 @@
+<span class="p-input-icon-left">
+  <i class="pi pi-search"></i>
+  <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+  <p-dropdown
+    [options]="listTotalPage"
+    [(ngModel)]="searchQuery.page"
+    optionLabel="name"
+  ></p-dropdown>
+</span>
+<div class="button-container">
+  <button (click)="navigateToNewProduct()">Thêm Sản Phẩm</button>
+</div>
+<br>
+
+<!-- <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="changeTab('active')" [class.active]="activeTab === 'active'" href="#">Hoạt Động</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="changeTab('inactive')" [class.active]="activeTab === 'inactive'" href="#">Không Hoạt Động</a>
+  </li>
+</ul> -->
+
+<!-- <div *ngIf="activeTab === 'active'"> -->
+  
+<div class="card">
+  <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="">STT</th>
+        <th  style="">Mã </th>
+        <th style="">Sản Phẩm</th>
+        <th style="">Giá</th>
+        <th style="">Màu Sắc</th>
+        <th style="">Kích Cỡ</th>
+        <!-- <th style="width: 50%">Ngày Tạo</th>
+        <th style="width: 50%">Ngày Cập Nhật</th>  -->
+        <th style="">Chất Liệu Giày</th>
+        <th style="">Chất Liệu Đế Giày</th>
+        <th style="">Số Lượng</th>
+        <th style="">Trạng Thái</th>
+ 
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          {{
+            products.indexOf(product) +
+              1 +
+              searchQuery.pageSize * (searchQuery.page - 1)
+          }}
+        </td>
+        <td>{{ product.ma }}</td>
+        <td>{{ product.sanPham?.ten }}</td>
+        <td>{{ product.giaBan }}</td>
+        <td>{{ product.mauSac?.ten }}</td>
+        <td>{{ product.kichCo?.size }}</td>
+        <!-- <td>{{ product.ngayTao }}</td>
+        <td>{{ product.ngayCapNhat }}</td>     -->
+        <td>{{ product.chatLieuGiay?.ten }}</td>
+        <td>{{ product.chatLieuDeGiay?.ten }}</td>
+        <td>{{ product.soLuong }}</td>
+        <td>{{ product.trangThai === 1 ? 'Hoạt động' : 'Không hoạt động' }}</td>
+       
+
+      </tr>
+    </ng-template>
+  </p-table>
+  <div>
+    <div class="d-flex justify-content-end gap-1">
+      <div class="button-pagination" (click)="getAll('prev')">
+        <i class="pi pi-angle-left"></i>
+      </div>
+      <div class="button-pagination" (click)="getAll('next')">
+        <i class="pi pi-angle-right"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- </div> -->
+
+<!-- <div *ngIf="activeTab === 'inactive'"> -->
+<!--   
+<div class="card">
+  <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="">STT</th>
+        <th  style="">Mã </th>
+        <th style="">Sản Phẩm</th>
+        <th style="">Giá</th>
+        <th style="">Màu Sắc</th>
+        <th style="">Kích Cỡ</th>
+        <th style="">Chất Liệu Giày</th>
+        <th style="">Chất Liệu Đế Giày</th>
+        <th style="">Số Lượng</th>
+        <th style="">Trạng Thái</th>
+ 
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          {{
+            products.indexOf(product) +
+              1 +
+              searchQuery.pageSize * (searchQuery.page - 1)
+          }}
+        </td>
+        <td>{{ product.ma }}</td>
+        <td>{{ product.sanPham?.ten }}</td>
+        <td>{{ product.giaBan }}</td>
+        <td>{{ product.mauSac?.ten }}</td>
+        <td>{{ product.kichCo?.size }}</td>
+        <td>{{ product.chatLieuGiay?.ten }}</td>
+        <td>{{ product.chatLieuDeGiay?.ten }}</td>
+        <td>{{ product.soLuong }}</td>
+        <td>{{ product.trangThai === 0 ? 'Khongo Hoạt động' : ' Hoạt động' }}</td>
+       
+
+      </tr>
+    </ng-template>
+  </p-table>
+  <div>
+    <div class="d-flex justify-content-end gap-1">
+      <div class="button-pagination" (click)="getAll('prev')">
+        <i class="pi pi-angle-left"></i>
+      </div>
+      <div class="button-pagination" (click)="getAll('next')">
+        <i class="pi pi-angle-right"></i>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- </div> -->
