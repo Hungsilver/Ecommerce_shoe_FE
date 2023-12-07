@@ -1,5 +1,5 @@
 export interface ISize {
     id: number;
-    name: number;
+    size: string;
     status?: number
 }

@@ -16,7 +16,7 @@ const routes: Routes = [
     path: 'admin',
     component: LayoutAdminComponent, //load component layout
     //load router outlet
-    canActivateChild: [authAdminGuard],
+    // canActivateChild: [authAdminGuard],
     loadChildren: () =>
       import('./admin/admin.module').then((m) => m.AdminModule),
   },
