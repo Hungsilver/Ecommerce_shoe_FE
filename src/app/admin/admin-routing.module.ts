@@ -21,7 +21,6 @@ import { TestNewComponent } from './test-new/test-new.component';
 import { NComponent } from './test-new/n/n.component';
 import { SalesComponent } from './sales/sales.component';
 
-
 const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'product', component: ProductDetailComponent },
