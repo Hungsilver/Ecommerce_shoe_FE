@@ -27,17 +27,34 @@ export class HDChiTiet {
         });
     }
 
-    updateSoLuong(id: number, soLuong: number): Promise<IHoaDonChiTiet> {
-        const params = { id: id.toString(), soLuong: soLuong.toString() };
+    updateSoLuong(idHDCT: number, soLuongMoi: number): Promise<IHoaDonChiTiet> {
+        // const url = `${this.url};
 
-        return new Promise<IHoaDonChiTiet>((resolve, reject) => {
-            this.httpClient.get<IHoaDonChiTiet>(`${this.url}/shop/update-invoice-detail`, { params })
-                .subscribe(
-                    updatedChiTiet => resolve(updatedChiTiet),
-                    error => reject(error)
-                );
-        });
+        return this.BaseRequestService.put(`${this.url}/shop/update-invoice-detail/${idHDCT}`, { soLuong: soLuongMoi })
+            .toPromise()
+            .then(updatedChiTiet => {
+                if (updatedChiTiet !== undefined) {
+                    return updatedChiTiet;
+                } else {
+                    throw new Error('Dữ liệu trả về từ API là undefined.');
+                }
+            });
     }
+
+
+
+
+    // updateSoLuong(id: number, soLuong: number): Promise<IHoaDonChiTiet> {
+    //     const params = { id: id.toString(), soLuong: soLuong.toString() };
+
+    //     return new Promise<IHoaDonChiTiet>((resolve, reject) => {
+    //         this.httpClient.put<IHoaDonChiTiet>(`${this.url}/shop/update-invoice-detail`, { params })
+    //             .subscribe(
+    //                 updatedChiTiet => resolve(updatedChiTiet),
+    //                 error => reject(error)
+    //             );
+    //     });
+    // }
 
     addCtsp(body?: any): Promise<IReqApi<IHoaDonChiTiet>> {
         return this.BaseRequestService.post(`${this.url}/shop/add-product`, body)

@@ -66,6 +66,37 @@
         <br>
         <mat-grid-list cols="2" rowHeight="2:1">
 
+            <!-- <mat-grid-tile>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Mã HĐ</th>
+                            <th scope="col">Mã SP</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let chiTiet of hoaDonChiTiet[selectedTab]">
+                            <td>{{ chiTiet.chiTietSanPham?.ma }}</td>
+                            <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
+                            <td>
+                                <input type="number" [(ngModel)]="newSoLuong" (ngModelChange)="onUpdate(chiTiet)"
+                                    style="width: 100px;" />
+                            </td>
+                            <td>{{ chiTiet.donGia }}</td>
+                            <td>
+                                <button mat-icon-button (click)="removeItemFromInvoice(chiTiet.id)">
+                                    <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-grid-tile> -->
+
+
             <mat-grid-tile>
                 <table class="table">
                     <thead>
@@ -84,7 +115,6 @@
                             <td>{{ chiTiet.soLuong }}</td>
                             <td>{{ chiTiet.donGia }}</td>
                             <td>
-                                <!-- Thêm nút để gọi hàm removeItemFromInvoice -->
                                 <button mat-icon-button (click)="removeItemFromInvoice(chiTiet.id)">
                                     <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
                                 </button>
@@ -122,7 +152,8 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label class="form-label">Người bán:</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" [value]="staffName" disabled>
+
                         </div>
 
                         <div class="col">
@@ -135,16 +166,18 @@
                         <div class="col">
                             <label class="form-label">Phương thức thanh toán:</label>
                             <select class="form-select" aria-label="Default select example" style="width: 223px;">
-                                <option value="1">Tiền mặt</option>
-                                <option value="2">Online</option>
+                                <option value="0">Tiền mặt</option>
+                                <option value="1">Online</option>
                             </select>
                         </div>
 
                         <div class="col" id="a">
                             <div class="input-group">
                                 <label class="form-label">Tổng tiền sản phẩm:</label>
-                                <input type="text" class="form-control" id="input-money"
-                                    aria-label="Dollar amount (with dot and two decimal places)">
+                                <input type="text" class="form-control" [value]="totalAmount" id="input-money"
+                                    aria-label="Dollar amount (with dot and two decimal places)" disabled>
+                                <!-- <input type="text" class="form-control" id="input-money"
+                                    aria-label="Dollar amount (with dot and two decimal places)"> -->
                                 <span class="input-group-text">VNĐ</span>
                             </div>
                         </div>
@@ -153,8 +186,7 @@
 
                     <div class="row mb-3">
                         <div class="col">
-                            <label class="form-label">Phương thức mua hàng:</label>
-                            <input type="text" class="form-control">
+                            <button type="button" class="btn btn-primary">Thanh toán</button>
                         </div>
 
                         <div class="col" id="a">

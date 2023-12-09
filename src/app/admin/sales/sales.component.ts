@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -24,7 +25,7 @@ import { HDChiTiet } from './service/hoadonchitiet/hoadonchitiet.service';
 import { IHoaDonChiTiet } from './service/hoadonchitiet/hoadonchitiet.module';
 import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { IStaff } from '../staff/service/staff.module';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -51,7 +52,13 @@ export class SalesComponent implements OnInit {
   currentHoaDonCode: string = ''; // Lưu trữ mã hóa đơn hiện tại
   newlyAddedItems: any[] = [];
   currentCustomerName: string = 'Khách Lẻ';
+  id?: number;
+  newSoLuong: number = 1;
+  staffName: string = '';
+  totalAmount: number = 0;
+  money: number | undefined;
   ngOnInit(): void {
+
   }
   onPageChange() {
   }
@@ -95,6 +102,7 @@ export class SalesComponent implements OnInit {
             } else if (newInvoice.khachHang?.hoTen) {
               this.currentCustomerName = newInvoice.khachHang.hoTen;
             }
+            this.staffName = newInvoice.nhanVien.hoTen;
 
             this.currentInvoiceCodes.push(newInvoiceCode);
             this.currentHoaDonCode = newInvoiceCode; // Gán giá trị mã hóa đơn
@@ -150,12 +158,15 @@ export class SalesComponent implements OnInit {
     this.selectedTab = this.tabs[event.index];
   }
 
+  // Hàm được gọi khi thêm chi tiết sản phẩm vào hóa đơn chi tiết
   addToCart(searchResult: IChiTietSanPham): void {
     const hoaDonId = this.currentHoaDonId;
     const chiTietSanPhamId = searchResult.id;
     const soLuong = 1;
-
     // Kiểm tra xem searchResult và searchResult.soLuong có tồn tại không
+    this.money = searchResult.giaBan;
+
+
     if (searchResult && searchResult.soLuong !== undefined) {
       // Kiểm tra xem số lượng có lớn hơn 0 hay không trước khi giảm
       if (searchResult.soLuong > 0) {
@@ -167,6 +178,9 @@ export class SalesComponent implements OnInit {
         // Kiểm tra kiểu dữ liệu của giaBan
         if (searchResult && typeof searchResult.giaBan === 'number') {
           const donGia = searchResult.giaBan * soLuong;
+
+          // Cập nhật tổng giá trị sau khi thêm chi tiết sản phẩm vào hóa đơn chi tiết
+          this.totalAmount += donGia;
 
           const existingItemIndex = this.hoaDonChiTiet[this.selectedTab]?.findIndex(
             (item) => item.chiTietSanPham?.id === chiTietSanPhamId
@@ -194,7 +208,8 @@ export class SalesComponent implements OnInit {
                   if (existingItem.soLuong !== undefined) {
                     existingItem.soLuong += soLuong;
                     if (searchResult && typeof searchResult.giaBan === 'number') {
-                      existingItem.donGia = searchResult.giaBan * existingItem.soLuong;  // Gán giá trị đơn giá hiển thị
+                      existingItem.donGia = searchResult.giaBan * existingItem.soLuong;
+                      // this.totalAmount += existingItem.donGia;
                     }
                   } else {
                     console.error('existingItem.soLuong không tồn tại.');
@@ -228,8 +243,6 @@ export class SalesComponent implements OnInit {
   //   const hoaDonId = this.currentHoaDonId;
   //   const chiTietSanPhamId = searchResult.id;
   //   const soLuong = 1;
-  //   const donGia = (searchResult && searchResult.giaBan) ? searchResult.giaBan * soLuong : 0;
-  //   console.log("hoaDonId " + hoaDonId + "chiTietSanPhamId " + chiTietSanPhamId);
 
   //   // Kiểm tra xem searchResult và searchResult.soLuong có tồn tại không
   //   if (searchResult && searchResult.soLuong !== undefined) {
@@ -240,42 +253,63 @@ export class SalesComponent implements OnInit {
   //         searchResult.soLuong -= 1; // Giảm số lượng trực tiếp
   //       }
 
-  //       const existingItemIndex = this.hoaDonChiTiet[this.selectedTab]?.findIndex(
-  //         (item) => item.chiTietSanPham?.id === chiTietSanPhamId
-  //       );
+  //       // Kiểm tra kiểu dữ liệu của giaBan
+  //       if (searchResult && typeof searchResult.giaBan === 'number') {
+  //         const donGia = searchResult.giaBan * soLuong;
 
-  //       const request = {
-  //         idHoaDon: hoaDonId,
-  //         idChiTietSanPham: chiTietSanPhamId,
-  //         soLuong: soLuong,
-  //         donGia: donGia,
-  //       };
+  //         const existingItemIndex = this.hoaDonChiTiet[this.selectedTab]?.findIndex(
+  //           (item) => item.chiTietSanPham?.id === chiTietSanPhamId
+  //         );
 
-  //       this.hdctService.addCtsp(request)
-  //         .then((result) => {
-  //           if (!Array.isArray(this.hoaDonChiTiet[this.selectedTab])) {
-  //             this.hoaDonChiTiet[this.selectedTab] = [];
-  //           }
-  //           if (this.isIHoaDonChiTiet(result)) {
-  //             // Thêm vào giỏ hàng
-  //             this.hoaDonChiTiet[this.selectedTab].push(result);
-  //             console.log('Sản phẩm đã được thêm vào hóa đơn chi tiết.', result);
-  //           } else {
-  //             console.error('Kết quả không phải là kiểu IHoaDonChiTiet:', result);
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           // Nếu có lỗi, phục hồi số lượng
-  //           if (searchResult.soLuong !== undefined) {
-  //             searchResult.soLuong -= 1;
-  //           }
-  //           console.error('Lỗi khi thêm sản phẩm vào hóa đơn chi tiết:', error);
-  //         });
+  //         const request = {
+  //           idHoaDon: hoaDonId,
+  //           idChiTietSanPham: chiTietSanPhamId,
+  //           soLuong: soLuong,
+  //           donGia: donGia,
+  //         };
+
+  //         // Nếu sản phẩm chưa có trong hóa đơn chi tiết, thêm mới
+  //         this.hdctService.addCtsp(request)
+  //           .then((result) => {
+  //             // Kiểm tra xem hoaDonChiTiet[selectedTab] có phải là một mảng không, nếu không, khởi tạo nó
+  //             if (!Array.isArray(this.hoaDonChiTiet[this.selectedTab])) {
+  //               this.hoaDonChiTiet[this.selectedTab] = [];
+  //             }
+  //             if (this.isIHoaDonChiTiet(result)) {
+  //               // Thêm vào giỏ hàng
+  //               const existingItem = this.hoaDonChiTiet[this.selectedTab][existingItemIndex];
+  //               if (existingItem) {
+  //                 // Kiểm tra xem existingItem.soLuong có tồn tại không trước khi cộng
+  //                 if (existingItem.soLuong !== undefined) {
+  //                   existingItem.soLuong += soLuong;
+  //                   if (searchResult && typeof searchResult.giaBan === 'number') {
+  //                     existingItem.donGia = searchResult.giaBan * existingItem.soLuong;
+  //                   }
+  //                 } else {
+  //                   console.error('existingItem.soLuong không tồn tại.');
+  //                 }
+  //               } else {
+  //                 // Nếu chưa có, thêm mới vào giỏ hàng
+  //                 this.hoaDonChiTiet[this.selectedTab].push(result);
+  //               }
+  //               console.log('Sản phẩm đã được thêm vào hóa đơn chi tiết.', result);
+  //             } else {
+  //               console.error('Kết quả không phải là kiểu IHoaDonChiTiet:', result);
+  //             }
+  //           })
+  //           .catch((error) => {
+  //             // Nếu có lỗi, phục hồi số lượng
+  //             if (searchResult.soLuong !== undefined) {
+  //               searchResult.soLuong += 1;
+  //             }
+  //             console.error('Lỗi khi thêm sản phẩm vào hóa đơn chi tiết:', error);
+  //           });
+  //       } else {
+  //         console.log('Số lượng không hợp lệ.');
+  //       }
   //     } else {
-  //       console.log('Số lượng không hợp lệ.');
+  //       console.log('Sản phẩm không hợp lệ.');
   //     }
-  //   } else {
-  //     console.log('Sản phẩm không hợp lệ.');
   //   }
   // }
 
@@ -283,25 +317,63 @@ export class SalesComponent implements OnInit {
     return obj && typeof obj === 'object' && 'chiTietSanPham' in obj;
   }
 
-  // removeItemFromInvoice(chiTietId: number | undefined): void {
-  //   if (chiTietId !== undefined) {
-  //     this.hdctService.deleteHdct(chiTietId).then(
-  //       () => {
-  //         // Xóa thành công, cập nhật lại danh sách
-  //         this.hoaDonChiTiet[this.selectedTab] = this.hoaDonChiTiet[this.selectedTab].filter(
-  //           (chiTiet) => chiTiet.id !== chiTietId
-  //         );
-  //         // Thực hiện các bước cập nhật UI khác nếu cần
-  //       },
-  //       (error) => {
-  //         console.error('Lỗi khi xóa hóa đơn chi tiết:', error);
-  //       }
-  //     );
-  //   } else {
-  //     console.error('ID của chi tiết không được phép là undefined.');
-  //   }
-  // }
 
+  removeItemFromInvoice(chiTietId: number | undefined): void {
+    if (chiTietId !== undefined) {
+      // Trước khi xóa, lấy thông tin chi tiết để biết số lượng và đơn giá
+      const chiTietToRemove = this.hoaDonChiTiet[this.selectedTab].find(
+        (chiTiet) => chiTiet.id === chiTietId
+      );
+
+      if (chiTietToRemove) {
+        const soLuongToRemove = chiTietToRemove.soLuong || 0;
+        const donGiaToRemove = chiTietToRemove.donGia || 0;
+
+        // Gọi hàm xóa hóa đơn chi tiết từ service
+        this.hdctService.deleteHdct(chiTietId).then(
+          () => {
+            // Xóa thành công, cập nhật lại danh sách
+            this.hoaDonChiTiet[this.selectedTab] = this.hoaDonChiTiet[this.selectedTab].filter(
+              (chiTiet) => chiTiet.id !== chiTietId
+            );
+
+            // Trừ tổng tiền sản phẩm theo số lượng và đơn giá của chi tiết đã bị xóa
+            this.totalAmount -= donGiaToRemove;
+
+            console.log("don gia " + this.totalAmount);
+            // Kiểm tra và cập nhật số lượng sản phẩm
+            const chiTietSanPham = chiTietToRemove.chiTietSanPham;
+            if (chiTietSanPham) {
+              // Tìm chi tiết sản phẩm tương ứng trong mảng searchResults
+              const chiTietSanPhamIndex = this.searchResults[this.selectedTab].findIndex(
+                (item) => item.id === chiTietSanPham.id
+              );
+
+              // Cộng lại số lượng vào chi tiết sản phẩm
+              if (chiTietSanPhamIndex !== -1 && this.searchResults[this.selectedTab][chiTietSanPhamIndex] !== undefined) {
+                const chiTietSanPhamItem = this.searchResults[this.selectedTab][chiTietSanPhamIndex];
+                if (chiTietSanPhamItem.soLuong !== undefined) {
+                  chiTietSanPhamItem.soLuong += soLuongToRemove;
+
+                  // Gọi hàm cập nhật số lượng trong bảng chi tiết sản phẩm trên view
+                  this.updateSoLuongInTable(chiTietSanPham.id, chiTietSanPhamItem.soLuong);
+                } else {
+                  console.error('Số lượng của chi tiết sản phẩm không xác định.');
+                }
+              }
+            }
+          },
+          (error) => {
+            console.error('Lỗi khi xóa hóa đơn chi tiết:', error);
+          }
+        );
+      } else {
+        console.error('Không tìm thấy chi tiết hóa đơn để xóa.');
+      }
+    } else {
+      console.error('ID của chi tiết không được phép là undefined.');
+    }
+  }
 
   // removeItemFromInvoice(chiTietId: number | undefined): void {
   //   if (chiTietId !== undefined) {
@@ -320,10 +392,22 @@ export class SalesComponent implements OnInit {
   //         if (chiTietToRemove) {
   //           const chiTietSanPham = chiTietToRemove.chiTietSanPham;
   //           if (chiTietSanPham) {
+  //             // Tìm chi tiết sản phẩm tương ứng trong mảng searchResults
+  //             const chiTietSanPhamIndex = this.searchResults[this.selectedTab].findIndex(
+  //               (item) => item.id === chiTietSanPham.id
+  //             );
   //             // Cộng lại số lượng vào chi tiết sản phẩm
-  //             chiTietSanPham.soLuong += chiTietToRemove.soLuong;
-  //             // Gọi hàm cập nhật số lượng trong bảng chi tiết sản phẩm trên view
-  //             this.updateSoLuongInTable(chiTietSanPham.id, chiTietSanPham.soLuong);
+  //             if (chiTietSanPhamIndex !== -1 && this.searchResults[this.selectedTab][chiTietSanPhamIndex] !== undefined) {
+  //               const chiTietSanPhamItem = this.searchResults[this.selectedTab][chiTietSanPhamIndex];
+  //               if (chiTietSanPhamItem.soLuong !== undefined && chiTietToRemove.soLuong !== undefined) {
+  //                 chiTietSanPhamItem.soLuong += chiTietToRemove.soLuong;
+  //                 // Gọi hàm cập nhật số lượng trong bảng chi tiết sản phẩm trên view
+  //                 this.updateSoLuongInTable(chiTietSanPham.id, chiTietSanPhamItem.soLuong);
+  //               } else {
+  //                 console.error('Số lượng của chi tiết sản phẩm hoặc chi tiết để xóa không xác định.');
+  //               }
+
+  //             }
   //           }
   //         }
   //       },
@@ -336,60 +420,34 @@ export class SalesComponent implements OnInit {
   //   }
   // }
 
-  // Trong component.ts
+  // Hàm được gọi khi giá trị trong ô input thay đổi
+  onUpdate(chiTiet: IHoaDonChiTiet): void {
+    // Kiểm tra xem chiTiet có giá trị không
+    if (chiTiet && chiTiet.id !== undefined && chiTiet.soLuong !== undefined) {
+      const oldSoLuong = chiTiet.soLuong; // Lưu trữ giá trị số lượng cũ
 
-  removeItemFromInvoice(chiTietId: number | undefined): void {
-    if (chiTietId !== undefined) {
-      // Trước khi xóa, lấy thông tin chi tiết để biết số lượng
-      const chiTietToRemove = this.hoaDonChiTiet[this.selectedTab].find(
-        (chiTiet) => chiTiet.id === chiTietId
-      );
-      // Gọi hàm xóa hóa đơn chi tiết từ service
-      this.hdctService.deleteHdct(chiTietId).then(
-        () => {
-          // Xóa thành công, cập nhật lại danh sách
-          this.hoaDonChiTiet[this.selectedTab] = this.hoaDonChiTiet[this.selectedTab].filter(
-            (chiTiet) => chiTiet.id !== chiTietId
-          );
-          // Kiểm tra và cập nhật số lượng sản phẩm
-          if (chiTietToRemove) {
-            const chiTietSanPham = chiTietToRemove.chiTietSanPham;
-            if (chiTietSanPham) {
-              // Cộng lại số lượng vào chi tiết sản phẩm
-              chiTietSanPham.soLuong += chiTietToRemove.soLuong;
-              // Gọi hàm cập nhật số lượng trong bảng chi tiết sản phẩm trên view
-              this.updateSoLuongInTable(chiTietSanPham.id, chiTietSanPham.soLuong);
-            }
+      this.hdctService.updateSoLuong(chiTiet.id, this.newSoLuong)
+        .then(updatedChiTiet => {
+          console.log('Updated Chi Tiet:', updatedChiTiet);
+
+          // Lấy chi tiết sản phẩm từ hóa đơn chi tiết
+          const chiTietSanPham = chiTiet.chiTietSanPham;
+
+          // Kiểm tra xem chiTietSanPham có giá trị không
+          if (chiTietSanPham) {
+            // Cập nhật số lượng trong chi tiết sản phẩm
+            chiTietSanPham.soLuong -= (this.newSoLuong - oldSoLuong);
+
+            // Gọi hàm cập nhật số lượng trong chi tiết sản phẩm trên view
+            this.updateSoLuongInTable(chiTietSanPham.id, chiTietSanPham.soLuong);
           }
-        },
-        (error) => {
-          console.error('Lỗi khi xóa hóa đơn chi tiết:', error);
-        }
-      );
-    } else {
-      console.error('ID của chi tiết không được phép là undefined.');
-    }
-  }
-
-  // Hàm cập nhật số lượng
-  updateSoLuong(chiTiet: IHoaDonChiTiet, soLuong: number): void {
-    // Giả sử chiTiet là một đối tượng có thuộc tính id và soLuong
-    if (chiTiet && chiTiet.id !== undefined) {
-      // Kiểm tra xem chiTiet.id có tồn tại và không phải là undefined
-      this.hdctService.updateSoLuong(chiTiet.id, soLuong)
-        .then((updatedChiTiet) => {
-          // Xử lý kết quả sau khi cập nhật thành công
-          console.log('Số lượng đã được cập nhật:', updatedChiTiet);
-          // Cập nhật số lượng trên view hoặc thực hiện các bước cần thiết khác
         })
-        .catch((error) => {
-          // Xử lý lỗi khi cập nhật không thành công
-          console.error('Lỗi khi cập nhật số lượng:', error);
+        .catch(error => {
+          console.error('Lỗi khi cập nhật:', error);
         });
     } else {
-      console.error('ID của chi tiết không hợp lệ hoặc không tồn tại.');
+      console.error('ID hoặc số lượng của chi tiết không được phép là undefined.');
     }
-
   }
 
   updateSoLuongInTable(chiTietSanPhamId: number, soLuong: number): void {
@@ -399,7 +457,14 @@ export class SalesComponent implements OnInit {
     );
 
     if (chiTietIndex !== -1) {
-      this.hoaDonChiTiet[this.selectedTab][chiTietIndex].chiTietSanPham.soLuong = soLuong;
+      // Sử dụng cú pháp spread để tạo một bản sao của đối tượng và cập nhật số lượng
+      this.hoaDonChiTiet[this.selectedTab][chiTietIndex] = {
+        ...this.hoaDonChiTiet[this.selectedTab][chiTietIndex],
+        chiTietSanPham: {
+          ...this.hoaDonChiTiet[this.selectedTab][chiTietIndex].chiTietSanPham,
+          soLuong: soLuong,
+        },
+      };
     }
   }
 
@@ -409,124 +474,5 @@ export class SalesComponent implements OnInit {
       this.tabs.splice(tabIndex, 1);
     }
   }
-  // removeItemFromInvoice(chiTietId: number | undefined): void {
-  //   if (chiTietId !== undefined) {
-  //     // Trước khi xóa, lấy thông tin chi tiết để biết số lượng
-  //     const chiTietToRemove = this.hoaDonChiTiet[this.selectedTab].find(
-  //       (chiTiet) => chiTiet.id === chiTietId
-  //     );
 
-  //     // Gọi hàm xóa hóa đơn chi tiết từ service
-  //     this.hdctService.deleteHdct(chiTietId).then(
-  //       () => {
-  //         // Xóa thành công, cập nhật lại danh sách
-  //         this.hoaDonChiTiet[this.selectedTab] = this.hoaDonChiTiet[this.selectedTab].filter(
-  //           (chiTiet) => chiTiet.id !== chiTietId
-  //         );
-
-  //         // Kiểm tra và cập nhật số lượng sản phẩm
-  //         if (chiTietToRemove) {
-  //           const chiTietSanPham = chiTietToRemove.chiTietSanPham;
-  //           if (chiTietSanPham) {
-  //             chiTietSanPham.soLuong += chiTietToRemove.soLuong;
-  //             // Gọi hàm cập nhật số lượng sản phẩm từ service nếu cần
-  //             // this.ctspService.updateSoLuong(chiTietSanPham.id, chiTietSanPham.soLuong);
-  //           }
-  //         }
-  //       },
-  //       (error) => {
-  //         console.error('Lỗi khi xóa hóa đơn chi tiết:', error);
-  //       }
-  //     );
-  //   } else {
-  //     console.error('ID của chi tiết không được phép là undefined.');
-  //   }
-  // }
-
-  // addTab() {
-  //   if (this.tabs.length < this.maxTabs) {
-  //     const newTab = `Tab ${this.tabs.length + 1}`;
-  //     this.tabs.push(newTab);
-  //   } else {
-  //     this.toast.error({ detail: "False", summary: "Tối đa chỉ được 5 hóa đơn", duration: 3000 })
-  //   }
-  // }
-
-
-  // searchProductByKeyword() {
-  //   this.ctspService.getctspByKeyword(this.productCode).then(
-  //     (result) => {
-  //       console.log("result " + result)
-  //       if (result) {
-  //         this.searchResult = result;
-  //       } else {
-  //         this.searchResult = null;
-  //       }
-  //     },
-  //     (error) => {
-  //       this.searchResult = null;
-  //     }
-  //   );
-  // }
-  // Kiểm tra xem searchResult có giá trị và searchResult.giaBan có giá trị không
-
-
-  // addToCart(searchResult: IChiTietSanPham): void {
-  //   const hoaDonId = this.currentHoaDonId  // id hóa đơn hiện tại
-  //   const chiTietSanPhamId = searchResult.id; // Sử dụng ID của chi tiết sản phẩm từ kết quả tìm kiếm
-  //   const soLuong = 1; // Số lượng mặc định là 1 
-  //   const donGia = (searchResult && searchResult.giaBan) ? searchResult.giaBan * soLuong : 0;
-  //   console.log("hoaDonId " + hoaDonId + "chiTietSanPhamId " + chiTietSanPhamId);
-
-  //   const existingItemIndex = this.hoaDonChiTiet[this.selectedTab]?.findIndex(
-  //     (item) => item.chiTietSanPham?.id === chiTietSanPhamId
-  //   );
-
-  //   const request = {
-  //     idHoaDon: hoaDonId,
-  //     idChiTietSanPham: chiTietSanPhamId,
-  //     soLuong: soLuong,
-  //     donGia: donGia,
-  //   };
-
-  //   this.hdctService.addCtsp(request)
-  //     .then((result) => {
-  //       if (!Array.isArray(this.hoaDonChiTiet[this.selectedTab])) {
-  //         this.hoaDonChiTiet[this.selectedTab] = [];
-  //       }
-  //       if (this.isIHoaDonChiTiet(result)) {
-  //         // Thêm vào giỏ hàng
-  //         this.hoaDonChiTiet[this.selectedTab].push(result);
-  //         console.log('Sản phẩm đã được thêm vào hóa đơn chi tiết.', result);
-  //       } else {
-  //         console.error('Kết quả không phải là kiểu IHoaDonChiTiet:', result);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       // Xử lý lỗi nếu cần
-  //       console.error('Lỗi khi thêm sản phẩm vào hóa đơn chi tiết:', error);
-  //     });
-  // }
-
-  // removeItemFromInvoice(chiTietId: number | undefined): void {
-  //   // Kiểm tra nếu chiTietId không phải là undefined mới tiếp tục
-  //   if (chiTietId !== undefined) {
-  //     // Gọi hàm xóa hóa đơn chi tiết từ service
-  //     this.hdctService.deleteHdct(chiTietId).then(
-  //       () => {
-  //         // Xóa thành công, cập nhật lại danh sách hoặc thực hiện các thao tác khác nếu cần
-  //         this.hoaDonChiTiet[this.selectedTab] = this.hoaDonChiTiet[this.selectedTab].filter(
-  //           (chiTiet) => chiTiet.id !== chiTietId
-  //         );
-  //       },
-  //       (error) => {
-  //         // Xử lý lỗi nếu cần
-  //         console.error('Lỗi khi xóa hóa đơn chi tiết:', error);
-  //       }
-  //     );
-  //   } else {
-  //     // Xử lý trường hợp khi chiTietId là undefined
-  //     console.error('ID của chi tiết không được phép là undefined.');
-  //   }
-  // }
 }

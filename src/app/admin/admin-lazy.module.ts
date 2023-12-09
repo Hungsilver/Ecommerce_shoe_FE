@@ -54,6 +54,9 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { AngularFireModule } from '@angular/fire/compat'
+import { AngularFireStorageModule } from '@angular/fire/compat/storage'
+import { environment } from 'src/environment/environment';
 @NgModule({
   imports: [
     CommonModule,
@@ -77,6 +80,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatTabsModule,
     MatDividerModule,
     NgxScannerQrcodeModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
+
   ],
   exports: [],
   declarations: [

@@ -25,14 +25,24 @@
                 </button>
             </mat-form-field>
 
-            <mat-form-field class="example-form-field">
+            <!-- <mat-form-field class="example-form-field">
                 <mat-label>ngayTao</mat-label>
                 <input matInput type="text" [(ngModel)]="product.ngayTao">
                 <button *ngIf="product.ngayTao" matSuffix mat-icon-button aria-label="Clear"
                     (click)="product.ngayTao=''">
                     <mat-icon>close</mat-icon>
                 </button>
-            </mat-form-field>
+            </mat-form-field> -->
+            <!-- <mat-form-field class="example-form-field"> -->
+            <div class="col">
+                <label>Image</label>
+                <input type="file" (change)="onFileChange($event)" multiple>
+                <div>
+                    <img [src]="uploadedUrl" style="width: 200px; height: auto">
+                </div>
+                <!-- <button (click)="deleteImage('truyền đường dẫn ảnh vào đây')">Delete</button> -->
+            </div>
+            <!-- </mat-form-field> -->
 
             <mat-form-field class="example-form-field">
                 <mat-label>Danh mục</mat-label>
@@ -61,32 +71,11 @@
                 </mat-select>
             </mat-form-field>
 
-            <!-- <mat-form-field class="example-form-field">
-                <mat-label>Thương hiệu</mat-label>
-                <mat-select [(ngModel)]="product.thuongHieu">
-                    <mat-option *ngFor="let brand of brand" [value]="brand.id">{{brand.ten}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
-            <!-- 
-            <mat-form-field class="example-form-field">
-                <mat-label>Xuất xứ</mat-label>
-                <mat-select [(ngModel)]="product.xuatXu">
-                    <mat-option *ngFor="let origin of origin" [value]="origin.id">{{origin.ten}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
-
-            <!-- <mat-form-field class="example-form-field">
-                <mat-label>Xuất xứ</mat-label>
-                <mat-select [(ngModel)]="product.xuatXu">
-                    <mat-option *ngFor="let origin of origin" [value]="origin">{{origin.ten}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
-
             <mat-form-field>
                 <mat-label>Chọn trạng thái</mat-label>
                 <mat-select [(ngModel)]="product.trangThai">
-                    <mat-option [value]="1">Hoạt động</mat-option>
-                    <mat-option [value]="0">Ngưng Hoạt động</mat-option>
+                    <mat-option [value]="0">Hoạt động</mat-option>
+                    <mat-option [value]="1">Ngưng Hoạt động</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
@@ -120,14 +109,24 @@
                 </button>
             </mat-form-field>
 
-            <mat-form-field class="example-form-field">
-                <mat-label>ngayTao</mat-label>
-                <input matInput type="text" [(ngModel)]="product.ngayTao">
-                <button *ngIf="product.ngayTao" matSuffix mat-icon-button aria-label="Clear"
-                    (click)="product.ngayTao=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            </mat-form-field>
+            <mat-label>Ảnh chính</mat-label>
+            <img *ngIf="!uploadedUrl && product.anhChinh" [src]="product.anhChinh" alt="Product Image"
+                style="width: 50px; height: auto;">
+
+            <!-- Hiển thị hình ảnh đã tải lên nếu có -->
+            <div *ngIf="uploadedUrl">
+                <h4>Ảnh đã tải lên</h4>
+                <img [src]="uploadedUrl" alt="Uploaded Image" style="width: 50px; height: auto;">
+            </div>
+
+            <!-- Chọn tệp để tải lên -->
+            <input type="file" (change)="onFileChange($event)" accept="image/*" />
+
+            <!-- Hiển thị hình ảnh xem trước từ tệp đã chọn nếu có -->
+            <!-- <div *ngIf="!uploadedUrl && uploadedUrl">
+                <h4>Ảnh xem trước</h4>
+                <img [src]="uploadedUrl" alt="Preview Image" style="width: 50px; height: auto;">
+            </div> -->
 
             <mat-form-field class="example-form-field">
                 <mat-label>Danh mục</mat-label>
@@ -171,11 +170,6 @@
         </ng-container>
     </mat-dialog-actions>
 </ng-container>
-
-
-
-
-
 
 <ng-container *ngIf="type==='delete'">
     <mat-dialog-content>
