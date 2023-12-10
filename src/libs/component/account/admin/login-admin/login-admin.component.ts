@@ -28,8 +28,8 @@ export class LoginAdminComponent implements OnInit {
   onSubmit() {
 
     if (this.formLogin.valid) {
-      //   // alert(JSON.stringify(this.formLogin.value));
-      //   // this.cacheService.
+      // alert(JSON.stringify(this.formLogin.value));
+      // this.cacheService.
       this.authCustomer.loginAdmin(this.formLogin.value).then((res: any) => {
         if (res) {
           this.cacheService.set('admin', res);

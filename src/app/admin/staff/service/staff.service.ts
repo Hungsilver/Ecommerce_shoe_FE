@@ -23,6 +23,23 @@ export class StaffService {
             );
         });
     }
+
+    // getNhanVien(params?: any): Promise<IStaff[]> {
+    //     return new Promise<IStaff[]>((resolve, reject) => {
+    //         this.baseRequestService.get(`${this.url}`, params).subscribe(
+    //             (result: IStaff[]) => {
+    //                 resolve(result);
+    //             },
+    //             (err) => reject(err)
+    //         );
+    //     });
+    // }
+
+    getNhanVien(params?: any): Promise<IReqApi<IStaff[]>> {
+        return this.baseRequestService.get(`${this.url}`, params).toPromise();
+    }
+
+
     createStaff(body: any): Promise<IReqApi<IStaff[]>> {
         return new Promise<IReqApi<IStaff[]>>((resolve, reject) => {
             this.baseRequestService.post(`${this.url}`, body).subscribe(

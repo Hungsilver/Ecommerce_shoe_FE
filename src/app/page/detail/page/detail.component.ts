@@ -100,6 +100,7 @@ export class DetailComponent implements OnInit {
       this.errorSelected = undefined;
     }
     this.params.quantity = this.quantity;
+
     this.detailService.addToCart(this.params).then(data => {
       if (data) {
         console.log(data)
