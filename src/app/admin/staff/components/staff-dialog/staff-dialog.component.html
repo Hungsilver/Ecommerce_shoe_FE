@@ -1,1 +1,91 @@
-<p>staff-dialog works!</p>
+
+<div class="d-flex justify-content-between">
+  <h2 mat-dialog-title>Nhân Viên</h2>
+  <div mat-dialog-title mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+  </div>
+</div>
+
+<ng-container *ngIf="(type && type === 'add') || type === 'update'">
+  <mat-dialog-content class="mat-typography">
+    <div class="container-fluid">
+      <mat-form-field class="example-form-field">
+        <!-- bat dau cac truong cua nhan vien -->
+        <mat-label>ten</mat-label>
+        <input matInput type="text" [(ngModel)]="staff.hoTen" />
+        <button
+          *ngIf="staff?.hoTen"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="staff.hoTen = ''"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <!-- thieu vai truong -->
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput type="text" [(ngModel)]="staff.email"/>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mật Khẩu</mat-label>
+        <input matInput type="text" [(ngModel)]="staff.matKhau"/>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Số Điện Thoại</mat-label>
+        <input matInput type="text" [(ngModel)]="staff.soDienThoai"/>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Giới Tính</mat-label>
+        <mat-radio-group [(ngModel)]="staff.gioiTinh">
+          <input matInput type="radio" [defaultChecked]="true" value="0"/>Nam
+          <input matInput type="radio" [defaultChecked]="false" value="1"/>Nu
+        </mat-radio-group>
+      </mat-form-field>
+
+      <mat-form-field>
+          <mat-label>Ngày Sinh</mat-label>
+          <input matInput type="datetime"  [(ngModel)]="staff.ngaySinh" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Địa Chỉ</mat-label>
+          <input matInput type="text" [(ngModel)]="staff.diaChi"/>
+        </mat-form-field>
+      <mat-form-field>
+        <mat-label>Chọn trạng thái</mat-label>
+        <mat-select [(ngModel)]="staff.trangThai">
+          <mat-option [value]="1">Hoạt động</mat-option>
+          <mat-option [value]="0">Ngưng Hoạt động</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <ng-container *ngIf="type && type=== 'add'">
+      <button mat-button (click)="addStaff()">Xác nhận add</button>
+  </ng-container>
+  <ng-container *ngIf="type=== 'update'">
+      <button mat-button (click)="updateStaff()">Xác nhận update</button>
+  </ng-container>
+
+  </mat-dialog-actions>
+</ng-container>
+<ng-container *ngIf="type==='delete'">
+<mat-dialog-content>
+<h1>Bạn xác nhận xóa</h1>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="deleteStaff()">Xác nhận</button>
+  <button mat-button mat-dialog-close>Hủy</button>
+</mat-dialog-actions>
+</ng-container>
+
+
+
+
+

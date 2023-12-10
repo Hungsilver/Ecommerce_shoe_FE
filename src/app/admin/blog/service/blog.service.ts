@@ -23,8 +23,11 @@ export class BlogService {
             );
         });
     }
+
     createBlog(body: any): Promise<IReqApi<IBlog[]>> {
+    
         return new Promise<IReqApi<IBlog[]>>((resolve, reject) => {
+
             this.baseRequestService.post(`${this.url}`, body).subscribe(
                 (result) => {
                     return resolve(result);

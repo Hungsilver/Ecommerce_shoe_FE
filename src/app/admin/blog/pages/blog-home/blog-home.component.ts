@@ -3,6 +3,7 @@ import { SlicePipe } from '@angular/common';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { BlogService } from '../../service/blog.service';
 import { BlogDialogComponent } from '../../components/blog-dialog/blog-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-blog-home',
@@ -18,7 +19,8 @@ export class BlogHomeComponent implements OnInit {
 
   iconSortName = 'pi pi-sort-amount-up';
   constructor(private blogService: BlogService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router : Router
   ) {
     this.searchQuery.page = 1;
     this.searchQuery.pageSize = 10;
@@ -89,8 +91,9 @@ export class BlogHomeComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(BlogDialogComponent, {
-      width: '400px',
-      height: '500px',
+      width: '1500px',
+      height: '600px',
+
       data: {
         type: "add",
         blog: {}
@@ -102,8 +105,8 @@ export class BlogHomeComponent implements OnInit {
   }
   openDialogEdit(blog: any) {
     const dialogRef = this.dialog.open(BlogDialogComponent, {
-      width: '400px',
-      height: '500px',
+      width: '1500px',
+      height: '600px',
       data: {
         type: 'update',
         blog: blog,
@@ -125,6 +128,9 @@ export class BlogHomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       this.getAll();
     })
+  }
+  navigateToNewProduct() {
+    this.router.navigate(['gioi-thieu/new']);
   }
 
 }

@@ -1,5 +1,11 @@
 <button mat-raised-button (click)="addTab()">Tạo hóa đơn</button>
 
+<!-- Button trigger modal -->
+<!-- ngx-scanner-qrcode -->
+<!-- data  -->
+<!-- <p class="data">{{ (action.data | async | json) }}</p> -->
+
+
 <br>
 <br>
 
@@ -20,7 +26,41 @@
         <input type="text" name="productCode" [(ngModel)]="productCode.ma" placeholder="Tìm kiếm sản phẩm" width="300px"
             required>
         <button type="submit" (click)="searchProductByKeyword()">Tìm kiếm</button>
+        <br>
 
+
+        <ngx-scanner-qrcode #action="scanner" [config]="config" (event)="onEvent($event, action)"></ngx-scanner-qrcode>
+
+        <!-- loading -->
+        <p *ngIf="action.isLoading">⌛ Loading...</p>
+        <!-- Thêm phần hiển thị kết quả -->
+        <div *ngIf="result">
+            <h2>Success!</h2>
+            <p><a href="{{ result }}">{{ result }}</a></p>
+        </div>
+
+        <!-- Các phần còn lại của view -->
+
+        <!-- start/stop -->
+        <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
+            [disabled]="action.isLoading" (click)="handle(action, action.isStart ? 'stop' : 'start')">
+            <img [src]="action.isStart ? 'https://id1945.github.io/images/svg/camera-off.svg' : 'https://id1945.github.io/images/svg/camera-on.svg'"
+                width="30px" />
+        </button>
+
+        <!-- play/pause -->
+        <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
+            [disabled]="!action.isStart" (click)="handle(action, action.isPause ? 'play' : 'pause')">
+            <img [src]="action.isPause ? 'https://id1945.github.io/images/svg/play.svg': 'https://id1945.github.io/images/svg/pause.svg'"
+                width="30px" />
+        </button>
+
+        <!-- Thêm nút quét mã QR và sự kiện click -->
+        <button (click)="startScanning()">Quét mã QR</button>
+
+
+
+        <br>
         <div>
             <table table-hover>
                 <thead>
@@ -123,7 +163,7 @@
                     </tbody>
                 </table>
             </mat-grid-tile>
-
+            c
 
             <br>
 

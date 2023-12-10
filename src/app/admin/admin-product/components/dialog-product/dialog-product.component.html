@@ -25,14 +25,6 @@
                 </button>
             </mat-form-field>
 
-            <!-- <mat-form-field class="example-form-field">
-                <mat-label>ngayTao</mat-label>
-                <input matInput type="text" [(ngModel)]="product.ngayTao">
-                <button *ngIf="product.ngayTao" matSuffix mat-icon-button aria-label="Clear"
-                    (click)="product.ngayTao=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            </mat-form-field> -->
             <!-- <mat-form-field class="example-form-field"> -->
             <div class="col">
                 <label>Image</label>
@@ -40,13 +32,11 @@
                 <div>
                     <img [src]="uploadedUrl" style="width: 200px; height: auto">
                 </div>
-                <!-- <button (click)="deleteImage('truyền đường dẫn ảnh vào đây')">Delete</button> -->
             </div>
             <!-- </mat-form-field> -->
 
             <mat-form-field class="example-form-field">
                 <mat-label>Danh mục</mat-label>
-                <!-- <mat-select [(ngModel)]="selectedCategoryId"> -->
                 <mat-select [(ngModel)]="product.danhMuc">
                     <mat-option *ngFor="let category of data.categories"
                         [value]="category.id">{{category.ten}}</mat-option>
@@ -55,7 +45,6 @@
 
             <mat-form-field class="example-form-field">
                 <mat-label>Thương hiệu</mat-label>
-                <!-- <mat-select [(ngModel)]="selectedBrandId"> -->
                 <mat-select [(ngModel)]="product.thuongHieu">
                     <mat-option *ngFor="let brand of data.brands" [value]="brand.id">{{brand.ten}}</mat-option>
                 </mat-select>
@@ -64,8 +53,6 @@
             <mat-form-field class="example-form-field">
                 <mat-label>Xuất xứ</mat-label>
                 <mat-select [(ngModel)]="product.xuatXu">
-                    <!-- <mat-select [(ngModel)]="selectedOriginId"> -->
-
                     <mat-option *ngFor="let origin of data.origins" [value]="origin.id">{{origin.ten}}</mat-option>
 
                 </mat-select>
@@ -119,7 +106,6 @@
                 <img [src]="uploadedUrl" alt="Uploaded Image" style="width: 50px; height: auto;">
             </div>
 
-            <!-- Chọn tệp để tải lên -->
             <input type="file" (change)="onFileChange($event)" accept="image/*" />
 
             <!-- Hiển thị hình ảnh xem trước từ tệp đã chọn nếu có -->

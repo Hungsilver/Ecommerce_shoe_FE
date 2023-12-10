@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angular/core';
 
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
@@ -23,9 +23,11 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { HDChiTiet } from './service/hoadonchitiet/hoadonchitiet.service';
 import { IHoaDonChiTiet } from './service/hoadonchitiet/hoadonchitiet.module';
-import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
+import { NgxScannerQrcodeModule, LOAD_WASM, ScannerQRCodeConfig, NgxScannerQrcodeService, NgxScannerQrcodeComponent, ScannerQRCodeResult } from 'ngx-scanner-qrcode';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IStaff } from '../staff/service/staff.module';
+// import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -57,6 +59,9 @@ export class SalesComponent implements OnInit {
   staffName: string = '';
   totalAmount: number = 0;
   money: number | undefined;
+  result: string | null = null;
+  isScanning: boolean = false;
+
   ngOnInit(): void {
 
   }
@@ -70,17 +75,93 @@ export class SalesComponent implements OnInit {
     private hoadonService: HoaDonService,
     private nhanVienService: StaffService,
     private hdctService: HDChiTiet,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private qrcode: NgxScannerQrcodeService,
+    // private modalService: NgbModal
   ) {
     this.searchQuery.page = 1;
     this.searchQuery.pageSize = 10;
   }
 
-  showScanner = false;
+  public config: ScannerQRCodeConfig = {
+    constraints: {
+      video: {
+        width: window.innerWidth
+      },
+    },
+    // canvasStyles: [
+    //   { /* layer */
+    //     lineWidth: 1,
+    //     fillStyle: '#00950685',
+    //     strokeStyle: '#00950685',
+    //   },
+    //   { /* text */
+    //     font: '17px serif',
+    //     fillStyle: '#ff0000',
+    //     strokeStyle: '#ff0000',
+    //   }
+    // ],
+  };
 
-  toggleScanner() {
-    this.showScanner = !this.showScanner;
+  @ViewChild('action') action!: NgxScannerQrcodeComponent;
+
+  ngAfterViewInit(): void {
+    this.action.isReady.subscribe((res: any) => {
+      // this.handle(this.action, 'start');
+    });
   }
+  // Thêm hàm này vào component của bạn
+  startScanning(): void {
+    this.isScanning = true;
+
+    // Gọi hàm quét mỗi 3 giây
+    setInterval(() => {
+      if (this.isScanning) {
+        this.handle(this.action, 'start');
+      }
+    }, 3000);
+  }
+
+  public onEvent(e: ScannerQRCodeResult[], action?: any): void {
+    console.log(e);
+    // Lưu kết quả vào biến result khi có sự kiện
+    if (e && e.length > 0) {
+      // Chuyển đổi Int8Array thành string
+      const decodedData = new TextDecoder().decode(e[0].data);
+      this.result = decodedData;
+
+      // Dừng quét sau khi có kết quả thành công
+      this.isScanning = false;
+    }
+  }
+
+  public handle(action: any, fn: string): void {
+    const playDeviceFacingBack = (devices: any[]) => {
+      const device = devices.find(f => (/back|rear|environment/gi.test(f.label)));
+      action.playDevice(device ? device.deviceId : devices[0].deviceId);
+    }
+
+    if (fn === 'start') {
+      action[fn](playDeviceFacingBack).subscribe((r: any) => console.log(fn, r), alert);
+    } else {
+      action[fn]().subscribe((r: any) => console.log(fn, r), alert);
+    }
+  }
+
+  public onDowload(action: NgxScannerQrcodeComponent) {
+    action.download().subscribe(console.log, alert);
+  }
+
+  // Thêm hàm này vào component của bạn
+  // startScanning(): void {
+  //   // Gọi hàm quét ở đây
+  //   this.handle(this.action, 'start');
+  // }
+
+  // showModal(): void {
+  //   // Hiển thị modal
+  //   $('#qrScannerModal').modal('show');
+  // }
 
   tabs: string[] = [];
   maxTabs: number = 5; // Số lượng tab tối đa được phép
