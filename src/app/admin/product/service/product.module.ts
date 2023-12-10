@@ -3,7 +3,7 @@ export interface IProduct {
   sanpham?: string;
   anhSanPham?: string;
   soLuong?: string;
-  giaBan?: string;
+  giaBan?: number;
   ngayTao?: string;
   trangThai?: string;
   mausac?: string;

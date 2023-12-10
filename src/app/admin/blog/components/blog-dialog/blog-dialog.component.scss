@@ -1,0 +1,57 @@
+.row {
+  text-align: center;
+  margin: 10px;
+}
+
+.example-form-field {
+  width: 500px;
+}
+
+.image-preview-container {
+  width: min(100%, calc(50% - 20px));
+  margin: 0 10px;
+  padding-right: 25px;
+  // border-radius: 20px;
+  display: flex;
+  align-items: center;
+  // justify-content: space-between;
+}
+
+// .image-preview-container img {
+//   width: 150px; /* Điều chỉnh kích thước của ảnh theo mong muốn */
+//   max-width: 100%;
+//   height: auto;
+// }
+
+.image-preview-container input {
+  display: none;
+}
+
+.image-preview-container label {
+  width: 100px;
+  height: 30px;
+  text-align: center;
+  background-color: #ada9b1;
+  color: #fff;
+  font-size: 15px;
+  text-transform: uppercase;
+  font-weight: 300;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.image-preview img {
+  max-width: 500px;
+  height: auto;
+  display: block; /* Đảm bảo hiển thị đúng trên mọi trình duyệt */
+  margin: 0 auto; /* Căn giữa ảnh trong thẻ cha */
+}
+#test img.image-preview {
+  width: 100px;
+  height: auto;
+}
+
+
+

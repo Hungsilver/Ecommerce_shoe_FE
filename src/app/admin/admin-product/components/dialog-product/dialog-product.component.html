@@ -36,7 +36,6 @@
 
             <mat-form-field class="example-form-field">
                 <mat-label>Danh mục</mat-label>
-                <!-- <mat-select [(ngModel)]="selectedCategoryId"> -->
                 <mat-select [(ngModel)]="product.danhMuc">
                     <mat-option *ngFor="let category of data.categories"
                         [value]="category.id">{{category.ten}}</mat-option>
@@ -45,7 +44,6 @@
 
             <mat-form-field class="example-form-field">
                 <mat-label>Thương hiệu</mat-label>
-                <!-- <mat-select [(ngModel)]="selectedBrandId"> -->
                 <mat-select [(ngModel)]="product.thuongHieu">
                     <mat-option *ngFor="let brand of data.brands" [value]="brand.id">{{brand.ten}}</mat-option>
                 </mat-select>
@@ -54,33 +52,10 @@
             <mat-form-field class="example-form-field">
                 <mat-label>Xuất xứ</mat-label>
                 <mat-select [(ngModel)]="product.xuatXu">
-                    <!-- <mat-select [(ngModel)]="selectedOriginId"> -->
-
                     <mat-option *ngFor="let origin of data.origins" [value]="origin.id">{{origin.ten}}</mat-option>
 
                 </mat-select>
             </mat-form-field>
-
-            <!-- <mat-form-field class="example-form-field">
-                <mat-label>Thương hiệu</mat-label>
-                <mat-select [(ngModel)]="product.thuongHieu">
-                    <mat-option *ngFor="let brand of brand" [value]="brand.id">{{brand.ten}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
-            <!-- 
-            <mat-form-field class="example-form-field">
-                <mat-label>Xuất xứ</mat-label>
-                <mat-select [(ngModel)]="product.xuatXu">
-                    <mat-option *ngFor="let origin of origin" [value]="origin.id">{{origin.ten}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
-
-            <!-- <mat-form-field class="example-form-field">
-                <mat-label>Xuất xứ</mat-label>
-                <mat-select [(ngModel)]="product.xuatXu">
-                    <mat-option *ngFor="let origin of origin" [value]="origin">{{origin.ten}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
 
             <mat-form-field>
                 <mat-label>Chọn trạng thái</mat-label>

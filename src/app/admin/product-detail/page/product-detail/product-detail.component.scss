@@ -1,0 +1,46 @@
+/* Container styles */
+.button-container {
+  margin-bottom: 20px;
+}
+
+.card {
+  margin-top: 20px;
+}
+
+/* Table styles */
+.p-table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Header styles */
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  padding: 10px;
+  text-align: left;
+}
+
+/* Body styles */
+td {
+  padding: 10px;
+}
+
+/* Alternating row colors */
+.p-table .p-datatable-tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+/* Pagination styles */
+.button-pagination {
+  cursor: pointer;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+/* Hover effect for pagination buttons */
+.button-pagination:hover {
+  background-color: rgb(9, 160, 165);
+}

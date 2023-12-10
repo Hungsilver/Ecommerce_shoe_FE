@@ -13,8 +13,15 @@ import { Page404Component } from './page404/page404.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageModule } from './page/page.module';
-import { NgToastModule } from 'ng-angular-popup';
 import { AccountModule } from 'src/libs/component/account/account.module';
+
+// import { BlogDialogComponent } from 'src/app/admin/blog/components/blog-dialog/blog-dialog.component'
+import {AngularFireModule} from '@angular/fire/compat'
+import {AngularFireStorageModule} from '@angular/fire/compat/storage'
+import { environment } from 'src/environment/environment2';
+
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -25,6 +32,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
     BrowserModule,
     AppRoutingModule,
     LayoutAdminModule,
@@ -43,7 +52,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
     BrowserAnimationsModule,
-    NgToastModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],
