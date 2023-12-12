@@ -35,7 +35,23 @@
     </a>
 
     <ng-container *ngIf="customerInfo">
-      <span>userInfo.ten</span>
+      <div mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <mat-menu #menu="matMenu">
+        <button routerLink="/product" mat-menu-item>
+          <mat-icon>dialpad</mat-icon>
+          <span>Setting</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>voicemail</mat-icon>
+          <span>Check voice mail</span>
+        </button>
+        <button (click)="logout()" mat-menu-item>
+          <mat-icon>close</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
     </ng-container>
     <ng-container *ngIf="!customerInfo">
       <a routerLink="/auth/login">

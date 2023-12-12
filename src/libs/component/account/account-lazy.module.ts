@@ -6,11 +6,14 @@ import { RegisterComponent } from './customer/register/register.component';
 import { ForgotPassComponent } from './customer/forgot-pass/forgot-pass.component';
 import { ForgotPassAdminComponent } from './admin/forgot-pass-admin/forgot-pass-admin.component';
 import { LoginAdminComponent } from './admin/login-admin/login-admin.component';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    BreadcrumbModule,
     ReactiveFormsModule,
   ],
   declarations: [

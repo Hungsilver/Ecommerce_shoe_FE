@@ -35,6 +35,8 @@ $backgr: #3a3a3a;
   }
 
   .header-icon {
+    display: flex;
+
     span {
       font-size: 1.3rem;
       margin-right: 15px;
