@@ -40,3 +40,10 @@ export interface IRoleGuard {
   USER: 'user';
   CUSTOMER: 'customer'
 }
+
+export interface IReqAuth<T> {
+  code: string;
+  data: T;
+  isOK: boolean;
+  message: string;
+}
