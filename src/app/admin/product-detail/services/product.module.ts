@@ -1,14 +1,15 @@
 export interface IProductDetail {
   id: number;
-  ma?:string;
+  ma?: string;
   soLuong?: number;
   giaBan?: number;
   ngayTao?: string;
-  ngayCapNhat?:string;
+  ngayCapNhat?: string;
   trangThai?: string;
   mauSac?: any;
   kichCo?: any;
   chatLieuGiay?: any;
   chatLieuDeGiay?: any;
-  sanPham?:any;
+  sanPham?: any;
+  anhSanPhams?: string[];
 }

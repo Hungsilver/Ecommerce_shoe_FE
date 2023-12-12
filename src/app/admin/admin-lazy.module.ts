@@ -49,6 +49,15 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { AngularFireModule } from '@angular/fire/compat'
+import { AngularFireStorageModule } from '@angular/fire/compat/storage'
+import { environment } from 'src/environment/environment';
+
+LOAD_WASM().subscribe()
 
 @NgModule({
   imports: [
@@ -72,6 +81,10 @@ import { MatDividerModule } from '@angular/material/divider';
     MatTableModule,
     MatTabsModule,
     MatDividerModule,
+    NgxScannerQrcodeModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
+
 
   ],
   exports: [],

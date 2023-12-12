@@ -5,8 +5,22 @@
         <p-dropdown [options]="listTotalPage" [(ngModel)]="searchQuery.page" optionLabel="name"></p-dropdown>
     </span>
     <button mat-button (click)="openDialog()">Open dialog</button>
+    <button (click)="exportexcel()">Export Excel</button>
+    <input type="file" (change)="ReadExcel($event)">
+
 </div>
 
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" href="#">Hoạt động</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Không hoạt động</a>
+    </li>
+</ul>
+
+
+<br>
 
 <div class="card">
     <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
