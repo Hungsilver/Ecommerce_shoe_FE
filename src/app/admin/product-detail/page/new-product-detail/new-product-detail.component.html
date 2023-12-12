@@ -1,52 +1,71 @@
 <div class="container">
-    <h2>Danh Sách Chi Tiết Sản Phẩm</h2>
-    <form>
-      <div class="form-group">
-        <label for="ngayTao">Sản Phẩm:</label>
-        <select type="text" class="form-control" id="sanPham" [(ngModel)]="newProduct.sanPham" name="sanPham" required>
-          <option *ngFor="let sp of SanPhams"  [value]="sp.id">{{ sp.ten }}</option>
-        </select>
+  <h2>Danh Sách Chi Tiết Sản Phẩm</h2>
+  <form>
+    <div class="form-group">
+      <label for="ngayTao">Sản Phẩm:</label>
+      <select type="text" class="form-control" id="sanPham" [(ngModel)]="newProduct.sanPham" name="sanPham" required>
+        <option *ngFor="let sp of SanPhams" [value]="sp.id">{{ sp.ten }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="soLuong">Số Lượng:</label>
+      <input type="number" class="form-control" id="soLuong" [(ngModel)]="newProduct.soLuong" name="soLuong" required>
+    </div>
+
+    <div class="form-group">
+      <label for="giaBan">Giá:</label>
+      <input type="number" class="form-control" id="giaBan" [(ngModel)]="newProduct.giaBan" name="giaBan" required>
+    </div>
+    <div class="form-group">
+      <label for="mauSac">Màu Sắc:</label>
+      <select class="form-control" id="mauSac" [(ngModel)]="newProduct.mauSac" name="mauSac" required>
+        <option *ngFor="let ms of mauSacs" [value]="ms.id">{{ ms.ten }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="kichCo">Kích Cỡ:</label>
+      <select class="form-control" id="kichCo" [(ngModel)]="newProduct.kichCo" name="kichCo" required>
+        <option [value]="kc.id" *ngFor="let kc of kichCos" [value]="kc.id">{{ kc.size }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="chatLieuGiay">Chất Liệu Giày:</label>
+      <select class="form-control" id="chatLieuGiay" [(ngModel)]="newProduct.chatLieuGiay" name="name" required>
+        <option *ngFor="let clg of chatLieuGiays" [value]="clg.id">{{ clg.ten }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="chatLieuDeGiay">Chất Liệu Đế Giày:</label>
+      <select class="form-control" id="chatLieuDeGiay" [(ngModel)]="newProduct.chatLieuDeGiay" name="chatLieuDeGiay"
+        required>
+        <option *ngFor="let cldg of chatLieuDeGiays" [value]="cldg.id">{{ cldg.ten }}</option>
+      </select>
+    </div>
+
+    <div>
+      <label>Hình ảnh</label>
+      <input type="file" (change)="onFileChange($event)" multiple />
+      <!-- Hiển thị tất cả các ảnh đã chọn -->
+      <div *ngIf="validUrls.length > 0">
+        <div *ngFor="let url of validUrls; let i = index">
+          <img [src]="url" style="width: 50px; height: auto" />
+        </div>
       </div>
-      <div class="form-group">
-        <label for="soLuong">Số Lượng:</label>
-        <input type="number" class="form-control" id="soLuong" [(ngModel)]="newProduct.soLuong" name="soLuong"  required>
-      </div>
-      <div class="form-group">
-        <label for="giaBan">Giá:</label>
-        <input type="number" class="form-control" id="giaBan" [(ngModel)]="newProduct.giaBan" name="giaBan"   required>
-      </div>
-      <div class="form-group">
-        <label for="mauSac">Màu Sắc:</label>
-        <select class="form-control" id="mauSac" [(ngModel)]="newProduct.mauSac" name="mauSac" required>
-          <option  *ngFor="let ms of mauSacs"  [value]="ms.id">{{ ms.ten }}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="kichCo">Kích Cỡ:</label>
-        <select class="form-control" id="kichCo" [(ngModel)]="newProduct.kichCo" name="kichCo" required>       
-          <option  [value]="kc.id" *ngFor="let kc of kichCos" [value]="kc.id" >{{ kc.size }}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="chatLieuGiay">Chất Liệu Giày:</label>
-        <select class="form-control" id="chatLieuGiay" [(ngModel)]="newProduct.chatLieuGiay" name="name" required>
-          <option *ngFor="let clg of chatLieuGiays"[value]="clg.id" >{{ clg.ten }}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="chatLieuDeGiay">Chất Liệu Đế Giày:</label>
-        <select class="form-control" id="chatLieuDeGiay" [(ngModel)]="newProduct.chatLieuDeGiay" name="chatLieuDeGiay" required>
-          <option *ngFor="let cldg of chatLieuDeGiays" [value]="cldg.id" >{{ cldg.ten }}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="trangThai">Trạng Thái:</label>
-        <select type="text" class="form-control" id="trangThai" [(ngModel)]="newProduct.trangThai" name="trangThai" required>
+    </div>
+
+    <div class="form-group">
+      <label for="trangThai">Trạng Thái:</label>
+      <select type="text" class="form-control" id="trangThai" [(ngModel)]="newProduct.trangThai" name="trangThai"
+        required>
         <option [value]="1">Hoạt động</option>
         <option [value]="0">Không Hoạt động</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-primary" (click)="saveProductDetail()">Lưu</button>
-    </form>
-  </div>
-  
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary" (click)="saveProductDetail()">Lưu</button>
+  </form>
+</div>

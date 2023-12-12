@@ -6,6 +6,9 @@ import { BaseRequestService } from '../../../../libs/service/request/base-reques
 import { CategoryService } from '../../category/service/category.service';
 import { Observable } from 'rxjs';
 import { ICategory } from '../../category/service/category.module';
+import { IProductExportExcel } from './productExportExcel.module';
+import { IProductImportExcel } from './productIportExcel.module';
+// import { AngularFireStorage } from "@angular/fire/compat/storage"
 
 @Injectable({
     providedIn: 'root',
@@ -13,8 +16,13 @@ import { ICategory } from '../../category/service/category.module';
 export class ProductService {
 
     url: string = 'product';
+    private baseURL = 'http://localhost:8080/api/product/excel/export';
+    private importUrl = "http://localhost:8080/api/product/excel/import";
 
-    constructor(private baseRequestService: BaseRequestService) { }
+
+    constructor(private baseRequestService: BaseRequestService,
+        private httpClient: HttpClient
+    ) { }
 
     private getHttpOptions() {
         return {
@@ -35,6 +43,13 @@ export class ProductService {
         });
     }
 
+    getAll(): Observable<IProductExportExcel[]> {
+        return this.httpClient.get<IProductExportExcel[]>(`${this.baseURL}`)
+    }
+
+    create(sanpham: IProductImportExcel[]) {
+        return this.httpClient.post(`${this.importUrl}`, sanpham);
+    }
 
     createProduct(body: any): Promise<IReqApi<IProduct>> {
         return new Promise<IReqApi<IProduct>>((resolve, reject) => {

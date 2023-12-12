@@ -12,6 +12,7 @@ import { MaterialSolesService } from 'src/app/admin/material-soles/service/mater
 import { ProductService } from 'src/app/admin/admin-product/service/product.service';
 import { IProduct } from 'src/app/admin/admin-product/service/product.module';
 import { IProductDetail } from '../../services/product.module';
+import { AngularFireStorage } from "@angular/fire/compat/storage"
 
 
 
@@ -21,30 +22,32 @@ import { IProductDetail } from '../../services/product.module';
   styleUrls: ['./new-product-detail.component.scss']
 })
 export class NewProductDetailComponent implements OnInit {
-  newProduct: IProductDetail ;
-  SanPhams: IProduct[]=[];
-  chatLieuGiays: IMaterial[]=[];
-  kichCos:ISize[]=[];
-  mauSacs:IColor[]=[];
-  chatLieuDeGiays:IMaterialSoles[]=[];
-  
-  
+  newProduct: IProductDetail;
+  SanPhams: IProduct[] = [];
+  chatLieuGiays: IMaterial[] = [];
+  kichCos: ISize[] = [];
+  mauSacs: IColor[] = [];
+  chatLieuDeGiays: IMaterialSoles[] = [];
+
+  validUrls: string[] = []; // Mảng để lưu đường dẫn hình ảnh
+
 
   constructor(
     private productDetailService: ProductDetailService,
     private ChatLieuGiayService: MaterialService,
-    private kichcoService :SizeService,
-    private mauSacService :ColorService,
+    private kichcoService: SizeService,
+    private mauSacService: ColorService,
     private ChatLieuDeGiayService: MaterialSolesService,
-    private SanPhamService : ProductService,
+    private SanPhamService: ProductService,
+    private fireStorage: AngularFireStorage,
     private router: Router
   ) {
     this.newProduct = {} as IProductDetail;
     this.chatLieuGiays = [];
-    this.kichCos =[];
-    this.mauSacs =[];
-    this.chatLieuDeGiays=[];
-    this.SanPhams=[];
+    this.kichCos = [];
+    this.mauSacs = [];
+    this.chatLieuDeGiays = [];
+    this.SanPhams = [];
   }
 
   ngOnInit(): void {
@@ -53,7 +56,7 @@ export class NewProductDetailComponent implements OnInit {
     });
     this.kichcoService.getSize().then(data => {
       this.kichCos = data.content;
-          // console.log(data.content)
+      // console.log(data.content)
     });
     this.mauSacService.getColors().then(data => {
       this.mauSacs = data.content;
@@ -66,7 +69,25 @@ export class NewProductDetailComponent implements OnInit {
     });
   }
 
+  async onFileChange(event: any) {
+    const files = event.target.files;
+    console.log('files-log', files);
+
+    if (files && files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const path = `images/${file.name}`;
+        const uploadTask = await this.fireStorage.upload(path, file);
+        const url = await uploadTask.ref.getDownloadURL();
+        this.validUrls.push(url);
+        console.log(`Uploaded file ${i}: ${this.validUrls}`);
+      }
+    }
+  }
+
+
   saveProductDetail() {
+    this.newProduct.anhSanPhams = this.validUrls
     this.productDetailService.createProduct(this.newProduct).then(
       (data) => {
         console.log("data " + data);

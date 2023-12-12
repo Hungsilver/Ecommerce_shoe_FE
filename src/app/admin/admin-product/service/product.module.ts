@@ -2,7 +2,7 @@ export interface IProduct {
     id?: number;
     ma?: string;
     ten?: string;
-    anhChinh?: string | null;
+    anhChinh?: string;
     moTa?: string;
     ngayTao?: string | null;
     ngayCapNhat?: string | null;
