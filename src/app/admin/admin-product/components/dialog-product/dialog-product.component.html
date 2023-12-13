@@ -9,7 +9,9 @@
 <ng-container *ngIf="type && type==='add'">
     <mat-dialog-content class="mat-typography">
         <div class="container-fluid">
-            <mat-form-field class="example-form-field">
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="example-form-field">
                 <mat-label>Tên</mat-label>
                 <input matInput type="text" [(ngModel)]="product.ten">
                 <button *ngIf="product.ten" matSuffix mat-icon-button aria-label="Clear" (click)="product.ten=''">
@@ -18,53 +20,53 @@
             </mat-form-field>
 
             <mat-form-field class="example-form-field">
-                <mat-label>Mô Tả</mat-label>
-                <input matInput type="text" [(ngModel)]="product.moTa">
-                <button *ngIf="product.moTa" matSuffix mat-icon-button aria-label="Clear" (click)="product.moTa=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            </mat-form-field>
+              <mat-label>Mô Tả</mat-label>
+              <input matInput type="text" [(ngModel)]="product.moTa">
+              <button *ngIf="product.moTa" matSuffix mat-icon-button aria-label="Clear" (click)="product.moTa=''">
+                  <mat-icon>close</mat-icon>
+              </button>
+          </mat-form-field>
 
-            <!-- <mat-form-field class="example-form-field"> -->
-            <div class="col">
-                <label>Image</label>
-                <input type="file" (change)="onFileChange($event)" multiple>
-                <div>
-                    <img [src]="uploadedUrl" style="width: 200px; height: auto">
-                </div>
+          <div class="col">
+            <label>Image</label>
+            <input type="file" (change)="onFileChange($event)" multiple>
+            <div>
+                <img [src]="uploadedUrl" style="width: 200px; height: auto">
             </div>
-            <!-- </mat-form-field> -->
-
-            <mat-form-field class="example-form-field">
-                <mat-label>Danh mục</mat-label>
-                <mat-select [(ngModel)]="product.danhMuc">
-                    <mat-option *ngFor="let category of data.categories"
-                        [value]="category.id">{{category.ten}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field class="example-form-field">
+        </div>
+            </div>
+              <div class="col">
+                <mat-form-field class="example-form-field">
+                  <mat-label>Danh mục</mat-label>
+                  <mat-select [(ngModel)]="product.danhMuc">
+                      <mat-option *ngFor="let category of data.categories"
+                          [value]="category.id">{{category.ten}}</mat-option>
+                  </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-form-field">
                 <mat-label>Thương hiệu</mat-label>
                 <mat-select [(ngModel)]="product.thuongHieu">
                     <mat-option *ngFor="let brand of data.brands" [value]="brand.id">{{brand.ten}}</mat-option>
                 </mat-select>
             </mat-form-field>
-
             <mat-form-field class="example-form-field">
-                <mat-label>Xuất xứ</mat-label>
-                <mat-select [(ngModel)]="product.xuatXu">
-                    <mat-option *ngFor="let origin of data.origins" [value]="origin.id">{{origin.ten}}</mat-option>
+              <mat-label>Xuất xứ</mat-label>
+              <mat-select [(ngModel)]="product.xuatXu">
+                  <mat-option *ngFor="let origin of data.origins" [value]="origin.id">{{origin.ten}}</mat-option>
 
-                </mat-select>
-            </mat-form-field>
+              </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Chọn trạng thái</mat-label>
+            <mat-select [(ngModel)]="product.trangThai">
+                <mat-option [value]="0">Hoạt động</mat-option>
+                <mat-option [value]="1">Ngưng Hoạt động</mat-option>
+            </mat-select>
+        </mat-form-field>
+              </div>
 
-            <mat-form-field>
-                <mat-label>Chọn trạng thái</mat-label>
-                <mat-select [(ngModel)]="product.trangThai">
-                    <mat-option [value]="0">Hoạt động</mat-option>
-                    <mat-option [value]="1">Ngưng Hoạt động</mat-option>
-                </mat-select>
-            </mat-form-field>
+
+          </div>
         </div>
     </mat-dialog-content>
     <mat-dialog-actions>
@@ -74,28 +76,31 @@
     </mat-dialog-actions>
 </ng-container>
 
-
-
-
 <ng-container *ngIf="type &&  type==='update'">
     <mat-dialog-content class="mat-typography">
         <div class="container-fluid">
-            <mat-form-field class="example-form-field">
-                <mat-label>Tên</mat-label>
-                <input matInput type="text" [(ngModel)]="product.ten">
-                <button *ngIf="product.ten" matSuffix mat-icon-button aria-label="Clear" (click)="product.ten=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            </mat-form-field>
+          <div class="row">
+              <div class="col">
+                  <div class="col-6">
+                    <mat-form-field class="example-form-field">
+                      <mat-label>Tên</mat-label>
+                      <input matInput type="text" [(ngModel)]="product.ten">
+                      <button *ngIf="product.ten" matSuffix mat-icon-button aria-label="Clear" (click)="product.ten=''">
+                          <mat-icon>close</mat-icon>
+                      </button>
+                  </mat-form-field>
+                  </div>
+<div class="col-6">
+  <mat-form-field class="example-form-field">
+    <mat-label>Mô Tả</mat-label>
+    <textarea matInput  [(ngModel)]="product.moTa"  rows="8"></textarea>
+    <button *ngIf="product.moTa" matSuffix mat-icon-button aria-label="Clear" (click)="product.moTa=''">
+        <mat-icon>close</mat-icon>
+    </button>
+</mat-form-field>
+</div>
 
-            <mat-form-field class="example-form-field">
-                <mat-label>Mô Tả</mat-label>
-                <input matInput type="text" [(ngModel)]="product.moTa">
-                <button *ngIf="product.moTa" matSuffix mat-icon-button aria-label="Clear" (click)="product.moTa=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            </mat-form-field>
-
+            <div>
             <mat-label>Ảnh chính</mat-label>
             <img *ngIf="!uploadedUrl && product.anhChinh" [src]="product.anhChinh" alt="Product Image"
                 style="width: 50px; height: auto;">
@@ -106,7 +111,51 @@
                 <img [src]="uploadedUrl" alt="Uploaded Image" style="width: 50px; height: auto;">
             </div>
 
+
             <input type="file" (change)="onFileChange($event)" accept="image/*" />
+          </div>
+</div>
+        <div class="col">
+          <mat-form-field class="example-form-field">
+            <mat-label>Danh mục</mat-label>
+            <mat-select [(ngModel)]="selectedCategoryId">
+                <!-- <mat-select [(ngModel)]="product.danhMuc"> -->
+                <mat-option *ngFor="let category of data.categories"
+                    [value]="category.id">{{category.ten}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-form-field">
+          <mat-label>Thương hiệu</mat-label>
+          <mat-select [(ngModel)]="selectedBrandId">
+              <!-- <mat-select [(ngModel)]="product.thuongHieu"> -->
+              <mat-option *ngFor="let brand of data.brands" [value]="brand.id">{{brand.ten}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-form-field">
+        <mat-label>Xuất xứ</mat-label>
+        <!-- <mat-select [(ngModel)]="product.xuatXu"> -->
+        <mat-select [(ngModel)]="selectedOriginId">
+
+            <mat-option *ngFor="let origin of data.origins" [value]="origin.id">{{origin.ten}}</mat-option>
+
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Chọn trạng thái</mat-label>
+      <mat-select [(ngModel)]="product.trangThai">
+          <mat-option [value]="1">Hoạt động</mat-option>
+          <mat-option [value]="0">Ngưng Hoạt động</mat-option>
+      </mat-select>
+  </mat-form-field>
+        </div>
+
+          </div>
+
+
+
+
+
 
             <!-- Hiển thị hình ảnh xem trước từ tệp đã chọn nếu có -->
             <!-- <div *ngIf="!uploadedUrl && uploadedUrl">
@@ -114,40 +163,12 @@
                 <img [src]="uploadedUrl" alt="Preview Image" style="width: 50px; height: auto;">
             </div> -->
 
-            <mat-form-field class="example-form-field">
-                <mat-label>Danh mục</mat-label>
-                <mat-select [(ngModel)]="selectedCategoryId">
-                    <!-- <mat-select [(ngModel)]="product.danhMuc"> -->
-                    <mat-option *ngFor="let category of data.categories"
-                        [value]="category.id">{{category.ten}}</mat-option>
-                </mat-select>
-            </mat-form-field>
 
-            <mat-form-field class="example-form-field">
-                <mat-label>Thương hiệu</mat-label>
-                <mat-select [(ngModel)]="selectedBrandId">
-                    <!-- <mat-select [(ngModel)]="product.thuongHieu"> -->
-                    <mat-option *ngFor="let brand of data.brands" [value]="brand.id">{{brand.ten}}</mat-option>
-                </mat-select>
-            </mat-form-field>
 
-            <mat-form-field class="example-form-field">
-                <mat-label>Xuất xứ</mat-label>
-                <!-- <mat-select [(ngModel)]="product.xuatXu"> -->
-                <mat-select [(ngModel)]="selectedOriginId">
 
-                    <mat-option *ngFor="let origin of data.origins" [value]="origin.id">{{origin.ten}}</mat-option>
 
-                </mat-select>
-            </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Chọn trạng thái</mat-label>
-                <mat-select [(ngModel)]="product.trangThai">
-                    <mat-option [value]="1">Hoạt động</mat-option>
-                    <mat-option [value]="0">Ngưng Hoạt động</mat-option>
-                </mat-select>
-            </mat-form-field>
+
         </div>
     </mat-dialog-content>
     <mat-dialog-actions>
