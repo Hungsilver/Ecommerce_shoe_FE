@@ -4,6 +4,15 @@ import { MenuItem } from 'primeng/api';
 import { IProduct } from 'src/app/page/product/service/product.module';
 import { ProductService } from 'src/app/page/product/service/product.service';
 import { DetailService } from '../service/detail.service';
+import { ISize } from 'src/libs/service/project/size/size.module';
+import { SizeService } from 'src/app/admin/size/service/size.service';
+import { IColor } from 'src/app/admin/color/service/color.module';
+import { IMaterial } from 'src/app/admin/material/service/material.module';
+import { IMaterialSoles } from 'src/app/admin/material-soles/service/materilal-soles.module';
+import { MaterialService } from 'src/app/admin/material/service/material.service';
+import { MaterialSolesService } from 'src/app/admin/material-soles/service/material-soles.service';
+import { ColorService } from 'src/app/admin/color/service/color.service';
+
 
 @Component({
   selector: 'app-detail',
@@ -12,6 +21,10 @@ import { DetailService } from '../service/detail.service';
 })
 export class DetailComponent implements OnInit {
   product!: IProduct;
+  size!:ISize
+  color!:IColor;
+  material!:IMaterial;
+  materialSoles!:IMaterialSoles
   productDetailsByAttribute: any = [];
   id!: Number;
   quantity: number = 1;
@@ -27,11 +40,19 @@ export class DetailComponent implements OnInit {
   productDetailSelected: any = {};
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
+  listSize: any = [];
+  listColor: any = [];
+  listCL: any = [];
+  listCLDG: any = [];
 
 
   constructor(
     private productService: ProductService,
     private detailService: DetailService,
+    private sizeService: SizeService,
+    private colorService: ColorService,
+    private materialService: MaterialService,
+    private materialSoleService: MaterialSolesService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -57,6 +78,9 @@ export class DetailComponent implements OnInit {
         this.params.id = this.productDetailsByAttribute[0]?.id;
       }
     });
+
+
+    
   }
 
   // getAll() {
@@ -68,24 +92,71 @@ export class DetailComponent implements OnInit {
   // }
 
   handleShowAttributes(ctsp: any[]) {
-    ctsp.forEach(ctsp => {
-      let isExistMS = this.mauSacs.findIndex((item: any) => item.id === ctsp?.mauSac?.id)
-      let isExistKC = this.kichCos.findIndex((item: any) => item.id === ctsp?.kichCo?.id)
-      let isExistCLG = this.chatLieuGiays.findIndex((item: any) => item.id === ctsp?.chatLieuGiay?.id)
-      let isExistCLDG = this.chatLieuDeGiays.findIndex((item: any) => item.id === ctsp?.chatLieuDeGiay?.id)
-      if (isExistMS === -1 || this.mauSacs.length === 0) {
-        this.mauSacs.push({ ...ctsp.mauSac, isDisable: false })
+    // ctsp.forEach(ctsp => {
+    //   let isExistMS = this.mauSacs.findIndex((item: any) => item.id === ctsp?.mauSac?.id)
+    //   let isExistKC = this.kichCos.findIndex((item: any) => item.id === ctsp?.kichCo?.id)
+    //   let isExistCLG = this.chatLieuGiays.findIndex((item: any) => item.id === ctsp?.chatLieuGiay?.id)
+    //   let isExistCLDG = this.chatLieuDeGiays.findIndex((item: any) => item.id === ctsp?.chatLieuDeGiay?.id)
+    //   if (isExistMS === -1 || this.mauSacs.length === 0) {
+    //     this.mauSacs.push({ ...ctsp.mauSac, isDisable: false })
+    //   }
+    //   // if (isExistKC === -1 || this.kichCos.length === 0) {
+    //   //   this.kichCos.push({ ...ctsp.kichCo, isDisable: false })
+    //   // }
+    //   // if (isExistCLG === -1 || this.chatLieuGiays.length === 0) {
+    //   //   this.chatLieuGiays.push(ctsp.chatLieuGiay)
+    //   // }
+    //   // if (isExistCLDG === -1 || this.chatLieuDeGiays.length === 0) {
+    //   //   this.chatLieuDeGiays.push(ctsp.chatLieuDeGiay)
+    //   // }
+    // });
+
+    this.productDetailsByAttribute.forEach((key: any) => {
+      this.listSize.push(key.kichCo.id)
+      this.listColor.push(key.mauSac.id)
+      this.listCL.push(key.chatLieuGiay.id)
+      this.listCLDG.push(key.chatLieuDeGiay.id)
+    })
+
+    this.sizeService.getSize(this.params).then(s=>{
+      if(s && s.content){
+        s.content.forEach((key:any)=>{
+          this.kichCos.push(key)
+        })
+        console.log(this.kichCos.id);
+      
       }
-      if (isExistKC === -1 || this.kichCos.length === 0) {
-        this.kichCos.push({ ...ctsp.kichCo, isDisable: false })
+    })
+
+    this.colorService.getColors(this.params).then(c =>{
+      if(c && c.content){
+        c.content.forEach((key:any)=>{
+          this.mauSacs.push(key)
+        })
+        console.log(this.mauSacs.id);
+      
       }
-      if (isExistCLG === -1 || this.chatLieuGiays.length === 0) {
-        this.chatLieuGiays.push(ctsp.chatLieuGiay)
+    })
+
+    this.materialService.getMaterials(this.params).then(cl =>{
+      if(cl && cl.content){
+        cl.content.forEach((key:any)=>{
+          this.chatLieuGiays.push(key)
+        })
+        console.log(this.chatLieuGiays.id);
+      
       }
-      if (isExistCLDG === -1 || this.chatLieuDeGiays.length === 0) {
-        this.chatLieuDeGiays.push(ctsp.chatLieuDeGiay)
+    })
+
+    this.materialSoleService.getMaterials(this.params).then(cldg =>{
+      if(cldg && cldg.content){
+        cldg.content.forEach((key:any)=>{
+          this.chatLieuDeGiays.push(key)
+        })
+        console.log(this.chatLieuDeGiays.id);
+      
       }
-    });
+    })
   }
 
   addToCart() {
@@ -120,9 +191,10 @@ export class DetailComponent implements OnInit {
     let newColor: any[] = [];
     let newCL: any[] = [];
     let newCLDG: any[] = [];
-    console.log(this.query)
+    console.log('query', this.query)
     this.productDetailsByAttribute = this.product?.listChiTietSanPham;
     console.log('first list:', this.productDetailsByAttribute)
+
 
     if (this.query?.kichCo && this.query?.kichCo !== '') {
       this.productDetailsByAttribute = this.productDetailsByAttribute.filter((item: any) =>
@@ -145,6 +217,7 @@ export class DetailComponent implements OnInit {
       )
     }
     console.log('products end', this.productDetailsByAttribute)
+
 
     this.productDetailsByAttribute.forEach((ctsp: any) => {
       let isExistMS = newColor.findIndex((item: any) => item?.id === ctsp?.mauSac?.id)
@@ -174,6 +247,27 @@ export class DetailComponent implements OnInit {
       }
     })
   }
+
+isSelectedSize(sizeId: any): boolean {
+  // Kiểm tra xem kichCoId có trong mảng listSize hay không
+  console.log('kichCoId',sizeId);
+  console.log('sizeid',this.kichCos);
+  console.log('listSize',this.listSize);
+  return this.listSize.includes(sizeId);
+}
+
+isSelectedColor(colorId: any): boolean {
+  return this.listColor.includes(colorId);
+}
+
+isSelectedMaterial(materialId: any): boolean {
+  return this.listCL.includes(materialId);
+}
+
+isSelectedMaterialSole(materialSoleId: any): boolean {
+  return this.listSize.includes(materialSoleId);
+}
+
 
   getKichCo(kichCo: any) {
     this.query.kichCo = kichCo;
