@@ -20,35 +20,30 @@
 
           <div class="size my-3">
             <ng-container *ngFor="let kichCo of kichCos">
-              <button type="button"
-                      class="btn btn-outline-dark me-2"
-                      (click)="getKichCo(kichCo)"
-                      [class.selectedBtn]="query?.kichCo?.id === kichCo.id"
-                      [disabled]="!isSelectedSize(kichCo.id)">
+              <button type="button" class="btn btn-outline-dark me-2" (click)="getKichCo(kichCo)"
+                [class.selectedBtn]="query?.size?.id === kichCo.id"
+                [disabled]="!isSelectedSize(kichCo.id)">
                 {{ kichCo.size }}
               </button>
             </ng-container>
-            
-            
-            
           </div>
           <div class="color">
             <button type="button" class="btn btn-outline-dark me-2 mb-1" *ngFor="let m of mauSacs"
-              (click)="getMauSac(m)" [class.selectedBtnColor]="query.mauSac?.id === m.id" 
+              (click)="getMauSac(m)" [class.selectedBtnColor]="query.color?.id === m.id"
               [disabled]="!isSelectedColor(m.id)">
               {{ m.ten }}
             </button>
           </div>
           <div class="color">
             <button type="button" class="btn btn-outline-dark me-2 mb-1" *ngFor="let g of chatLieuGiays"
-              (click)="getChatLieu(g)" [class.selectedBtnColor]="query.chatLieuGiay?.id === g.id"
+              (click)="getChatLieu(g)" [class.selectedBtnColor]="query.shoe_material?.id === g.id"
               [disabled]="!isSelectedMaterial(g.id)">
               {{ g.ten }}
             </button>
           </div>
           <div class="">
             <button type="button" class="btn btn-outline-dark me-2 mb-1" *ngFor="let dg of chatLieuDeGiays"
-              (click)="getChatLieuDe(dg)" [class.selectedBtnColor]="query.chatLieuDeGiay?.id === dg.id"
+              (click)="getChatLieuDe(dg)" [class.selectedBtnColor]="query.shoe_sole_material?.id === dg.id"
               [disabled]="!isSelectedMaterialSole(dg.id)">
               {{ dg.ten }}
             </button>
