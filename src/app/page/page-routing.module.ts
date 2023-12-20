@@ -7,18 +7,24 @@ import { ProductComponent } from './product/page/product-home/product.component'
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { authUserGuard } from 'src/libs/service/request/auth.guard';
-
+import { BlogHomeComponent } from './blog/bloghome-component';
+import { blogdetail } from './blogDetail/blogDetail-component';
 const routes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'product', component: ProductComponent },
-    { path: 'cart', component: CartComponent, canActivate: [authUserGuard] },
-    { path: 'checkout', canActivate: [authUserGuard], component: CheckoutComponent },
-    { path: 'product/:id', component: DetailComponent },
-    { path: 'order', component: OrderComponent },
-
+  { path: '', component: HomeComponent },
+  { path: 'product', component: ProductComponent },
+  { path: 'cart', component: CartComponent, canActivate: [authUserGuard] },
+  {
+    path: 'checkout',
+    canActivate: [authUserGuard],
+    component: CheckoutComponent,
+  },
+  { path: 'product/:id', component: DetailComponent },
+  { path: 'order', component: OrderComponent },
+  { path: 'bloghome', component: BlogHomeComponent },
+  {path: 'bloghome/:id', component:blogdetail},
 ];
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class PageRoutingModule { }
+export class PageRoutingModule {}

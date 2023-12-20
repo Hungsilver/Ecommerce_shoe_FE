@@ -16,8 +16,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-
-
+import { BlogHomeComponent } from './blog/bloghome-component';
+import { blogdetail } from './blogDetail/blogDetail-component';
 
 @NgModule({
     imports: [
@@ -33,6 +33,7 @@ import { MatIconModule } from '@angular/material/icon';
         MatButtonModule,
         MatSnackBarModule,
         MatIconModule,
+
     ],
     declarations: [
         DetailComponent,
@@ -41,6 +42,8 @@ import { MatIconModule } from '@angular/material/icon';
         ProductComponent,
         CartComponent,
         CheckoutComponent,
+        BlogHomeComponent,
+        blogdetail,
     ],
 })
 export class PageLazyModule { }

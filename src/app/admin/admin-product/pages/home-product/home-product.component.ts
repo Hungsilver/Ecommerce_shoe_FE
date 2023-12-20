@@ -200,8 +200,8 @@ export class HomeProductComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogProductComponent, {
-      width: '1000px',
-      height: '500px',
+      width: '1200px',
+      height: '600px',
       data: {
         type: "add",
         product: {},
