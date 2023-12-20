@@ -25,6 +25,22 @@ export class ProductDetailService {
       );
     });
   }
+
+  getProductByParam(params?: any, activeStatus: number = 0): Promise<IReqApi<IProductDetail[]>> {
+    // Thêm trạng thái hoạt động vào params nếu activeStatus là 1
+    if (activeStatus === 1) {
+      params = { ...params, active: 1 };
+    }
+  
+    return new Promise<IReqApi<IProductDetail[]>>((resolve, reject) => {
+      this.baseRequestService.get(`${this.url}/filter`, params).subscribe(
+        (result) => {
+          return resolve(result);
+        },
+        (err) => reject(err)
+      );
+    });
+  }
   
   createProduct(body: any): Promise<IReqApi<IProductDetail>> {
     return new Promise<IReqApi<IProductDetail>>((resolve, reject) => {
