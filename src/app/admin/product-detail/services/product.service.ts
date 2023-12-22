@@ -26,6 +26,18 @@ export class ProductDetailService {
     });
   }
 
+ 
+  getTop1Price(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.baseRequestService.get(`${this.url}/pricemax`).subscribe(
+        (result) => {
+          return resolve(result);
+        },
+        (err) => reject(err)
+      );
+    });
+  } 
+  
   getProductByParam(params?: any, activeStatus: number = 0): Promise<IReqApi<IProductDetail[]>> {
     // Thêm trạng thái hoạt động vào params nếu activeStatus là 1
     if (activeStatus === 1) {
