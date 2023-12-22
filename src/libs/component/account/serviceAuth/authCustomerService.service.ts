@@ -20,9 +20,20 @@ export class AuthCustomerService {
         })
     }
 
+    logoutCustomer(): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.baseService.get('auth/customer/logout').subscribe(
+                (result) => {
+                    return resolve(result);
+                },
+                (err) => reject(err)
+            )
+        })
+    }
+
     loginAdmin(body: IBodyLogin): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            this.baseService.post('auth/admin/login', body).subscribe(
+            this.baseService.get('auth/admin/login', body).subscribe(
                 (result) => {
                     return resolve(result);
                 },

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ICart } from '../cart/service/cart.module';
 
 @Component({
   selector: 'app-checkout',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent {
-
+  
 }
