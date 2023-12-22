@@ -191,7 +191,7 @@ console.log(this.params);
       this.detailService.addToCart(this.addProductToCart).then(c=>{
         this.notificationService.success("Thêm sản phẩm vào giỏ hàng thành công");
       },err=>{
-        this.notificationService.success("Thêm sản phẩm vào giỏ hàng thành công");
+        this.notificationService.error("Vui lòng đăng nhập");
       })
     }
     })
