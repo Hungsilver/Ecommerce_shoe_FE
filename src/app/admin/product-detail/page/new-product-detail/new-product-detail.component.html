@@ -1,7 +1,7 @@
 <div class="container">
   <h2>Danh Sách Chi Tiết Sản Phẩm</h2>
   <form>
-    <div class="form-group">
+    <div class="form-group ">
       <label for="ngayTao">Sản Phẩm:</label>
       <select type="text" class="form-control" id="sanPham" [(ngModel)]="newProduct.sanPham" name="sanPham" required>
         <option *ngFor="let sp of SanPhams" [value]="sp.id">{{ sp.ten }}</option>

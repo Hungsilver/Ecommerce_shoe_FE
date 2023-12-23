@@ -16,7 +16,7 @@ export class ProductDetailService implements OnInit {
     ngOnInit(): void {
 
     }
-
+    
     getProductDetails(params?: any): Promise<IReqApi<IProductDetails[]>> {
         return new Promise<IReqApi<IProductDetails[]>>((resolve, reject) => {
             this.BaseRequestService.get(`${this.url}`, params).subscribe(
