@@ -23,6 +23,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
+    this.customerInfo = null;
     this.cacheService.remove('customer');
     this.router.navigate(['/'])
   }
