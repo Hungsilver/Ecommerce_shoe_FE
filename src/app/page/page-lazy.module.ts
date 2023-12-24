@@ -9,7 +9,7 @@ import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
 import { SliderModule } from 'primeng/slider';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { CartComponent } from './cart/cart.component';
+import { CartComponent } from './cart/page/cart.component';
 import { TableModule } from 'primeng/table';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { CheckboxModule } from 'primeng/checkbox';

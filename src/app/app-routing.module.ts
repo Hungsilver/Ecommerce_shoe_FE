@@ -4,7 +4,7 @@ import { LayoutAdminComponent } from 'src/libs/component/layout/admin/layout-adm
 import { LayoutPageComponent } from 'src/libs/component/layout/page/layout-page.component';
 import { Page404Component } from './page404/page404.component';
 import { authAdminGuard, authUserGuard } from 'src/libs/service/request/auth.guard';
-import { CartComponent } from './page/cart/cart.component';
+import { CartComponent } from './page/cart/page/cart.component';
 
 const routes: Routes = [
   {
