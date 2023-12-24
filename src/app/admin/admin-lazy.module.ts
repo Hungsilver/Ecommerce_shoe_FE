@@ -49,14 +49,15 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AngularFireModule } from '@angular/fire/compat'
 import { AngularFireStorageModule } from '@angular/fire/compat/storage'
 import { environment } from 'src/environment/environment';
 
+import { VoucherHomeComponent } from './voucher/pages/voucher-home.component';
+import { VoucherDialogComponent } from './voucher/components/voucher-Dialog.component';
+ 
 LOAD_WASM().subscribe()
 
 @NgModule({
@@ -120,6 +121,8 @@ LOAD_WASM().subscribe()
     TestNewComponent,
     NComponent,
     SalesComponent,
+    VoucherHomeComponent,
+    VoucherDialogComponent,
   ],
   providers: [],
 })

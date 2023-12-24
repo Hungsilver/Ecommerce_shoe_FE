@@ -18,7 +18,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { BlogHomeComponent } from './blog/bloghome-component';
 import { blogdetail } from './blogDetail/blogDetail-component';
-
+import { VoucherHomeComponent } from '../admin/voucher/pages/voucher-home.component';
 @NgModule({
     imports: [
         CommonModule,

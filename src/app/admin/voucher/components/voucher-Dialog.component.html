@@ -1,0 +1,204 @@
+<div class="d-flex justify-content-between">
+  <h2 mat-dialog-title>Phiếu Giảm Giá</h2>
+  <div mat-dialog-title mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+  </div>
+</div>
+<ng-container *ngIf="(type && type === 'add')">
+  <mat-dialog-content class="mat-tyqpography">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Tên</mat-label>
+              <input matInput type="text" [(ngModel)]="voucher.ten" />
+              <button
+                *ngIf="voucher?.ten"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="voucher.ten = ''"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-6 evenly-spaced">
+            <label>Thời Gian Kết Thúc</label>
+            <input  type="datetime-local"  [(ngModel)]="voucher.thoiGianKetThuc" >
+        </div>
+
+
+
+        </div>
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Chiết Khấu</mat-label>
+              <input matInput [(ngModel)]="voucher.chietKhau" >
+              <button
+                *ngIf="voucher?.chietKhau"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="voucher.chietKhau= ''"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Hình Thức Giảm Giá</mat-label>
+              <mat-select [(ngModel)]="voucher.hinhThucGiamGia">
+                <mat-option [value]="1">Tiền Mặt</mat-option>
+                <mat-option [value]="0">Phần Trăm</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Chọn trạng thái</mat-label>
+              <mat-select [(ngModel)]="voucher.trangThai">
+                <mat-option [value]="1">Đang Diễn ra</mat-option>
+                <mat-option [value]="0">Kết Thúc</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Mô Tả</mat-label>
+              <textarea matInput [(ngModel)]="voucher.moTa" rows="6"></textarea>
+              <button
+                *ngIf="voucher?.moTa"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="voucher.moTa= ''"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <ng-container *ngIf="type && type === 'add'">
+      <button mat-button (click)="addVoucher()">Xác nhận add</button>
+    </ng-container>
+
+  </mat-dialog-actions>
+
+</ng-container>
+
+<!-- UPDATE -->
+<ng-container *ngIf="(type && type === 'update')">
+  <mat-dialog-content class="mat-tyqpography">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Tên</mat-label>
+              <input matInput type="text" [(ngModel)]="voucher.ten" />
+              <button
+                *ngIf="voucher?.ten"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="voucher.ten = ''"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-6 evenly-spaced">
+            <label>Thời Gian Kết Thúc</label>
+            <input  type="datetime-local"  [(ngModel)]="voucher.thoiGianKetThuc" >
+        </div>
+        </div>
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Chiết Khấu</mat-label>
+              <input matInput [(ngModel)]="voucher.chietKhau" >
+              <button
+                *ngIf="voucher?.chietKhau"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="voucher.chietKhau= ''"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Hình Thức Giảm Giá</mat-label>
+              <mat-select [(ngModel)]="voucher.hinhThucGiamGia">
+                <mat-option [value]="1">Tiền Mặt</mat-option>
+                <mat-option [value]="0">Phần Trăm</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Chọn trạng thái</mat-label>
+              <mat-select [(ngModel)]="voucher.trangThai">
+                <mat-option [value]="1">Đang Diễn ra</mat-option>
+                <mat-option [value]="0">Kết Thúc</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Mô Tả</mat-label>
+              <textarea matInput [(ngModel)]="voucher.moTa" rows="6"></textarea>
+              <button
+                *ngIf="voucher?.moTa"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="voucher.moTa= ''"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <ng-container *ngIf="type && type === 'update'">
+      <button mat-button (click)="updateVoucher()">Xác nhận Update</button>
+    </ng-container>
+
+  </mat-dialog-actions>
+
+</ng-container>
+<ng-container *ngIf="type === 'delete'">
+  <mat-dialog-content>
+    <h1>Bạn xác nhận xóa !</h1>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="deleteVoucher()">Xác nhận</button>
+    <button mat-button mat-dialog-close>Hủy</button>
+  </mat-dialog-actions>
+</ng-container>
+
+
+
+
+
