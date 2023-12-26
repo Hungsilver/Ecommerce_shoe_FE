@@ -5,7 +5,7 @@ export interface IProductDetail {
   giaBan?: number;
   ngayTao?: string;
   ngayCapNhat?: string;
-  trangThai?: string;
+  trangThai?: number;
   mauSac?: any;
   kichCo?: any;
   chatLieuGiay?: any;
