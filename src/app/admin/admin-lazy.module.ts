@@ -56,6 +56,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularFireModule } from '@angular/fire/compat'
 import { AngularFireStorageModule } from '@angular/fire/compat/storage'
 import { environment } from 'src/environment/environment';
+import { ForCategoryComponent } from './dashboard/components/ForCategory/ForCategory.component';
+import { ForDateComponent } from './dashboard/components/ForDate/ForDate.component';
+import { OrdersComponent } from './dashboard/components/Orders/Orders.component';
+import { ForProductComponent } from './dashboard/components/ForProduct/ForProduct.component';
+import { TabViewModule } from 'primeng/tabview';
 
 LOAD_WASM().subscribe()
 
@@ -84,6 +89,7 @@ LOAD_WASM().subscribe()
     NgxScannerQrcodeModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
+    TabViewModule
 
 
   ],
@@ -120,6 +126,10 @@ LOAD_WASM().subscribe()
     TestNewComponent,
     NComponent,
     SalesComponent,
+    ForCategoryComponent,
+    ForDateComponent,
+    OrdersComponent,
+    ForProductComponent
     // NavbarComponent
 
   ],
