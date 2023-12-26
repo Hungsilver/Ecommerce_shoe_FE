@@ -92,9 +92,4 @@ export class ProductService {
         });
     }
 
-
-
-    // getDanhMuc(): Observable<DanhMuc[]> {
-    //     return this.http.get<DanhMuc[]>('/api/danhmuc'); // Replace with your danhMuc API endpoint
-    //   }
 }
