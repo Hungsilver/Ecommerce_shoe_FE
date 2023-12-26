@@ -3,7 +3,7 @@ import { ProductDetailComponent } from './product-detail/page/product-detail/pro
 import { ColorComponent } from './color/pages/color-home/color.component';
 import { OriginComponent } from './origin/origin.component';
 import { OrderComponent } from '../page/order/order.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard/page/dashboard/dashboard.component';
 import { NgModule } from '@angular/core';
 import { MaterialComponent } from './material/pages/material-home/material.component';
 import { MaterialSolesComponent } from './material-soles/pages/material-soles-home/material-soles.component';

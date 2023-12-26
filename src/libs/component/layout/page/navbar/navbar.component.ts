@@ -13,7 +13,7 @@ import { CacheService } from 'src/libs/service/request/cache.service';
 })
 export class NavbarComponent implements OnInit {
   quantityInCart = 0;
-  customerInfo!: any;
+  customerInfo: any = undefined;
 
   constructor(
     private cacheService: CacheService,
@@ -30,12 +30,11 @@ export class NavbarComponent implements OnInit {
           this.quantityInCart++;
         })
       }
-      this.customerInfo = this.cacheService?.get('customer') ?? undefined;
     }, err => {
       this.quantityInCart = 0;
     })
+    this.customerInfo = this.cacheService?.get('customer') ?? undefined;
   }
-
 
   logout() {
     this.customerInfo = null;
