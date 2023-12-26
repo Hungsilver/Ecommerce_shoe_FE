@@ -10,15 +10,45 @@
 
 </div>
 
-<ul class="nav nav-tabs">
+<!-- <ul class="nav nav-tabs">
     <li class="nav-item">
         <a class="nav-link" href="#">Hoạt động</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="#">Không hoạt động</a>
     </li>
-</ul>
+</ul> -->
+<!-- <mat-form-field>
+    <mat-label>Trạng thái</mat-label>
+    <mat-select matNativeControl [(ngModel)]="selectedStatus" (change)="filterByStatus()">
+        <mat-option [value]="1">Hoạt động</mat-option>
+        <mat-option [value]="0">Không hoạt động </mat-option>
+    </mat-select>
+</mat-form-field> -->
 
+<mat-form-field>
+    <mat-label>Filter by Status</mat-label>
+    <mat-select [(ngModel)]="selectedStatus" (selectionChange)="filterByStatus()">
+        <mat-option [value]="null">Select status</mat-option>
+        <mat-option [value]="1">Active</mat-option>
+        <mat-option [value]="0">Inactive</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Filter by Brand</mat-label>
+    <mat-select [(ngModel)]="selectedBrand" (selectionChange)="filterByBrand()">
+        <mat-option [value]="null">Select Brand</mat-option>
+        <mat-option *ngFor="let brands of brand" [value]="brands.id">{{ brands.ten }}</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<!-- <div class="form-group">
+    <label for="ngayTao">Sản Phẩm:</label>
+    <select type="text" class="form-control" id="sanPham" [(ngModel)]="products.sanPham" name="sanPham" required>
+        <option *ngFor="let sp of brand" [value]="sp.id">{{ sp.ten }}</option>
+    </select>
+</div> -->
 
 <br>
 
@@ -29,7 +59,7 @@
                 <th style="width: 3%;">STT</th>
                 <th (click)="sortByName()" style="width: 20%;cursor: pointer;">Tên <i [ngClass]="iconSortName"></i></th>
                 <th style="width: 15%;">Ảnh Chính</th>
-                <th style="width: 25%;">Mô Tả</th>
+                <th style="width: 15%;">Mô Tả</th>
                 <th style="width: 10%;">Thương hiệu</th>
                 <th style="width: 10%;">Xuất Xứ</th>
                 <th style="width: 10%;">Danh Mục</th>
@@ -49,7 +79,7 @@
                 <td>
                     <img src="{{ product.anhChinh }}" alt="img" width="100px" height="120px">
                 </td>
-                <td>{{ product.moTa }}</td>
+                <td class="shorten-text">{{ product.moTa }}</td>
                 <td>{{ product.thuongHieu?.ten }}</td>
                 <td>{{ product.xuatXu?.ten }}</td>
                 <td>{{ product.danhMuc?.ten }}</td>

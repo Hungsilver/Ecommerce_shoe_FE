@@ -120,6 +120,8 @@ LOAD_WASM().subscribe()
     TestNewComponent,
     NComponent,
     SalesComponent,
+    // NavbarComponent
+
   ],
   providers: [],
 })

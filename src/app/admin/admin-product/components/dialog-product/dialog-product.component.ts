@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { ProductService } from '../../service/product.service';
 import { CategoryService } from '../../../category/service/category.service';
 import { AngularFireStorage } from "@angular/fire/compat/storage"
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dialog-product',
@@ -23,6 +24,7 @@ export class DialogProductComponent implements OnInit {
   selectedCategoryId: number | null = null;
   validUrls: string[] = []; // Mảng để lưu đường dẫn hình ảnh
   uploadedUrl: string | null = null;
+  productForm: any;
 
   ngOnInit(): void {
 
@@ -39,13 +41,23 @@ export class DialogProductComponent implements OnInit {
     private productService: ProductService,
     private dialog: MatDialog,
     private categoryService: CategoryService,
-    private fireStorage: AngularFireStorage
+    private fireStorage: AngularFireStorage,
+    private fb: FormBuilder
   ) {
     this.origin = data.origins;
     this.brand = data.brands;
     this.categories = data.categories;
     this.type = data.type;
     this.product = data.product;
+
+    this.productForm = this.fb.group({
+      ten: ['', Validators.required],
+      moTa: ['', Validators.required],
+      danhMuc: [null, Validators.required],
+      thuongHieu: [null, Validators.required],
+      xuatXu: [null, Validators.required],
+      trangThai: [1, Validators.required]
+    });
   }
 
   async onFileChange(event: any) {
@@ -65,20 +77,41 @@ export class DialogProductComponent implements OnInit {
   }
 
   addProduct(): void {
-    console.log('Valid URLs in addProduct:', this.validUrls);
+    // console.log('Valid URLs in addProduct:', this.validUrls);
     // Gán giá trị vào this.product.anhChinh
+    const tenValue = this.productForm.get('ten').value;
+    const moTaValue = this.productForm.get('moTa').value;
+    const danhMucId = this.productForm.get('danhMuc').value;
+    const thuongHieuId = this.productForm.get('thuongHieu').value;
+    const xuatXuId = this.productForm.get('xuatXu').value;
+    const trangThaiValue = this.productForm.get('trangThai').value;
+
+    // Gán giá trị vào this.product
+    this.product = {
+      ten: tenValue,
+      moTa: moTaValue,
+      danhMuc: danhMucId,
+      thuongHieu: thuongHieuId,
+      xuatXu: xuatXuId,
+      trangThai: trangThaiValue,
+    };
+
     this.product.anhChinh = this.uploadedUrl;
     console.log('Product Image URLs:', this.product.anhChinh);
-
-    if (this.product.anhChinh.length > 0) {
-      this.productService.createProduct(this.product).then(res => {
-        console.log('Data created', res.content);
-        if (res) {
-          this.dialog.closeAll();
-        }
-      });
+    if (this.productForm.valid) {
+      if (this.product.anhChinh.length > 0) {
+        this.productService.createProduct(this.product).then(res => {
+          console.log('Data created', res.content);
+          if (res) {
+            this.dialog.closeAll();
+          }
+        });
+      } else {
+        console.error('Image URLs are null or empty. Product not added.');
+      }
     } else {
-      console.error('Image URLs are null or empty. Product not added.');
+      console.log('Dữ liệu không hợp lệ.');
+
     }
   }
 
@@ -140,5 +173,6 @@ export class DialogProductComponent implements OnInit {
     this.productService.deleteColor(this.product.id);
     this.dialog.closeAll()
   }
+
 }
 

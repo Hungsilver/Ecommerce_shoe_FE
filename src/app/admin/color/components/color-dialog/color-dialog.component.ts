@@ -3,6 +3,8 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
 import { ColorService } from '../../service/color.service';
 import { NgToastService } from 'ng-angular-popup';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-color-dialog',
   templateUrl: './color-dialog.component.html',
@@ -20,6 +22,8 @@ export class ColorDialogComponent implements OnInit {
     private colorService: ColorService,
     private dialog: MatDialog,
     private toast: NgToastService,
+    private notification: ToastrService,
+
   ) {
     this.type = data.type;
     this.color = data.color;
@@ -28,7 +32,8 @@ export class ColorDialogComponent implements OnInit {
     this.colorService.createColor(this.color).then(res => {
       console.log('data created', res.content);
       if (res) {
-        this.toast.success({ detail: "Success Message", summary: "Success", duration: 5000 })
+        // this.toast.success({ detail: "Success Message", summary: "Success", duration: 5000 })
+        this.notification.success("Thêm thành công")
         this.dialog.closeAll();
       } else {
         this.toast.error({ detail: "Success False", summary: "False", duration: 5000 })
