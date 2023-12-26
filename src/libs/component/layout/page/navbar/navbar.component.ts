@@ -13,7 +13,7 @@ import { CacheService } from 'src/libs/service/request/cache.service';
 })
 export class NavbarComponent implements OnInit {
   quantityInCart = 0;
-  customerInfo!: any;
+  customerInfo: any = undefined;
 
   constructor(
     private cacheService: CacheService,
@@ -25,19 +25,19 @@ export class NavbarComponent implements OnInit {
   }
   ngOnInit(): void {
     this.cartService.getAll().then(c => {
-      if(c){
+      if (c) {
         c.forEach((key: any) => {
           this.quantityInCart++;
         })
       }
-    this.customerInfo = this.cacheService?.get('customer') ?? undefined;
-    },err =>{
+    }, err => {
       this.quantityInCart = 0;
     })
+    this.customerInfo = this.cacheService?.get('customer') ?? undefined;
   }
-  
 
   logout() {
+    this.customerInfo = null;
     this.authCustomService.logoutCustomer();
     this.cacheService.remove('customer');
     this.router.navigate(['/'])

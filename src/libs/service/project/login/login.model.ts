@@ -1,9 +1,9 @@
 export interface IBodyLogin {
   email: string,
-  password: string
+  password?: string
 }
 export interface IBodyRegister {
-  fullName: string,
+  hoTen: string,
   email: string,
-  password: string
+  matkhau?: string
 }

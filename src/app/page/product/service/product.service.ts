@@ -8,7 +8,6 @@ import { IReqApi } from 'src/libs/common/interface/interfaces';
   providedIn: 'root',
 })
 export class ProductService {
-  url: string = 'product';
 
   constructor(
     private http: HttpClient,
@@ -18,7 +17,7 @@ export class ProductService {
 
   getProducts(params?: any): Promise<IReqApi<IProduct[]>> {
     return new Promise<IReqApi<IProduct[]>>((resolve, reject) => {
-      this.baseRequestService.get(`${this.url}`, params).subscribe(
+      this.baseRequestService.get('product/filter', params).subscribe(
         (result) => {
           return resolve(result);
         },
@@ -29,7 +28,7 @@ export class ProductService {
 
   getProductById(id: Number): Promise<IProduct> {
     return new Promise<IProduct>((resolve, reject) => {
-      this.baseRequestService.get(`${this.url}/${id}`).subscribe(
+      this.baseRequestService.get(`product/${id}`).subscribe(
         (result) => {
           return resolve(result);
         },
@@ -42,7 +41,7 @@ export class ProductService {
 
   filter(params: any): Promise<IReqApi<IProduct[]>> {
     return new Promise<IReqApi<IProduct[]>>((resolve, reject) => {
-      this.baseRequestService.get(`${this.url}/filter`, params).subscribe(
+      this.baseRequestService.get(`product/filter`, params).subscribe(
         (res) => {
           return resolve(res);
         },

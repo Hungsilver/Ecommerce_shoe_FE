@@ -14,7 +14,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { TableModule } from 'primeng/table';
 import { ColorComponent } from './color/pages/color-home/color.component';
 import { ProductDetailComponent } from './product-detail/page/product-detail/product-detail.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard/page/dashboard/dashboard.component';
 import { OriginComponent } from './origin/origin.component';
 import { OriginDialogComponent } from './origin/origin-dialog/origin-dialog.component';
 import { CommonModule } from '@angular/common';

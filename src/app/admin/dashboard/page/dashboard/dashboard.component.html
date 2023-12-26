@@ -3,6 +3,15 @@
   <div class="row">
     <div class="col-sm-8">
       <div class="card p-2">
+        <div class="header-p-char my-2">
+          <span (click)="doanhThuWeek()">week</span>
+          <span (click)="doanhThuMonth()">month</span>
+          <span (click)="doanhThu6month()">6 month</span>
+          <span (click)="doanhThuYear()">year</span>
+          <input type="date" [(ngModel)]="paramDate.startDate" name="startDate">
+          <input type="date" [(ngModel)]="paramDate.endDate" name="endDate">
+          <span (click)="doanhThuForDate()">Search</span>
+        </div>
         <p-chart type="bar" [data]="data" [options]="options"></p-chart>
       </div>
     </div>

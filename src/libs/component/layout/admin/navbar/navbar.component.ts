@@ -8,13 +8,18 @@ import { CacheService } from 'src/libs/service/request/cache.service';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarAdminComponent implements OnInit {
-  ngOnInit(): void { }
+  admin: any = undefined;
 
-  constructor(private cacheService: CacheService,
+  constructor(
+    private cacheService: CacheService,
     private router: Router
   ) {
 
   }
+  ngOnInit(): void {
+    this.admin = this.cacheService.get('admin') ?? undefined;
+  }
+
   logout() {
     this.cacheService.remove('admin');
     this.router.navigateByUrl('/')
