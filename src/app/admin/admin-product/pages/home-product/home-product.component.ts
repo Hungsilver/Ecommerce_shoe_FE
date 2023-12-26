@@ -25,9 +25,10 @@ export class HomeProductComponent implements OnInit {
   // tên mặc định file excel khi xuất
   fileName = "ExcelSheet.xlsx";
   ExcelData: any;
+  selectedStatus: number | null = null;
+  selectedBrand: number | null = null;
 
   iconSortName = 'pi pi-sort-amount-up';
-  // constructor(private categoryService: CategoryService)
   constructor(private productService: ProductService,
     private categoryService: CategoryService,
     private originService: OriginService,
@@ -41,6 +42,7 @@ export class HomeProductComponent implements OnInit {
   ngOnInit(): void {
     this.getAll();
     this.getAllByExcel();
+    // this.selectedStatus = null;
     this.categoryService.getCategory().then(data => {
       this.category = data.content;
     })
@@ -55,6 +57,21 @@ export class HomeProductComponent implements OnInit {
     this.getAll();
     this.getAllByExcel();
   }
+
+  filterByStatus(): void {
+    this.searchQuery.status = this.selectedStatus;
+    this.getAll();
+  }
+  filterByBrand(): void {
+    if (this.selectedBrand !== null) {
+      this.searchQuery.brand = this.selectedBrand;
+      console.log("id brand" + this.brand.id);
+    } else {
+      delete this.searchQuery.brand;
+    }
+    this.getAll();
+  }
+
 
   private getAllByExcel() {
     this.productService.getAll().subscribe(data => {
@@ -161,28 +178,69 @@ export class HomeProductComponent implements OnInit {
   getAll(action?: 'prev' | 'next'): void {
     if (action) {
       if (action === 'prev' && Number(this.searchQuery.page) > 1) {
-        this.searchQuery.page = this.searchQuery.page - 1
+        this.searchQuery.page = this.searchQuery.page - 1;
       }
-      if (action === 'next' &&
-        Number(this.searchQuery.page) + 1 <= this.listTotalPage.length) {
-        this.searchQuery.page = this.searchQuery.page + 1
+      if (action === 'next' && Number(this.searchQuery.page) + 1 <= this.listTotalPage.length) {
+        this.searchQuery.page = this.searchQuery.page + 1;
       }
-      Object.keys(this.searchQuery).forEach(key => {
-        if (this.searchQuery[key] === null || this.searchQuery[key] === '') {
-          delete this.searchQuery[key];
-        }
-      });
     }
+
+    Object.keys(this.searchQuery).forEach(key => {
+      if (this.searchQuery[key] === null || this.searchQuery[key] === '') {
+        delete this.searchQuery[key];
+      }
+    });
+
     this.productService.getProduct(this.searchQuery).then(product => {
       if (product && product.content) {
         this.products = product.content;
-        this.listTotalPage = this.getTotalPage(product.totalPages)
-        console.log(product)
+        this.listTotalPage = this.getTotalPage(product.totalPages);
+        console.log(product);
       }
+    });
 
-    })
-    console.log(this.searchQuery)
+    // Thêm trạng thái đã chọn vào searchQuery
+    if (this.selectedStatus !== null) {
+      this.searchQuery.status = this.selectedStatus;
+    }
+    if (this.selectedBrand !== null) {
+      this.searchQuery.brand = this.selectedBrand;
+    }
+
+
+
+    console.log(this.searchQuery);
+    console.log(this.selectedBrand);
   }
+
+
+  // getAll(action?: 'prev' | 'next'): void {
+  //   if (action) {
+  //     if (action === 'prev' && Number(this.searchQuery.page) > 1) {
+  //       this.searchQuery.page = this.searchQuery.page - 1
+  //     }
+  //     if (action === 'next' &&
+  //       Number(this.searchQuery.page) + 1 <= this.listTotalPage.length) {
+  //       this.searchQuery.page = this.searchQuery.page + 1
+  //     }
+
+
+  //     Object.keys(this.searchQuery).forEach(key => {
+  //       if (this.searchQuery[key] === null || this.searchQuery[key] === '') {
+  //         delete this.searchQuery[key];
+  //       }
+  //     });
+  //   }
+  //   this.productService.getProduct(this.searchQuery).then(product => {
+  //     if (product && product.content) {
+  //       this.products = product.content;
+  //       this.listTotalPage = this.getTotalPage(product.totalPages)
+  //       console.log(product)
+  //     }
+
+  //   })
+  //   console.log(this.searchQuery)
+  // }
 
 
   getTotalPage(totalPages: number) {
@@ -200,8 +258,8 @@ export class HomeProductComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogProductComponent, {
-      width: '400px',
-      height: '500px',
+      width: '600px',
+      height: '800px',
       data: {
         type: "add",
         product: {},

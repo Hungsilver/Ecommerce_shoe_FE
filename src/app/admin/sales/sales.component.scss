@@ -17,6 +17,7 @@ mat-grid-list {
     width: 100%;
 }
 
+
 .close-icon {
     font-size: 16px;
     color: rgba(0, 0, 0, 0.54);
@@ -81,8 +82,51 @@ mat-grid-list {
 
 }
 
-ngx-scanner-qrcode {
-    width: 300px;
-    height: 300px;
+.qr-container ngx-scanner-qrcode {
+    width: 500px;
+    height: 350px;
     /* Điều chỉnh chiều cao theo ý muốn của bạn */
+}
+
+.d-flex.align-items-center {
+    margin-right: 50px;
+}
+
+// .createOrder {
+//     top: 20px;
+// }
+
+// .buttonTab {
+//     top: -20px
+// }
+
+// .buttonTab1 {
+//     top: -20px
+// }
+
+.sales-header_search {
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    background: rgb(214, 207, 207);
+    padding: 5px 15px;
+
+    input {
+        border: none;
+        background: transparent;
+        outline: none;
+        color: black
+    }
+
+    button {
+        border: none;
+        background: transparent;
+        position: relative;
+
+        span {
+            position: absolute;
+            bottom: -7px;
+            left: 0;
+        }
+    }
 }
