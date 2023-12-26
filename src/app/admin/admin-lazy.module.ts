@@ -57,7 +57,7 @@ import { environment } from 'src/environment/environment';
 
 import { VoucherHomeComponent } from './voucher/pages/voucher-home.component';
 import { VoucherDialogComponent } from './voucher/components/voucher-Dialog.component';
- 
+
 LOAD_WASM().subscribe()
 
 @NgModule({
@@ -123,6 +123,7 @@ LOAD_WASM().subscribe()
     SalesComponent,
     VoucherHomeComponent,
     VoucherDialogComponent,
+
   ],
   providers: [],
 })
