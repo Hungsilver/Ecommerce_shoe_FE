@@ -25,6 +25,10 @@
             </mat-form-field>
           </div>
           <div class="col-6 evenly-spaced">
+            <label>Thời Gian Bắt Đầu</label>
+            <input  type="datetime-local"  [(ngModel)]="voucher.thoiGianBatDau" >
+        </div>
+          <div class="col-6 evenly-spaced">
             <label>Thời Gian Kết Thúc</label>
             <input  type="datetime-local"  [(ngModel)]="voucher.thoiGianKetThuc" >
         </div>
@@ -61,6 +65,7 @@
             <mat-form-field class="example-form-field">
               <mat-label>Chọn trạng thái</mat-label>
               <mat-select [(ngModel)]="voucher.trangThai">
+                <mat-option [value]="2">Sắp Diễn ra</mat-option>
                 <mat-option [value]="1">Đang Diễn ra</mat-option>
                 <mat-option [value]="0">Kết Thúc</mat-option>
               </mat-select>
@@ -120,6 +125,10 @@
             </mat-form-field>
           </div>
           <div class="col-6 evenly-spaced">
+            <label>Thời Gian Bắt Đầu</label>
+            <input  type="datetime-local"  [(ngModel)]="voucher.thoiGianBatDau" >
+        </div>
+          <div class="col-6 evenly-spaced">
             <label>Thời Gian Kết Thúc</label>
             <input  type="datetime-local"  [(ngModel)]="voucher.thoiGianKetThuc" >
         </div>
@@ -155,6 +164,7 @@
               <mat-select [(ngModel)]="voucher.trangThai">
                 <mat-option [value]="1">Đang Diễn ra</mat-option>
                 <mat-option [value]="0">Kết Thúc</mat-option>
+                <mat-option [value]="2">Sắp Diễn ra</mat-option>
               </mat-select>
             </mat-form-field>
           </div>

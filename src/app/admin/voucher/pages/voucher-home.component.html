@@ -36,10 +36,19 @@
               <td>{{ voucher.ma}}</td>
               <td>{{ voucher.chietKhau}}</td>
               <td>{{ voucher.hinhThucGiamGia?'Tiền Mặt':'Phần Trăm' }}</td>
-              <td>{{ voucher.thoiGianBatDau | date:'medium'}}</td>
+              <td>{{ voucher.thoiGianBatDau | date:'short'}}</td>
               <td>{{ voucher.thoiGianKetThuc | date:'short'}}</td>
               <td>{{ voucher.moTa}}</td>
-              <td>{{ voucher.trangThai?'Đang Diễn Ra':'Kết Thúc' }}</td>
+              <!-- <td>{{ voucher.trangThai?'Đang Diễn Ra':'Kết Thúc' }}</td> -->
+              <td>
+                {{
+                  voucher.trangThai === 0 ? 'kết thúc' :
+                  voucher.trangThai === 1 ? 'Đang diễn ra' :
+                  voucher.trangThai === 2 ? 'Sắp diễn ra' :
+                  'Trạng Thái Khác'
+                }}
+              </td>
+
               <td>
                   <span (click)="openDialogEdit(voucher)">
                       <i class="pi pi-file-edit"></i>
