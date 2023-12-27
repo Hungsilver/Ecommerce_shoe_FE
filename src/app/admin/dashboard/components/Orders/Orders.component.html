@@ -1,0 +1,83 @@
+<div class="stats">
+  <div class="stats-header">
+    <div class="stats-header__box">
+      <div class="stats-header__box-header">
+        <h3>Tổng đơn hàng</h3>
+      </div>
+      <div class="ps-1">
+        <span>10</span>
+      </div>
+    </div>
+
+    <div class="stats-header__box">
+      <div class="stats-header__box-header">
+        <h3>Đơn hàng hoàn thành</h3>
+      </div>
+      <div class="ps-1">
+        <span>10</span>
+      </div>
+    </div>
+
+    <div class="stats-header__box">
+      <div class="stats-header__box-header">
+        <h3>Đơn hàng đang giao</h3>
+      </div>
+      <div class="ps-1">
+        <span>10</span>
+      </div>
+    </div>
+
+    <div class="stats-header__box">
+      <div class="stats-header__box-header">
+        <h3>Đơn hàng đã hủy</h3>
+      </div>
+      <div class="ps-1">
+        <span>10</span>
+      </div>
+    </div>
+
+    <div class="stats-header__box">
+      <div class="stats-header__box-header">
+        <h3>Đơn hàng đã hoàn thành</h3>
+      </div>
+      <div class="ps-1">
+        <span>10</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="stats-body">
+    <div class="stats-body_search">
+      <div class="d-flex gap-2">
+        <input type="text" class="form-control w-50" placeholder="Nhập từ khóa tìm kiếm">
+        <button class="btn btn-primary">Search</button>
+        <button class="btn btn-dark">Clear</button>
+      </div>
+      <div>
+        <p-dropdown [options]="['Tất cả','...']" [(ngModel)]="selectedSortBy" optionLabel="name" [showClear]="true"
+          placeholder="Sắp xếp theo"></p-dropdown>
+      </div>
+    </div>
+    <div class="stats-body__table">
+      <p-table [value]="[{code:1,name:12,category:'ff',quantity:4}]" styleClass="p-datatable-striped"
+        [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>{{product.code}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.category}}</td>
+            <td>{{product.quantity}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

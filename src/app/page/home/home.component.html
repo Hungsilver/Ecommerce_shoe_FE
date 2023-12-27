@@ -43,7 +43,7 @@
     <div class="list-product">
       <div class="cards" *ngFor="let p of products">
         <a [routerLink]="['product', p.id]">
-          <img class="card-img-top" src="{{ p.anhChinh }}" />
+          <img class="img-all-product" src="{{ p.anhChinh }}" />
         </a>
         <div class="card-body">
           <a href="product/{{ p.id }}">
@@ -59,7 +59,7 @@
     <div class="list-product">
       <div class="cards" *ngFor="let p of products">
         <a [routerLink]="['product', p.id]">
-          <img class="card-img-top" src="{{ p.anhChinh }}" />
+          <img class="img-all-product" src="{{ p.anhChinh }}" />
         </a>
         <div class="card-body">
           <a href="product/{{ p.id }}">
@@ -69,5 +69,23 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="featured-product">
+    <h3 class="text-center">Sản phẩm mới nhất</h3>
+    <p-carousel [value]="productsNew" [numVisible]="4" [numScroll]="4" [circular]="true"
+      [autoplayInterval]="timeAutoPlay">
+      <ng-template let-product pTemplate="item">
+        <a [routerLink]="['product', product.id]"
+          class="border-1 surface-border border-round m-2 text-center py-5 px-3">
+          <div class="mb-3">
+            <img src={{product.anhChinh}} [alt]="product.name" class="w-6 shadow-2 img-all-product" />
+          </div>
+          <div>
+            <h4 class="mb-1 ">{{ product.ten }}</h4>
+            <h6 class="mt-0 mb-3">{{product.listChiTietSanPham[0].giaBan| currency:'VND' }}</h6>
+          </div>
+        </a>
+      </ng-template>
+    </p-carousel>
   </div>
 </main>
