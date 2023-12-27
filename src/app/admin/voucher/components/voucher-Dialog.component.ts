@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { VoucherSevice } from "../service/voucher.service";
 import { MAT_DIALOG_DATA,MatDialog } from "@angular/material/dialog";
-import { Moment } from "moment";
+// import { Moment } from "moment";
 import * as moment from "moment";
-// import * as moment from "moment";
+import { FormBuilder,Validators } from "@angular/forms";
 
 
 @Component({
@@ -15,6 +15,8 @@ import * as moment from "moment";
 export class VoucherDialogComponent implements OnInit{
 voucher:any ={};
 type: any;
+voucherFrom :any;
+
 
   ngOnInit(): void {
 
@@ -24,16 +26,21 @@ type: any;
     @Inject(MAT_DIALOG_DATA) public data: any,
     private voucherService: VoucherSevice,
     private dialog: MatDialog,
-
+      private fb :FormBuilder
   ) {
 
     this.type = data.type;
     this.voucher = data.voucher;
 
+    this.voucherFrom =this.fb.group({
+      ten: ['', Validators.required],
+      chietKhau: ['', Validators.required],
+    });
+
   }
 
 addVoucher(){
-    const thoiGianHienTai : Moment = moment();
+    const thoiGianHienTai  = moment();
       console.log('time now:', thoiGianHienTai);
       this.voucher.thoiGianBatDau = moment(this.voucher.thoiGianBatDau).toISOString();
       this.voucher.thoiGianKetThuc = moment(this.voucher.thoiGianKetThuc).toISOString();

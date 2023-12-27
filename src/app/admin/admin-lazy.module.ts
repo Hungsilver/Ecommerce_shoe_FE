@@ -122,7 +122,7 @@ LOAD_WASM().subscribe()
     NComponent,
     SalesComponent,
     VoucherHomeComponent,
-    VoucherDialogComponent,
+    VoucherDialogComponent, 
 
   ],
   providers: [],
