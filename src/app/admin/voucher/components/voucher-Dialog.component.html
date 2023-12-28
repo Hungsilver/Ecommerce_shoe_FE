@@ -183,8 +183,8 @@
             <mat-form-field class="example-form-field">
               <mat-label>Hình Thức Giảm Giá</mat-label>
               <mat-select [(ngModel)]="voucher.hinhThucGiamGia">
-                <mat-option [value]="1">Tiền Mặt</mat-option>
-                <mat-option [value]="0">Phần Trăm</mat-option>
+                <mat-option [value]="true">Tiền Mặt</mat-option>
+                <mat-option [value]="false">Phần Trăm</mat-option>
               </mat-select>
             </mat-form-field>
           </div>

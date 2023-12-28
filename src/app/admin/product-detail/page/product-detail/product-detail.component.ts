@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductDetailService } from '../../services/product.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router,RouterModule } from '@angular/router';
-
+import { NewProductDetailComponent } from '../new-product-detail/new-product-detail.component';
 @Component({
   selector: 'app-product',
   templateUrl: './product-detail.component.html',
@@ -80,7 +80,7 @@ export class ProductDetailComponent implements OnInit {
     });
     console.log(this.searchQuery);
   }
-  
+
   getTotalPage(totalPages: number) {
     let listTotalPage = [];
 
@@ -93,7 +93,32 @@ export class ProductDetailComponent implements OnInit {
     this.searchQuery['keyword'] = this.searchQuery.keyword;
     this.getAll();
   }
-  
+  // openDialogEdit(product: any) {
+  //   const dialogRef = this.dialog.open(NewProductDetailComponent, {
+  //     width: '1300px',
+  //     height: '540px',
+  //     data: {
+  //       type: 'update',
+  //       product: product,
+  //       categories: this.category,
+  //       brands: this.brand,
+  //       origins: this.origin,
+
+
+  //       selectedCategoryId: product.danhMuc ? product.danhMuc.id : null,
+  //       selectedBrandId: product.thuongHieu ? product.thuongHieu.id : null,
+  //       selectedOriginId: product.xuatXu ? product.xuatXu.id : null,
+  //     }
+  //   })
+  //   dialogRef.afterClosed().subscribe(data => {
+  //     this.getAll();
+  //   })
+  // }
+
+
+
+
+
   navigateToNewProduct() {
     this.router.navigate(['/admin/chi-tiet-san-pham/moi']);
   }
