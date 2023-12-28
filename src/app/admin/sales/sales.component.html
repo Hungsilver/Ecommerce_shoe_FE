@@ -48,7 +48,7 @@
             <div *ngIf="showQuantityInput">
                 <label for="quantity">Nhập số lượng:</label>
                 <input type="number" [(ngModel)]="quantity" placeholder="Nhập số lượng" class="form-control"
-                    style="width: 300px;" />
+                    style="width: 300px;" (ngModelChange)="onQuantityChange($event)" />
                 <br>
                 <button class="btn btn-outline-primary" (click)="addToCartFromQR(searchResults, quantity)">Xác nhận
                     thêm</button>
