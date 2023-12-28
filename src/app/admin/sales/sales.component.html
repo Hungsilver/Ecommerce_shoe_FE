@@ -20,9 +20,13 @@
         <div class="sales-header d-flex justify-content-between">
 
             <div class="sales-header_search">
-                <input type="text" name="productCode" [(ngModel)]="productCode.ma" placeholder="Tìm kiếm sản phẩm"
-                    width="300px" required (keypress)="onKeyPress($event)">
-                <button type="submit" (click)="searchProductByKeyword()">
+                <!-- <input type="text" name="productCode" [(ngModel)]="productCode.ma" placeholder="Tìm kiếm sản phẩm"
+                    width="300px" required (keypress)="onKeyPress($event)"> -->
+                    <input type="text" name="productCode" [(ngModel)]="productCodes[i].ma" placeholder="Tìm kiếm sản phẩm" width="300px" required (keypress)="onKeyPress($event,i)">
+
+                <!-- <button type="submit" (click)="searchProductByKeyword()"> -->
+                    <button type="submit" (click)="searchProductByKeyword(i)">
+
                     <span class="pi pi-search"></span>
                 </button>
             </div>
@@ -77,8 +81,6 @@
             <!-- <button (click)="startScanning()">Quét mã QR</button> -->
             <button (click)="turnOfQRCode()" class="btn btn-outline-primary">Tắt mã QR</button>
 
-
-
         </div>
 
         <br>
@@ -129,7 +131,6 @@
 
         <br>
         <mat-grid-list cols="2" rowHeight="2:1">
-
             <!-- <mat-grid-tile>
                 <table class="table">
                     <thead>
@@ -159,39 +160,37 @@
                     </tbody>
                 </table>
             </mat-grid-tile> -->
-
-
             <mat-grid-tile>
                 <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">STT</th>
-                            <th scope="col">Mã SP</th>
+                            <th scope="col">Tên Sản Phẩm</th>
                             <th scope="col">Số lượng</th>
                             <th scope="col">Đơn giá</th>
                             <th scope="col">Thành tiền</th>
-
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let chiTiet of hoaDonChiTiet[selectedTab]">
-                            <td>{{ chiTiet.chiTietSanPham?.ma }}</td>
+                        <tr *ngFor="let chiTiet of hoaDonChiTiet[selectedTab]; let i = index">
+                            <!-- <td>{{ chiTiet.chiTietSanPham?.ma }}</td> -->
+                            <td>{{i +1}}</td>
                             <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
                             <!-- <td>{{ chiTiet.soLuong }}</td> -->
-                            <button mat-icon-button (click)="decreaseQuantity(chiTiet)">
-                                <mat-icon>remove</mat-icon>
-                            </button>
-                            <!-- <input type="number" [(ngModel)]="chiTiet['soLuong']" (ngModelChange)="onUpdate(chiTiet)" /> -->
                             <td>
+                                <button mat-icon-button (click)="decreaseQuantity(chiTiet)">
+                                    <mat-icon>remove</mat-icon>
+                                </button>
+                                <!-- <input type="number" [(ngModel)]="chiTiet['soLuong']" (ngModelChange)="onUpdate(chiTiet)" /> -->
                                 {{ chiTiet['soLuong'] }}
+                                <button mat-icon-button (click)="increaseQuantity(chiTiet)">
+                                    <mat-icon>add</mat-icon>
+                                </button>
                             </td>
-
-                            <button mat-icon-button (click)="increaseQuantity(chiTiet)">
-                                <mat-icon>add</mat-icon>
-                            </button>
-
+                            <td>{{chiTiet.chiTietSanPham?.giaBan}}</td>
                             <td>{{ chiTiet.donGia }}</td>
+                            <td></td>
                             <td>
                                 <button mat-icon-button (click)="removeItemFromInvoice(chiTiet.id)">
                                     <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
@@ -254,10 +253,8 @@
                         <div class="col" id="a">
                             <div class="input-group">
                                 <label class="form-label">Tổng tiền sản phẩm:</label>
-                                <input type="text" class="form-control" [value]="totalAmount" id="input-money"
-                                    aria-label="Dollar amount (with dot and two decimal places)" disabled>
-                                <!-- <input type="text" class="form-control" id="input-money"
-                                    aria-label="Dollar amount (with dot and two decimal places)"> -->
+                                <input type="text" class="form-control" [value]="totalAmounts[selectedTab] !== undefined ? totalAmounts[selectedTab] : 0" id="input-money"
+           aria-label="Dollar amount (with dot and two decimal places)" disabled>
                                 <span class="input-group-text">VNĐ</span>
                             </div>
                         </div>

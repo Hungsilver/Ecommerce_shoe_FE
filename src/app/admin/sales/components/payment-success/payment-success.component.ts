@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { HoaDonService } from '../../service/hoadon/hoadon.service';
 import { IHoaDon } from '../../service/hoadon/hoadon.module';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-payment-success',
   templateUrl: './payment-success.component.html',
@@ -17,6 +19,7 @@ export class PaymentSuccessComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private hoaDonService: HoaDonService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -76,6 +79,10 @@ export class PaymentSuccessComponent implements OnInit {
     link.download = 'hoadon.pdf';
     link.click();
   }
+
+  redirectToStore() {
+    this.router.navigate(['/admin/sales']);
+}
 }
 
 
