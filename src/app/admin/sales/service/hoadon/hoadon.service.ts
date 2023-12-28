@@ -6,6 +6,7 @@ import { IReqApi } from 'src/libs/common/interface/interfaces';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IHoaDonChiTiet } from '../hoadonchitiet/hoadonchitiet.module';
+import { take } from 'rxjs/operators';  // Thêm import này
 
 @Injectable({
     providedIn: 'root',
@@ -21,6 +22,21 @@ export class HoaDonService {
         private http: HttpClient
     ) {
     }
+
+    private tabsSubject = new BehaviorSubject<string[]>([]);
+  public tabs$ = this.tabsSubject.asObservable();
+
+  private updateTabs(tabs: string[]): void {
+    this.tabsSubject.next(tabs);
+  }
+
+  addTab(tab: string): void {
+    this.tabs$.pipe(take(1)).subscribe((tabs) => {
+      const updatedTabs = [...tabs, tab];
+      this.updateTabs(updatedTabs);
+    });
+  }
+
     private printInvoiceSubject = new BehaviorSubject<boolean>(false);
     printInvoice$ = this.printInvoiceSubject.asObservable();
 
