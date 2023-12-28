@@ -7,7 +7,8 @@ import { ProductComponent } from './product/page/product-home/product.component'
 import { CartComponent } from './cart/page/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { authUserGuard } from 'src/libs/service/request/auth.guard';
-
+import { BlogHomeComponent } from './blog/bloghome-component';
+import { blogdetail } from './blogDetail/blogDetail-component';
 const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'product', component: ProductComponent },
@@ -19,7 +20,7 @@ const routes: Routes = [
 
 ];
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class PageRoutingModule { }
+export class PageRoutingModule {}

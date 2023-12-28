@@ -91,7 +91,7 @@ export class HomeProductComponent implements OnInit {
     const extension = file.name.split('.').pop().toLowerCase();
     // Kiểm tra đuôi có phải là .xlsx không
     if (extension === 'xlsx') {
-      // đọc dữ liệu file 
+      // đọc dữ liệu file
       let fileReader = new FileReader();
       fileReader.readAsBinaryString(file);
 
@@ -119,7 +119,7 @@ export class HomeProductComponent implements OnInit {
           // Thêm đối tượng vào danh sách
           danhSachSanPham.push(sanpham);
         }
-        // call api 
+        // call api
         this.productService.create(danhSachSanPham).subscribe((data) => {
           // kiểm tra nếu có data có phải là array
           if (Array.isArray(data)) {
@@ -258,8 +258,8 @@ export class HomeProductComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogProductComponent, {
-      width: '600px',
-      height: '800px',
+      width: '1200px',
+      height: '600px',
       data: {
         type: "add",
         product: {},
@@ -274,8 +274,8 @@ export class HomeProductComponent implements OnInit {
   }
   openDialogEdit(product: any) {
     const dialogRef = this.dialog.open(DialogProductComponent, {
-      width: '400px',
-      height: '500px',
+      width: '1300px',
+      height: '540px',
       data: {
         type: 'update',
         product: product,

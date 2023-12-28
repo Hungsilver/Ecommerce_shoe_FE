@@ -22,7 +22,7 @@
 </ul> -->
 
 <!-- <div *ngIf="activeTab === 'active'"> -->
-  
+
 <div class="card">
   <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
@@ -39,7 +39,7 @@
         <th style="">Chất Liệu Đế Giày</th>
         <th style="">Số Lượng</th>
         <th style="">Trạng Thái</th>
- 
+            <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
@@ -62,7 +62,14 @@
         <td>{{ product.chatLieuDeGiay?.ten }}</td>
         <td>{{ product.soLuong }}</td>
         <td>{{ product.trangThai === 1 ? 'Hoạt động' : 'Không hoạt động' }}</td>
-       
+        <!-- <td>
+          <span (click)="">
+              <i class="pi pi-file-edit"></i>
+          </span>
+          <span (click)="">
+              <i class="pi pi-delete-left"></i>
+          </span>
+      </td> -->
 
       </tr>
     </ng-template>
@@ -82,7 +89,7 @@
 <!-- </div> -->
 
 <!-- <div *ngIf="activeTab === 'inactive'"> -->
-<!--   
+<!--
 <div class="card">
   <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
@@ -97,7 +104,7 @@
         <th style="">Chất Liệu Đế Giày</th>
         <th style="">Số Lượng</th>
         <th style="">Trạng Thái</th>
- 
+
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
@@ -118,7 +125,7 @@
         <td>{{ product.chatLieuDeGiay?.ten }}</td>
         <td>{{ product.soLuong }}</td>
         <td>{{ product.trangThai === 0 ? 'Khongo Hoạt động' : ' Hoạt động' }}</td>
-       
+
 
       </tr>
     </ng-template>

@@ -16,8 +16,13 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { BlogHomeComponent } from './blog/bloghome-component';
+import { blogdetail } from './blogDetail/blogDetail-component';
+import { VoucherHomeComponent } from '../admin/voucher/pages/voucher-home.component';
+
 import { InputTextModule } from 'primeng/inputtext';
 import { CarouselModule } from 'primeng/carousel';
+
 
 
 @NgModule({
@@ -44,6 +49,9 @@ import { CarouselModule } from 'primeng/carousel';
         ProductComponent,
         CartComponent,
         CheckoutComponent,
+        BlogHomeComponent,
+        blogdetail,
+      
     ],
 })
 export class PageLazyModule { }

@@ -20,7 +20,9 @@ import { NewProductDetailComponent } from './product-detail/page/new-product-det
 import { TestNewComponent } from './test-new/test-new.component';
 import { NComponent } from './test-new/n/n.component';
 import { SalesComponent } from './sales/sales.component';
+import { VoucherHomeComponent } from './voucher/pages/voucher-home.component';
 import { PaymentSuccessComponent } from './sales/components/payment-success/payment-success.component';
+
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -45,7 +47,9 @@ const routes: Routes = [
   { path: 'test-p', component: TestNewComponent },
   { path: 'test-n', component: NComponent },
   { path: 'sales', component: SalesComponent },
+  { path:  'phieu-giam-gia',component:VoucherHomeComponent},
   { path: 'payment-success', component: PaymentSuccessComponent },
+
 
   // { path: 'new-coupon', component: CouponComponent },
 ];

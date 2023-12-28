@@ -49,9 +49,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AngularFireModule } from '@angular/fire/compat'
 import { AngularFireStorageModule } from '@angular/fire/compat/storage'
@@ -61,6 +59,9 @@ import { ForDateComponent } from './dashboard/components/ForDate/ForDate.compone
 import { OrdersComponent } from './dashboard/components/Orders/Orders.component';
 import { ForProductComponent } from './dashboard/components/ForProduct/ForProduct.component';
 import { TabViewModule } from 'primeng/tabview';
+
+import { VoucherHomeComponent } from './voucher/pages/voucher-home.component';
+import { VoucherDialogComponent } from './voucher/components/voucher-Dialog.component';
 
 LOAD_WASM().subscribe()
 
@@ -126,11 +127,15 @@ LOAD_WASM().subscribe()
     TestNewComponent,
     NComponent,
     SalesComponent,
+    VoucherHomeComponent,
+    VoucherDialogComponent,
+
     ForCategoryComponent,
     ForDateComponent,
     OrdersComponent,
     ForProductComponent
     // NavbarComponent
+
 
   ],
   providers: [],
