@@ -97,4 +97,14 @@ export class ProductDetailComponent implements OnInit {
   navigateToNewProduct() {
     this.router.navigate(['/admin/chi-tiet-san-pham/moi']);
   }
+
+  // updateProductDetail() {
+  //   this.newProduct.anhSanPhams = this.validUrls
+  //   this.productDetailService.updateProduct(this.newProduct).then(
+  //     (data) => {
+  //       console.log("data " + data);
+  //     },
+  //     (error) => console.log(error)
+  //   );
+  // }
 }

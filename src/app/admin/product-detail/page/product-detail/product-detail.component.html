@@ -39,6 +39,7 @@
         <th style="">Chất Liệu Đế Giày</th>
         <th style="">Số Lượng</th>
         <th style="">Trạng Thái</th>
+        <th style=""></th>
  
       </tr>
     </ng-template>
@@ -62,7 +63,10 @@
         <td>{{ product.chatLieuDeGiay?.ten }}</td>
         <td>{{ product.soLuong }}</td>
         <td>{{ product.trangThai === 1 ? 'Hoạt động' : 'Không hoạt động' }}</td>
-       
+        <!-- <td>
+          <button (click)="updateProductDetail(product)">Update</button>
+        </td>
+        -->
 
       </tr>
     </ng-template>
