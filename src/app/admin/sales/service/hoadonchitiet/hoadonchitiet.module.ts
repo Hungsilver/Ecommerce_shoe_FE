@@ -4,4 +4,5 @@ export interface IHoaDonChiTiet {
     chiTietSanPham?: any;
     soLuong?: number;
     donGia?: number;
+    thanhTien?: number;
 }
