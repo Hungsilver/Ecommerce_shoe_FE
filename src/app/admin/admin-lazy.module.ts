@@ -14,7 +14,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { TableModule } from 'primeng/table';
 import { ColorComponent } from './color/pages/color-home/color.component';
 import { ProductDetailComponent } from './product-detail/page/product-detail/product-detail.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard/page/dashboard/dashboard.component';
 import { OriginComponent } from './origin/origin.component';
 import { OriginDialogComponent } from './origin/origin-dialog/origin-dialog.component';
 import { CommonModule } from '@angular/common';
@@ -56,6 +56,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularFireModule } from '@angular/fire/compat'
 import { AngularFireStorageModule } from '@angular/fire/compat/storage'
 import { environment } from 'src/environment/environment';
+import { ForCategoryComponent } from './dashboard/components/ForCategory/ForCategory.component';
+import { ForDateComponent } from './dashboard/components/ForDate/ForDate.component';
+import { OrdersComponent } from './dashboard/components/Orders/Orders.component';
+import { ForProductComponent } from './dashboard/components/ForProduct/ForProduct.component';
+import { TabViewModule } from 'primeng/tabview';
 
 LOAD_WASM().subscribe()
 
@@ -84,6 +89,7 @@ LOAD_WASM().subscribe()
     NgxScannerQrcodeModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
+    TabViewModule
 
 
   ],
@@ -120,6 +126,10 @@ LOAD_WASM().subscribe()
     TestNewComponent,
     NComponent,
     SalesComponent,
+    ForCategoryComponent,
+    ForDateComponent,
+    OrdersComponent,
+    ForProductComponent
     // NavbarComponent
 
   ],

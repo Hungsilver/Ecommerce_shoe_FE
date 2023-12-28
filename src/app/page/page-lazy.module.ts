@@ -16,7 +16,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-
+import { InputTextModule } from 'primeng/inputtext';
+import { CarouselModule } from 'primeng/carousel';
 
 
 @NgModule({
@@ -33,6 +34,8 @@ import { MatIconModule } from '@angular/material/icon';
         MatButtonModule,
         MatSnackBarModule,
         MatIconModule,
+        InputTextModule,
+        CarouselModule
     ],
     declarations: [
         DetailComponent,

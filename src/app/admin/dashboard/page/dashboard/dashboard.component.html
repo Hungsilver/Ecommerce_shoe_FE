@@ -1,8 +1,34 @@
-<div class="container-fluid">
+<div class="card p-4">
+  <p-tabView>
+    <p-tabPanel header="Thống kê hóa đơn">
+      <app-Orders></app-Orders>
+    </p-tabPanel>
+    <p-tabPanel header="Thống kê theo ngày">
+      <app-ForDate></app-ForDate>
+    </p-tabPanel>
+    <p-tabPanel header="Thống kê theo Danh mục">
+      <app-ForCategory></app-ForCategory>
+    </p-tabPanel>
+    <p-tabPanel header="Thống kê theo Sản phẩm">
+      <app-ForProduct></app-ForProduct>
+    </p-tabPanel>
+  </p-tabView>
+</div>
+
+<!-- <div class="container-fluid">
   <h3>DashBoard</h3>
   <div class="row">
     <div class="col-sm-8">
       <div class="card p-2">
+        <div class="header-p-char my-2">
+          <span (click)="doanhThuWeek()">week</span>
+          <span (click)="doanhThuMonth()">month</span>
+          <span (click)="doanhThu6month()">6 month</span>
+          <span (click)="doanhThuYear()">year</span>
+          <input type="date" [(ngModel)]="paramDate.startDate" name="startDate">
+          <input type="date" [(ngModel)]="paramDate.endDate" name="endDate">
+          <span (click)="doanhThuForDate()">Search</span>
+        </div>
         <p-chart type="bar" [data]="data" [options]="options"></p-chart>
       </div>
     </div>
@@ -35,16 +61,16 @@
           </thead>
           <tbody>
             <tr *ngFor="let p of products">
-              <!-- <td>{{ p.id }}</td>
+              <td>{{ p.id }}</td>
               <td>{{ p.name }}</td>
               <td>
-                <img src="{{ p.image }}" width="100rem" /> -->
-              <!-- </td> -->
-              <!-- <td>{{ p.price }}</td> -->
+                <img src="{{ p.image }}" width="100rem" />
+              </td>
+              <td>{{ p.price }}</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
-</div>
+</div> -->

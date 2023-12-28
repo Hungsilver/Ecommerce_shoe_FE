@@ -5,10 +5,8 @@ import { BrandService } from 'src/app/admin/brand/service/brand.service';
 import { ColorService } from 'src/app/admin/color/service/color.service';
 import { MaterialSolesService } from 'src/app/admin/material-soles/service/material-soles.service';
 import { MaterialService } from 'src/app/admin/material/service/material.service';
-import { IProductDetail } from 'src/app/admin/product-detail/services/product.module';
 import { ProductDetailService } from 'src/app/admin/product-detail/services/product.service';
 import { SizeService } from 'src/app/admin/size/service/size.service';
-import { IProduct } from 'src/app/page/product/service/product.module';
 import { ProductService } from 'src/app/page/product/service/product.service';
 import { OriginService } from 'src/libs/service/project/origin/origin.service';
 
@@ -65,7 +63,7 @@ export class ProductComponent implements OnInit {
     ]
     // this.query.minPrice = this.minPrice;
     // this.query.maxPrice = this.maxPrice;   
-    
+
     this.initData()
     this.getAll();
   }
@@ -80,8 +78,8 @@ export class ProductComponent implements OnInit {
     //   }
     // })
 
-    this.productDetailService.getTop1Price().then(res=>{
-      if(res){
+    this.productDetailService.getTop1Price().then(res => {
+      if (res) {
         this.productDetail = res.giaBan;
       }
     })
@@ -91,7 +89,7 @@ export class ProductComponent implements OnInit {
         this.colors = res.content;
       }
     })
-    
+
     this.originService.getOrigins().then(res => {
       if (res) {
         this.origins = res.content;

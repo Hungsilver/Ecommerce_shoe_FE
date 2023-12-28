@@ -3,17 +3,22 @@ $secondary-color: #e1e4e1;
 $background-color: #f5f5f5;
 
 aside {
-  width: 200px; /* Giảm kích thước thanh bên */
+  font-family: sans-serif;
+  width: 200px;
+  /* Giảm kích thước thanh bên */
   height: 100vh;
   background-color: $background-color;
 
   .box {
-    padding: 10px; /* Giảm padding cho hộp */
-    margin-bottom: 20px; /* Tạo khoảng cách giữa hai hộp */
+    padding: 10px;
+    /* Giảm padding cho hộp */
+    margin-bottom: 20px;
+    /* Tạo khoảng cách giữa hai hộp */
 
     label {
       display: block;
-      font-size: 20px; /* Giảm kích thước chữ */
+      font-size: 20px;
+      /* Giảm kích thước chữ */
       color: $primary-color;
       margin-bottom: 10px;
     }
@@ -23,22 +28,32 @@ aside {
       padding: 0;
 
       a {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
         text-decoration: none;
         color: #333;
+        padding: 10px 8px;
+        border-radius: 0.375rem;
+        margin: 3px 0;
+
+        &:hover {
+          background-color: rgba(67, 89, 113, .04);
+          // color: #fff;
+        }
 
         li {
           display: flex;
           align-items: center;
-          margin-bottom: 8px; /* Giảm khoảng cách giữa các mục */
+          // margin-bottom: 8px; /* Giảm khoảng cách giữa các mục */
 
           span {
-            margin-right: 8px; /* Giảm khoảng cách giữa biểu tượng và văn bản */
+            margin-right: 8px;
+            /* Giảm khoảng cách giữa biểu tượng và văn bản */
           }
 
-          &:hover {
-            background-color: $secondary-color;
-            color: #fff;
-          }
+
         }
       }
     }

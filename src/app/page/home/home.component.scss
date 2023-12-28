@@ -1,3 +1,8 @@
+.product-show a {
+  text-decoration: none;
+  text-transform: inherit;
+}
+
 .banner {
   background: url(/assets/image/banner/banner.png);
   background-size: cover;
@@ -40,7 +45,7 @@ main {
   }
 
   a:hover {
-    text-decoration: underline;
+    color: green;
   }
 }
 
@@ -69,6 +74,11 @@ main {
       // width: 150px;
       object-fit: cover;
     }
+  }
+
+  .img-all-product {
+    object-fit: cover;
+    width: 200px;
   }
 
 
