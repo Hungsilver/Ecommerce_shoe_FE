@@ -78,8 +78,8 @@
             <mat-form-field class="example-form-field">
               <mat-label>Hình Thức Giảm Giá</mat-label>
               <mat-select formControlName="hinhThucGiamGia" >
-                <mat-option [value]="1">Tiền Mặt</mat-option>
-                <mat-option [value]="0">Phần Trăm</mat-option>
+                <mat-option [value]="true">Tiền Mặt</mat-option>
+                <mat-option [value]="false">Phần Trăm</mat-option>
               </mat-select>
               <div
               *ngIf="voucherFrom.get('hinhThucGiamGia').hasError('required') && (voucherFrom.get('hinhThucGiamGia').dirty || voucherFrom.get('hinhThucGiamGia').touched)">
