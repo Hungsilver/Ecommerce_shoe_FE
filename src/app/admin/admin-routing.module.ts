@@ -47,7 +47,7 @@ const routes: Routes = [
   { path: 'test-p', component: TestNewComponent },
   { path: 'test-n', component: NComponent },
   { path: 'sales', component: SalesComponent },
-  { path:  'voucher',component:VoucherHomeComponent},
+  { path:  'phieu-giam-gia',component:VoucherHomeComponent},
   { path: 'payment-success', component: PaymentSuccessComponent },
 
 

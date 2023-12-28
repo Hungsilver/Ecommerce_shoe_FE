@@ -34,27 +34,59 @@ voucherFrom :any;
 
     this.voucherFrom =this.fb.group({
       ten: ['', Validators.required],
-      chietKhau: ['', Validators.required],
+      chietKhau: ['',[ Validators.required,Validators.min(0),Validators.max(10)]],
+      moTa:['',Validators.required],
+      hinhThucGiamGia :[1,Validators.required],
+      trangThai: [1, Validators.required],
+      thoiGianBatDau :['',Validators.required],
+      thoiGianKetThuc :['',Validators.required]
     });
 
   }
 
 addVoucher(){
+  const tenValue = this.voucherFrom.get('ten').value;
+  const chietKhauValue = this.voucherFrom.get('chietKhau').value;
+  const moTaValue = this.voucherFrom.get('moTa').value;
+const hinhThucGiamGiaValue = this.voucherFrom.get('hinhThucGiamGia').value;
+const trangThaiValue =this.voucherFrom.get('trangThai').value;
+
+const thoiGianBatDauControl = this.voucherFrom.get('thoiGianBatDau');
+  const thoiGianKetThucControl = this.voucherFrom.get('thoiGianKetThuc');
+
+  const thoiGianBatDauValue = thoiGianBatDauControl.value;
+  const thoiGianKetThucValue = thoiGianKetThucControl.value;
+
+  // thoiGianBatDauControl.setValue(thoiGianBatDauValue.toISOString());
+  // thoiGianKetThucControl.setValue(thoiGianKetThucValue.toISOString());
+this.voucher ={
+  ten:tenValue,
+  chietKhau:chietKhauValue,
+  moTa: moTaValue,
+  hinhThucGiamGia:hinhThucGiamGiaValue,
+
+  thoiGianBatDau: thoiGianBatDauValue,
+  thoiGianKetThuc:thoiGianKetThucValue,
+  trangThai :trangThaiValue,
+};
+
     const thoiGianHienTai  = moment();
       console.log('time now:', thoiGianHienTai);
-      this.voucher.thoiGianBatDau = moment(this.voucher.thoiGianBatDau).toISOString();
-      this.voucher.thoiGianKetThuc = moment(this.voucher.thoiGianKetThuc).toISOString();
-    console.log('time start:',this.voucher.thoiGianBatDau);
-  //   const timestampBatDau = moment(this.voucher.thoiGianBatDau).unix();
-  // const timestampKetThuc = moment(this.voucher.thoiGianKetThuc).unix();
-if(this.voucher.thoiGianBatDau ==='' || this.voucher.thoiGianKetThuc ===''){
-  // điều kiện này chưa đc nên check lại
-    alert('Không Được để trống');
-}else  if( this.voucher.thoiGianBatDau >= this.voucher.thoiGianKetThuc){
-    console.log('time end:',this.voucher.thoiGianKetThuc);
+      // this.voucher.thoiGianBatDau = moment(this.voucher.thoiGianBatDau).toISOString();
+      // this.voucher.thoiGianKetThuc = moment(this.voucher.thoiGianKetThuc).toISOString();
+    // console.log('time start:',this.voucher.thoiGianBatDau);
+    // console.log('time end:',this.voucher.thoiGianKetThuc);
+    if(thoiGianBatDauValue instanceof Date){
+      thoiGianBatDauControl.setValue(thoiGianBatDauValue.toISOString());
+    } else if (thoiGianKetThucValue instanceof Date){
+      thoiGianKetThucControl.setValue(thoiGianKetThucValue.toISOString());
+
+    }
+else if( moment(thoiGianBatDauValue).isSameOrAfter(thoiGianKetThucValue)){
+    console.log('time end:',thoiGianKetThucValue);
     alert('Thời gian Bắt đầu không được lớn hoặc bằng Thời gian kết thúc');
 
-  }else if(thoiGianHienTai.isBefore(this.voucher.thoiGianBatDau)){
+  }else if(thoiGianHienTai.isBefore(thoiGianBatDauValue)){
 
       this.voucherService.createVoucher(this.voucher).then((res) => {
       console.log('data created', res.content);
@@ -64,7 +96,7 @@ if(this.voucher.thoiGianBatDau ==='' || this.voucher.thoiGianKetThuc ===''){
 });
 
 } else{
-  alert('Thời gian bắt đầu không được nhỏ hơn thời gian hiện tại. Vui lòng nhập lại.');
+  alert('Thời gian bắt đầu không được nhỏ hơn hoặc bằng thời gian hiện tại. Vui lòng nhập lại.');
 }
 
 }
