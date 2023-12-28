@@ -21,8 +21,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
     RegisterComponent,
     ForgotPassComponent,
     ForgotPassAdminComponent,
-    LoginAdminComponent
-
+    LoginAdminComponent,
   ]
 })
 export class AccountLazyModule { } 

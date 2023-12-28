@@ -9,14 +9,15 @@ import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
 import { SliderModule } from 'primeng/slider';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { CartComponent } from './cart/cart.component';
+import { CartComponent } from './cart/page/cart.component';
 import { TableModule } from 'primeng/table';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-
+import { InputTextModule } from 'primeng/inputtext';
+import { CarouselModule } from 'primeng/carousel';
 
 
 @NgModule({
@@ -33,6 +34,8 @@ import { MatIconModule } from '@angular/material/icon';
         MatButtonModule,
         MatSnackBarModule,
         MatIconModule,
+        InputTextModule,
+        CarouselModule
     ],
     declarations: [
         DetailComponent,

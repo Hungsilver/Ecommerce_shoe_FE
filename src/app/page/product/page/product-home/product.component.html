@@ -10,8 +10,9 @@
       <div>
         <h3>PRICE</h3>
         <div class="d-flex justify-content-between">
-          <h5 class="">{{ rangeValues[0] }}</h5>
-          <h5 class="">{{ rangeValues[1] }}</h5>
+          <h5 class="">{{ rangeValues[0]| currency:'VND' }}</h5>
+          <!-- <h5 class="">{{ rangeValues[1]| currency:'VND' }}</h5> -->
+          <h5 class="">{{ productDetail| currency:'VND' }}</h5>
         </div>
         <p-slider [(ngModel)]="rangeValues" [min]="minPrice" [max]="maxPrice" [range]="true"
           (onSlideEnd)="getAll()"></p-slider>
@@ -26,6 +27,7 @@
           </div>
         </div>
       </div>
+
       <div class="my-3">
         <h3>Xuất xứ</h3>
         <div class="flex flex-column gap-2">
@@ -36,13 +38,57 @@
           </div>
         </div>
       </div>
+      <div class="my-3">
+        <h3>Thương hiệu</h3>
+        <div class="flex flex-column gap-2">
+          <div *ngFor="let brand of brands" class="field-checkbox">
+            <p-checkbox (onChange)="getAll()" name="brand" [label]="brand.ten" [value]="brand.id"
+              [(ngModel)]="query.brand" [inputId]="brand.key"></p-checkbox>
+            <label [for]="brand.key">{{ brand.name }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="my-3">
+        <h3>Chất liệu giày</h3>
+        <div class="flex flex-column gap-2">
+          <div *ngFor="let material of materials" class="field-checkbox">
+            <p-checkbox (onChange)="getAll()" name="material" [label]="material.ten" [value]="material.id"
+              [(ngModel)]="query.material" [inputId]="material.key"></p-checkbox>
+            <label [for]="material.key">{{ material.name }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="my-3">
+        <h3>Chất liệu đế giày</h3>
+        <div class="flex flex-column gap-2">
+          <div *ngFor="let materialSole of materialSoles" class="field-checkbox">
+            <p-checkbox (onChange)="getAll()" name="materialSole" [label]="materialSole.ten" [value]="materialSole.id"
+              [(ngModel)]="query.materialSole" [inputId]="materialSole.key"></p-checkbox>
+            <label [for]="materialSole.key">{{ materialSole.name }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="my-3">
+        <h3>Kích cỡ</h3>
+        <div class="flex flex-column gap-2">
+          <div *ngFor="let size of sizes" class="field-checkbox">
+            <p-checkbox (onChange)="getAll()" name="size" [label]="size.ten" [value]="size.id" [(ngModel)]="query.size"
+              [inputId]="size.key"></p-checkbox>
+            <label [for]="size.key">{{ size.size }}</label>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-xl-9">
       <div class="sort d-flex justify-content-end gap-3">
-        <span class="d-flex align-items-center">Sort by</span>
+        <!-- <span class="d-flex align-items-center"></span> -->
         <div>
-          <p-dropdown [options]="typeSort" [(ngModel)]="query.isSortDesc" optionLabel="name"
-            placeholder="Sắp xếp theo giá" optionValue="value"></p-dropdown>
+          <!-- <p-dropdown [options]="typeSort" [(ngModel)]="query.isSortDesc" optionLabel="name"
+            placeholder="Sắp xếp theo giá" optionValue="value"></p-dropdown> -->
+          <span class="p-input-icon-right">
+            <input type="text" pInputText [(ngModel)]="query.keyword" />
+            <i class="pi pi-search" (click)="getAll()" style="cursor: pointer;"></i>
+          </span>
         </div>
       </div>
       <div class="list-product mt-2">
@@ -51,10 +97,11 @@
             <img src="{{product.anhChinh}}" alt="img">
           </a>
           <div class="product-content">
-            <a href="#">
+            <a [routerLink]="[product.id]">
               <h4>{{product.ten}}</h4>
             </a>
-            <span>Khoảng giá</span>
+            <span>{{product.listChiTietSanPham[0].giaBan| currency:'VND'}}đ - {{
+              product.listChiTietSanPham[product.listChiTietSanPham.length - 1].giaBan| currency:'VND' }}đ</span>
           </div>
         </div>
 

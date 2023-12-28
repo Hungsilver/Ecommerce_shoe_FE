@@ -1,0 +1,18 @@
+.payment-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    // top: 300px;
+    /* Để đảm bảo căn giữa theo chiều cao của màn hình */
+}
+
+.text {
+    font-size: 40px;
+}
+
+.payment-success p {
+    margin-bottom: 20px;
+    /* Để tăng khoảng cách giữa đoạn văn bản và button */
+}

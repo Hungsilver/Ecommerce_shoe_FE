@@ -1,8 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnChanges, OnInit, SimpleChanges, } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { BrandService } from 'src/app/admin/brand/service/brand.service';
 import { ColorService } from 'src/app/admin/color/service/color.service';
-import { IProduct } from 'src/app/page/product/service/product.module';
+import { MaterialSolesService } from 'src/app/admin/material-soles/service/material-soles.service';
+import { MaterialService } from 'src/app/admin/material/service/material.service';
+import { ProductDetailService } from 'src/app/admin/product-detail/services/product.service';
+import { SizeService } from 'src/app/admin/size/service/size.service';
 import { ProductService } from 'src/app/page/product/service/product.service';
 import { OriginService } from 'src/libs/service/project/origin/origin.service';
 
@@ -15,25 +19,38 @@ export class ProductComponent implements OnInit {
   rangeValues!: number[];
   minPrice!: number;
   maxPrice!: number;
-  products: IProduct[] = [];
+  products: any[] = [];
+  productDetail!: any;
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
-  query: any = {}
+  query: any = {};
   listTotalPage: any = [];
-  colors: any[] = []
-  origins: any[] = []
+  colors: any[] = [];
+  origins: any[] = [];
+  brands: any[] = [];
+  materials: any[] = [];
+  materialSoles: any[] = [];
+  sizes: any[] = [];
   typeSort: any = [];
 
+
   constructor(
+    private productDetailService: ProductDetailService,
     private productService: ProductService,
     private colorService: ColorService,
-    private originService: OriginService,) {
+    private originService: OriginService,
+    private materialService: MaterialService,
+    private materialSoleService: MaterialSolesService,
+    private sizeService: SizeService,
+    private brandService: BrandService
+  ) {
     this.query.page = 1;
     this.query.pageSize = 10;
     this.query.origin = []
     this.query.color = []
     this.minPrice = 1;
-    this.maxPrice = 3000000;
+    this.maxPrice = 20000000;
+
   }
 
   ngOnInit(): void {
@@ -45,11 +62,11 @@ export class ProductComponent implements OnInit {
       { name: 'Giá giảm dần', value: true },
     ]
     // this.query.minPrice = this.minPrice;
-    // this.query.maxPrice = this.maxPrice;
+    // this.query.maxPrice = this.maxPrice;   
+
     this.initData()
     this.getAll();
   }
-
 
 
   initData() {
@@ -60,22 +77,50 @@ export class ProductComponent implements OnInit {
     //     this.products = res.content;
     //   }
     // })
+
+    this.productDetailService.getTop1Price().then(res => {
+      if (res) {
+        this.productDetail = res.giaBan;
+      }
+    })
+
     this.colorService.getColors().then(res => {
       if (res) {
         this.colors = res.content;
       }
     })
+
     this.originService.getOrigins().then(res => {
       if (res) {
         this.origins = res.content;
+      }
+    })
+    this.brandService.getBrand().then(res => {
+      if (res) {
+        this.brands = res.content;
+      }
+    })
+    this.materialService.getMaterials().then(res => {
+      if (res) {
+        this.materials = res.content;
+      }
+    })
+    this.materialSoleService.getMaterials().then(res => {
+      if (res) {
+        this.materialSoles = res.content;
+      }
+    })
+    this.sizeService.getSize().then(res => {
+      if (res) {
+        this.sizes = res.content;
       }
     })
   }
 
 
   getAll(action?: 'prev' | 'next'): void {
-    this.query.minPrice = this.rangeValues[0];
-    this.query.maxPrice = this.rangeValues[1];
+    this.query.pricemin = this.rangeValues[0];
+    this.query.pricemax = this.rangeValues[1];
     let params = { ...this.query }
     if (action) {
       if (action === 'prev' && Number(params.page) > 1) {

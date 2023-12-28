@@ -11,3 +11,14 @@
         font-size: 22px;
     }
 }
+
+.shorten-text {
+    max-width: 200px;
+    max-height: 150px;
+    /* Đặt chiều rộng tối đa cho đoạn văn bản */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Thêm dấu ba chấm (...) nếu văn bản vượt quá chiều rộng */
+    white-space: nowrap;
+    /* Ngăn chặn quá trình xuống dòng */
+}
