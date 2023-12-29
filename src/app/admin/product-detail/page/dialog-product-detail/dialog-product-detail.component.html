@@ -1,0 +1,138 @@
+<div class="d-flex justify-content-between">
+  <h2 mat-dialog-title>
+      Sản phẩm Chi Tiết
+  </h2>
+  <div mat-dialog-title mat-dialog-actions>
+      <button mat-button mat-dialog-close>Close</button>
+  </div>
+</div>
+<ng-container *ngIf="type && type==='add'">
+  <mat-dialog-content class="mat-typography">
+      <div class="container-fluid">
+          <form [formGroup]="productDetailFrom" class="row">
+            <!-- cột đầu  -->
+              <div class="col">
+                  <div class="col-6">
+                    <mat-form-field class="example-form-field">
+                      <mat-label>Sản Phẩm</mat-label>
+                      <mat-select formControlName ="sanPham">
+                          <mat-option *ngFor="let products of data.products"
+                              [value]="products.id">{{products.ten}}</mat-option>
+                      </mat-select>
+                      <mat-error
+                          *ngIf="productDetailFrom.get('sanPham').hasError('required') && (productDetailFrom.get('sanPham').dirty || productDetailFrom.get('sanPham').touched)">
+                          Vui lòng chọn sản phẩm
+                      </mat-error>
+                  </mat-form-field>
+                  </div>
+                    <div class="col-6">
+                      <mat-form-field class="example-form-field">
+                        <mat-label>Số lượng</mat-label>
+                        <input matInput type="text" formControlName="soLuong">
+                        <mat-error
+                            *ngIf="productDetailFrom.get('soLuong').invalid && (productDetailFrom.get('soLuong').dirty || productDetailFrom.get('soLuong').touched)">
+                            Tên không được để trống</mat-error>
+                        <button *ngIf="productDetailFrom.get('soLuong').value" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="productDetailFrom.get('soLuong').setValue('')">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field class="example-form-field">
+                      <mat-label>Giá Bán</mat-label>
+                      <input matInput type="text" formControlName="giaBan">
+                      <mat-error
+                          *ngIf="productDetailFrom.get('giaBan').invalid && (productDetailFrom.get('giaBan').dirty || productDetailFrom.get('giaBan').touched)">
+                          Tên không được để trống</mat-error>
+                      <!-- <button *ngIf="productDetailFrom.get('ten').value" matSuffix mat-icon-button aria-label="Clear"
+                          (click)="productDetail.get('ten').setValue('')">
+                          <mat-icon>close</mat-icon>
+                      </button> -->
+                  </mat-form-field>
+                </div>
+                  <!-- <div class="col-6">
+                      Ảnh
+                  </div> -->
+
+              </div>
+              <div class="col">
+                <div class="col-6">
+                  <mat-form-field class="example-form-field">
+                    <mat-label>Kích Cỡ</mat-label>
+                    <mat-select formControlName="kichCo">
+                        <mat-option *ngFor=" let sizes of data.sizes"
+                            [value]="sizes.id">{{sizes.size}}</mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="productDetailFrom.get('kichCo').hasError('required') && (productDetailFrom.get('kichCo').dirty || productDetailFrom.get('kichCo').touched)">
+                        Vui lòng chọn sản phẩm
+                    </mat-error>
+                </mat-form-field>
+                </div>
+                <div class="col-6">
+                  <mat-form-field class="example-form-field">
+                    <mat-label>Màu Sắc</mat-label>
+                    <mat-select formControlName="mauSac">
+                        <mat-option *ngFor="let colors of data.colors"
+                            [value]="colors.id">{{colors.ten}}</mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="productDetailFrom.get('mauSac').hasError('required') && (productDetailFrom.get('mauSac').dirty || productDetailFrom.get('mauSac').touched)">
+                        Vui lòng chọn sản phẩm
+                    </mat-error>
+                </mat-form-field>
+                </div>
+                <div class="col-6">
+                  <mat-form-field class="example-form-field">
+                    <mat-label>Chất Liệu Giày</mat-label>
+                    <mat-select formControlName="chatLieuGiay">
+                        <mat-option *ngFor="let shoeMaterials of data.shoeMaterials"
+                            [value]="shoeMaterials.id">{{shoeMaterials.ten}}</mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="productDetailFrom.get('chatLieuGiay').hasError('required') && (productDetailFrom.get('chatLieuGiay').dirty || productDetailFrom.get('chatLieuGiay').touched)">
+                        Vui lòng chọn chất liệu đế giày
+                    </mat-error>
+                </mat-form-field>
+                </div>
+                <div class="col-6">
+                  <mat-form-field class="example-form-field">
+                    <mat-label>Chất Liệu Đế giày</mat-label>
+                    <mat-select formControlName="chatLieuDeGiay">
+                        <mat-option *ngFor="let shoeSoleMaterials of data.shoeSoleMaterials"
+                            [value]="shoeSoleMaterials.id">{{shoeSoleMaterials.ten}}</mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="productDetailFrom.get('chatLieuDeGiay').hasError('required') && (productDetailFrom.get('chatLieuDeGiay').dirty || productDetailFrom.get('chatLieuDeGiay').touched)">
+                        Vui lòng chọn chất liệu đế
+                    </mat-error>
+                </mat-form-field>
+                </div>
+                <div class="col-6">
+                  <mat-form-field class="example-form-field">
+                    <mat-label>Chọn trạng thái</mat-label>
+                    <mat-select formControlName="trangThai">
+                        <mat-option [value]="1">Hoạt động</mat-option>
+                        <mat-option [value]="0">Không Hoạt động</mat-option>
+                    </mat-select>
+                    <div
+                        *ngIf="productDetailFrom.get('trangThai').hasError('required') && (productDetailFrom.get('trangThai').dirty || productDetailFrom.get('trangThai').touched)">
+                        Vui lòng chọn trạng thái
+                    </div>
+                </mat-form-field>
+
+                </div>
+              </div>
+          </form>
+
+      </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <ng-container *ngIf="type && type=== 'add'">
+        <button mat-button (click)="addProduct()" [disabled]="!productDetailFrom.valid">Xác nhận add</button>
+    </ng-container>
+</mat-dialog-actions>
+</ng-container>
+
+
