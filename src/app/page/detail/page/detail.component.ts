@@ -163,43 +163,45 @@ export class DetailComponent implements OnInit {
     if (!this.errorSelected) {
       this.errorSelected = undefined;
     }
-console.log(this.params);
+    console.log(this.params);
 
-    console.log( this.cacheService.get( "customer"));
-    
+    console.log(this.cacheService.get("customer"));
+
     this.productDetailService.getProductByParam(this.params).then(pd => {
-      pd.content.forEach((key)=>{
+      pd.content.forEach((key) => {
         this.productDetail = key;
       })
-    if(this.errorSelected){
-      this.notificationService.error("Vui lòng chọn thuộc tính");
-    }else if(this.productDetail.soLuong !< this.quantity ){
-      this.notificationService.error("Số lượng sản phẩm phải nhỏ hơn số lượng trong kho");
-    }else if(this.quantity < 0){
-      this.notificationService.error("Số lượng phải lớn hơn 0");
-    }else if( this.productDetail.trangThai === 0) {
-      this.notificationService.error("Sản phẩm dừng kinh doanh");
-    }else if( this.productDetail.trangThai === 1 && this.productDetail.soLuong !<= 0) {
-      this.notificationService.error("Sản phẩm tạm hết hàng");
-    }else if(this.cacheService.get('customer')=== undefined){
-      this.notificationService.error("Vui lòng đăng nhập");
-    }else {
-      this.addProductToCart.id = this.productDetail.id;
-      this.addProductToCart.quantity = this.quantity;
-
-      
-      this.detailService.addToCart(this.addProductToCart).then(c=>{
-        this.notificationService.success("Thêm sản phẩm vào giỏ hàng thành công");
-      },err=>{
+      if (this.errorSelected) {
+        this.notificationService.error("Vui lòng chọn thuộc tính");
+      } else if (this.productDetail.soLuong !< 1 ) {
+        this.notificationService.error('Sản phẩm tạm hết hàng');
+      }else if (this.productDetail.soLuong! < this.quantity) {
+        this.notificationService.error("Số lượng sản phẩm phải nhỏ hơn số lượng trong kho");
+      } else if (this.quantity < 0) {
+        this.notificationService.error("Số lượng phải lớn hơn 0");
+      } else if (this.productDetail.trangThai === 0) {
+        this.notificationService.error("Sản phẩm dừng kinh doanh");
+      } else if (this.productDetail.trangThai === 1 && this.productDetail.soLuong! <= 0) {
+        this.notificationService.error("Sản phẩm tạm hết hàng");
+      } else if (this.cacheService.get('customer') === undefined) {
         this.notificationService.error("Vui lòng đăng nhập");
-      })
-    }
+      } else {
+        this.addProductToCart.id = this.productDetail.id;
+        this.addProductToCart.quantity = this.quantity;
+
+
+        this.detailService.addToCart(this.addProductToCart).then(c => {
+          this.notificationService.success("Thêm sản phẩm vào giỏ hàng thành công");
+        }, err => {
+          this.notificationService.error("Vui lòng đăng nhập");
+        })
+      }
     })
 
-    
+
   }
 
-  
+
 
   isSelectedSize(sizeId: any): boolean {
     return this.listSize.includes(sizeId);
@@ -231,15 +233,15 @@ console.log(this.params);
     this.listCLDG = [];
 
     this.productDetailService.getProductByParam(this.params).then(pd => {
-      console.log('content',pd.content);
-      
+      console.log('content', pd.content);
+
       pd.content.forEach((key: any) => {
         this.listColor.push(key.mauSac.id);
       })
     })
-    this.query.color=null;
-    this.query.shoe_material=null;
-    this.query.shoe_sole_material =null;
+    this.query.color = null;
+    this.query.shoe_material = null;
+    this.query.shoe_sole_material = null;
   }
 
   getMauSac(ms: any) {
@@ -254,14 +256,14 @@ console.log(this.params);
     this.listCLDG = [];
 
     this.productDetailService.getProductByParam(this.params).then(pd => {
-      console.log('content',pd.content);
-      
+      console.log('content', pd.content);
+
       pd.content.forEach((key: any) => {
         this.listCL.push(key.chatLieuGiay.id);
       })
     })
-    this.query.shoe_material=null;
-    this.query.shoe_sole_material =null;
+    this.query.shoe_material = null;
+    this.query.shoe_sole_material = null;
   }
 
   getChatLieu(cl: any) {
@@ -274,26 +276,26 @@ console.log(this.params);
     this.listCLDG = [];
 
     this.productDetailService.getProductByParam(this.params).then(pd => {
-      console.log('content',pd.content);
-      
+      console.log('content', pd.content);
+
       pd.content.forEach((key: any) => {
         this.listCLDG.push(key.chatLieuDeGiay.id);
       })
     })
-    this.query.shoe_sole_material =null;
+    this.query.shoe_sole_material = null;
   }
   getChatLieuDe(cld: any) {
     this.query.shoe_sole_material = cld;
     console.log(this.query);
     this.productDetailService.getProductByParam(this.params).then(pd => {
       console.log(pd.content);
-      
+
       pd.content.forEach((key: any) => {
         this.priceProduct = key.giaBan;
         this.imgProduct = key.anhSanPhams;
         this.codeProduct = key.ma;
         this.quantityProduct = key.soLuong;
-        key.trangThai===0?this.statusProduct = 'Dừng kinh doanh': this.statusProduct = 'Kinh doanh';
+        key.trangThai === 0 ? this.statusProduct = 'Dừng kinh doanh' : this.statusProduct = 'Kinh doanh';
       })
     })
   }
