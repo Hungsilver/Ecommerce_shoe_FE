@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { CartService } from '../cart/service/cart.service';
+import { CartService } from '../../cart/service/cart.service';
 import { CacheService } from 'src/libs/service/request/cache.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { CheckoutService } from '../service/checkout.service';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -40,6 +41,7 @@ export class CheckoutComponent implements OnInit {
     private notificationService: ToastrService,
     private formBuilder: FormBuilder,
     private cartService: CartService,
+    private checkoutService: CheckoutService,
     private cacheService: CacheService,
     private http: HttpClient,
     private router: Router
@@ -55,7 +57,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   form: FormGroup = this.formBuilder.group({
-    tenKhachHang: ['', [Validators.required, Validators.maxLength(50), Validators.pattern('[a-zA-Z ]*')]],
+    tenKhachHang: ['', [Validators.required, Validators.maxLength(50)]],
     soDienThoai: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('^(0|84)(2(0[3-9]|1[0-6|8|9]|2[0-2|5-9]|3[2-9]|4[0-9]|5[1|2|4-9]|6[0-3|9]|7[0-7]|8[0-9]|9[0-4|6|7|9])|3[2-9]|5[5|6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])([0-9]{7})$')]],
     diaChi: ['', [Validators.required, Validators.maxLength(100)]],
     phuongXa: ['', [Validators.required]],
@@ -108,15 +110,13 @@ export class CheckoutComponent implements OnInit {
         ).then((result) => {
           if (result.isConfirmed) {// check confirm
             if (this.form.value.phuongThucThanhToan === '0') {// check phuongthucthanhtoan
-              this.cartService.checkout(this.form.value).then(c => {
-                console.log(c);
+              this.checkoutService.checkout(this.form.value).then(c => {
+                this.router.navigate(['/payment/success'])
+              },(err)=>{
+                this.router.navigate(['/payment/error'])
               })
-              this.notificationService.success("Thanh toán thành công !");
-              setTimeout(() => {
-                this.router.navigate(['/'])
-              }, 1000);
             } else {
-              this.cartService.checkout(this.form.value).then(c => {
+              this.checkoutService.checkout(this.form.value).then(c => {
                 console.log(c);
                 window.location.href = c.data;
               })
@@ -151,7 +151,7 @@ export class CheckoutComponent implements OnInit {
   findByCodeVoucher(event: any) {
     this.phieuGiamGia.ma = event.target.value;
     this.tongTienSauGiam = this.tongTien;
-    this.cartService.findByMaPhieuGiamGia(this.phieuGiamGia).then((p) => {
+    this.checkoutService.findByMaPhieuGiamGia(this.phieuGiamGia).then((p) => {
       console.log(p);
       if (p === null) {
         console.log('không tìm thấy');
