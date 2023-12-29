@@ -5,7 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { OrderComponent } from './order/order.component';
 import { ProductComponent } from './product/page/product-home/product.component';
 import { CartComponent } from './cart/page/cart.component';
-import { CheckoutComponent } from './checkout/checkout.component';
+import { CheckoutComponent } from './checkout/page/checkout.component';
 import { authUserGuard } from 'src/libs/service/request/auth.guard';
 
 import { PaymentSuccessComponent } from './payment-success/payment-success.component';
