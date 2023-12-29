@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { IReqApi } from 'src/libs/common/interface/interfaces';
 import { BaseRequestAbstractService } from 'src/libs/service/request/abstract-api.service';
 import { BaseRequestService } from 'src/libs/service/request/base-request.service';
@@ -31,6 +32,8 @@ export class CartService {
             );
         });
     }
+
+    
 
     updateQuantity(params?: any): Promise<any> {
         return new Promise<any>((resolve, reject) => {

@@ -11,7 +11,7 @@ import { SliderModule } from 'primeng/slider';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { CartComponent } from './cart/page/cart.component';
 import { TableModule } from 'primeng/table';
-import { CheckoutComponent } from './checkout/checkout.component';
+import { CheckoutComponent } from './checkout/page/checkout.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';

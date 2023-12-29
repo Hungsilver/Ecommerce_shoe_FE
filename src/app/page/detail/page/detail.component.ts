@@ -173,13 +173,15 @@ export class DetailComponent implements OnInit {
       })
       if (this.errorSelected) {
         this.notificationService.error("Vui lòng chọn thuộc tính");
-      } else if (this.productDetail.soLuong! < this.quantity) {
+      } else if (this.productDetail.soLuong !< 1 ) {
+        this.notificationService.error('Sản phẩm tạm hết hàng');
+      }else if (this.productDetail.soLuong! < this.quantity) {
         this.notificationService.error("Số lượng sản phẩm phải nhỏ hơn số lượng trong kho");
       } else if (this.quantity < 0) {
         this.notificationService.error("Số lượng phải lớn hơn 0");
-      } else if (this.productDetail.trangThai === 1) {
+      } else if (this.productDetail.trangThai === 0) {
         this.notificationService.error("Sản phẩm dừng kinh doanh");
-      } else if (this.productDetail.trangThai === 0 && this.productDetail.soLuong! <= 0) {
+      } else if (this.productDetail.trangThai === 1 && this.productDetail.soLuong! <= 0) {
         this.notificationService.error("Sản phẩm tạm hết hàng");
       } else if (this.cacheService.get('customer') === undefined) {
         this.notificationService.error("Vui lòng đăng nhập");
