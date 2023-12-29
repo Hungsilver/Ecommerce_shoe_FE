@@ -10,9 +10,9 @@
         </h2>
       </div>
       <div class="mb-3">
-        <input type="text" class="form-control" placeholder="Full Name" formControlName="fullName" required />
+        <input type="text" class="form-control" placeholder="Full Name" formControlName="hoTen" name="hoTen" required />
         <div class="alert alert-danger" *ngIf="
-            myForm.get('fullName')?.hasError('required') &&
+            myForm.get('hoTen')?.hasError('required') &&
             (myForm.touched || myForm.dirty)
           ">
           Username is required
@@ -22,7 +22,7 @@
         <input type="email" class="form-control" placeholder="Email" formControlName="email" required />
       </div>
       <div class="mb-3">
-        <input type="password" class="form-control" placeholder="Password" name="password" formControlName="password"
+        <input type="password" class="form-control" placeholder="Password" name="matKhau" formControlName="matKhau"
           required />
       </div>
 
@@ -32,7 +32,7 @@
     </form>
     <div class="d-flex justify-content-center gap-3 my-3" style="font-size: 1rem">
       <span>Already have an account? </span>
-      <a href="login">Login</a>
+      <a routerLink="/auth/login">Login</a>
     </div>
   </div>
 </main>

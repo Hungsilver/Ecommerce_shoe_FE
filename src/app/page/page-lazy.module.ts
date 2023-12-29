@@ -16,6 +16,12 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { BlogHomeComponent } from './blog/bloghome-component';
+import { blogdetail } from './blogDetail/blogDetail-component';
+import { VoucherHomeComponent } from '../admin/voucher/pages/voucher-home.component';
+
+import { InputTextModule } from 'primeng/inputtext';
+import { CarouselModule } from 'primeng/carousel';
 
 
 
@@ -33,6 +39,8 @@ import { MatIconModule } from '@angular/material/icon';
         MatButtonModule,
         MatSnackBarModule,
         MatIconModule,
+        InputTextModule,
+        CarouselModule
     ],
     declarations: [
         DetailComponent,
@@ -41,6 +49,9 @@ import { MatIconModule } from '@angular/material/icon';
         ProductComponent,
         CartComponent,
         CheckoutComponent,
+        BlogHomeComponent,
+        blogdetail,
+      
     ],
 })
 export class PageLazyModule { }

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { AuthCustomerService } from '../../serviceAuth/authCustomerService.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 interface IRegister {
   fullName: string;
@@ -16,21 +19,29 @@ interface IRegister {
 export class RegisterComponent {
   constructor(
     private formBuilder: FormBuilder,
-    private messageService: MessageService
-  ) {}
+    private messageService: ToastrService,
+    private authenticationService: AuthCustomerService,
+    private router: Router
+  ) { }
 
   myForm: FormGroup = this.formBuilder.group({
-    fullName: ['', [Validators.required, Validators.maxLength(50)]],
+    hoTen: ['', [Validators.required, Validators.maxLength(50)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.maxLength(16)]],
+    matKhau: ['', [Validators.required, Validators.maxLength(16)]],
   });
 
   onSubmit() {
     if (this.myForm.valid) {
-      const formData: IRegister = this.myForm.value;
-      alert(JSON.stringify(formData.password));
+      this.authenticationService.registerCustomer(this.myForm.value).then(res => {
+        if (res?.isOK) {
+          this.messageService.success('Đăng kí thành công');
+          this.router.navigateByUrl('/auth/login');
+        } else {
+          this.messageService.error('Đăng kí thất bại');
+        }
+      })
     } else {
-      alert('invalid');
+      this.messageService.error('Hãy kiểm tra lại form');
     }
   }
 }

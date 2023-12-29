@@ -1,18 +1,12 @@
-<button mat-raised-button (click)="addTab()">Tạo hóa đơn</button>
-
-<!-- Button trigger modal -->
-<!-- ngx-scanner-qrcode -->
-<!-- data  -->
-<!-- <p class="data">{{ (action.data | async | json) }}</p> -->
-
+<button class="createOrder" mat-raised-button (click)="addTab()">Tạo hóa đơn</button>
+<!-- <button (click)="exportPDF()">Xuất PDF</button> -->
 
 <br>
 <br>
 
-<mat-tab-group (selectedTabChange)="onTabChange($event)">
+<mat-tab-group (selectedTabChange)="onTabChange($event)" class="buttonTab">
 
-
-    <mat-tab *ngFor="let tab of tabs; let i = index" label="{{ tab }}">
+    <mat-tab *ngFor="let tab of tabs; let i = index" label="{{ tab }}" class="buttonTab1">
         <ng-template mat-tab-label class="test">
             <div class="tab-label-container">
                 <span>{{ tab }}</span>
@@ -22,43 +16,72 @@
             </div>
         </ng-template>
 
-        <p>Nội dung của {{ tab }}</p>
-        <input type="text" name="productCode" [(ngModel)]="productCode.ma" placeholder="Tìm kiếm sản phẩm" width="300px"
-            required>
-        <button type="submit" (click)="searchProductByKeyword()">Tìm kiếm</button>
-        <br>
+        <!-- <p>Nội dung của {{ tab }}</p> -->
+        <div class="sales-header d-flex justify-content-between">
+
+            <div class="sales-header_search">
+                <!-- <input type="text" name="productCode" [(ngModel)]="productCode.ma" placeholder="Tìm kiếm sản phẩm"
+                    width="300px" required (keypress)="onKeyPress($event)"> -->
+                    <input type="text" name="productCode" [(ngModel)]="productCodes[i].ma" placeholder="Tìm kiếm sản phẩm" width="300px" required (keypress)="onKeyPress($event,i)">
+
+                <!-- <button type="submit" (click)="searchProductByKeyword()"> -->
+                    <button type="submit" (click)="searchProductByKeyword(i)">
+
+                    <span class="pi pi-search"></span>
+                </button>
+            </div>
 
 
-        <ngx-scanner-qrcode #action="scanner" [config]="config" (event)="onEvent($event, action)"></ngx-scanner-qrcode>
-
-        <!-- loading -->
-        <p *ngIf="action.isLoading">⌛ Loading...</p>
-        <!-- Thêm phần hiển thị kết quả -->
-        <div *ngIf="result">
-            <h2>Success!</h2>
-            <p><a href="{{ result }}">{{ result }}</a></p>
+            <div class="d-flex align-items-center">
+                <button type="button" class="btn btn-outline-primary" (click)="showQRCode()">Open qr code</button>
+            </div>
         </div>
 
-        <!-- Các phần còn lại của view -->
+        <div class="qr-container" *ngIf="isShowQrCode">
+            <div class="d-flex justify-content-center mt-5">
+                <ngx-scanner-qrcode #action="scanner" [config]="config"
+                    (event)="onEvent($event, action)"></ngx-scanner-qrcode>
+            </div>
+            <!-- loading -->
+            <p *ngIf="action.isLoading">⌛ Loading...</p>
+            <!-- Thêm phần hiển thị kết quả -->
+            <div *ngIf="showQuantityInput">
+                <label for="quantity">Nhập số lượng:</label>
+                <input type="number" [(ngModel)]="quantity" placeholder="Nhập số lượng" class="form-control"
+                    style="width: 300px;" (ngModelChange)="onQuantityChange($event)" />
+                <br>
+                <button class="btn btn-outline-primary" (click)="addToCartFromQR(searchResults, quantity)">Xác nhận
+                    thêm</button>
+            </div>
+            <div *ngIf="result">
+                <h2>Success!</h2>
+                <p><a href="{{ result }}">{{ result }}</a></p>
+            </div>
 
-        <!-- start/stop -->
-        <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
-            [disabled]="action.isLoading" (click)="handle(action, action.isStart ? 'stop' : 'start')">
-            <img [src]="action.isStart ? 'https://id1945.github.io/images/svg/camera-off.svg' : 'https://id1945.github.io/images/svg/camera-on.svg'"
-                width="30px" />
-        </button>
+            <!-- <div *ngIf="showQuantityForm">
+            <h3>Nhập số lượng sản phẩm: {{ productInfo.chiTietSanPham.tenSanPham }}</h3>
+            <input type="number" [(ngModel)]="quantity" placeholder="Nhập số lượng" />
+            <button (click)="addToCartWithQuantity()">Thêm vào hóa đơn chi tiết</button>
+            </div> -->
+            <!-- start/stop -->
+            <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
+                [disabled]="action.isLoading" (click)="handle(action, action.isStart ? 'stop' : 'start')">
+                <img [src]="action.isStart ? 'https://id1945.github.io/images/svg/camera-off.svg' : 'https://id1945.github.io/images/svg/camera-on.svg'"
+                    width="30px" />
+            </button>
 
-        <!-- play/pause -->
-        <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
-            [disabled]="!action.isStart" (click)="handle(action, action.isPause ? 'play' : 'pause')">
-            <img [src]="action.isPause ? 'https://id1945.github.io/images/svg/play.svg': 'https://id1945.github.io/images/svg/pause.svg'"
-                width="30px" />
-        </button>
+            <!-- play/pause -->
+            <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
+                [disabled]="!action.isStart" (click)="handle(action, action.isPause ? 'play' : 'pause')"
+                *ngIf="!result">
+                <!-- Thêm điều kiện để ẩn nút khi đã có kết quả -->
+                <img [src]="action.isPause ? 'https://id1945.github.io/images/svg/play.svg': 'https://id1945.github.io/images/svg/pause.svg'"
+                    width="30px" />
+            </button>
+            <!-- <button (click)="startScanning()">Quét mã QR</button> -->
+            <button (click)="turnOfQRCode()" class="btn btn-outline-primary">Tắt mã QR</button>
 
-        <!-- Thêm nút quét mã QR và sự kiện click -->
-        <button (click)="startScanning()">Quét mã QR</button>
-
-
+        </div>
 
         <br>
         <div>
@@ -67,6 +90,7 @@
                     <tr>
                         <th>Mã</th>
                         <th>Tên sản phẩm</th>
+                        <th>Ảnh</th>
                         <th>Màu sắc</th>
                         <th>Kích cỡ</th>
                         <th>Số lượng</th>
@@ -79,6 +103,9 @@
                     <tr *ngFor="let searchResult of searchResults[tab]">
                         <td>{{ searchResult.ma }}</td>
                         <td>{{ searchResult.sanPham?.ten }}</td>
+                        <td>
+                            <img src="{{searchResult.sanPham?.anhChinh}}" style="width: 60px; height: 75px;">
+                        </td>
                         <td>{{ searchResult.mauSac?.ten }}</td>
                         <td>{{ searchResult.kichCo?.size }}</td>
                         <td>{{ searchResult.soLuong }}</td>
@@ -91,7 +118,6 @@
                         <!-- <td>
                                 <i class="material-icons">highlight_remove</i>
                             </td> -->
-
                     </tr>
                 </tbody>
             </table>
@@ -105,7 +131,6 @@
 
         <br>
         <mat-grid-list cols="2" rowHeight="2:1">
-
             <!-- <mat-grid-tile>
                 <table class="table">
                     <thead>
@@ -135,25 +160,37 @@
                     </tbody>
                 </table>
             </mat-grid-tile> -->
-
-
             <mat-grid-tile>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Mã HĐ</th>
-                            <th scope="col">Mã SP</th>
+                            <th scope="col">STT</th>
+                            <th scope="col">Tên Sản Phẩm</th>
                             <th scope="col">Số lượng</th>
                             <th scope="col">Đơn giá</th>
+                            <th scope="col">Thành tiền</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let chiTiet of hoaDonChiTiet[selectedTab]">
-                            <td>{{ chiTiet.chiTietSanPham?.ma }}</td>
+                        <tr *ngFor="let chiTiet of hoaDonChiTiet[selectedTab]; let i = index">
+                            <!-- <td>{{ chiTiet.chiTietSanPham?.ma }}</td> -->
+                            <td>{{i +1}}</td>
                             <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
-                            <td>{{ chiTiet.soLuong }}</td>
+                            <!-- <td>{{ chiTiet.soLuong }}</td> -->
+                            <td>
+                                <button mat-icon-button (click)="decreaseQuantity(chiTiet)">
+                                    <mat-icon>remove</mat-icon>
+                                </button>
+                                <!-- <input type="number" [(ngModel)]="chiTiet['soLuong']" (ngModelChange)="onUpdate(chiTiet)" /> -->
+                                {{ chiTiet['soLuong'] }}
+                                <button mat-icon-button (click)="increaseQuantity(chiTiet)">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </td>
+                            <td>{{chiTiet.chiTietSanPham?.giaBan}}</td>
                             <td>{{ chiTiet.donGia }}</td>
+                            <td></td>
                             <td>
                                 <button mat-icon-button (click)="removeItemFromInvoice(chiTiet.id)">
                                     <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
@@ -163,7 +200,6 @@
                     </tbody>
                 </table>
             </mat-grid-tile>
-            c
 
             <br>
 
@@ -186,7 +222,7 @@
                     <div class="mb-3">
                         <label class="form-label">Mã HĐ:</label>
                         <input type="text" class="form-control" [id]="'exampleInputHD_' + i"
-                            [value]="currentInvoiceCodes[i]">
+                            [value]="currentInvoiceCodes[i]" disabled>
                     </div>
 
                     <div class="row mb-3">
@@ -205,19 +241,20 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label class="form-label">Phương thức thanh toán:</label>
-                            <select class="form-select" aria-label="Default select example" style="width: 223px;">
+                            <select class="form-select" aria-label="Default select example" style="width: 223px;"
+                                [(ngModel)]="selectedPaymentMethod" name="paymentMethod"
+                                [ngModelOptions]="{standalone: true}">
                                 <option value="0">Tiền mặt</option>
                                 <option value="1">Online</option>
                             </select>
+
                         </div>
 
                         <div class="col" id="a">
                             <div class="input-group">
                                 <label class="form-label">Tổng tiền sản phẩm:</label>
-                                <input type="text" class="form-control" [value]="totalAmount" id="input-money"
-                                    aria-label="Dollar amount (with dot and two decimal places)" disabled>
-                                <!-- <input type="text" class="form-control" id="input-money"
-                                    aria-label="Dollar amount (with dot and two decimal places)"> -->
+                                <input type="text" class="form-control" [value]="totalAmounts[selectedTab] !== undefined ? totalAmounts[selectedTab] : 0" id="input-money"
+           aria-label="Dollar amount (with dot and two decimal places)" disabled>
                                 <span class="input-group-text">VNĐ</span>
                             </div>
                         </div>
@@ -225,9 +262,6 @@
                     </div>
 
                     <div class="row mb-3">
-                        <div class="col">
-                            <button type="button" class="btn btn-primary">Thanh toán</button>
-                        </div>
 
                         <div class="col" id="a">
                             <div class="input-group">
@@ -237,6 +271,13 @@
                                 <span class="input-group-text">%</span>
                             </div>
                         </div>
+                        <!-- <input type="text" class="form-control" id="input-money"> -->
+
+                        <div class="col">
+                            <button (click)="notificationInvoice(idHoaDon,IHoaDon)" class="btn btn-primary">Thanh
+                                toán</button>
+                        </div>
+
                     </div>
                     <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
                 </form>

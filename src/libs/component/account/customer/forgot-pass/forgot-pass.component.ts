@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthCustomerService } from '../../serviceAuth/authCustomerService.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forgotPass',
@@ -7,7 +10,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./forgot-pass.component.scss'],
 })
 export class ForgotPassComponent {
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private authenticationService: AuthCustomerService,
+    private notificationService: ToastrService,
+    private router: Router
+  ) { }
 
   formForget: FormGroup = this.formBuilder.group({
     email: ['', [Validators.email]],
@@ -15,7 +23,14 @@ export class ForgotPassComponent {
 
   onSubmit() {
     if (this.formForget.valid) {
-      alert(JSON.stringify(this.formForget.value));
+      this.authenticationService.forgetPassCustomer(this.formForget.get('email')?.value).then(res => {
+        if (res?.isOK) {
+          this.notificationService.success('Thành công. Vui lòng kiểm tra email');
+          this.router.navigateByUrl('/auth/login');
+        } else {
+          this.notificationService.error('Có lỗi xảy ra');
+        }
+      })
     }
   }
 }
