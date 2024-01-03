@@ -3,7 +3,7 @@ import { VoucherSevice } from "../service/voucher.service";
 import { MAT_DIALOG_DATA,MatDialog } from "@angular/material/dialog";
 // import { Moment } from "moment";
 import * as moment from "moment";
-import { FormBuilder,Validators } from "@angular/forms";
+import { FormBuilder,Validators,AbstractControl,ValidationErrors } from "@angular/forms";
 
 
 @Component({
@@ -19,6 +19,10 @@ voucherFrom :any;
 
 
   ngOnInit(): void {
+    this.voucherFrom.get('hinhThucGiamGia').setValue(false);
+      this.voucherFrom.get('trangThai').setValue(2);
+    // Cập nhật validators cho chietKhau dựa trên giá trị mặc định của hinhThucGiamGia
+    this.updateValidatorsForChietKhau(false);
 
   }
 
@@ -34,15 +38,54 @@ voucherFrom :any;
 
     this.voucherFrom =this.fb.group({
       ten: ['', Validators.required],
-      chietKhau: ['',[ Validators.required,Validators.min(0),Validators.max(10)]],
+      chietKhau: ['',[ Validators.required]],
+      // ,Validators.min(0),Validators.max(10),Validators.pattern(/^[1-9]\d{0,2}?$/)
       moTa:['',Validators.required],
-      hinhThucGiamGia :[1,Validators.required],
-      trangThai: [1, Validators.required],
+      hinhThucGiamGia :[false,Validators.required],
+      trangThai: [2, Validators.required],
       thoiGianBatDau :['',Validators.required],
       thoiGianKetThuc :['',Validators.required]
     });
 
+    this.voucherFrom.get('hinhThucGiamGia').valueChanges.subscribe((value: boolean) => {
+      // Cập nhật validators cho chietKhau dựa trên giá trị mới của hinhThucGiamGia
+      this.updateValidatorsForChietKhau(value);
+    });
+
+
+
   }
+
+private updateValidatorsForChietKhau( hinhThucGiamGiaValue :boolean): void{
+  const chietKhauControl = this.voucherFrom.get('chietKhau');
+console.log("hinh thuc",hinhThucGiamGiaValue)
+  // Xóa tất cả các validators hiện tại
+  chietKhauControl.clearValidators();
+
+  if (hinhThucGiamGiaValue) {
+   // Nếu là "Tiền Mặt", thêm các validators cho tiền mặt
+   chietKhauControl.setValidators([
+    Validators.required,
+    Validators.min(10000),
+    // Validators.max(800000),
+    Validators.pattern(/^[1-9]\d{0,5}$/),
+  ]);
+
+
+  } else{
+// Nếu là "Phần Trăm", thêm các validators cho phần trăm
+    chietKhauControl.setValidators([
+      Validators.required,
+      Validators.min(0),
+      Validators.max(10),
+      Validators.pattern(/^[1-9]\d{0,2}?$/),
+    ]);
+  }
+
+
+  // Cập nhật lại validators
+  chietKhauControl.updateValueAndValidity();
+}
 
 addVoucher(){
   const tenValue = this.voucherFrom.get('ten').value;
@@ -72,8 +115,8 @@ this.voucher ={
 
     const thoiGianHienTai  = moment();
       console.log('time now:', thoiGianHienTai);
-      // this.voucher.thoiGianBatDau = moment(this.voucher.thoiGianBatDau).toISOString();
-      // this.voucher.thoiGianKetThuc = moment(this.voucher.thoiGianKetThuc).toISOString();
+      this.voucher.thoiGianBatDau = moment(this.voucher.thoiGianBatDau).toISOString();
+      this.voucher.thoiGianKetThuc = moment(this.voucher.thoiGianKetThuc).toISOString();
     // console.log('time start:',this.voucher.thoiGianBatDau);
     // console.log('time end:',this.voucher.thoiGianKetThuc);
     if(thoiGianBatDauValue instanceof Date){
@@ -102,6 +145,7 @@ else if( moment(thoiGianBatDauValue).isSameOrAfter(thoiGianKetThucValue)){
 }
 
 updateVoucher(){
+  
   this.voucherService.updateVoucher(this.voucher, this.voucher.id).then((res) => {
     if (res) {
       this.dialog.closeAll();
@@ -114,6 +158,9 @@ deleteVoucher() {
   this.voucherService.deleteVoucher(this.voucher.id);
   this.dialog.closeAll();
 }
+
+
+
 
 
 

@@ -143,6 +143,31 @@ export class ProductDetailComponent implements OnInit {
       this.getAll();
     })
   }
+  openDialogEdit(productDetail: any) {
+    const dialogRef = this.dialog.open(dialogProductDetailComponent, {
+      width: '1100px',
+      height: '600px',
+      data: {
+        type: 'update',
+        productDetail: productDetail,
+       products: this.product,
+        sizes :this.size,
+        colors :this.color,
+        shoeMaterials :this.shoeMaterial,
+        shoeSoleMaterials:this.shoeSoleMaterial,
+
+
+        selectedProductId: productDetail.sanPham ? productDetail.sanPham.id : null,
+        selectedSizeId: productDetail.kichCo ? productDetail.kichCo.id : null,
+        selectedColorId: productDetail.mauSac ? productDetail.mauSac.id : null,
+        selectedShoeMaterialId: productDetail.chatLieuGiay ? productDetail.chatLieuGiay.id : null,
+        selectedShoeSoleMaterialId: productDetail.chatLieuDeGiay ? productDetail.chatLieuDeGiay.id : null,
+      }
+    })
+    dialogRef.afterClosed().subscribe(data => {
+      this.getAll();
+    })
+  }
 
 
 }

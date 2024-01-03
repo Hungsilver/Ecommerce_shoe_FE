@@ -49,21 +49,31 @@
           <div class="col-6">
             <mat-form-field class="example-form-field">
               <mat-label>Chiết Khấu</mat-label>
-              <input matInput type="number" formControlName="chietKhau" >
+              <input matInput type="text" formControlName="chietKhau" >
               <!-- <mat-error
               *ngIf="voucherFrom.get('chietKhau').invalid && (voucherFrom.get('chietKhau').dirty || voucherFrom.get('chietKhau').touched)">
               chiết khấu không được để trống</mat-error> -->
-              <mat-error *ngIf="(voucherFrom.get('chietKhau').hasError('required') || voucherFrom.get('chietKhau').hasError('min') || voucherFrom.get('chietKhau').hasError('max')) && (voucherFrom.get('chietKhau').dirty || voucherFrom.get('chietKhau').touched)">
+              <mat-error *ngIf="(voucherFrom.get('chietKhau').hasError('required') || voucherFrom.get('chietKhau').hasError('min')
+
+              || voucherFrom.get('chietKhau').hasError('pattern')
+              || voucherFrom.get('chietKhau').hasError('max')) && (voucherFrom.get('chietKhau').dirty || voucherFrom.get('chietKhau').touched)">
+              <ng-container *ngIf="voucherFrom.get('chietKhau').hasError('pattern')">
+                Chiết khấu không phù hợp
+            </ng-container>
+
                 <ng-container *ngIf="voucherFrom.get('chietKhau').hasError('min')">
-                  Chiết khấu không được nhỏ hơn 0%
+                  Chiết khấu không được nhỏ hơn 0% hoặc 10.000đ
               </ng-container>
                 <ng-container *ngIf="voucherFrom.get('chietKhau').hasError('required')">
                     Chiết khấu không được để trống
                 </ng-container>
 
                 <ng-container *ngIf="voucherFrom.get('chietKhau').hasError('max')">
-                    Chiết khấu không được lớn hơn 10%
+                    Chiết khấu không được lớn hơn 10% hoặc 800.000đ
                 </ng-container>
+                <!-- <mat-error *ngIf="voucherFrom.get('chietKhau').hasError('customError')">
+                  {{ voucherFrom.get('chietKhau').errors?.customError }}
+                </mat-error> -->
             </mat-error>
             <!-- <mat-error *ngIf="voucherFrom.get('chietKhau').hasError('max')">
                 Chiết khấu không được lớn hơn 100%
@@ -90,10 +100,10 @@
           <div class="col-6">
             <mat-form-field class="example-form-field">
               <mat-label>Chọn trạng thái</mat-label>
-              <mat-select formControlName="trangThai">
+              <mat-select formControlName="trangThai" >
                 <mat-option [value]="2">Sắp Diễn ra</mat-option>
-                <mat-option [value]="1">Đang Diễn ra</mat-option>
-                <mat-option [value]="0">Kết Thúc</mat-option>
+                <!-- <mat-option [value]="1">Đang Diễn ra</mat-option>
+                <mat-option [value]="0">Kết Thúc</mat-option> -->
               </mat-select>
               <div
               *ngIf="voucherFrom.get('trangThai').hasError('required') && (voucherFrom.get('trangThai').dirty || voucherFrom.get('trangThai').touched)">
