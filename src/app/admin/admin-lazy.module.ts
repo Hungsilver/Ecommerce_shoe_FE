@@ -41,7 +41,7 @@ import { AddressHomeComponent } from './address/pages/address-home/address-home.
 import { AddressDialogComponent } from './address/components/address-dialog/address-dialog.component';
 import { StaffHomeComponent } from './staff/pages/staff-home/staff-home.component';
 import { StaffDialogComponent } from './staff/components/staff-dialog/staff-dialog.component';
-import { NewProductDetailComponent } from './product-detail/page/new-product-detail/new-product-detail.component';
+import { dialogProductDetailComponent } from './product-detail/page/dialog-product-detail/dialog-product-detail.component';
 import { TestNewComponent } from './test-new/test-new.component';
 import { NComponent } from './test-new/n/n.component';
 import { SalesComponent } from './sales/sales.component';
@@ -101,7 +101,7 @@ LOAD_WASM().subscribe()
     ColorComponent,
     ColorDialogComponent,
     OriginComponent,
-    NewProductDetailComponent,
+    dialogProductDetailComponent,
     MaterialComponent,
     MaterialDialogComponent,
     MaterialSolesComponent,

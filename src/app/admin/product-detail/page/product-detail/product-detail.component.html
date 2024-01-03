@@ -1,16 +1,18 @@
-<span class="p-input-icon-left">
-  <i class="pi pi-search"></i>
-  <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
-  <p-dropdown
-    [options]="listTotalPage"
-    [(ngModel)]="searchQuery.page"
-    optionLabel="name"
-  ></p-dropdown>
-</span>
-<div class="button-container btn-primary">
-  <button type="button" class="btn btn-primary" (click)="navigateToNewProduct()">Thêm Sản Phẩm</button>
+<div class="d-flex justify-content-between">
+  <span class="p-input-icon-left">
+      <i class="pi pi-search"></i>
+      <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+      <p-dropdown [options]="listTotalPage" [(ngModel)]="searchQuery.page" optionLabel="name"></p-dropdown>
+  </span>
+  <button mat-button (click)="openDialog()">Thêm CT Sản Phẩm</button>
+  <!-- <button (click)="exportexcel()">Export Excel</button>
+  <input type="file" (change)="ReadExcel($event)"> -->
+
 </div>
-<br>
+
+
+
+
 
 <!-- <ul class="nav nav-tabs">
   <li class="nav-item">
@@ -24,7 +26,7 @@
 <!-- <div *ngIf="activeTab === 'active'"> -->
 
 <div class="card">
-  <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
+  <p-table [value]="productsDetails" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>
         <th style="">STT</th>
@@ -33,8 +35,7 @@
         <th style="">Giá</th>
         <th style="">Màu Sắc</th>
         <th style="">Kích Cỡ</th>
-        <!-- <th style="width: 50%">Ngày Tạo</th>
-        <th style="width: 50%">Ngày Cập Nhật</th>  -->
+
         <th style="">Chất Liệu Giày</th>
         <th style="">Chất Liệu Đế Giày</th>
         <th style="">Số Lượng</th>
@@ -46,7 +47,7 @@
       <tr>
         <td>
           {{
-            products.indexOf(product) +
+            productsDetails.indexOf(product) +
               1 +
               searchQuery.pageSize * (searchQuery.page - 1)
           }}
@@ -56,20 +57,19 @@
         <td>{{ product.giaBan }}</td>
         <td>{{ product.mauSac?.ten }}</td>
         <td>{{ product.kichCo?.size }}</td>
-        <!-- <td>{{ product.ngayTao }}</td>
-        <td>{{ product.ngayCapNhat }}</td>     -->
+
         <td>{{ product.chatLieuGiay?.ten }}</td>
         <td>{{ product.chatLieuDeGiay?.ten }}</td>
         <td>{{ product.soLuong }}</td>
         <td>{{ product.trangThai === 1 ? 'Hoạt động' : 'Không hoạt động' }}</td>
-        <!-- <td>
-          <span (click)="">
+        <td>
+          <span (click)="openDialogEdit(product)">
               <i class="pi pi-file-edit"></i>
           </span>
-          <span (click)="">
+          <!-- <span (click)="">
               <i class="pi pi-delete-left"></i>
-          </span>
-      </td> -->
+          </span> -->
+      </td>
 
       </tr>
     </ng-template>
@@ -86,60 +86,3 @@
   </div>
 </div>
 
-<!-- </div> -->
-
-<!-- <div *ngIf="activeTab === 'inactive'"> -->
-<!--
-<div class="card">
-  <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
-    <ng-template pTemplate="header">
-      <tr>
-        <th style="">STT</th>
-        <th  style="">Mã </th>
-        <th style="">Sản Phẩm</th>
-        <th style="">Giá</th>
-        <th style="">Màu Sắc</th>
-        <th style="">Kích Cỡ</th>
-        <th style="">Chất Liệu Giày</th>
-        <th style="">Chất Liệu Đế Giày</th>
-        <th style="">Số Lượng</th>
-        <th style="">Trạng Thái</th>
-
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
-      <tr>
-        <td>
-          {{
-            products.indexOf(product) +
-              1 +
-              searchQuery.pageSize * (searchQuery.page - 1)
-          }}
-        </td>
-        <td>{{ product.ma }}</td>
-        <td>{{ product.sanPham?.ten }}</td>
-        <td>{{ product.giaBan }}</td>
-        <td>{{ product.mauSac?.ten }}</td>
-        <td>{{ product.kichCo?.size }}</td>
-        <td>{{ product.chatLieuGiay?.ten }}</td>
-        <td>{{ product.chatLieuDeGiay?.ten }}</td>
-        <td>{{ product.soLuong }}</td>
-        <td>{{ product.trangThai === 0 ? 'Khongo Hoạt động' : ' Hoạt động' }}</td>
-
-
-      </tr>
-    </ng-template>
-  </p-table>
-  <div>
-    <div class="d-flex justify-content-end gap-1">
-      <div class="button-pagination" (click)="getAll('prev')">
-        <i class="pi pi-angle-left"></i>
-      </div>
-      <div class="button-pagination" (click)="getAll('next')">
-        <i class="pi pi-angle-right"></i>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- </div> -->

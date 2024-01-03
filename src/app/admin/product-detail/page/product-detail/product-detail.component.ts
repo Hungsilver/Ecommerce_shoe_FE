@@ -1,15 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductDetailService } from '../../services/product.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Router,RouterModule } from '@angular/router';
-import { NewProductDetailComponent } from '../new-product-detail/new-product-detail.component';
+
+import { dialogProductDetailComponent } from '../dialog-product-detail/dialog-product-detail.component';
+import { ProductService } from 'src/app/admin/admin-product/service/product.service';
+import { ColorService } from 'src/app/admin/color/service/color.service';
+import { SizeService } from 'src/app/admin/size/service/size.service';
+import { MaterialService } from 'src/app/admin/material/service/material.service';
+import { MaterialSolesService } from 'src/app/admin/material-soles/service/material-soles.service';
 @Component({
-  selector: 'app-product',
+  selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss'],
 })
 export class ProductDetailComponent implements OnInit {
-  products!: any;
+  productsDetails!: any;
+  product:any =[];
+  color:any =[];
+  size :any =[];
+  shoeSoleMaterial:any=[];
+  shoeMaterial:any =[];
+
   searchQuery: any = {};
   listTotalPage: any = [];
 
@@ -17,8 +28,13 @@ export class ProductDetailComponent implements OnInit {
   iconSortName = 'pi pi-sort-amount-up';
   constructor(
     private productDetailService: ProductDetailService,
+    private productService : ProductService,
+    private colorService :ColorService,
+    private sizeService : SizeService,
+    private shoesSoleMService: MaterialSolesService,
+    private shoesMService :MaterialService,
     private dialog: MatDialog,
-    private router: Router
+
   ) {
     this.searchQuery.page = 1;
     this.searchQuery.pageSize = 10;
@@ -26,6 +42,22 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAll();
+
+    this.productService.getProduct().then(data => {
+      this.product =data.content;
+    })
+    this.colorService.getColors().then(data => {
+      this.color =data.content;
+    })
+    this.sizeService.getSize().then(data => {
+      this.size =data.content;
+    })
+    this.shoesSoleMService.getMaterials().then(data => {
+      this.shoeSoleMaterial =data.content;
+    })
+    this.shoesMService.getMaterials().then(data => {
+      this.shoeMaterial =data.content;
+    })
   }
   onPageChange() {
     this.getAll();
@@ -73,7 +105,7 @@ export class ProductDetailComponent implements OnInit {
     }
     this.productDetailService.getProducts(this.searchQuery).then((product) =>{
       if (product && product.content) {
-        this.products = product.content;
+        this.productsDetails = product.content;
         this.listTotalPage = this.getTotalPage(product.totalPages);
         console.log(product);
       }
@@ -93,33 +125,49 @@ export class ProductDetailComponent implements OnInit {
     this.searchQuery['keyword'] = this.searchQuery.keyword;
     this.getAll();
   }
-  // openDialogEdit(product: any) {
-  //   const dialogRef = this.dialog.open(NewProductDetailComponent, {
-  //     width: '1300px',
-  //     height: '540px',
-  //     data: {
-  //       type: 'update',
-  //       product: product,
-  //       categories: this.category,
-  //       brands: this.brand,
-  //       origins: this.origin,
-
-
-  //       selectedCategoryId: product.danhMuc ? product.danhMuc.id : null,
-  //       selectedBrandId: product.thuongHieu ? product.thuongHieu.id : null,
-  //       selectedOriginId: product.xuatXu ? product.xuatXu.id : null,
-  //     }
-  //   })
-  //   dialogRef.afterClosed().subscribe(data => {
-  //     this.getAll();
-  //   })
-  // }
-
-
-
-
-
-  navigateToNewProduct() {
-    this.router.navigate(['/admin/chi-tiet-san-pham/moi']);
+  openDialog() {
+    const dialogRef = this.dialog.open(dialogProductDetailComponent, {
+      width: '1100px',
+      height: '600px',
+      data: {
+        type: "add",
+        productDetail: {},
+       products: this.product,
+        sizes :this.size,
+        colors :this.color,
+        shoeMaterials :this.shoeMaterial,
+        shoeSoleMaterials:this.shoeSoleMaterial,
+      },
+    })
+    dialogRef.afterClosed().subscribe(data => {
+      this.getAll();
+    })
   }
+  openDialogEdit(productDetail: any) {
+    const dialogRef = this.dialog.open(dialogProductDetailComponent, {
+      width: '1100px',
+      height: '600px',
+      data: {
+        type: 'update',
+        productDetail: productDetail,
+       products: this.product,
+        sizes :this.size,
+        colors :this.color,
+        shoeMaterials :this.shoeMaterial,
+        shoeSoleMaterials:this.shoeSoleMaterial,
+
+
+        selectedProductId: productDetail.sanPham ? productDetail.sanPham.id : null,
+        selectedSizeId: productDetail.kichCo ? productDetail.kichCo.id : null,
+        selectedColorId: productDetail.mauSac ? productDetail.mauSac.id : null,
+        selectedShoeMaterialId: productDetail.chatLieuGiay ? productDetail.chatLieuGiay.id : null,
+        selectedShoeSoleMaterialId: productDetail.chatLieuDeGiay ? productDetail.chatLieuDeGiay.id : null,
+      }
+    })
+    dialogRef.afterClosed().subscribe(data => {
+      this.getAll();
+    })
+  }
+
+
 }
