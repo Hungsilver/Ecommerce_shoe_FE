@@ -11,7 +11,8 @@
                                 <hr>
                                 <div class="col-6 mb-3">
                                     <h4 class="mt-3">Họ và Tên*</h4>
-                                    <input type="text" name="tenKhachHang" formControlName="tenKhachHang" class="form-control" />
+                                    <input type="text" name="tenKhachHang" formControlName="tenKhachHang"
+                                        class="form-control" />
                                     <div class="text-danger" *ngIf="
                                       form.get('tenKhachHang')?.hasError('required') &&
                                       (form.touched || form.dirty)
@@ -22,13 +23,13 @@
                                       form.get('tenKhachHang')?.hasError('maxlength') &&
                                       (form.touched || form.dirty)
                                     ">
-                                    *Vui lòng không nhập quá 50 ký tự!
+                                        *Vui lòng không nhập quá 50 ký tự!
                                     </div>
                                     <div class="text-danger" *ngIf="
                                       form.get('tenKhachHang')?.hasError('pattern') &&
                                       (form.touched || form.dirty)
                                     ">
-                                    *Vui lòng nhập đúng định dạng!
+                                        *Vui lòng nhập đúng định dạng!
                                     </div>
                                 </div>
                                 <div class="col-6 mb-3">
@@ -38,27 +39,28 @@
                                     form.get('soDienThoai')?.hasError('required') &&
                                     (form.touched || form.dirty)
                                   ">
-                                      *Vui lòng nhập thông tin!
-                                  </div>
-                                  <div class="text-danger" *ngIf="
+                                        *Vui lòng nhập thông tin!
+                                    </div>
+                                    <div class="text-danger" *ngIf="
                                     form.get('soDienThoai')?.hasError('minlength') &&
                                     (form.touched || form.dirty)
                                   ">
-                                  *Vui lòng nhập đúng định dạng!
-                                  </div>
-                                  <div class="text-danger" *ngIf="
+                                        *Vui lòng nhập đúng định dạng!
+                                    </div>
+                                    <div class="text-danger" *ngIf="
                                     form.get('soDienThoai')?.hasError('maxlength') &&
                                     (form.touched || form.dirty)
                                   ">
-                                  *Vui lòng nhập đúng định dạng!
-                                  </div>
-                                  <div class="text-danger" *ngIf="
+                                        *Vui lòng nhập đúng định dạng!
+                                    </div>
+                                    <div class="text-danger" *ngIf="
                                     form.get('soDienThoai')?.hasError('pattern') &&
                                     (form.touched || form.dirty)
                                   ">
-                                  *Vui lòng nhập đúng định dạng!
-                                  </div>
+                                        *Vui lòng nhập đúng định dạng!
+                                    </div>
                                 </div>
+
                                 <div class="col-6 mb-3">
                                     <h4 class="mt-3">Tỉnh / Thành phố*</h4>
                                     <select id="city" formControlName="tinhThanh" (change)="onProvinceChange($event)"
@@ -66,7 +68,7 @@
                                         <option *ngFor="let province of provinces" [value]="province.ProvinceID
                                             ">{{province.ProvinceName}}</option>
                                     </select>
-                                    
+
                                 </div>
                                 <div class="col-6 mb-3">
                                     <h4 class="mt-3">Quận / Huyện*</h4>
@@ -91,14 +93,14 @@
                                     form.get('diaChi')?.hasError('required') &&
                                     (form.touched || form.dirty)
                                   ">
-                                      *Vui lòng nhập thông tin!
-                                  </div>
-                                  <div class="text-danger" *ngIf="
+                                        *Vui lòng nhập thông tin!
+                                    </div>
+                                    <div class="text-danger" *ngIf="
                                     form.get('diaChi')?.hasError('maxlength') &&
                                     (form.touched || form.dirty)
                                   ">
-                                  *Vui lòng không nhập quá 100 ký tự!
-                                  </div>
+                                        *Vui lòng không nhập quá 100 ký tự!
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -111,6 +113,8 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Sản phẩm</th>
+                                            <th scope="col">Số lượng</th>
+                                            <th scope="col">Đơn giá</th>
                                             <th scope="col">Tổng tiền</th>
                                         </tr>
                                     </thead>
@@ -119,8 +123,7 @@
                                             <td>
                                                 <div class="table-product-detail">
                                                     <img class="table-image"
-                                                        src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}"
-                                                        alt="">
+                                                        src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
                                                     <div>
                                                         <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
                                                         <p>Mã: {{c.chiTietSanPham.ma}}</p>
@@ -131,7 +134,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{c.soLuong * c.giaBan| currency:'VND'}}</td>
+                                            <td>{{c.soLuong| currency:'VND'}}</td>
+                                            <td>{{c.chiTietSanPham.giaBan| currency:'VND'}}</td>
+                                            <td>{{c.soLuong * c.chiTietSanPham.giaBan| currency:'VND'}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -158,9 +163,11 @@
                                         <h4>Mã Voucher:</h4>
                                     </div>
                                     <div class="col-6">
-                                        <input class="input-voucher" type="search" placeholder="Mã voucher..." (change)="findByCodeVoucher($event)">
+                                        <input class="input-voucher" type="search" placeholder="Mã voucher..."
+                                            (change)="findByCodeVoucher($event)">
                                         <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia===true">{{chietKhau}}%</div>
-                                        <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia===false">{{chietKhau| currency:'VND'}}</div>
+                                        <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia===false">{{chietKhau|
+                                            currency:'VND'}}</div>
                                     </div>
                                 </div>
                                 <hr>
@@ -187,14 +194,14 @@
                                 <div class="row">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="phuongThucThanhToan"
-                                        formControlName="phuongThucThanhToan" id="exampleRadios1" value="0"   checked>
+                                            formControlName="phuongThucThanhToan" id="exampleRadios1" value="0" checked>
                                         <label class="form-check-label" for="exampleRadios1">
                                             Thanh toán khi nhận hàng
                                         </label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="phuongThucThanhToan"
-                                        formControlName="phuongThucThanhToan" id="exampleRadios2" value="1">
+                                            formControlName="phuongThucThanhToan" id="exampleRadios2" value="1">
                                         <label class="form-check-label" for="exampleRadios2">
                                             Thanh toán online
                                         </label>

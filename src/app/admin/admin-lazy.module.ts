@@ -58,10 +58,11 @@ import { ForCategoryComponent } from './dashboard/components/ForCategory/ForCate
 import { ForDateComponent } from './dashboard/components/ForDate/ForDate.component';
 import { OrdersComponent } from './dashboard/components/Orders/Orders.component';
 import { ForProductComponent } from './dashboard/components/ForProduct/ForProduct.component';
-import { TabViewModule } from 'primeng/tabview';
+
 
 import { VoucherHomeComponent } from './voucher/pages/voucher-home.component';
 import { VoucherDialogComponent } from './voucher/components/voucher-Dialog.component';
+import { TabViewModule } from 'primeng/tabview';
 
 LOAD_WASM().subscribe()
 
