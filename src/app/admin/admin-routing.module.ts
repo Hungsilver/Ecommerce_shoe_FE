@@ -21,6 +21,8 @@ import { TestNewComponent } from './test-new/test-new.component';
 import { NComponent } from './test-new/n/n.component';
 import { SalesComponent } from './sales/sales.component';
 import { PaymentSuccessComponent } from './sales/components/payment-success/payment-success.component';
+import { InvoiceComponent } from './invoice/pages/invoice.component';
+import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-detail.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -46,6 +48,9 @@ const routes: Routes = [
   { path: 'test-n', component: NComponent },
   { path: 'sales', component: SalesComponent },
   { path: 'payment-success', component: PaymentSuccessComponent },
+  { path: 'hoa-don', component: InvoiceComponent },
+  { path: 'hoa-don/:id', component: InvoiceDetailComponent },
+
 
   // { path: 'new-coupon', component: CouponComponent },
 ];

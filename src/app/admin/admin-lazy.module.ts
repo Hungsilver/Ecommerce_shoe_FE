@@ -61,7 +61,8 @@ import { ForDateComponent } from './dashboard/components/ForDate/ForDate.compone
 import { OrdersComponent } from './dashboard/components/Orders/Orders.component';
 import { ForProductComponent } from './dashboard/components/ForProduct/ForProduct.component';
 import { TabViewModule } from 'primeng/tabview';
-
+import { InvoiceComponent } from './invoice/pages/invoice.component';
+import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-detail.component';
 LOAD_WASM().subscribe()
 
 @NgModule({
@@ -129,7 +130,9 @@ LOAD_WASM().subscribe()
     ForCategoryComponent,
     ForDateComponent,
     OrdersComponent,
-    ForProductComponent
+    ForProductComponent,
+    InvoiceComponent,
+    InvoiceDetailComponent
     // NavbarComponent
 
   ],
