@@ -35,6 +35,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DialogComponent } from './order/component/dialog/dialog.component';
+import { ChinhSachComponent } from './chinh-sach/chinh-sach.component';
+import { VoucherComponent } from './voucher/voucher.component';
 // import { DialogComponent } from './order/component/dialog/dialog.component';
 
 
@@ -75,6 +77,8 @@ import { DialogComponent } from './order/component/dialog/dialog.component';
         CheckoutComponent,
         BlogHomeComponent,
         blogdetail,
+        ChinhSachComponent,
+        VoucherComponent,
 
         ChoXacNhanComponent,
         ChoLayHangComponent,
