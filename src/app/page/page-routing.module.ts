@@ -14,6 +14,8 @@ import { PaymentErrorComponent } from './payment-error/payment-error.component';
 
 import { BlogHomeComponent } from './blog/bloghome-component';
 import { blogdetail } from './blogDetail/blogDetail-component';
+import { ChinhSachComponent } from './chinh-sach/chinh-sach.component';
+import { VoucherComponent } from './voucher/voucher.component';
 
 
 const routes: Routes = [
@@ -25,6 +27,8 @@ const routes: Routes = [
     // { path: 'checkout', canActivate: [authUserGuard], component: CheckoutComponent },
     { path: 'product/:id', component: DetailComponent },
     { path: 'order', component: OrderComponent },
+    { path: 'chinh-sach', component: ChinhSachComponent },
+    { path: 'voucher', component: VoucherComponent },
     { path: 'payment/success', component: PaymentSuccessComponent },
     { path: 'payment/error', component: PaymentErrorComponent },
 
