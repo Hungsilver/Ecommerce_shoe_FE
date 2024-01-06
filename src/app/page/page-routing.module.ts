@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DetailComponent } from './detail/page/detail.component';
 import { HomeComponent } from './home/home.component';
-import { OrderComponent } from './order/order.component';
+import { OrderComponent } from './order/page/order.component';
 import { ProductComponent } from './product/page/product-home/product.component';
 import { CartComponent } from './cart/page/cart.component';
 import { CheckoutComponent } from './checkout/page/checkout.component';
@@ -14,6 +14,9 @@ import { PaymentErrorComponent } from './payment-error/payment-error.component';
 
 import { BlogHomeComponent } from './blog/bloghome-component';
 import { blogdetail } from './blogDetail/blogDetail-component';
+import { ChinhSachComponent } from './chinh-sach/chinh-sach.component';
+import { VoucherComponent } from './voucher/voucher.component';
+
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -24,6 +27,8 @@ const routes: Routes = [
     // { path: 'checkout', canActivate: [authUserGuard], component: CheckoutComponent },
     { path: 'product/:id', component: DetailComponent },
     { path: 'order', component: OrderComponent },
+    { path: 'chinh-sach', component: ChinhSachComponent },
+    { path: 'voucher', component: VoucherComponent },
     { path: 'payment/success', component: PaymentSuccessComponent },
     { path: 'payment/error', component: PaymentErrorComponent },
 
