@@ -16,6 +16,7 @@ import { MaterialSolesService } from 'src/app/admin/material-soles/service/mater
 export class ProductDetailComponent implements OnInit {
   productsDetails!: any;
   product:any =[];
+  giaBan: any =[];
   color:any =[];
   size :any =[];
   shoeSoleMaterial:any=[];
@@ -24,6 +25,9 @@ export class ProductDetailComponent implements OnInit {
   searchQuery: any = {};
   listTotalPage: any = [];
 
+  selectedProduct: number | null = null;
+  selectedSize: number |null = null;
+  selectedColor:number | null = null;
   // iconSortName = 'pi pi-sort-amount-down-alt';
   iconSortName = 'pi pi-sort-amount-up';
   constructor(
@@ -44,19 +48,19 @@ export class ProductDetailComponent implements OnInit {
     this.getAll();
 
     this.productService.getProduct().then(data => {
-      this.product =data.content;
+      this.product = data.content;
     })
     this.colorService.getColors().then(data => {
-      this.color =data.content;
+      this.color = data.content;
     })
     this.sizeService.getSize().then(data => {
-      this.size =data.content;
+      this.size = data.content;
     })
     this.shoesSoleMService.getMaterials().then(data => {
-      this.shoeSoleMaterial =data.content;
+      this.shoeSoleMaterial = data.content;
     })
     this.shoesMService.getMaterials().then(data => {
-      this.shoeMaterial =data.content;
+      this.shoeMaterial = data.content;
     })
   }
   onPageChange() {
@@ -94,9 +98,9 @@ export class ProductDetailComponent implements OnInit {
         this.searchQuery.page = this.searchQuery.page + 1;
       }
       // Thêm trạng thái hoạt động là 1
-      if (action === 'active') {
-        this.searchQuery.page = 1;
-      }
+      // if (action === 'active') {
+      //   this.searchQuery.page = 1;
+      // }
       Object.keys(this.searchQuery).forEach((key) => {
         if (this.searchQuery[key] === null || this.searchQuery[key] === '') {
           delete this.searchQuery[key];
@@ -110,6 +114,16 @@ export class ProductDetailComponent implements OnInit {
         console.log(product);
       }
     });
+
+    if(this.selectedProduct !== null){
+    this.searchQuery.product = this.selectedProduct;
+      }
+      if(this.selectedSize !==null){
+        this.searchQuery.size = this.selectedSize;
+      }
+      if(this.selectedColor !==null){
+        this.searchQuery.color =this.selectedColor;
+      }
     console.log(this.searchQuery);
   }
 
@@ -125,6 +139,38 @@ export class ProductDetailComponent implements OnInit {
     this.searchQuery['keyword'] = this.searchQuery.keyword;
     this.getAll();
   }
+
+
+
+  filterByProduct(): void{
+    if(this.selectedProduct !== null){
+      this.searchQuery.product =this.selectedProduct;
+    }else{
+      delete this.searchQuery.product;
+    }
+    this.getAll();
+  }
+  filterBySize(): void{
+    if(this.selectedSize !== null){
+      this.searchQuery.size = this.selectedSize;
+    }else{
+      delete this.searchQuery.size;
+    }
+    this.getAll();
+  }
+  filterByColors(): void{
+    if(this.selectedColor !== null){
+      this.searchQuery.color = this.selectedColor;
+    }else{
+      delete this.searchQuery.color;
+    }
+    this.getAll();
+  }
+
+
+
+
+
   openDialog() {
     const dialogRef = this.dialog.open(dialogProductDetailComponent, {
       width: '1100px',
@@ -155,13 +201,26 @@ export class ProductDetailComponent implements OnInit {
         colors :this.color,
         shoeMaterials :this.shoeMaterial,
         shoeSoleMaterials:this.shoeSoleMaterial,
-
+        // giaBan:this.giaBan,
 
         selectedProductId: productDetail.sanPham ? productDetail.sanPham.id : null,
         selectedSizeId: productDetail.kichCo ? productDetail.kichCo.id : null,
         selectedColorId: productDetail.mauSac ? productDetail.mauSac.id : null,
         selectedShoeMaterialId: productDetail.chatLieuGiay ? productDetail.chatLieuGiay.id : null,
         selectedShoeSoleMaterialId: productDetail.chatLieuDeGiay ? productDetail.chatLieuDeGiay.id : null,
+      }
+    })
+    dialogRef.afterClosed().subscribe(data => {
+      this.getAll();
+    })
+  }
+  openDialogDelete(productDetail: any) {
+    const dialogRef = this.dialog.open(dialogProductDetailComponent, {
+      width: '400px',
+      height: '500px',
+      data: {
+        type: 'delete',
+        productDetail: productDetail
       }
     })
     dialogRef.afterClosed().subscribe(data => {

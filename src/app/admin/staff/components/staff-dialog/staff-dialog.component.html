@@ -6,75 +6,330 @@
   </div>
 </div>
 
-<ng-container *ngIf="(type && type === 'add') || type === 'update'">
+<ng-container *ngIf="(type && type === 'add') ">
+
   <mat-dialog-content class="mat-typography">
     <div class="container-fluid">
-      <mat-form-field class="example-form-field">
-        <!-- bat dau cac truong cua nhan vien -->
-        <mat-label>ten</mat-label>
-        <input matInput type="text" [(ngModel)]="staff.hoTen" />
-        <button
-          *ngIf="staff?.hoTen"
-          matSuffix
-          mat-icon-button
-          aria-label="Clear"
-          (click)="staff.hoTen = ''"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-      <!-- thieu vai truong -->
+      <form [formGroup]="staffFrom" class="row">
+        <div class="col-4">
 
-      <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input matInput type="text" [(ngModel)]="staff.email"/>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Mật Khẩu</mat-label>
-        <input matInput type="text" [(ngModel)]="staff.matKhau"/>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Số Điện Thoại</mat-label>
-        <input matInput type="text" [(ngModel)]="staff.soDienThoai"/>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Giới Tính</mat-label>
-        <mat-radio-group [(ngModel)]="staff.gioiTinh">
-          <input matInput type="radio" [defaultChecked]="true" value="0"/>Nam
-          <input matInput type="radio" [defaultChecked]="false" value="1"/>Nu
-        </mat-radio-group>
-      </mat-form-field>
+              <div class="col-6">
+                <mat-form-field class="example-form-field">
 
-      <mat-form-field>
-          <mat-label>Ngày Sinh</mat-label>
-          <input matInput type="datetime"  [(ngModel)]="staff.ngaySinh" />
-        </mat-form-field>
+               <mat-label>Họ Tên</mat-label>
+               <input matInput type="text" formControlName="hoTen"  />
+              <mat-error *ngIf="(staffFrom?.get('hoTen')?.hasError('required'))
+               && (staffFrom?.get('hoTen')?.dirty || staffFrom?.get('hoTen')?.touched)">
+               vui lòng nhập thông tin
+              </mat-error>
+              <mat-error *ngIf="(staffFrom?.get('hoTen')?.hasError('pattern'))
+               && (staffFrom?.get('hoTen')?.dirty || staffFrom?.get('hoTen')?.touched)">
+               Tên không đúng định dạng
+              </mat-error>
+               <button
+                 *ngIf="staff?.hoTen"
+                 matSuffix
+                 mat-icon-button
+                 aria-label="Clear"
+                 (click)="staff.hoTen = ''"
+               >
+                 <mat-icon>close</mat-icon>
+               </button>
 
-        <mat-form-field>
+             </mat-form-field>
+            </div>
+
+
+         <div class="col-6">
+           <mat-form-field class="example-form-field">
           <mat-label>Địa Chỉ</mat-label>
-          <input matInput type="text" [(ngModel)]="staff.diaChi"/>
+          <input matInput type="text" formControlName="diaChi"/>
+          <mat-error *ngIf="(staffFrom?.get('diaChi')?.hasError('required'))
+          && (staffFrom?.get('diaChi')?.dirty || staffFrom?.get('diaChi')?.touched)">
+          <ng-container *ngIf="staffFrom?.get('diaChi')?.hasError('required')">
+          Địa Chỉ  không được để trống
+       </ng-container>
+         </mat-error>
         </mat-form-field>
-      <mat-form-field>
-        <mat-label>Chọn trạng thái</mat-label>
-        <mat-select [(ngModel)]="staff.trangThai">
-          <mat-option [value]="1">Hoạt động</mat-option>
-          <mat-option [value]="0">Ngưng Hoạt động</mat-option>
-        </mat-select>
-      </mat-form-field>
+      </div>
+
+        <div class="col-6">
+          <label>Avatar</label>
+            <img *ngIf="!uploadedUrl && staff.anhDaiDien" [src]="staff.anhDaiDien" alt="Staff Image"
+            style="width: 50px; height: auto;">
+
+          <div *ngIf="uploadedUrl">
+            <h4>Ảnh đã tải lên</h4>
+            <img [src]="uploadedUrl" style="width: 50px; height: auto">
+          </div>
+          <input  type="file" (change)="onFileChange($event)" multiple >
+        </div>
+
+
+        </div>
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Email</mat-label>
+              <input matInput type="text" formControlName="email"/>
+              <mat-error *ngIf="(staffFrom?.get('email')?.hasError('required') || staffFrom?.get('email')?.hasError('pattern') )
+              && (staffFrom?.get('email')?.dirty || staffFrom?.get('email')?.touched)">
+              <ng-container *ngIf="staffFrom?.get('email')?.hasError('pattern')">
+                Email không hợp lệ
+              </ng-container>
+              <ng-container *ngIf="staffFrom?.get('email')?.hasError('required')">
+               Email không được để trống
+           </ng-container>
+             </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+           <mat-label>Mật Khẩu</mat-label>
+           <input matInput type="text" formControlName="matKhau"/>
+          <mat-error *ngIf="(staffFrom?.get('matKhau')?.hasError('required'))
+          && (staffFrom?.get('matKhau')?.dirty || staffFrom?.get('matKhau')?.touched)">
+           Mật Khẩu không được để trống
+         </mat-error>
+         <mat-error *ngIf="(staffFrom?.get('matKhau')?.hasError('minlength'))
+          && (staffFrom?.get('matKhau')?.dirty || staffFrom?.get('matKhau')?.touched)">
+            Mật khẩu phải có ít nhất 8 ký tự
+         </mat-error>
+         <mat-error *ngIf="(staffFrom?.get('matKhau')?.hasError('pattern'))
+          && (staffFrom?.get('matKhau')?.dirty || staffFrom?.get('matKhau')?.touched)">
+        Mật khẩu phải chứa ít nhất một chữ cái thường, một chữ cái hoa, và một số
+         </mat-error>
+         </mat-form-field>
+
+</div>
+         <div class="col-6">
+           <mat-form-field class="example-form-field">
+             <mat-label>Số Điện Thoại</mat-label>
+             <input matInput type="text" formControlName="soDienThoai"/>
+             <mat-error *ngIf="(staffFrom?.get('soDienThoai')?.hasError('required'))
+             && (staffFrom?.get('soDienThoai')?.dirty || staffFrom?.get('soDienThoai')?.touched)">
+             Số Điện Thoại không được để trống
+            </mat-error>
+            <mat-error *ngIf="(staffFrom?.get('soDienThoai')?.hasError('pattern'))
+             && (staffFrom?.get('soDienThoai')?.dirty || staffFrom?.get('soDienThoai')?.touched)">
+             Số Điện Thoại không hợp lệ
+            </mat-error>
+           </mat-form-field>
+
+         </div>
+        </div>
+        <div class="col-4">
+            <div class="col-6">
+              <mat-form-field class="example-form-field">
+              <mat-label>Ngày Sinh</mat-label>
+              <input matInput type="date" formControlName="ngaySinh" />
+              <mat-error *ngIf="(staffFrom?.get('ngaySinh')?.hasError('required'))
+              && (staffFrom?.get('ngaySinh')?.dirty || staffFrom?.get('ngaySinh')?.touched)">
+              <ng-container *ngIf="staffFrom?.get('ngaySinh')?.hasError('required')">
+              Ngày Sinh không được để trống
+           </ng-container>
+             </mat-error>
+            </mat-form-field>
+          </div>
+            <div class="col-6"> <mat-form-field class="example-form-field">
+              <mat-label>Giới tính</mat-label>
+              <mat-select formControlName="gioiTinh">
+                <mat-option [value]="true">Nam</mat-option>
+                <mat-option [value]="false">Nữ</mat-option>
+              </mat-select>
+              <div
+              *ngIf="staffFrom?.get('gioiTinh')?.hasError('required') && (staffFrom?.get('gioiTinh')?.dirty || staffFrom?.get('gioiTinh')?.touched)">
+              Vui lòng chọn trạng thái
+          </div>
+            </mat-form-field></div>
+            <div class="col-6"> <mat-form-field class="example-form-field">
+              <mat-label>Chọn trạng thái</mat-label>
+              <mat-select formControlName="trangThai">
+                <mat-option [value]="1">Hoạt động</mat-option>
+                <mat-option [value]="0">Ngưng Hoạt động</mat-option>
+              </mat-select>
+              <div
+              *ngIf="staffFrom?.get('trangThai')?.hasError('required') && (staffFrom?.get('trangThai')?.dirty || staffFrom?.get('trangThai')?.touched)">
+              Vui lòng chọn trạng thái
+          </div>
+            </mat-form-field></div>
+
+
+        </div>
+
+      </form>
+
 
     </div>
   </mat-dialog-content>
 
   <mat-dialog-actions>
     <ng-container *ngIf="type && type=== 'add'">
-      <button mat-button (click)="addStaff()">Xác nhận add</button>
+      <button mat-button (click)="addStaff()" [disabled]="!staffFrom.valid">Xác nhận add</button>
   </ng-container>
+  </mat-dialog-actions>
+</ng-container>
+<!-- UPDATE -->
+<ng-container *ngIf="type && type === 'update' ">
+
+  <mat-dialog-content class="mat-typography">
+    <div class="container-fluid">
+      <form [formGroup]="staffFrom" class="row">
+        <div class="col-4">
+
+              <div class="col-6">
+                <mat-form-field class="example-form-field">
+
+               <mat-label>Họ Tên</mat-label>
+               <input matInput type="text" formControlName="hoTen"  />
+              <mat-error *ngIf="(staffFrom?.get('hoTen')?.hasError('required'))
+               && (staffFrom?.get('hoTen')?.dirty || staffFrom?.get('hoTen')?.touched)">
+               vui lòng nhập thông tin
+              </mat-error>
+              <mat-error *ngIf="(staffFrom?.get('hoTen')?.hasError('pattern'))
+               && (staffFrom?.get('hoTen')?.dirty || staffFrom?.get('hoTen')?.touched)">
+               Tên không đúng định dạng
+              </mat-error>
+               <button
+                 *ngIf="staff?.hoTen"
+                 matSuffix
+                 mat-icon-button
+                 aria-label="Clear"
+                 (click)="staff.hoTen = ''"
+               >
+                 <mat-icon>close</mat-icon>
+               </button>
+
+             </mat-form-field>
+            </div>
+
+
+         <div class="col-6">
+           <mat-form-field class="example-form-field">
+          <mat-label>Địa Chỉ</mat-label>
+          <input matInput type="text" formControlName="diaChi"/>
+          <mat-error *ngIf="(staffFrom?.get('diaChi')?.hasError('required'))
+          && (staffFrom?.get('diaChi')?.dirty || staffFrom?.get('diaChi')?.touched)">
+          <ng-container *ngIf="staffFrom?.get('diaChi')?.hasError('required')">
+          Địa Chỉ  không được để trống
+       </ng-container>
+         </mat-error>
+        </mat-form-field>
+      </div>
+        <div class="col-6">
+          <label>Avatar</label>
+          <input  type="file" (change)="onFileChange($event)" formControlName="anhDaiDien" multiple >
+          <div>
+            <img [src]="uploadedUrl" style="width: 100px; height: auto">
+          </div>
+        </div>
+
+
+        </div>
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Email</mat-label>
+              <input matInput type="text" formControlName="email"/>
+              <mat-error *ngIf="(staffFrom?.get('email')?.hasError('required') || staffFrom?.get('email')?.hasError('pattern') )
+              && (staffFrom?.get('email')?.dirty || staffFrom?.get('email')?.touched)">
+              <ng-container *ngIf="staffFrom?.get('email')?.hasError('pattern')">
+                Email không hợp lệ
+              </ng-container>
+              <ng-container *ngIf="staffFrom?.get('email')?.hasError('required')">
+               Email không được để trống
+           </ng-container>
+             </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+           <mat-label>Mật Khẩu</mat-label>
+           <input matInput type="text" formControlName="matKhau"/>
+          <mat-error *ngIf="(staffFrom?.get('matKhau')?.hasError('required'))
+          && (staffFrom?.get('matKhau')?.dirty || staffFrom?.get('matKhau')?.touched)">
+           Mật Khẩu không được để trống
+         </mat-error>
+         <mat-error *ngIf="(staffFrom?.get('matKhau')?.hasError('minlength'))
+          && (staffFrom?.get('matKhau')?.dirty || staffFrom?.get('matKhau')?.touched)">
+            Mật khẩu phải có ít nhất 8 ký tự
+         </mat-error>
+         <mat-error *ngIf="(staffFrom?.get('matKhau')?.hasError('pattern'))
+          && (staffFrom?.get('matKhau')?.dirty || staffFrom?.get('matKhau')?.touched)">
+        Mật khẩu phải chứa ít nhất một chữ cái thường, một chữ cái hoa, và một số
+         </mat-error>
+         </mat-form-field>
+
+</div>
+         <div class="col-6">
+           <mat-form-field class="example-form-field">
+             <mat-label>Số Điện Thoại</mat-label>
+             <input matInput type="text" formControlName="soDienThoai"/>
+             <mat-error *ngIf="(staffFrom?.get('soDienThoai')?.hasError('required'))
+             && (staffFrom?.get('soDienThoai')?.dirty || staffFrom?.get('soDienThoai')?.touched)">
+             Số Điện Thoại không được để trống
+            </mat-error>
+            <mat-error *ngIf="(staffFrom?.get('soDienThoai')?.hasError('pattern'))
+             && (staffFrom?.get('soDienThoai')?.dirty || staffFrom?.get('soDienThoai')?.touched)">
+             Số Điện Thoại không hợp lệ
+            </mat-error>
+           </mat-form-field>
+
+         </div>
+        </div>
+        <div class="col-4">
+            <div class="col-6">
+              <mat-form-field class="example-form-field">
+              <mat-label>Ngày Sinh</mat-label>
+              <input matInput type="date" formControlName="ngaySinh" />
+              <mat-error *ngIf="(staffFrom?.get('ngaySinh')?.hasError('required'))
+              && (staffFrom?.get('ngaySinh')?.dirty || staffFrom?.get('ngaySinh')?.touched)">
+              <ng-container *ngIf="staffFrom?.get('ngaySinh')?.hasError('required')">
+              Ngày Sinh không được để trống
+           </ng-container>
+             </mat-error>
+            </mat-form-field>
+          </div>
+            <div class="col-6"> <mat-form-field class="example-form-field">
+              <mat-label>Giới tính</mat-label>
+              <mat-select formControlName="gioiTinh">
+                <mat-option [value]="true">Nam</mat-option>
+                <mat-option [value]="false">Nữ</mat-option>
+              </mat-select>
+              <div
+              *ngIf="staffFrom?.get('gioiTinh')?.hasError('required') && (staffFrom?.get('gioiTinh')?.dirty || staffFrom?.get('gioiTinh')?.touched)">
+              Vui lòng chọn trạng thái
+          </div>
+            </mat-form-field></div>
+            <div class="col-6"> <mat-form-field class="example-form-field">
+              <mat-label>Chọn trạng thái</mat-label>
+              <mat-select formControlName="trangThai">
+                <mat-option [value]="1">Hoạt động</mat-option>
+                <mat-option [value]="0">Ngưng Hoạt động</mat-option>
+              </mat-select>
+              <div
+              *ngIf="staffFrom?.get('trangThai')?.hasError('required') && (staffFrom?.get('trangThai')?.dirty || staffFrom?.get('trangThai')?.touched)">
+              Vui lòng chọn trạng thái
+          </div>
+            </mat-form-field></div>
+
+
+        </div>
+
+      </form>
+
+
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
   <ng-container *ngIf="type=== 'update'">
-      <button mat-button (click)="updateStaff()">Xác nhận update</button>
+      <button mat-button (click)="updateStaff()" [disabled]="!staffFrom.valid">Xác nhận update</button>
   </ng-container>
 
   </mat-dialog-actions>
 </ng-container>
+
 <ng-container *ngIf="type==='delete'">
 <mat-dialog-content>
 <h1>Bạn xác nhận xóa</h1>
