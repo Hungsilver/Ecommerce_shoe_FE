@@ -63,10 +63,10 @@
         <td>{{ product.chatLieuDeGiay?.ten }}</td>
         <td>{{ product.soLuong }}</td>
         <td>{{ product.trangThai === 1 ? 'Hoạt động' : 'Không hoạt động' }}</td>
-        <!-- <td>
-          <button (click)="updateProductDetail(product)">Update</button>
-        </td>
-        -->
+        <td>
+          <span (click)="openDialogEdit(product)">
+          <i class="pi pi-file-edit"></i>
+      </span></td>
 
       </tr>
     </ng-template>
