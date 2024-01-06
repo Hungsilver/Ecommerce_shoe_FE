@@ -150,7 +150,6 @@ export class ProductDetailComponent implements OnInit {
     }
     this.getAll();
   }
-<<<<<<< HEAD
 
   // updateProductDetail() {
   //   this.newProduct.anhSanPhams = this.validUrls
@@ -161,7 +160,6 @@ export class ProductDetailComponent implements OnInit {
   //     (error) => console.log(error)
   //   );
   // }
-=======
   filterBySize(): void{
     if(this.selectedSize !== null){
       this.searchQuery.size = this.selectedSize;
@@ -241,5 +239,4 @@ export class ProductDetailComponent implements OnInit {
   }
 
 
->>>>>>> a656df4f2b6157ae2b40c078c9dc663311039e9b
 }
