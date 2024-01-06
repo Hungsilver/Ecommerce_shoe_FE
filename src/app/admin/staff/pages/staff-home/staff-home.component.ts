@@ -91,8 +91,8 @@ export class StaffHomeComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(StaffDialogComponent, {
-      width: '400px',
-      height: '500px',
+      width: '1200px',
+      height: '550px',
       data: {
         type: "add",
         staff: {}
@@ -104,7 +104,7 @@ export class StaffHomeComponent implements OnInit {
   }
   openDialogEdit(staff: any) {
     const dialogRef = this.dialog.open(StaffDialogComponent, {
-      width: '400px',
+      width: '1200px',
       height: '500px',
       data: {
         type: 'update',
