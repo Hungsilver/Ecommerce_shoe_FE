@@ -2,7 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductDetailComponent } from './product-detail/page/product-detail/product-detail.component';
 import { ColorComponent } from './color/pages/color-home/color.component';
 import { OriginComponent } from './origin/origin.component';
-import { OrderComponent } from '../page/order/order.component';
+import { OrderComponent } from '../page/order/page/order.component';
 import { DashboardComponent } from './dashboard/page/dashboard/dashboard.component';
 import { NgModule } from '@angular/core';
 import { MaterialComponent } from './material/pages/material-home/material.component';
@@ -16,11 +16,13 @@ import { CustomerHomeComponent } from './customer/pages/customer-home/customer-h
 import { BlogHomeComponent } from './blog/pages/blog-home/blog-home.component';
 import { AddressHomeComponent } from './address/pages/address-home/address-home.component';
 import { StaffHomeComponent } from './staff/pages/staff-home/staff-home.component';
-import { NewProductDetailComponent } from './product-detail/page/new-product-detail/new-product-detail.component';
+// import { NewProductDetailComponent } from './product-detail/page/dialog-product-detail/dialog-product-detail.component';
 import { TestNewComponent } from './test-new/test-new.component';
 import { NComponent } from './test-new/n/n.component';
 import { SalesComponent } from './sales/sales.component';
+import { VoucherHomeComponent } from './voucher/pages/voucher-home.component';
 import { PaymentSuccessComponent } from './sales/components/payment-success/payment-success.component';
+
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -29,7 +31,7 @@ const routes: Routes = [
   { path: 'xuat-xu', component: OriginComponent },
   { path: 'Order', component: OrderComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'chi-tiet-san-pham/moi', component: NewProductDetailComponent },
+  // { path: 'chi-tiet-san-pham/moi', component: NewProductDetailComponent },
   { path: 'chi-tiet-san-pham', component: ProductDetailComponent },
   { path: 'chat-lieu-giay', component: MaterialComponent },
   { path: 'chat-lieu-de-giay', component: MaterialSolesComponent },
@@ -45,7 +47,9 @@ const routes: Routes = [
   { path: 'test-p', component: TestNewComponent },
   { path: 'test-n', component: NComponent },
   { path: 'sales', component: SalesComponent },
+  { path:  'phieu-giam-gia',component:VoucherHomeComponent},
   { path: 'payment-success', component: PaymentSuccessComponent },
+
 
   // { path: 'new-coupon', component: CouponComponent },
 ];

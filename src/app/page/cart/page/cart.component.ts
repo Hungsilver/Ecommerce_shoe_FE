@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ICart } from '../service/cart.module';
 import { CartService } from '../service/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { CacheService } from 'src/libs/service/request/cache.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cart',
@@ -30,6 +32,7 @@ export class CartComponent implements OnInit {
   constructor(
     private notificationService: ToastrService,
     private cartService: CartService,
+    private cacheService: CacheService,
     private router: Router
   ) {
 
@@ -90,7 +93,7 @@ export class CartComponent implements OnInit {
         this.cart = c;
         this.listCart = c;
         c.forEach((key: any) => {
-          this.tongTien += (key.soLuong * key.giaBan);
+          this.tongTien += (key.soLuong * key.chiTietSanPham.giaBan);
         })
       })
     }
@@ -116,7 +119,7 @@ export class CartComponent implements OnInit {
         this.tongTien = 0;
         this.cartService.findById(this.params).then((c) => {
           c.forEach((key: any) => {
-            this.tongTien = this.tongTien + (key.soLuong * key.giaBan);
+            this.tongTien = this.tongTien + (key.soLuong * key.chiTietSanPham.giaBan);
           })
         })
 
@@ -134,7 +137,7 @@ export class CartComponent implements OnInit {
         this.tongTien = 0;
         this.cartService.findById(this.params).then((c) => {
           c.forEach((key: any) => {
-            this.tongTien = this.tongTien + (key.soLuong * key.giaBan);
+            this.tongTien = this.tongTien + (key.soLuong * key.chiTietSanPham.giaBan);
           })
         })
 
@@ -163,41 +166,72 @@ export class CartComponent implements OnInit {
       setTimeout(() => {
         window.location.reload();
       }, 1000);
-    
 
+
+  }
+
+  soLuong!:number;
+  getCartById= async(id:number)=>{
+    this.params.listIdGhct = id;
+    await this.cartService.findById(this.params).then((c) => {
+      c.forEach((key: any) => {
+        this.cart = key;
+        console.log(key);
+        
+      })
+    })
   }
 
   updateQuantity(event:any, id: number) {
     this.params.listIdGhct = id;
-
     this.cartService.findById(this.params).then((c) => {
       c.forEach((key: any) => {
         this.cart = key;
+        console.log(key);
       })
     })
 
- 
-    if(event.target.value === ''){
-      this.notificationService.error("Vui lòng nhập số lượng");
-    }else if (event.target.value <= 0) {
-      this.notificationService.error("Số lượng phải lớn hơn 0");
-    }else if(event.target.value > this.cart.chiTietSanPham.soLuong){
-      this.notificationService.error("Số lượng phải nhỏ hơn "+this.cart.chiTietSanPham.soLuong);
-    }else{
-      this.updateQuantitys.id = id;   
-      this.updateQuantitys.quantity = event.target.value;
-      this.cartService.updateQuantity(this.updateQuantitys);
-      this.notificationService.success('Cập nhật số lượng sản phẩm '+this.cart.chiTietSanPham.ma+' thành công');
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-    }
+ if(this.cart){
+  if(!event.target.value){
+    this.notificationService.error("Vui lòng nhập số lượng");
+  }else if (event.target.value <= 0) {
+    this.notificationService.error("Số lượng phải lớn hơn 0");
+  }else if(event.target.value > this.cart.chiTietSanPham.soLuong){
+    this.notificationService.error("Số lượng phải nhỏ hơn "+this.cart.chiTietSanPham.soLuong);
+  }else{
+    this.updateQuantitys.id = id;   
+    this.updateQuantitys.quantity = event.target.value;
+    this.cartService.updateQuantity(this.updateQuantitys);
+    this.notificationService.success('Cập nhật số lượng sản phẩm '+this.cart.chiTietSanPham.ma+' thành công');
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  }
+ }
+    
   }
 
   checkout() {
     if(this.checkedItems.length === 0){
       this.notificationService.error("Vui lòng chọn sản phẩm thanh toán");
+    }else{
+      Swal.fire(
+        {
+          title: 'Xác nhận thanh toán',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Thanh toán',
+          cancelButtonText:'Hủy'
+        }
+      ).then((result)=>{
+        if(result.isConfirmed){
+          this.cacheService.set('listIdGhct', this.checkedItems)
+      this.router.navigate(['/checkout'])
+        }
+      })
     }
-    // this.router.navigate(['/checkout'])
+    
   }
 }

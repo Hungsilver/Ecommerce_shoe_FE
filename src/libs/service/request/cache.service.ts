@@ -7,10 +7,10 @@ export class CacheService {
 
   constructor() { }
 
-  set(key: 'user' | 'admin' | 'customer', value: any) {
+  set(key: 'user' | 'admin' | 'customer' | 'listIdGhct', value: any) {
     localStorage.setItem(key, JSON.stringify(value));
   }
-  get(key: 'user' | 'admin' | 'customer') {
+  get(key: 'user' | 'admin' | 'customer'| 'listIdGhct') {
     const value = localStorage.getItem(key);
     if (value) {
       return JSON.parse(value);
@@ -19,7 +19,7 @@ export class CacheService {
     }
   }
 
-  remove(key: 'user' | 'admin' | 'customer') {
+  remove(key: 'user' | 'admin' | 'customer' | 'listIdGhct') {
     localStorage.removeItem(key);
   }
 

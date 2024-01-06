@@ -136,8 +136,8 @@ export class SalesComponent implements OnInit {
     if (this.tabs.length < this.maxTabs) {
       this.hoadonService.addTab(`Tab ${this.tabs.length + 1}`);
   
-      this.searchResults[this.selectedTab] = [];
-      this.hoaDonChiTiet[this.selectedTab] = [];
+      // this.searchResults[this.selectedTab] = [];
+      // this.hoaDonChiTiet[this.selectedTab] = [];
       this.hoadonService.createHoadon({}).then(
         (result: IReqApi<IHoaDon>) => {
           const newInvoice: IHoaDon = result as IHoaDon;
@@ -221,8 +221,6 @@ export class SalesComponent implements OnInit {
     constraints: {
       video: {
         width: window.innerWidth
-        // width: { ideal: 800 }, // Đặt chiều rộng mong muốn
-        // height: { ideal: 600 } // Đặt chiều cao mong muốn
       },
     },
   };
@@ -275,7 +273,7 @@ export class SalesComponent implements OnInit {
       this.stopScanning();
 
       this.searchProductByProductCode();
-      this.addToCartFromQR(this.searchResults, this.quantity);
+      // this.addToCartFromQR(this.searchResults, this.quantity);
       console.log("biến searchReasults " + this.searchResults);
     }
   }
@@ -635,6 +633,12 @@ export class SalesComponent implements OnInit {
     }
   }
 
+// Trong component.ts
+onQuantityChange(newQuantity: number) {
+  this.quantity = newQuantity;
+}
+
+
   addToCartFromQR(productDetails: IChiTietSanPham, quantity: number): void {
     // Kiểm tra xem số lượng có lớn hơn 0 không trước khi thêm vào giỏ hàng
     if (quantity > 0) {
@@ -656,13 +660,27 @@ export class SalesComponent implements OnInit {
           donGia: donGia,
         };
 
-        const totalQuantityInCart = this.hoaDonChiTiet[this.selectedTab]?.reduce(
-          (total, item) => (total += item.soLuong || 0),
-          0
-        );
+        const quantitiesInCart: number[] = [];
+        if (this.hoaDonChiTiet[this.selectedTab]) {
+          // Lặp qua từng sản phẩm trong giỏ hàng và lưu trữ số lượng vào mảng
+          this.hoaDonChiTiet[this.selectedTab].forEach(item => {
+            // Kiểm tra xem số lượng của sản phẩm có tồn tại không
+            if (item.soLuong !== undefined) {
+              quantitiesInCart.push(item.soLuong);
+            }
+          });
+        }
+
+        const totalQuantityInCart = quantitiesInCart.reduce((total, quantity) => total + quantity, 0);
+
+
+        // const totalQuantityInCart = this.hoaDonChiTiet[this.selectedTab]?.reduce(
+        //   (total, item) => (total += item.soLuong || 0),
+        //   0
+        // );
         // Nếu sản phẩm chưa có trong hóa đơn chi tiết, thêm mới
-        if (productDetails.soLuong !== undefined && totalQuantityInCart + quantity > productDetails.soLuong) {
-          this.snackBar.open('Số lượng vượt quá số lượng tồn kho của sản phẩm.', 'Đóng', {
+        if (productDetails.soLuong !== undefined &&  quantity > productDetails.soLuong) {
+          this.snackBar.open('Số lượng vượt quá số lượng tồn kho của sản phẩm 1.', 'Đóng', {
             duration: 3000,
             panelClass: ['error-snackbar'],
           });
@@ -670,7 +688,7 @@ export class SalesComponent implements OnInit {
         }
 
         if (productDetails.soLuong !== undefined && quantity > productDetails.soLuong) {
-          this.snackBar.open('Số lượng vượt quá số lượng tồn kho của sản phẩm.', 'Đóng', {
+          this.snackBar.open('Số lượng vượt quá số lượng tồn kho của sản phẩm 2.', 'Đóng', {
             duration: 3000,
             panelClass: ['error-snackbar'],
           });
@@ -706,6 +724,7 @@ export class SalesComponent implements OnInit {
                 this.hoaDonChiTiet[this.selectedTab].push(result);
               }
               console.log('Sản phẩm đã được thêm vào hóa đơn chi tiết.', result);
+              // this.showQuantityInput=false;
             }
             else {
               console.error('Kết quả không phải là kiểu IHoaDonChiTiet:', result);
@@ -720,6 +739,11 @@ export class SalesComponent implements OnInit {
       }
     } else {
       console.log('Số lượng không hợp lệ.');
+       this.snackBar.open('Số lượng không hợp lệ', 'Đóng', {
+            duration: 3000,
+            panelClass: ['error-snackbar'],
+          });
+          return;
     }
   }
 
@@ -806,6 +830,13 @@ export class SalesComponent implements OnInit {
 
       const chiTietSanPham = chiTiet.chiTietSanPham;
       const tabKeys = Object.keys(this.hoaDonChiTiet);
+
+      if (chiTiet.soLuong >= (chiTietSanPham?.soLuong || 0)) {
+        console.error('Số lượng trong hóa đơn đã đạt tối đa.');
+        this.notification.error('Số lượng trong hóa đơn đã đạt tối đa.');
+        return;
+      }
+
       for (const tabKey of tabKeys) {
         const chiTietIndex = this.hoaDonChiTiet[tabKey].findIndex(item => item.id === chiTiet.id);
         if (chiTietIndex !== -1) {
@@ -820,11 +851,14 @@ export class SalesComponent implements OnInit {
               console.error('Số lượng trong chi tiết sản phẩm đã hết hoặc không tồn tại.');
               this.notification.error('Số lượng sản phẩm đã hết.');
               return;
-            }
-                  
+            }       
         }
       }
-      // console.log("kiem tra " + this.searchResults[tabKey]);
+      
+    }
+  }
+  
+// console.log("kiem tra " + this.searchResults[tabKey]);
   
       // if (chiTietSanPhamId && tabKeys.includes(tabKey) && this.searchResults[tabKey]) {
       //   console.log("All conditions are met.");
@@ -842,9 +876,7 @@ export class SalesComponent implements OnInit {
       //   console.log("One or more conditions are not met.");
       //   this.notification.error("Lỗi khi thêm số lượng.");
       // }
-    }
-  }
-  
+
   // Trong component Angular
   onUpdate(chiTiet: IHoaDonChiTiet): void {
     if (chiTiet && chiTiet.id !== undefined && chiTiet.soLuong !== undefined) {

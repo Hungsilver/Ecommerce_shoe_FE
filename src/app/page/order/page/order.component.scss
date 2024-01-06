@@ -1,0 +1,23 @@
+main{
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+.card{
+    margin-top: 30px;
+}
+.header-p-char {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+
+    span {
+        border: 1px solid gray;
+        border-radius: 5px;
+        padding: 3px 5px;
+        cursor: pointer;
+
+        &:hover {
+            background: rgb(183, 174, 174);
+        }
+    }
+}

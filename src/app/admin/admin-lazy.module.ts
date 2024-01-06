@@ -41,7 +41,7 @@ import { AddressHomeComponent } from './address/pages/address-home/address-home.
 import { AddressDialogComponent } from './address/components/address-dialog/address-dialog.component';
 import { StaffHomeComponent } from './staff/pages/staff-home/staff-home.component';
 import { StaffDialogComponent } from './staff/components/staff-dialog/staff-dialog.component';
-import { NewProductDetailComponent } from './product-detail/page/new-product-detail/new-product-detail.component';
+import { dialogProductDetailComponent } from './product-detail/page/dialog-product-detail/dialog-product-detail.component';
 import { TestNewComponent } from './test-new/test-new.component';
 import { NComponent } from './test-new/n/n.component';
 import { SalesComponent } from './sales/sales.component';
@@ -49,9 +49,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AngularFireModule } from '@angular/fire/compat'
 import { AngularFireStorageModule } from '@angular/fire/compat/storage'
@@ -60,6 +58,10 @@ import { ForCategoryComponent } from './dashboard/components/ForCategory/ForCate
 import { ForDateComponent } from './dashboard/components/ForDate/ForDate.component';
 import { OrdersComponent } from './dashboard/components/Orders/Orders.component';
 import { ForProductComponent } from './dashboard/components/ForProduct/ForProduct.component';
+
+
+import { VoucherHomeComponent } from './voucher/pages/voucher-home.component';
+import { VoucherDialogComponent } from './voucher/components/voucher-Dialog.component';
 import { TabViewModule } from 'primeng/tabview';
 
 LOAD_WASM().subscribe()
@@ -100,7 +102,7 @@ LOAD_WASM().subscribe()
     ColorComponent,
     ColorDialogComponent,
     OriginComponent,
-    NewProductDetailComponent,
+    dialogProductDetailComponent,
     MaterialComponent,
     MaterialDialogComponent,
     MaterialSolesComponent,
@@ -126,11 +128,15 @@ LOAD_WASM().subscribe()
     TestNewComponent,
     NComponent,
     SalesComponent,
+    VoucherHomeComponent,
+    VoucherDialogComponent,
+
     ForCategoryComponent,
     ForDateComponent,
     OrdersComponent,
     ForProductComponent
     // NavbarComponent
+
 
   ],
   providers: [],

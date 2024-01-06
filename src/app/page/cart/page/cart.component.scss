@@ -32,6 +32,7 @@ main {
                 background: #3a3a3a;
                 color: #fff;
                 border-radius: 5px;
+                width: 150px;
 
                 &:hover {
                     background: #006e52;
@@ -39,9 +40,10 @@ main {
             }
         }
     }
-    button{
-margin-top: 15px;
-margin-left: 5%;
+
+    button {
+        margin-top: 15px;
+        margin-left: 5%;
     }
-    
+
 }

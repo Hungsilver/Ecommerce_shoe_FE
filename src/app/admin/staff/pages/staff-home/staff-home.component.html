@@ -4,7 +4,7 @@
         <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
         <p-dropdown [options]="listTotalPage" [(ngModel)]="searchQuery.page" optionLabel="name"></p-dropdown>
     </span>
-    <button mat-button (click)="openDialog()">Open dialog</button>
+    <button mat-button (click)="openDialog()">Thêm Nhân Viên</button>
 </div>
 
 
@@ -12,13 +12,13 @@
     <p-table [value]="staffs" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
-                <th style="width: 20%;">STT</th>
+                <th style="width: 10%;">STT</th>
                 <th (click)="sortByName()" style="width: 30%;cursor: pointer;">Tên <i [ngClass]="iconSortName"></i></th>
                 <th style="width: 30%;">Image</th>
                 <th style="width: 10%;">email</th>
                 <th style="width: 10%;">SDT</th>
                 <th style="width: 10%;">Giới tính</th>
-                <th style="width: 20%;">Trạng thái</th>
+                <th style="width: 10%;">Trạng thái</th>
                 <th style="width: 10%;"></th>
             </tr>
         </ng-template>
@@ -33,11 +33,11 @@
                 </td>
                 <td>{{ staff.hoTen }}</td>
                 <td>
-                    <img src="{{ staff.anhDaiDien }}" alt="">
+                    <img src="{{ staff.anhDaiDien }}" alt="" width="100px" height="120px">
                 </td>
                 <td>{{ staff.email }}</td>
                 <td>{{ staff.soDienThoai }}</td>
-                <td>{{ staff.gioiTinh }}</td>
+                <td>{{ staff.gioiTinh?'Nam':'Nữ' }}</td>
                 <td>{{ staff.trangThai?'Hoạt động':'Không hoạt động' }}</td>
                 <td>
                     <span (click)="openDialogEdit(staff)">
