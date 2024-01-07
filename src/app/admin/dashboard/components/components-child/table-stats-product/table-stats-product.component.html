@@ -1,0 +1,40 @@
+<app-header-stats-product *ngIf="dataHeaderStatsP" [dataHeaderStat]="dataHeaderStatsP" />
+<p-table [value]="dataTable" [tableStyle]="{ 'min-width': '50rem' }">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 20%;">STT</th>
+      <th style="width: 20%;">Tên sản phẩm</th>
+      <!-- <th (click)="sortByName()" style="width: 30%;cursor: pointer;">Tên <i [ngClass]="iconSortName"></i></th> -->
+      <th style="width: 30%;">Số lượng</th>
+      <th style="width: 30%;">Doanh thu</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-p let-rowIndex="rowIndex">
+    <tr>
+      <td>
+        <!-- {{
+          dataTable.indexOf(p) +
+          1 +
+          searchQuery.pageSize * (searchQuery.page - 1)
+          }} -->
+        {{rowIndex+1}}
+      </td>
+      <td>{{ p.tenSanPham }}</td>
+      <td>{{ p.soLuong }}</td>
+      <td>{{ p.doanhThu |currency:'VND'}}</td>
+
+    </tr>
+  </ng-template>
+</p-table>
+<div>
+  <div class="d-flex justify-content-end gap-1">
+    <!-- <p-dropdown (onChange)="onPageChange()" [options]="listTotalPage" [(ngModel)]="searchQuery.page"></p-dropdown> -->
+
+    <div class="button-pagination" (click)="getAll( 'prev')">
+      <i class="pi pi-angle-left"></i>
+    </div>
+    <div class="button-pagination" (click)="getAll( 'next')">
+      <i class="pi pi-angle-right"></i>
+    </div>
+  </div>
+</div>

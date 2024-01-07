@@ -1,51 +1,53 @@
 <div class="stats">
-  <div class="stats-header">
-    <div class="stats-header__box">
-      <div class="stats-header__box-header">
-        <h3>Tổng đơn hàng</h3>
+  <ng-container *ngIf="stat">
+    <div class="stats-header">
+      <div class="stats-header__box">
+        <div class="stats-header__box-header">
+          <h3>Tổng đơn hàng</h3>
+        </div>
+        <div class="ps-1 text-center text-center">
+          <span>{{stat.tongDonHang}}</span>
+        </div>
       </div>
-      <div class="ps-1">
-        <span>10</span>
+
+      <div class="stats-header__box">
+        <div class="stats-header__box-header">
+          <h3>Đơn hàng hoàn thành</h3>
+        </div>
+        <div class="ps-1 text-center">
+          <span>{{stat.daGiaoHang}}</span>
+        </div>
+      </div>
+
+      <div class="stats-header__box">
+        <div class="stats-header__box-header">
+          <h3>Đơn hàng đang giao</h3>
+        </div>
+        <div class="ps-1 text-center">
+          <span>{{stat.dangGiaoHang}}</span>
+        </div>
+      </div>
+
+      <div class="stats-header__box">
+        <div class="stats-header__box-header">
+          <h3>Đơn hàng đã hủy</h3>
+        </div>
+        <div class="ps-1 text-center">
+          <span>{{stat.daHuy}}</span>
+        </div>
+      </div>
+
+      <div class="stats-header__box">
+        <div class="stats-header__box-header">
+          <h3>Đơn hàng đã hoàn thành</h3>
+        </div>
+        <div class="ps-1 text-center">
+          <span>{{stat.daGiaoHang}}</span>
+        </div>
       </div>
     </div>
+  </ng-container>
 
-    <div class="stats-header__box">
-      <div class="stats-header__box-header">
-        <h3>Đơn hàng hoàn thành</h3>
-      </div>
-      <div class="ps-1">
-        <span>10</span>
-      </div>
-    </div>
-
-    <div class="stats-header__box">
-      <div class="stats-header__box-header">
-        <h3>Đơn hàng đang giao</h3>
-      </div>
-      <div class="ps-1">
-        <span>10</span>
-      </div>
-    </div>
-
-    <div class="stats-header__box">
-      <div class="stats-header__box-header">
-        <h3>Đơn hàng đã hủy</h3>
-      </div>
-      <div class="ps-1">
-        <span>10</span>
-      </div>
-    </div>
-
-    <div class="stats-header__box">
-      <div class="stats-header__box-header">
-        <h3>Đơn hàng đã hoàn thành</h3>
-      </div>
-      <div class="ps-1">
-        <span>10</span>
-      </div>
-    </div>
-
-  </div>
   <div class="stats-body">
     <div class="stats-body_search">
       <div class="d-flex gap-2">
@@ -53,28 +55,26 @@
         <button class="btn btn-primary">Search</button>
         <button class="btn btn-dark">Clear</button>
       </div>
-      <div>
-        <p-dropdown [options]="['Tất cả','...']" [(ngModel)]="selectedSortBy" optionLabel="name" [showClear]="true"
-          placeholder="Sắp xếp theo"></p-dropdown>
-      </div>
+
     </div>
     <div class="stats-body__table">
-      <p-table [value]="[{code:1,name:12,category:'ff',quantity:4}]" styleClass="p-datatable-striped"
-        [tableStyle]="{'min-width': '50rem'}">
+      <p-table [value]="dataOrders" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
         <ng-template pTemplate="header">
           <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Quantity</th>
+            <th>Mã HD</th>
+            <th>Tên khách hàng</th>
+            <th>SDT</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-product>
+        <ng-template pTemplate="body" let-order>
           <tr>
-            <td>{{product.code}}</td>
-            <td>{{product.name}}</td>
-            <td>{{product.category}}</td>
-            <td>{{product.quantity}}</td>
+            <td>{{order.maHoaDon}}</td>
+            <td>{{order.tenKhachHang}}</td>
+            <td>{{order.soDienThoai}}</td>
+            <td>{{order.tongTienSauGiam | currency:'VND':'symbol':'1.0-0'}}</td>
+            <td>{{order.trangThai}}</td>
           </tr>
         </ng-template>
       </p-table>

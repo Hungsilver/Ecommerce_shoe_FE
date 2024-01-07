@@ -9,6 +9,8 @@ import { ProductService } from 'src/app/page/product/service/product.service';
 })
 export class HomeComponent implements OnInit {
   products: IProduct[] = [];
+  products1: IProduct[] = [];
+  products2: IProduct[] = [];
   productsNew: IProduct[] = [];
   timeAutoPlay: number = 3000;
 
@@ -20,6 +22,8 @@ export class HomeComponent implements OnInit {
       .getProducts()
       .then((p) => {
         this.products = p.content.slice(0, 4)
+        this.products1 = p.content.slice(4, 7)
+        this.products2 = p.content.slice(3, 3)
         this.productsNew = p.content;
       }
       );

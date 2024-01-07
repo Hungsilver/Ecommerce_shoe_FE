@@ -1,6 +1,6 @@
 <main>
     <div class="container-fluid">
-        <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb> 
+        <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
         <h1 class="mt-5">Giỏ hàng</h1>
         <div class="content">
             <div class="cards">
@@ -8,29 +8,25 @@
                     <ng-template pTemplate="header">
                         <tr>
                             <th>
-                            <input type="checkbox" name="allCheckbox" id="allCheckbox"  (click)="toggleChecked(1)">
+                                <input type="checkbox" name="allCheckbox" id="allCheckbox" (click)="toggleChecked(1)">
                             </th>
                             <th>Sản phẩm</th>
                             <th>Giá bán</th>
                             <th>Số lượng </th>
                             <th>Thành tiền</th>
-                            <th></th>
+                            <th colspan="2"></th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-product>
                         <tr *ngFor="let c of listCart">
                             <td>
-                                <input type="checkbox" 
-                                name="someCheckbox" 
-                                id="someCheckbox" 
-                                [checked]="isChecked(1)"  
-                                (change)="onCheckboxChange($event, c.id)"
-                                value="{{c.id}}">
+                                <input type="checkbox" name="someCheckbox" id="someCheckbox" [checked]="isChecked(1)"
+                                    (change)="onCheckboxChange($event, c.id)" value="{{c.id}}">
                             </td>
                             <td>
                                 <div class="table-product-detail">
-                                    <img class="table-image" *ngIf="c.chiTietSanPham.anhSanPhams[0]?.ten" src="{{c.chiTietSanPham.anhSanPhams[0].ten}}"
-                                        alt="">
+                                    <img class="table-image" *ngIf="c.chiTietSanPham.anhSanPhams[0]?.ten"
+                                        src="{{c.chiTietSanPham.anhSanPhams[0].ten}}" alt="">
                                     <div>
                                         <p>{{c.chiTietSanPham.sanPham.ten}}</p>
                                         <p>{{c.chiTietSanPham.ma}}</p>
@@ -43,21 +39,27 @@
                             </td>
                             <td>{{ c.chiTietSanPham.giaBan| currency:'VND' }}</td>
                             <td>
-                                <input type="number" value="{{c.soLuong}}" (blur)="updateQuantity($event,c.id)" min="0" style="width: 70px;">
+                                <input type="number" value="{{c.soLuong}}" min="0" style="width: 70px;"
+                                    (blur)="updateQuantity($event,c.id)">
                             </td>
-                            
+
                             <td>{{ c.chiTietSanPham.giaBan * c.soLuong| currency:'VND' }}</td>
-                            <td>
-                                <span (click)="deleteCart(c.id)">
+                            <td class="table-action">
+                                <!-- <span class="table-icon-action" (click)="updateQuantity($event,c.id)"
+                                    style="cursor: pointer;">
+                                    <i class="pi pi-check"></i>
+                                </span> -->
+                                <span class="table-icon-action" (click)="deleteCart(c.id)" style="margin-right: 8px;">
                                     <i class="pi pi-delete-left"></i>
                                 </span>
+
                             </td>
                         </tr>
                     </ng-template>
                 </p-table>
             </div>
             <div>
-                <h3>Tổng tiền:  {{tongTien| currency:'VND'}}</h3>
+                <h3>Tổng tiền: {{tongTien| currency:'VND'}}</h3>
                 <button (click)="checkout()">Thanh toán</button>
             </div>
 

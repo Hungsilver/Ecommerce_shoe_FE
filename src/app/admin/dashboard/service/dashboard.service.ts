@@ -7,9 +7,41 @@ export class DashboardService {
         private baseRequestService: BaseRequestService
     ) { }
 
+    getStat(): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.baseRequestService.get('statistic/invoice').subscribe(
+                (result: any) => {
+                    return resolve(result);
+                },
+                (err) => reject(err)
+            )
+        })
+    }
+
+    getDataForAboutDate(params: any): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.baseRequestService.get('statistic/revenue', params).subscribe(
+                (result: any) => {
+                    return resolve(result);
+                },
+                (err) => reject(err)
+            )
+        })
+    }
+
     doanhThu7day(): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             this.baseRequestService.get('statistic/revenue/last-seven-day').subscribe(
+                (result: any) => {
+                    return resolve(result);
+                },
+                (err) => reject(err)
+            )
+        })
+    }
+    getAllHD(): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.baseRequestService.get('invoice').subscribe(
                 (result: any) => {
                     return resolve(result);
                 },
@@ -48,9 +80,50 @@ export class DashboardService {
             )
         })
     }
-    doanhThuForDate(params: any): Promise<any> {
+    doanhThuForDate(params?: any): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             this.baseRequestService.get('statistic/revenue', params).subscribe(
+                (result: any) => {
+                    return resolve(result);
+                },
+                (err) => reject(err)
+            )
+        })
+    }
+
+    productFor7Date(params?: any): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.baseRequestService.get('statistic/product/last-seven-day', params).subscribe(
+                (result: any) => {
+                    return resolve(result);
+                },
+                (err) => reject(err)
+            )
+        })
+    }
+    productFor28Date(params?: any): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.baseRequestService.get('statistic/product/last-one-month', params).subscribe(
+                (result: any) => {
+                    return resolve(result);
+                },
+                (err) => reject(err)
+            )
+        })
+    }
+    productFor6month(params?: any): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.baseRequestService.get('statistic/product/last-six-month', params).subscribe(
+                (result: any) => {
+                    return resolve(result);
+                },
+                (err) => reject(err)
+            )
+        })
+    }
+    productFor1year(params?: any): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.baseRequestService.get('statistic/product/last-year', params).subscribe(
                 (result: any) => {
                     return resolve(result);
                 },
