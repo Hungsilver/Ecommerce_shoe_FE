@@ -48,12 +48,9 @@ export class DashboardComponent implements OnInit {
 
     this.dashboardService.doanhThu7day().then(res => {
       this.dataDthu7day = res;
-      console.log(res)
       this.setDataPCharBar(res, 'Doanh thu 7 ngay');
     })
     this.textColor
-
-
 
     this.options = {
       maintainAspectRatio: false,

@@ -4,13 +4,23 @@ $background-color: #f5f5f5;
 
 aside {
   font-family: sans-serif;
-  width: 200px;
+  // width: 200px;
   /* Giảm kích thước thanh bên */
   height: 100vh;
   background-color: $background-color;
 
   .box {
-    padding: 10px;
+    .menu-icon {
+      adding-right: 10px;
+      align-self: center;
+
+      svg {
+        width: 15px;
+        height: 15px;
+      }
+    }
+
+    // padding: 10px;
     /* Giảm padding cho hộp */
     margin-bottom: 20px;
     /* Tạo khoảng cách giữa hai hộp */
@@ -52,8 +62,6 @@ aside {
             margin-right: 8px;
             /* Giảm khoảng cách giữa biểu tượng và văn bản */
           }
-
-
         }
       }
     }

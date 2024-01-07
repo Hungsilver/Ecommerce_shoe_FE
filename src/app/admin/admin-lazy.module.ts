@@ -62,6 +62,11 @@ import { ForProductComponent } from './dashboard/components/ForProduct/ForProduc
 
 import { VoucherHomeComponent } from './voucher/pages/voucher-home.component';
 import { VoucherDialogComponent } from './voucher/components/voucher-Dialog.component';
+import { ChartColumnComponent } from './dashboard/components/components-child/chart-column/chart-column.component';
+import { HeaderStatsComponent } from './dashboard/components/components-child/header-stats/header-stats.component';
+import { TableStatsProductComponent } from './dashboard/components/components-child/table-stats-product/table-stats-product.component';
+import { CalendarModule } from 'primeng/calendar';
+import { HeaderStatsProductComponent } from './dashboard/components/components-child/header-stats-product/header-stats-product.component';
 import { TabViewModule } from 'primeng/tabview';
 
 LOAD_WASM().subscribe()
@@ -91,7 +96,8 @@ LOAD_WASM().subscribe()
     NgxScannerQrcodeModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
-    TabViewModule
+    TabViewModule,
+    CalendarModule
 
 
   ],
@@ -134,10 +140,11 @@ LOAD_WASM().subscribe()
     ForCategoryComponent,
     ForDateComponent,
     OrdersComponent,
-    ForProductComponent
-    // NavbarComponent
-
-
+    ForProductComponent,
+    ChartColumnComponent,
+    HeaderStatsComponent,
+    TableStatsProductComponent,
+    HeaderStatsProductComponent
   ],
   providers: [],
 })
