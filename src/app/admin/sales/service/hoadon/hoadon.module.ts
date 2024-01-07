@@ -1,3 +1,4 @@
+import { IHoaDonChiTiet } from "../hoadonchitiet/hoadonchitiet.module";
 export interface IHoaDon {
     id?: number;
     tenKhachHang?: string;
@@ -18,5 +19,6 @@ export interface IHoaDon {
     phieuGiamGia?: any;
     nhanVien?: any;
     khachHang?: any;
+    listHoaDonChiTiet?: IHoaDonChiTiet[];
 }
 // tenKhachHang?: string;

@@ -1,68 +1,70 @@
-
-
 <div class="container">
   <button>Xác nhận</button>
   <button>Xuất hóa đơn</button>
   <button>Chi tiết</button>
 
   <h2>thông tin hóa đơn</h2>
-<hr>
+  <hr />
   <div class="form-floating mb-3 mt-3">
-    
     <span>Mã hóa đơn</span>
-    <h3>{{detailData.maHoaDon}}</h3>
+    <h3>{{ detailData.maHoaDon }}</h3>
 
     <p>Hình thức mua hàng</p>
     <P>Tên khách hàng</P>
     <P>Số điện thoại:</P>
     <p>Ngày mua hàng:</p>
-    <p>Phương thức thanh toán </p>
-
+    <p>Phương thức thanh toán</p>
   </div>
 
   <h2>Danh sách sản phẩm</h2>
-  
-  <hr>
+
+  <hr />
   <div class="danhsach_sp">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
       Thêm sản phẩm
     </button>
     <button>Quét mã QR</button>
 
-<!-- <p>{{invoiceDetail.id}}</p> -->
-      <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">STT</th>
-                <th scope="col">Tên Sản Phẩm</th>
-                <th scope="col">Ảnh</th>
-                <th scope="col">Số lượng</th>
-                <th scope="col">Đơn giá</th>
-                <th scope="col">Thành tiền</th>
-                <th>Hành động</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let chiTiet of invoiceDetail; let i = index">
-                <!-- <td>{{ chiTiet.chiTietSanPham?.ma }}</td> -->
-                <td>{{i +1}}</td>
-                <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
-                <td>
-                  <img src="{{chiTiet.chiTietSanPham?.sanPham?.anhChinh}}" style="width: 60px; height: 75px;">
-              </td>                
-              <td>{{ chiTiet.soLuong }}</td>
-                <td>{{chiTiet.chiTietSanPham?.giaBan}}</td>
-                <td>{{ chiTiet.donGia }}</td>
-                <td>
-                  <button mat-icon-button>
-                    <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
-                </button>
-                </td>
-                
-            </tr>
-        </tbody>
+    <!-- <p>{{invoiceDetail.id}}</p> -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Tên Sản Phẩm</th>
+          <th scope="col">Ảnh</th>
+          <th scope="col">Số lượng</th>
+          <th scope="col">Đơn giá</th>
+          <th scope="col">Thành tiền</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let chiTiet of invoiceDetail; let i = index">
+          <!-- <td>{{ chiTiet.chiTietSanPham?.ma }}</td> -->
+          <td>{{ i + 1 }}</td>
+          <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
+          <td>
+            <img
+              src="{{ chiTiet.chiTietSanPham?.sanPham?.anhChinh }}"
+              style="width: 60px; height: 75px"
+            />
+          </td>
+          <td>{{ chiTiet.soLuong }}</td>
+          <td>{{ chiTiet.chiTietSanPham?.giaBan }}</td>
+          <td>{{ chiTiet.donGia }}</td>
+          <td>
+            <button mat-icon-button>
+              <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
     </table>
-
   </div>
 
   <p>Thành tiền:</p>
@@ -70,21 +72,36 @@
   <p>Giảm giá:</p>
   <h3>Tổng cộng:</h3>
 
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-xl-custom-height">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Danh sách sản phẩm</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            Danh sách sản phẩm
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
         <div class="modal-body">
-       
           <div class="card">
-            <p-table [value]="productsDetail" [tableStyle]="{ 'min-width': '50rem' }">
+            <p-table
+              [value]="productsDetail"
+              [tableStyle]="{ 'min-width': '50rem' }"
+            >
               <ng-template pTemplate="header">
                 <tr>
                   <th style="">STT</th>
-                  <th  style="">Mã </th>
+                  <th style="">Mã</th>
                   <th style="">Sản Phẩm</th>
                   <th>Ảnh</th>
                   <th style="">Giá</th>
@@ -106,7 +123,10 @@
                   <td>{{ product.ma }}</td>
                   <td>{{ product.sanPham?.ten }}</td>
                   <td>
-                    <img src="{{product.sanPham?.anhChinh}}" style="width: 60px; height: 75px;">
+                    <img
+                      src="{{ product.sanPham?.anhChinh }}"
+                      style="width: 60px; height: 75px"
+                    />
                   </td>
 
                   <td>{{ product.giaBan }}</td>
@@ -114,7 +134,6 @@
                   <td>{{ product.kichCo?.size }}</td>
                   <td>{{ product.soLuong }}</td>
                   <td></td>
-                  
                 </tr>
               </ng-template>
             </p-table>
@@ -129,69 +148,18 @@
               </div>
             </div>
           </div>
-
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
           <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- app.component.html -->
-
-
-<!-- 
-
-<div class="container px-1 px-md-4 py-5 mx-auto" id="test">
-  <div class="card">
-      <div class="row d-flex justify-content-between px-3 top">
-          <div class="d-flex">
-              <h5>ORDER <span class="text-primary font-weight-bold">#Y34XDHR</span></h5>
-          </div>
-          <div class="d-flex flex-column text-sm-right">
-              <p class="mb-0">Expected Arrival <span>01/12/19</span></p>
-              <p>USPS <span class="font-weight-bold">234094567242423422898</span></p>
-          </div>
-      </div>
-
-      <div class="row d-flex justify-content-center">
-          <div class="col-12">
-          <ul id="progressbar" class="text-center">
-              <li class="active step0"></li>
-              <li class="active step0"></li>
-              <li class="active step0"></li>
-              <li class="step0"></li>
-          </ul>
-          </div>
-      </div>
-      <div class="row justify-content-between top">
-          <div class="row d-flex icon-content">
-              <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
-              <div class="d-flex flex-column">
-                  <p class="font-weight-bold">Order<br>Processed</p>
-              </div>
-          </div>
-          <div class="row d-flex icon-content">
-              <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
-              <div class="d-flex flex-column">
-                  <p class="font-weight-bold">Order<br>Shipped</p>
-              </div>
-          </div>
-          <div class="row d-flex icon-content">
-              <img class="icon" src="https://i.imgur.com/TkPm63y.png">
-              <div class="d-flex flex-column">
-                  <p class="font-weight-bold">Order<br>En Route</p>
-              </div>
-          </div>
-          <div class="row d-flex icon-content">
-              <img class="icon" src="https://i.imgur.com/HdsziHP.png">
-              <div class="d-flex flex-column">
-                  <p class="font-weight-bold">Order<br>Arrived</p>
-              </div>
-          </div>
-      </div>
-  </div>
-</div> -->

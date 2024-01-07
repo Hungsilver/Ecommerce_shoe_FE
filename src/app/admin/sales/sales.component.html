@@ -1,8 +1,6 @@
 <button class="createOrder" mat-raised-button (click)="addTab()">
   Tạo hóa đơn
 </button>
-<!-- <button (click)="exportPDF()">Xuất PDF</button> -->
-
 <br />
 <br />
 
@@ -10,23 +8,24 @@
   <ng-container *ngIf="tabs">
     <mat-tab
       *ngFor="let tab of tabs; let i = index"
-      label="Hoá đơn {{ i }}"
+      label="HD{{ tab.id }}"
       class="buttonTab1"
     >
       <ng-template mat-tab-label class="test">
         <div class="tab-label-container">
-          <span>Hoá đơn {{ i + 1 }}</span>
-          <button mat-icon-button class="close-button">
+          <span>HD{{ tab.id }}</span>
+          <button
+            mat-icon-button
+            class="close-button"
+            (click)="deleteHD(tab.id)"
+          >
             <mat-icon aria-label="Xóa" class="close-icon">close</mat-icon>
           </button>
         </div>
       </ng-template>
 
-      <!-- <p>Nội dung của {{ tab }}</p> -->
       <div class="sales-header d-flex justify-content-between">
-        <div class="sales-header_search">
-          <!-- <input type="text" name="productCode" [(ngModel)]="productCode.ma" placeholder="Tìm kiếm sản phẩm"
-                    width="300px" required (keypress)="onKeyPress($event)"> -->
+        <!-- <div class="sales-header_search">
           <ng-container *ngIf="productCodes[i]">
             <input
               type="text"
@@ -38,12 +37,10 @@
               (keypress)="onKeyPress($event, i)"
             />
           </ng-container>
-
-          <!-- <button type="submit" (click)="searchProductByKeyword()"> -->
           <button type="submit" (click)="searchProductByKeyword(i)">
             <span class="pi pi-search"></span>
           </button>
-        </div>
+        </div> -->
 
         <div class="d-flex align-items-center">
           <button
@@ -54,8 +51,48 @@
             Open qr code
           </button>
         </div>
+
+        <div
+          *ngIf="showQuantityInput"
+          class="floating-form"
+          #floatingForm
+          (mousedown)="preventFormClose($event)"
+        >
+          <label for="quantity">Nhập số lượng:</label>
+          <input
+            type="number"
+            [(ngModel)]="quantityInvoice"
+            placeholder="Nhập
+            số lượng"
+            class="form-control"
+            style="width: 300px"
+            [min]="1"
+          />
+          <br />
+          <!-- <button
+            class="btn btn-outline-primary"
+            (click)="addOrderDetailFromQR(productsDetail, quantity)"
+          >
+            Xác nhận thêm
+          </button> -->
+          <button class="btn btn-outline-danger" (click)="closeFloatingForm()">
+            Đóng
+          </button>
+        </div>
+
+        <div class="addProduct">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Thêm sản phẩm
+          </button>
+        </div>
       </div>
 
+      <!-- ! QR Code -->
       <div class="qr-container" *ngIf="isShowQrCode">
         <div class="d-flex justify-content-center mt-5">
           <ngx-scanner-qrcode
@@ -67,24 +104,16 @@
         <!-- loading -->
         <p *ngIf="action.isLoading">⌛ Loading...</p>
         <!-- Thêm phần hiển thị kết quả -->
-        <div *ngIf="showQuantityInput">
-          <label for="quantity">Nhập số lượng:</label>
-          <input
-            type="number"
-            [(ngModel)]="quantity"
-            placeholder="Nhập số lượng"
-            class="form-control"
-            style="width: 300px"
-            (ngModelChange)="onQuantityChange($event)"
-          />
-          <br />
+        <!-- <div *ngIf="showQuantityInput">
           <button
-            class="btn btn-outline-primary"
-            (click)="addToCartFromQR(searchResults, quantity)"
+            class="btn btn-primary"
+            data-bs-target="#exampleModalToggle"
+            data-bs-toggle="modal"
+            [attr.data-bs-target]="'#' + modal?.nativeElement.id"
           >
             Xác nhận thêm
           </button>
-        </div>
+        </div> -->
         <div *ngIf="result">
           <h2>Success!</h2>
           <p>
@@ -124,7 +153,6 @@
           (click)="handle(action, action.isPause ? 'play' : 'pause')"
           *ngIf="!result"
         >
-          <!-- Thêm điều kiện để ẩn nút khi đã có kết quả -->
           <img
             [src]="
               action.isPause
@@ -134,52 +162,14 @@
             width="30px"
           />
         </button>
-        <!-- <button (click)="startScanning()">Quét mã QR</button> -->
         <button (click)="turnOfQRCode()" class="btn btn-outline-primary">
           Tắt mã QR
         </button>
       </div>
 
       <br />
-      <div>
-        <table table-hover>
-          <thead>
-            <tr>
-              <th>Mã</th>
-              <th>Tên sản phẩm</th>
-              <th>Ảnh</th>
-              <th>Màu sắc</th>
-              <th>Kích cỡ</th>
-              <th>Số lượng</th>
-              <th>Giá bán</th>
-              <th></th>
-              <!-- <th></th> -->
-            </tr>
-          </thead>
-          <tbody>
-            <!-- <tr *ngFor="let searchResult of searchResults[tab]">
-              <td>{{ searchResult.ma }}</td>
-              <td>{{ searchResult.sanPham?.ten }}</td>
-              <td>
-                <img
-                  src="{{ searchResult.sanPham?.anhChinh }}"
-                  style="width: 60px; height: 75px"
-                />
-              </td>
-              <td>{{ searchResult.mauSac?.ten }}</td>
-              <td>{{ searchResult.kichCo?.size }}</td>
-              <td>{{ searchResult.soLuong }}</td>
-              <td>{{ searchResult.giaBan }}</td>
-              <td>
-                <button mat-icon-button (click)="addToCart(searchResult)">
-                  <i class="material-icons">shopping_cart_checkout</i>
-                </button>
-              </td>
-            </tr> -->
-          </tbody>
-        </table>
-      </div>
 
+      <!-- !bang ctsp -->
       <br />
       <div class="text-container">
         <span class="left-text">Giỏ hàng</span>
@@ -187,36 +177,9 @@
       </div>
 
       <br />
+
       <mat-grid-list cols="2" rowHeight="2:1">
-        <!-- <mat-grid-tile>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Mã HĐ</th>
-                            <th scope="col">Mã SP</th>
-                            <th scope="col">Số lượng</th>
-                            <th scope="col">Đơn giá</th>
-                            <th scope="col">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let chiTiet of hoaDonChiTiet[selectedTab]">
-                            <td>{{ chiTiet.chiTietSanPham?.ma }}</td>
-                            <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
-                            <td>
-                                <input type="number" [(ngModel)]="newSoLuong" (ngModelChange)="onUpdate(chiTiet)"
-                                    style="width: 100px;" />
-                            </td>
-                            <td>{{ chiTiet.donGia }}</td>
-                            <td>
-                                <button mat-icon-button (click)="removeItemFromInvoice(chiTiet.id)">
-                                    <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </mat-grid-tile> -->
+        <!-- ! hoa don chi tiet -->
         <mat-grid-tile>
           <table class="table">
             <thead>
@@ -230,52 +193,35 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                *ngFor="
-                  let chiTiet of hoaDonChiTiet[selectedTab];
-                  let i = index
-                "
-              >
-                <!-- <td>{{ chiTiet.chiTietSanPham?.ma }}</td> -->
+              <tr *ngFor="let chiTiet of invoiceDetail; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
-                <!-- <td>{{ chiTiet.soLuong }}</td> -->
                 <td>
-                  <button mat-icon-button (click)="decreaseQuantity(chiTiet)">
-                    <mat-icon>remove</mat-icon>
+                  <button mat-icon-button (click)="decrementQuantity(chiTiet)">
+                    <mat-icon aria-label="Trừ số lượng">remove</mat-icon>
                   </button>
-                  <!-- <input type="number" [(ngModel)]="chiTiet['soLuong']" (ngModelChange)="onUpdate(chiTiet)" /> -->
-                  {{ chiTiet["soLuong"] }}
-                  <button mat-icon-button (click)="increaseQuantity(chiTiet)">
-                    <mat-icon>add</mat-icon>
+                  {{ chiTiet.soLuong }}
+                  <button mat-icon-button (click)="incrementQuantity(chiTiet)">
+                    <mat-icon aria-label="Thêm số lượng">add</mat-icon>
                   </button>
                 </td>
-                <!-- <td>{{chiTiet.chiTietSanPham?.giaBan}}</td> -->
                 <td>{{ chiTiet.donGia }}</td>
-                <td>
-                  {{
-                    !!chiTiet.soLuong &&
-                      !!chiTiet.donGia &&
-                      chiTiet.soLuong * chiTiet.donGia
-                  }}
-                </td>
-
+                <td>{{ calculateTotal(chiTiet) }}</td>
                 <td></td>
                 <td>
-                  <button
+                  <!-- <button
                     mat-icon-button
-                    (click)="removeItemFromInvoice(chiTiet.id)"
+                    (click)="deleteOrderDetail(chiTiet.id)"
                   >
                     <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
-                  </button>
+                  </button> -->
                 </td>
               </tr>
             </tbody>
           </table>
         </mat-grid-tile>
-
         <br />
-
+        <!-- ! thong tin hoa don -->
         <mat-grid-tile class="test">
           <form class="form-test">
             <div class="row mb-3">
@@ -290,7 +236,6 @@
               </div>
               <div class="col">
                 <label class="form-label">Khách hàng:</label>
-                <!-- <input type="text" class="form-control"> -->
                 <input
                   type="text"
                   class="form-control"
@@ -351,7 +296,7 @@
               <div class="col" id="a">
                 <div class="input-group">
                   <label class="form-label">Tổng tiền sản phẩm:</label>
-                  <input
+                  <!-- <input
                     type="text"
                     class="form-control"
                     [value]="
@@ -359,6 +304,14 @@
                         ? totalAmounts[selectedTab]
                         : 0
                     "
+                    id="input-money"
+                    aria-label="Dollar amount (with dot and two decimal places)"
+                    disabled
+                  /> -->
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="totalMoney !== undefined ? totalMoney : 0"
                     id="input-money"
                     aria-label="Dollar amount (with dot and two decimal places)"
                     disabled
@@ -381,7 +334,6 @@
                   <span class="input-group-text">%</span>
                 </div>
               </div>
-              <!-- <input type="text" class="form-control" id="input-money"> -->
 
               <div class="col">
                 <button
@@ -390,12 +342,129 @@
                 >
                   Thanh toán
                 </button>
+
+                <button class="btn btn-primary" (click)="deleteHD(tab.id)">
+                  Hủy hóa đơn
+                </button>
               </div>
             </div>
-            <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
           </form>
         </mat-grid-tile>
       </mat-grid-list>
     </mat-tab>
   </ng-container>
 </mat-tab-group>
+
+<!-- !modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl-custom-height" *ngIf="tabs">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Danh sách sản phẩm
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <br />
+
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            type="text"
+            pInputText
+            [(ngModel)]="searchQuery.keyword"
+            placeholder="Tìm kiếm"
+          />
+        </span>
+
+        <br />
+        <br />
+        <p-table
+          [value]="productsDetail"
+          [tableStyle]="{ 'min-width': '50rem' }"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="">STT</th>
+              <th style="">Mã</th>
+              <th style="">Sản Phẩm</th>
+              <th>Ảnh</th>
+              <th style="">Giá</th>
+              <th style="">Màu Sắc</th>
+              <th style="">Kích Cỡ</th>
+              <th style="">Số Lượng</th>
+              <th>Hành động</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+            <tr>
+              <td>
+                {{
+                  productsDetail.indexOf(product) +
+                    1 +
+                    searchQuery.pageSize * (searchQuery.page - 1)
+                }}
+              </td>
+              <td>{{ product.ma }}</td>
+              <td>{{ product.sanPham?.ten }}</td>
+              <td>
+                <img
+                  src="{{ product.sanPham?.anhChinh }}"
+                  style="width: 60px; height: 75px"
+                />
+              </td>
+
+              <td>{{ product.giaBan }}</td>
+              <td>{{ product.mauSac?.ten }}</td>
+              <td>{{ product.kichCo?.size }}</td>
+              <td>{{ product.soLuong }}</td>
+              <td>
+                <button
+                  mat-icon-button
+                  (click)="addProductToOrderDetail(product)"
+                >
+                  <i class="material-icons">shopping_cart_checkout</i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <div>
+          <div class="d-flex justify-content-end gap-1">
+            <p-dropdown
+              (onChange)="onPageChange()"
+              [options]="listTotalPage"
+              [(ngModel)]="searchQuery.page"
+            ></p-dropdown>
+
+            <div class="button-pagination" (click)="getAll('prev')">
+              <i class="pi pi-angle-left"></i>
+            </div>
+            <div class="button-pagination" (click)="getAll('next')">
+              <i class="pi pi-angle-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

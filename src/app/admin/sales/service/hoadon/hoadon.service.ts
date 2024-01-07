@@ -19,13 +19,12 @@ export class HoaDonService {
 
   constructor(
     private BaseRequestService: BaseRequestService,
-    private http: HttpClient,
-    // private localStorageService:storageSer
+    private http: HttpClient // private localStorageService:storageSer
   ) {}
 
   private tabsSubject = new BehaviorSubject<string[]>([]);
   public tabs$ = this.tabsSubject.asObservable();
-//start code hung
+  //start code hung
   getAllHd(params?: any): Promise<IReqApi<IHoaDon[]>> {
     return new Promise<IReqApi<IHoaDon[]>>((resolve, reject) => {
       this.BaseRequestService.get('invoice', params).subscribe(
@@ -39,7 +38,8 @@ export class HoaDonService {
 
   addHd(params?: any): Promise<IReqApi<IHoaDon[]>> {
     return new Promise<IReqApi<IHoaDon[]>>((resolve, reject) => {
-      this.BaseRequestService.get(`invoice/shop/create/${}`, params).subscribe(
+      this.BaseRequestService.post(`invoice/shop/create`, params).subscribe(
+        //update here
         (result) => {
           return resolve(result);
         },
@@ -47,9 +47,10 @@ export class HoaDonService {
       );
     });
   }
-  deleteHd(params?: any): Promise<IReqApi<IHoaDon[]>> {
+
+  deleteHd(params: any): Promise<IReqApi<IHoaDon[]>> {
     return new Promise<IReqApi<IHoaDon[]>>((resolve, reject) => {
-      this.BaseRequestService.get('invoice', params).subscribe(
+      this.BaseRequestService.get('invoice/update-status', params).subscribe(
         (result) => {
           return resolve(result);
         },
@@ -57,7 +58,7 @@ export class HoaDonService {
       );
     });
   }
-//end code hung
+  //end code hung
   private updateTabs(tabs: string[]): void {
     this.tabsSubject.next(tabs);
   }
@@ -176,5 +177,17 @@ export class HoaDonService {
         (err) => reject(err)
       );
     });
+  }
+
+  // findByIdInvoice(id: any): Promise<IReqApi<IHoaDon>> {
+  //   return new Promise<IReqApi<IHoaDon>>((resolve, reject) => {
+  //     this.BaseRequestService.get(`${this.url}/${id}`).subscribe(
+  //       (result) => {},
+  //       (err) => reject(err)
+  //     );
+  //   });
+  // }
+  getInvoiceDetailsById(id: number): Observable<any> {
+    return this.BaseRequestService.get(`${this.url}/${id}`);
   }
 }
