@@ -34,7 +34,10 @@
               </td>
               <td>{{ voucher.ten}}</td>
               <td>{{ voucher.ma}}</td>
-              <td>{{ voucher.chietKhau}}</td>
+              <td>
+                {{ voucher.chietKhau >= 10000 ? voucher.chietKhau + 'đ' : voucher.chietKhau + '%' }}
+              </td>
+
               <td>{{ voucher.hinhThucGiamGia?'Tiền Mặt':'Phần Trăm' }}</td>
               <td>{{ voucher.thoiGianBatDau | date:'short'}}</td>
               <td>{{ voucher.thoiGianKetThuc | date:'short'}}</td>

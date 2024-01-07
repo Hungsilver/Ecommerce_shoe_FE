@@ -93,7 +93,7 @@ export class CartComponent implements OnInit {
         this.cart = c;
         this.listCart = c;
         c.forEach((key: any) => {
-          this.tongTien += (key.soLuong * key.giaBan);
+          this.tongTien += (key.soLuong * key.chiTietSanPham.giaBan);
         })
       })
     }
@@ -119,7 +119,7 @@ export class CartComponent implements OnInit {
         this.tongTien = 0;
         this.cartService.findById(this.params).then((c) => {
           c.forEach((key: any) => {
-            this.tongTien = this.tongTien + (key.soLuong * key.giaBan);
+            this.tongTien = this.tongTien + (key.soLuong * key.chiTietSanPham.giaBan);
           })
         })
 
@@ -137,7 +137,7 @@ export class CartComponent implements OnInit {
         this.tongTien = 0;
         this.cartService.findById(this.params).then((c) => {
           c.forEach((key: any) => {
-            this.tongTien = this.tongTien + (key.soLuong * key.giaBan);
+            this.tongTien = this.tongTien + (key.soLuong * key.chiTietSanPham.giaBan);
           })
         })
 
@@ -183,7 +183,6 @@ export class CartComponent implements OnInit {
   }
 
   updateQuantity(event: any, id: number) {
-    alert('run update quantity')
     this.params.listIdGhct = id;
     this.cartService.findById(this.params).then((c) => {
       c.forEach((key: any) => {

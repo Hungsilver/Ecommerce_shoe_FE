@@ -2,7 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { VoucherSevice } from "../service/voucher.service";
 import { MatDialog } from "@angular/material/dialog";
 import { VoucherDialogComponent } from "../components/voucher-Dialog.component";
-
+// import * as moment from 'moment';
+// import * as moment from 'moment-timezone';
 
 @Component({
 selector:'app-voucher-home',
@@ -60,10 +61,10 @@ getAll(action?: 'prev' | 'next'): void {
 
   }
       this.voucherService.getVoucher(this.searchQuery).then(voucher =>{
-      if(voucher && voucher.content){
-    this.vouchers = voucher.content;
-    this.listTotalPage =this.getTotalPage(voucher.totalPages)
-  }
+        if (voucher && voucher.content) {
+          this.vouchers = voucher.content;
+          this.listTotalPage = this.getTotalPage(voucher.totalPages);
+        }
 })
 }
 
@@ -121,6 +122,10 @@ openDialogDelete(voucher: any) {
     this.getAll();
   })
 }
+
+
+
+
 
 
 

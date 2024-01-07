@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 // import { MessageService } from 'primeng/api';
 import { OriginService } from 'src/libs/service/project/origin/origin.service';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-origin-dialog',
   templateUrl: './origin-dialog.component.html',
@@ -11,11 +11,28 @@ import { OriginService } from 'src/libs/service/project/origin/origin.service';
 export class OriginDialogComponent implements OnInit {
   origin: any = {};
   type: any;
-  ngOnInit(): void { }
+
+  originForm:FormGroup = new FormGroup({});
+
+ngOnInit(): void {
+  this.originForm = this.fb.group({
+    ten: ['', [Validators.required, Validators.minLength(3)]], // Tên là bắt buộc và ít nhất 3 ký tự
+    trangThai: [1, Validators.required],
+  });
+
+  this.type = this.data.type;
+
+  if (this.type === 'update') {
+    this.originForm.patchValue(this.data.origin);
+  }
+}
+
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private originService: OriginService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private fb: FormBuilder
   ) // private messageService: MessageService
 
   {
@@ -23,7 +40,8 @@ export class OriginDialogComponent implements OnInit {
     this.origin = data.origin;
   }
   addOrigin() {
-    this.originService.createOrigin(this.origin).then((res) => {
+    const originData = this.originForm.value;
+    this.originService.createOrigin(originData).then((res) => {
       if (res) {
         this.dialog.closeAll();
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'add thành công' });
@@ -33,14 +51,15 @@ export class OriginDialogComponent implements OnInit {
     });
   }
   updateOrigin() {
-    this.originService.updateOrigin(this.origin, this.origin.id).then((res) => {
+    const originData = this.originForm.value;
+    this.originService.updateOrigin(originData, this.data.origin.id).then((res) => {
       if (res) {
         this.dialog.closeAll();
       }
     });
   }
   deleteOrigin() {
-    this.originService.deleteOrigin(this.origin.id);
+    this.originService.deleteOrigin(this.data.origin.id);
     this.dialog.closeAll()
   }
 }

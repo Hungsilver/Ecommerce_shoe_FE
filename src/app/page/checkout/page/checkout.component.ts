@@ -34,6 +34,9 @@ export class CheckoutComponent implements OnInit {
   selectedProvince = '';
   selectedDistrict = '';
   selectedWard = '';
+  province = '';
+  district= '';
+  ward = '';
 
 
 
@@ -52,8 +55,6 @@ export class CheckoutComponent implements OnInit {
     this.home = { icon: '', label: 'Trang chủ', routerLink: '/' };
     this.callApiProvince(this.hostGHN);
     this.findByIdGhct();
-    console.log(this.hoaDonChiTietReqest);
-
   }
 
   form: FormGroup = this.formBuilder.group({
@@ -78,9 +79,9 @@ export class CheckoutComponent implements OnInit {
 
   onSubmit() {
     this.form.patchValue({
-      phuongXa: this.selectedWard,
-      quanHuyen: this.selectedDistrict,
-      tinhThanh: this.selectedProvince,
+      phuongXa: this.ward,
+      quanHuyen: this.district,
+      tinhThanh: this.province,
       tongTien: this.tongTien,
       tienGiam: this.tienGiam,
       tongTienSauGiam: this.tongTienSauGiam,
@@ -94,9 +95,6 @@ export class CheckoutComponent implements OnInit {
     console.log(this.hoaDonChiTietReqest);
 
     if (this.form.valid) {
-      if(this.phiShip === 0){// check giao hang nhanh
-        this.notificationService.error('Không hỗ trợ giao hàng tại địa phương của bạn !');
-      }else{
         Swal.fire(
           {
             title: 'Xác nhận thanh toán',
@@ -123,7 +121,7 @@ export class CheckoutComponent implements OnInit {
             }
           }
         })
-      }
+      
       
     } else {
       this.notificationService.error('Vui lòng nhập đầy đủ thông tin!');
@@ -134,7 +132,7 @@ export class CheckoutComponent implements OnInit {
     this.query.listIdGhct = this.cacheService.get('listIdGhct');
     this.cartService.findById(this.query).then((c) => {
       c.forEach((cart: any) => {
-        this.tongTien += (cart.soLuong * cart.giaBan);
+        this.tongTien += (cart.soLuong * cart.chiTietSanPham.giaBan);
         this.tongTienSauGiam = this.tongTien;
         this.cartDetails.push(cart);
         this.hoaDonChiTietReqest.push({
@@ -150,31 +148,30 @@ export class CheckoutComponent implements OnInit {
 
   findByCodeVoucher(event: any) {
     this.phieuGiamGia.ma = event.target.value;
-    this.tongTienSauGiam = this.tongTien;
+    this.tongTienSauGiam = this.tongTien+this.phiShip;
+    // this.giaoHangNhanh();
     this.checkoutService.findByMaPhieuGiamGia(this.phieuGiamGia).then((p) => {
-      console.log(p);
       if (p === null) {
         console.log('không tìm thấy');
         this.chietKhau = 0;
         this.tongTienSauGiam = this.tongTien;
         this.notificationService.error('Mã voucher không hợp lệ');
+        this.giaoHangNhanh(0);
       } else {
         this.idPhieuGiamGia = p.id;
         if(p.trangThai === 1){
           if (p.hinhThucGiamGia === true) {
-            this.hinhThucGiamGia = p.hinhThucGiamGia;
-            this.chietKhau = p.chietKhau;
-            this.tienGiam = ((this.tongTienSauGiam * p.chietKhau) / 100)
-            this.tongTienSauGiam = (this.tongTienSauGiam - this.tienGiam);
-            console.log(true);
-  
+              this.hinhThucGiamGia = p.hinhThucGiamGia;
+              this.chietKhau = p.chietKhau;
+              this.tienGiam = ((this.tongTienSauGiam * p.chietKhau) / 100)
+              this.tongTienSauGiam -= this.tienGiam;
+              // this.giaoHangNhanh(this.tienGiam);
           } else {
             this.hinhThucGiamGia = p.hinhThucGiamGia;
             this.chietKhau = p.chietKhau;
             this.tienGiam = p.chietKhau;
-            this.tongTienSauGiam = (this.tongTienSauGiam - this.tienGiam);
-            console.log(false);
-  
+            this.tongTienSauGiam -= this.tienGiam;
+            // this.giaoHangNhanh(this.tienGiam);
           }
         }else{
           this.notificationService.error('Mã voucher không hợp lệ');
@@ -223,6 +220,11 @@ export class CheckoutComponent implements OnInit {
   }
 
   onProvinceChange(event: any) {
+    this.provinces.forEach((key)=>{
+      if (key.ProvinceID == event.target.value) {
+        this.province = key.ProvinceName
+      }
+    })
     this.selectedProvince = event.target.value;
     this.selectedDistrict = '';
     this.selectedWard = '';
@@ -232,6 +234,11 @@ export class CheckoutComponent implements OnInit {
   }
 
   onDistrictChange(event: any) {
+    this.districts.forEach((key)=>{
+      if (key.DistrictID == event.target.value) {
+        this.district = key.DistrictName
+      }
+    })
     this.selectedDistrict = event.target.value;
     this.selectedWard = '';
     if (this.selectedDistrict !== '') {
@@ -240,12 +247,18 @@ export class CheckoutComponent implements OnInit {
   }
 
   onWardChange(event: any) {
+    this.wards.forEach((key)=>{
+      if (key.WardCode == event.target.value) {
+        this.ward = key.WardName
+      }
+    })
     this.selectedWard = event.target.value;
-    this.giaoHangNhanh();
+    this.giaoHangNhanh(0);
 
   }
 
-  giaoHangNhanh() {
+  giaoHangNhanh(tienGiam: number) {
+    
     // Thêm headers
     const headers = new HttpHeaders({
       'token': 'b9c52434-a191-11ee-b394-8ac29577e80e',
@@ -268,10 +281,11 @@ export class CheckoutComponent implements OnInit {
     this.http.get(' https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee', { headers, params }).subscribe((response: any) => {
       console.log(response.data.total);
       this.phiShip = response.data.total;
-      this.tongTienSauGiam += response.data.total;
+      this.tongTienSauGiam = this.tongTien;
+      this.tongTienSauGiam += response.data.total
     }, (err) => {
+      // this.tongTienSauGiam = this.tongTien;
       this.phiShip = 0;
-      this.notificationService.error('Không hỗ trợ giao hàng tại địa phương của bạn  !')
     });
 
   }
