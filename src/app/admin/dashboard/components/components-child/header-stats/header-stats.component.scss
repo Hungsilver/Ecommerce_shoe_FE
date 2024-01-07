@@ -1,6 +1,7 @@
 .stats-header {
     display: flex;
-    justify-content: space-between;
+    // justify-content: center;
+    gap: 30px;
 
     .stats-header__box {
         border-radius: 5px;
