@@ -55,7 +55,7 @@ export class AuthCustomerService {
 
     loginAdmin(body: IBodyLogin): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            this.baseService.get('auth/admin/login', body).subscribe(
+            this.baseService.post('auth/admin/login', body).subscribe(
                 (result) => {
                     return resolve(result);
                 },
