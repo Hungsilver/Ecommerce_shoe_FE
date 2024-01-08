@@ -137,6 +137,12 @@ export class HDChiTiet {
     });
   }
 
+  getByHoaDonId(hoaDonId: number): Observable<IHoaDonChiTiet[]> {
+    return this.BaseRequestService.get(
+      `${this.url}/findByIdInvoice/${hoaDonId}`
+    );
+  }
+
   // deleteHdct(id: any): Promise<IReqApi<IHoaDonChiTiet>> {
   //     return new Promise<IReqApi<IHoaDonChiTiet>>((resolve, reject) => {
   //         this.BaseRequestService.delete(`${this.url}/${id}`).subscribe(

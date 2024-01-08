@@ -1,3 +1,4 @@
+import { PaymentSuccessComponent } from './sales/components/payment-success/payment-success.component';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -41,7 +42,7 @@ import { AddressHomeComponent } from './address/pages/address-home/address-home.
 import { AddressDialogComponent } from './address/components/address-dialog/address-dialog.component';
 import { StaffHomeComponent } from './staff/pages/staff-home/staff-home.component';
 import { StaffDialogComponent } from './staff/components/staff-dialog/staff-dialog.component';
-import { NewProductDetailComponent } from './product-detail/page/new-product-detail/new-product-detail.component';
+import { dialogProductDetailComponent } from './product-detail/page/dialog-product-detail/dialog-product-detail.component';
 import { TestNewComponent } from './test-new/test-new.component';
 import { NComponent } from './test-new/n/n.component';
 import { SalesComponent } from './sales/sales.component';
@@ -49,9 +50,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AngularFireModule } from '@angular/fire/compat'
 import { AngularFireStorageModule } from '@angular/fire/compat/storage'
@@ -60,6 +59,15 @@ import { ForCategoryComponent } from './dashboard/components/ForCategory/ForCate
 import { ForDateComponent } from './dashboard/components/ForDate/ForDate.component';
 import { OrdersComponent } from './dashboard/components/Orders/Orders.component';
 import { ForProductComponent } from './dashboard/components/ForProduct/ForProduct.component';
+
+
+import { VoucherHomeComponent } from './voucher/pages/voucher-home.component';
+import { VoucherDialogComponent } from './voucher/components/voucher-Dialog.component';
+import { ChartColumnComponent } from './dashboard/components/components-child/chart-column/chart-column.component';
+import { HeaderStatsComponent } from './dashboard/components/components-child/header-stats/header-stats.component';
+import { TableStatsProductComponent } from './dashboard/components/components-child/table-stats-product/table-stats-product.component';
+import { CalendarModule } from 'primeng/calendar';
+import { HeaderStatsProductComponent } from './dashboard/components/components-child/header-stats-product/header-stats-product.component';
 import { TabViewModule } from 'primeng/tabview';
 import { InvoiceComponent } from './invoice/pages/invoice.component';
 import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-detail.component';
@@ -90,7 +98,8 @@ LOAD_WASM().subscribe()
     NgxScannerQrcodeModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
-    TabViewModule
+    TabViewModule,
+    CalendarModule
 
 
   ],
@@ -101,7 +110,7 @@ LOAD_WASM().subscribe()
     ColorComponent,
     ColorDialogComponent,
     OriginComponent,
-    NewProductDetailComponent,
+    dialogProductDetailComponent,
     MaterialComponent,
     MaterialDialogComponent,
     MaterialSolesComponent,
@@ -127,14 +136,21 @@ LOAD_WASM().subscribe()
     TestNewComponent,
     NComponent,
     SalesComponent,
+    PaymentSuccessComponent,
+    VoucherHomeComponent,
+    VoucherDialogComponent,
+
     ForCategoryComponent,
     ForDateComponent,
     OrdersComponent,
     ForProductComponent,
-    InvoiceComponent,
-    InvoiceDetailComponent
-    // NavbarComponent
 
+    InvoiceComponent,
+    InvoiceDetailComponent,
+    ChartColumnComponent,
+    HeaderStatsComponent,
+    TableStatsProductComponent,
+    HeaderStatsProductComponent,
   ],
   providers: [],
 })

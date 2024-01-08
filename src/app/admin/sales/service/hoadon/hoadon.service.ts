@@ -159,6 +159,10 @@ export class HoaDonService {
     });
   }
 
+  getINvoice(params?: any): Promise<IReqApi<IHoaDon[]>> {
+    return this.BaseRequestService.get(`${this.url}`, { params }).toPromise();
+  }
+
   updateHoaDon(body: any, id?: any): Promise<IReqApi<IHoaDon>> {
     return new Promise<IReqApi<IHoaDon>>((resolve, reject) => {
       this.BaseRequestService.put(`${this.url}/${id}`, body).subscribe(

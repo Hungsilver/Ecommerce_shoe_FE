@@ -10,8 +10,19 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 })
 export class BlogDialogComponent implements OnInit {
   blog: any = {};
+  staff: any[] =[];
   type: any;
-  ngOnInit(): void {}
+
+  selectedStaffId: number | null =null;
+
+  ngOnInit(): void {
+    // if(this.data.blog && this.data.blog.nhanVien){
+    //   console.log("chay vao if");
+    //   this.selectedStaffId = this.data.blog.nhanVien.id;
+    // }
+
+
+  }
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -19,17 +30,22 @@ export class BlogDialogComponent implements OnInit {
     private dialog: MatDialog,
     private fireStorage: AngularFireStorage
   ) {
+    this.staff = data.staffs;
     this.type = data.type;
     this.blog = data.blog;
+
   }
 
   title = 'imageupload';
   bannerUrl = '';
    logoUrl ='';
+   errorMessages: string[] = [];
   // upload 1 ảnh lên firebase
   async onFileChange(event: any) {
+
     const files = event.target.files;
     console.log('file-log', files);
+this.errorMessages = [];
     if (files) {
       console.log('chay vao if');
       for (let i = 0; i < files.length; i++){
@@ -44,6 +60,8 @@ export class BlogDialogComponent implements OnInit {
         this.bannerUrl = imageUrl;
       } else if (file.name.includes('logo')) {
         this.logoUrl = imageUrl;
+      }else{
+        this.errorMessages.push('lỗi tên file không hợp lệ: ${file.name}');
       }
 
       }
@@ -68,12 +86,16 @@ export class BlogDialogComponent implements OnInit {
     // Nếu bạn muốn thực hiện thêm bất kỳ xử lý nào khác khi xóa file, bạn có thể đặt mã ở đây.
   }
   updateBlog() {
+// const selectedStaff = this.staff.find(staff => staff.id === this.selectedStaffId);
+    this.blog.logo = this.logoUrl || this.blog.logo;
+    this.blog.banner= this.bannerUrl || this.blog.banner;
     this.blogService.updateBlog(this.blog, this.blog.id).then((res) => {
       if (res) {
         this.dialog.closeAll();
       }
       console.log('data updated', res.content);
     });
+  //  }
   }
   deleteBlog() {
     this.blogService.deleteBlog(this.blog.id);

@@ -114,7 +114,6 @@ export class DetailComponent implements OnInit {
         s.content.forEach((key: any) => {
           this.kichCos.push(key)
         })
-        // console.log(this.kichCos.id);
 
       }
     })
@@ -124,7 +123,6 @@ export class DetailComponent implements OnInit {
         c.content.forEach((key: any) => {
           this.mauSacs.push(key)
         })
-        // console.log(this.mauSacs.id);
 
       }
     })
@@ -134,7 +132,6 @@ export class DetailComponent implements OnInit {
         cl.content.forEach((key: any) => {
           this.chatLieuGiays.push(key)
         })
-        // console.log(this.chatLieuGiays.id);
 
       }
     })
@@ -144,7 +141,6 @@ export class DetailComponent implements OnInit {
         cldg.content.forEach((key: any) => {
           this.chatLieuDeGiays.push(key)
         })
-        // console.log(this.chatLieuDeGiays.id);
 
       }
     })
@@ -163,9 +159,7 @@ export class DetailComponent implements OnInit {
     if (!this.errorSelected) {
       this.errorSelected = undefined;
     }
-    console.log(this.params);
 
-    console.log(this.cacheService.get("customer"));
 
     this.productDetailService.getProductByParam(this.params).then(pd => {
       pd.content.forEach((key) => {
@@ -173,13 +167,15 @@ export class DetailComponent implements OnInit {
       })
       if (this.errorSelected) {
         this.notificationService.error("Vui lòng chọn thuộc tính");
+      } else if (this.productDetail.soLuong! < 1) {
+        this.notificationService.error('Sản phẩm tạm hết hàng');
       } else if (this.productDetail.soLuong! < this.quantity) {
         this.notificationService.error("Số lượng sản phẩm phải nhỏ hơn số lượng trong kho");
       } else if (this.quantity < 0) {
         this.notificationService.error("Số lượng phải lớn hơn 0");
-      } else if (this.productDetail.trangThai === 1) {
+      } else if (this.productDetail.trangThai === 0) {
         this.notificationService.error("Sản phẩm dừng kinh doanh");
-      } else if (this.productDetail.trangThai === 0 && this.productDetail.soLuong! <= 0) {
+      } else if (this.productDetail.trangThai === 1 && this.productDetail.soLuong! <= 0) {
         this.notificationService.error("Sản phẩm tạm hết hàng");
       } else if (this.cacheService.get('customer') === undefined) {
         this.notificationService.error("Vui lòng đăng nhập");
@@ -231,7 +227,6 @@ export class DetailComponent implements OnInit {
     this.listCLDG = [];
 
     this.productDetailService.getProductByParam(this.params).then(pd => {
-      console.log('content', pd.content);
 
       pd.content.forEach((key: any) => {
         this.listColor.push(key.mauSac.id);
@@ -254,7 +249,6 @@ export class DetailComponent implements OnInit {
     this.listCLDG = [];
 
     this.productDetailService.getProductByParam(this.params).then(pd => {
-      console.log('content', pd.content);
 
       pd.content.forEach((key: any) => {
         this.listCL.push(key.chatLieuGiay.id);
@@ -274,7 +268,6 @@ export class DetailComponent implements OnInit {
     this.listCLDG = [];
 
     this.productDetailService.getProductByParam(this.params).then(pd => {
-      console.log('content', pd.content);
 
       pd.content.forEach((key: any) => {
         this.listCLDG.push(key.chatLieuDeGiay.id);
@@ -284,10 +277,7 @@ export class DetailComponent implements OnInit {
   }
   getChatLieuDe(cld: any) {
     this.query.shoe_sole_material = cld;
-    console.log(this.query);
     this.productDetailService.getProductByParam(this.params).then(pd => {
-      console.log(pd.content);
-
       pd.content.forEach((key: any) => {
         this.priceProduct = key.giaBan;
         this.imgProduct = key.anhSanPhams;

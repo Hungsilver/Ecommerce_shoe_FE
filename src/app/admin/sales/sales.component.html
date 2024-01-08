@@ -193,7 +193,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let chiTiet of invoiceDetail; let i = index">
+              <tr *ngFor="let chiTiet of tab.listHoaDonChiTiet; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
                 <td>
@@ -215,6 +215,14 @@
                   >
                     <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
                   </button> -->
+                  <button
+                    mat-icon-button
+                    (click)="
+                      chiTiet.id !== undefined && deleteOrderDetail(chiTiet.id)
+                    "
+                  >
+                    <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -363,7 +371,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-xl-custom-height" *ngIf="tabs">
+  <div class="modal-dialog modal-xl-custom-height">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">
@@ -378,8 +386,136 @@
       </div>
       <div class="modal-body">
         <br />
+        <div class="d-flex justify-content-between">
+          <div class="col-4">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+              <p-dropdown
+                [options]="listTotalPage"
+                [(ngModel)]="searchQuery.page"
+                optionLabel="name"
+              ></p-dropdown>
+            </span>
+          </div>
 
-        <span class="p-input-icon-left">
+          <div class="col-6 sizesss">
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="example-form-field">
+                  <mat-label class="fontsize">Lọc kích Cỡ</mat-label>
+                  <mat-select
+                    [(ngModel)]="selectedSize"
+                    (selectionChange)="filterBySize()"
+                  >
+                    <mat-option [value]="null">select size</mat-option>
+                    <mat-option *ngFor="let sizes of size" [value]="sizes.id">{{
+                      sizes.size
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field class="example-form-field">
+                  <mat-label class="fontsize">Lọc Màu Sắc</mat-label>
+                  <mat-select
+                    [(ngModel)]="selectedColor"
+                    (selectionChange)="filterByColors()"
+                  >
+                    <mat-option [value]="null">Chọn Màu</mat-option>
+                    <mat-option
+                      *ngFor="let colors of color"
+                      [value]="colors.id"
+                      >{{ colors.ten }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+        <br />
+
+        <p-table
+          [value]="productsDetail"
+          [tableStyle]="{ 'min-width': '50rem' }"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="">STT</th>
+              <th style="">Mã</th>
+              <th style="">Sản Phẩm</th>
+              <th style="">Ảnh</th>
+              <th style="">Màu Sắc</th>
+              <th style="">Kích Cỡ</th>
+              <th style="">Số Lượng</th>
+              <th style="">Giá</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+            <tr>
+              <td>
+                {{
+                  productsDetail.indexOf(product) +
+                    1 +
+                    searchQuery.pageSize * (searchQuery.page - 1)
+                }}
+              </td>
+              <td>{{ product.ma }}</td>
+              <td>{{ product.sanPham?.ten }}</td>
+              <td>
+                <img
+                  src="{{ product.sanPham?.anhChinh }}"
+                  style="width: 60px; height: 75px"
+                />
+              </td>
+              <td>{{ product.mauSac?.ten }}</td>
+              <td>{{ product.kichCo?.size }}</td>
+              <td>{{ product.soLuong }}</td>
+              <td>{{ product.giaBan }}</td>
+              <td>
+                <button
+                  mat-icon-button
+                  (click)="addProductToOrderDetail(product)"
+                >
+                  <i class="material-icons">shopping_cart_checkout</i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <div>
+          <div class="d-flex justify-content-end gap-1">
+            <p-dropdown
+              (onChange)="onPageChange()"
+              [options]="listTotalPage"
+              [(ngModel)]="searchQuery.page"
+            ></p-dropdown>
+
+            <div class="button-pagination" (click)="getAll('prev')">
+              <i class="pi pi-angle-left"></i>
+            </div>
+            <div class="button-pagination" (click)="getAll('next')">
+              <i class="pi pi-angle-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <span class="p-input-icon-left">
           <i class="pi pi-search"></i>
           <input
             type="text"
@@ -387,11 +523,9 @@
             [(ngModel)]="searchQuery.keyword"
             placeholder="Tìm kiếm"
           />
-        </span>
+        </span> -->
 
-        <br />
-        <br />
-        <p-table
+<!-- <p-table
           [value]="productsDetail"
           [tableStyle]="{ 'min-width': '50rem' }"
         >
@@ -440,31 +574,4 @@
               </td>
             </tr>
           </ng-template>
-        </p-table>
-
-        <div>
-          <div class="d-flex justify-content-end gap-1">
-            <p-dropdown
-              (onChange)="onPageChange()"
-              [options]="listTotalPage"
-              [(ngModel)]="searchQuery.page"
-            ></p-dropdown>
-
-            <div class="button-pagination" (click)="getAll('prev')">
-              <i class="pi pi-angle-left"></i>
-            </div>
-            <div class="button-pagination" (click)="getAll('next')">
-              <i class="pi pi-angle-right"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+        </p-table> -->

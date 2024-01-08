@@ -8,12 +8,48 @@
   <div class="form-floating mb-3 mt-3">
     <span>Mã hóa đơn</span>
     <h3>{{ detailData.maHoaDon }}</h3>
-
-    <p>Hình thức mua hàng</p>
-    <P>Tên khách hàng</P>
+    <P>Nhân viên: {{ detailData.nhanVien?.hoTen }}</P>
+    <p>Hình thức mua hàng:</p>
+    <P
+      >Tên khách hàng:
+      {{
+        detailData.khachhang?.hoTen ? detailData.khachhang.hoTen : "Khách lẻ"
+      }}</P
+    >
     <P>Số điện thoại:</P>
     <p>Ngày mua hàng:</p>
-    <p>Phương thức thanh toán</p>
+    <p>
+      Phương thức thanh toán:
+      {{
+        detailData.phuongThucThanhToan === 0
+          ? "Thanh toán tiền mặt"
+          : detailData.phuongThucThanhToan === 1
+          ? "Thanh toán online"
+          : "Trạng thái không xác định"
+      }}
+    </p>
+    <p>
+      Trạng thái:
+      {{
+        detailData.trangThai === 0
+          ? "Chờ thanh toán"
+          : detailData.trangThai === 1
+          ? "Hoàn thành"
+          : detailData.trangThai === 2
+          ? "Chờ xác nhận"
+          : detailData.trangThai === 3
+          ? "Chờ lấy hàng"
+          : detailData.trangThai === 4
+          ? "Đang giao hàng"
+          : detailData.trangThai === 5
+          ? "Đã giao hàng"
+          : detailData.trangThai == 6
+          ? "Đã hủy"
+          : detailData.trangThai == 7
+          ? "Trả hàng"
+          : "Trạng thái không xác định"
+      }}
+    </p>
   </div>
 
   <h2>Danh sách sản phẩm</h2>
@@ -93,71 +129,142 @@
           ></button>
         </div>
         <div class="modal-body">
-          <div class="card">
-            <p-table
-              [value]="productsDetail"
-              [tableStyle]="{ 'min-width': '50rem' }"
-            >
-              <ng-template pTemplate="header">
-                <tr>
-                  <th style="">STT</th>
-                  <th style="">Mã</th>
-                  <th style="">Sản Phẩm</th>
-                  <th>Ảnh</th>
-                  <th style="">Giá</th>
-                  <th style="">Màu Sắc</th>
-                  <th style="">Kích Cỡ</th>
-                  <th style="">Số Lượng</th>
-                  <th>Hành động</th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
-                <tr>
-                  <td>
-                    {{
-                      productsDetail.indexOf(product) +
-                        1 +
-                        searchQuery.pageSize * (searchQuery.page - 1)
-                    }}
-                  </td>
-                  <td>{{ product.ma }}</td>
-                  <td>{{ product.sanPham?.ten }}</td>
-                  <td>
-                    <img
-                      src="{{ product.sanPham?.anhChinh }}"
-                      style="width: 60px; height: 75px"
-                    />
-                  </td>
+          <div class="container mt-4">
+            <div class="row">
+              <div class="col-6 sizesss">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="fontsize">Lọc Sản Phẩm</label>
+                      <select
+                        class="form-control"
+                        [(ngModel)]="selectedProduct"
+                        (change)="filterByProduct()"
+                      >
+                        <option [value]="null">select Product</option>
+                        <option
+                          *ngFor="let products of product"
+                          [value]="products.id"
+                        >
+                          {{ products.ten }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
 
-                  <td>{{ product.giaBan }}</td>
-                  <td>{{ product.mauSac?.ten }}</td>
-                  <td>{{ product.kichCo?.size }}</td>
-                  <td>{{ product.soLuong }}</td>
-                  <td></td>
-                </tr>
-              </ng-template>
-            </p-table>
-            <div>
-              <div class="d-flex justify-content-end gap-1">
-                <div class="button-pagination" (click)="getAll('prev')">
-                  <i class="pi pi-angle-left"></i>
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="fontsize">Lọc kích Cỡ</label>
+                      <select
+                        class="form-control"
+                        [(ngModel)]="selectedSize"
+                        (change)="filterBySize()"
+                      >
+                        <option [value]="null">select size</option>
+                        <option *ngFor="let sizes of size" [value]="sizes.id">
+                          {{ sizes.size }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="fontsize">Lọc Màu Sắc</label>
+                      <select
+                        class="form-control"
+                        [(ngModel)]="selectedColor"
+                        (change)="filterByColors()"
+                      >
+                        <option [value]="null">Chọn Màu</option>
+                        <option
+                          *ngFor="let colors of color"
+                          [value]="colors.id"
+                        >
+                          {{ colors.ten }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
-                <div class="button-pagination" (click)="getAll('next')">
-                  <i class="pi pi-angle-right"></i>
+              </div>
+            </div>
+
+            <br />
+
+            <div class="card">
+              <p-table
+                [value]="productsDetail"
+                [tableStyle]="{ 'min-width': '50rem' }"
+              >
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="">STT</th>
+                    <th style="">Mã</th>
+                    <th style="">Sản Phẩm</th>
+                    <th>Ảnh</th>
+                    <th style="">Giá</th>
+                    <th style="">Màu Sắc</th>
+                    <th style="">Kích Cỡ</th>
+                    <th style="">Số Lượng</th>
+                    <th>Hành động</th>
+                  </tr>
+                </ng-template>
+                <ng-template
+                  pTemplate="body"
+                  let-product
+                  let-rowIndex="rowIndex"
+                >
+                  <tr>
+                    <td>
+                      {{
+                        productsDetail.indexOf(product) +
+                          1 +
+                          searchQuery.pageSize * (searchQuery.page - 1)
+                      }}
+                    </td>
+                    <td>{{ product.ma }}</td>
+                    <td>{{ product.sanPham?.ten }}</td>
+                    <td>
+                      <img
+                        src="{{ product.sanPham?.anhChinh }}"
+                        style="width: 60px; height: 75px"
+                      />
+                    </td>
+
+                    <td>{{ product.giaBan }}</td>
+                    <td>{{ product.mauSac?.ten }}</td>
+                    <td>{{ product.kichCo?.size }}</td>
+                    <td>{{ product.soLuong }}</td>
+                    <td>
+                      <button mat-icon-button>
+                        <i class="material-icons">shopping_cart_checkout</i>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+              <div>
+                <div class="d-flex justify-content-end gap-1">
+                  <div class="button-pagination" (click)="getAll('prev')">
+                    <i class="pi pi-angle-left"></i>
+                  </div>
+                  <div class="button-pagination" (click)="getAll('next')">
+                    <i class="pi pi-angle-right"></i>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
         </div>
       </div>
     </div>

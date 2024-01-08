@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DashboardService } from '../../service/dashboard.service';
+import { IStat } from '../../service/dashboard.module';
 
 @Component({
   selector: 'app-Orders',
@@ -7,10 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrdersComponent implements OnInit {
   selectedSortBy!: any;
+  dataOrders: any;
+  stat!: IStat;
 
-  constructor() { }
+  constructor(
+    private dbService: DashboardService
+  ) { }
 
   ngOnInit() {
-  }
+    this.dbService.getAllHD().then((res) => {
+      if (res) {
+        this.dataOrders = res.content;
+      }
+    })
 
+    this.dbService.getStat().then((res) => {
+      if (res) {
+        this.stat = res;
+      }
+    })
+  }
 }

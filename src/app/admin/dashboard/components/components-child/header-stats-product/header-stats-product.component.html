@@ -1,0 +1,30 @@
+<div class="stats">
+  <div *ngIf="dataHeaderStat" class="stats-header">
+    <div class="stats-header__box">
+      <div class="stats-header__box-header">
+        <h3>Tổng doanh thu</h3>
+      </div>
+      <div class="ps-1 text-center">
+        <span>{{dataHeaderStat.doanhThu| currency:'VND'}}</span>
+      </div>
+    </div>
+
+    <div class="stats-header__box">
+      <div class="stats-header__box-header">
+        <h3>Doanh thu trung bình</h3>
+      </div>
+      <div class="ps-1">
+        <span>{{dataHeaderStat.tbDoanhThu| currency:'VND'}}</span>
+      </div>
+    </div>
+
+    <div class="stats-header__box">
+      <div class="stats-header__box-header">
+        <h3>Tổng sản phẩm</h3>
+      </div>
+      <div class="ps-1">
+        <span>{{dataHeaderStat.soSanPham}}</span>
+      </div>
+    </div>
+  </div>
+</div>
