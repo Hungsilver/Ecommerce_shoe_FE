@@ -64,6 +64,8 @@ import { VoucherHomeComponent } from './voucher/pages/voucher-home.component';
 import { VoucherDialogComponent } from './voucher/components/voucher-Dialog.component';
 import { TabViewModule } from 'primeng/tabview';
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+ // import { MatInputModule } from '@angular/material/input';
 LOAD_WASM().subscribe()
 
 @NgModule({
@@ -91,7 +93,8 @@ LOAD_WASM().subscribe()
     NgxScannerQrcodeModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
-    TabViewModule
+    TabViewModule,
+    // MatDatepickerModule
 
 
   ],
