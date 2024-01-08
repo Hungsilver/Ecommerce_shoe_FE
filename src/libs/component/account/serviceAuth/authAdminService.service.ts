@@ -18,4 +18,26 @@ export class AuthAdminService {
             )
         })
     }
+
+    logoutAdmin(): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.baseService.get('/auth/admin/logout').subscribe(
+                (result) => {
+                    return resolve(result);
+                },
+                (err) => reject(err)
+            )
+        })
+    }
+
+    forgetPassAdmin(email: string): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.baseService.get(`auth/admin/forget-password/${email}`).subscribe(
+                (result) => {
+                    return resolve(result);
+                },
+                (err) => reject(err)
+            )
+        })
+    }
 }

@@ -16,7 +16,6 @@ import { CustomerHomeComponent } from './customer/pages/customer-home/customer-h
 import { BlogHomeComponent } from './blog/pages/blog-home/blog-home.component';
 import { AddressHomeComponent } from './address/pages/address-home/address-home.component';
 import { StaffHomeComponent } from './staff/pages/staff-home/staff-home.component';
-// import { NewProductDetailComponent } from './product-detail/page/dialog-product-detail/dialog-product-detail.component';
 import { TestNewComponent } from './test-new/test-new.component';
 import { NComponent } from './test-new/n/n.component';
 import { SalesComponent } from './sales/sales.component';
@@ -49,7 +48,7 @@ const routes: Routes = [
   { path: 'test-p', component: TestNewComponent },
   { path: 'test-n', component: NComponent },
   { path: 'sales', component: SalesComponent },
-  { path:  'phieu-giam-gia',component:VoucherHomeComponent},
+  { path: 'phieu-giam-gia', component: VoucherHomeComponent },
   { path: 'payment-success', component: PaymentSuccessComponent },
   { path: 'hoa-don', component: InvoiceComponent },
   { path: 'hoa-don/:id', component: InvoiceDetailComponent },

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthAdminService } from 'src/libs/component/account/serviceAuth/authAdminService.service';
 import { CacheService } from 'src/libs/service/request/cache.service';
 
 @Component({
@@ -12,7 +13,9 @@ export class NavbarAdminComponent implements OnInit {
 
   constructor(
     private cacheService: CacheService,
-    private router: Router
+    private router: Router,
+    private authAdminService: AuthAdminService,
+
   ) {
 
   }
@@ -21,7 +24,9 @@ export class NavbarAdminComponent implements OnInit {
   }
 
   logout() {
+    this.authAdminService.logoutAdmin();
     this.cacheService.remove('admin');
+    this.admin = undefined;
     this.router.navigateByUrl('/')
   }
 }
