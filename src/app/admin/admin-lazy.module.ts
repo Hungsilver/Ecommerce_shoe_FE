@@ -69,6 +69,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { HeaderStatsProductComponent } from './dashboard/components/components-child/header-stats-product/header-stats-product.component';
 import { TabViewModule } from 'primeng/tabview';
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+ // import { MatInputModule } from '@angular/material/input';
 LOAD_WASM().subscribe()
 
 @NgModule({
@@ -97,7 +99,9 @@ LOAD_WASM().subscribe()
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
     TabViewModule,
+
     CalendarModule
+ 
 
 
   ],

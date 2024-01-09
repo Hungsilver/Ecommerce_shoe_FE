@@ -15,7 +15,7 @@
               <th (click)="sortByName()" style="width: 10%;cursor: pointer;">Tên <i [ngClass]="iconSortName"></i></th>
               <th style="width: 10%;">Mã</th>
               <th style="width: 10%;">Chiết Khấu</th>
-              <th style="width: 10%;">Hình Thức Giảm Giá</th>
+              <!-- <th style="width: 10%;">Hình Thức Giảm Giá</th> -->
               <th style="width: 10%;">Thời Gian Bắt Đầu</th>
               <th style="width: 10%;">Thời Gian Kết Thúc</th>
               <th style="width: 10%;">Mô Tả</th>
@@ -38,9 +38,9 @@
                 {{ voucher.chietKhau >= 10000 ? voucher.chietKhau + 'đ' : voucher.chietKhau + '%' }}
               </td>
 
-              <td>{{ voucher.hinhThucGiamGia?'Tiền Mặt':'Phần Trăm' }}</td>
-              <td>{{ voucher.thoiGianBatDau | date:'short'}}</td>
-              <td>{{ voucher.thoiGianKetThuc | date:'short'}}</td>
+              <!-- <td>{{ voucher.hinhThucGiamGia?'Tiền Mặt':'Phần Trăm' }}</td> -->
+              <td>{{ voucher.thoiGianBatDau | date:'dd/MM/yy, h:mm a'}}</td>
+              <td>{{ voucher.thoiGianKetThuc | date:'dd/MM/yy, h:mm a'}}</td>
               <td>{{ voucher.moTa}}</td>
               <!-- <td>{{ voucher.trangThai?'Đang Diễn Ra':'Kết Thúc' }}</td> -->
               <td>

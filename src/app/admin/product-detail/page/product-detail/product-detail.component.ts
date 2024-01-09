@@ -8,6 +8,8 @@ import { ColorService } from 'src/app/admin/color/service/color.service';
 import { SizeService } from 'src/app/admin/size/service/size.service';
 import { MaterialService } from 'src/app/admin/material/service/material.service';
 import { MaterialSolesService } from 'src/app/admin/material-soles/service/material-soles.service';
+import { ProductDetailExportExcel } from '../../services/ProductDetailExportExcel.module';
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -28,6 +30,10 @@ export class ProductDetailComponent implements OnInit {
   selectedProduct: number | null = null;
   selectedSize: number |null = null;
   selectedColor:number | null = null;
+  ChiTietSanPham!:ProductDetailExportExcel [];
+  fileName = "ExcelSheet.xlsx";
+  ExcelData:any;
+
   // iconSortName = 'pi pi-sort-amount-down-alt';
   iconSortName = 'pi pi-sort-amount-up';
   constructor(
@@ -46,7 +52,7 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAll();
-
+      this.getAllByexcel();
     this.productService.getProduct().then(data => {
       this.product = data.content;
     })
@@ -65,7 +71,23 @@ export class ProductDetailComponent implements OnInit {
   }
   onPageChange() {
     this.getAll();
+    this.getAllByexcel();
   }
+
+  private getAllByexcel(){
+
+    this.productDetailService.getAll().subscribe(data=>{
+      this.ChiTietSanPham=data;
+    })
+  }
+  exportexcel(){
+    const wr: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.ChiTietSanPham);
+
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, wr, 'Sheet1')
+    XLSX.writeFile(wb, this.fileName);
+  }
+
   sortByName() {
     if (this.iconSortName === 'pi pi-sort-amount-up') {
       this.searchQuery['sortField'] = 'ten';
