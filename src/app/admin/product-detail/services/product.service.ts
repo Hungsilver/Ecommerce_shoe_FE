@@ -11,29 +11,30 @@ import { Observable } from 'rxjs';
 })
 export class ProductDetailService {
   url: string = 'product-detail';
-  private baseUrl ='http://localhost:8080/api/product-detail/excel/export';
-  private importUrl ='http://localhost:8080/api/product-detail/excel/import';
+  private baseUrl = 'http://localhost:8080/api/product-detail/excel/export';
+  private importUrl = 'http://localhost:8080/api/product-detail/excel/import';
 
+  constructor(
+    private baseRequestService: BaseRequestService,
+    private httpClient: HttpClient
+  ) {}
 
-  constructor(private baseRequestService: BaseRequestService,
-    private httpClient: HttpClient) { }
-
-    private getHttpOptions(){
-      return{
-        Headers :new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-      };
-    }
-
-
-    getAll(): Observable<ProductDetailExportExcel[]> {
-      return this.httpClient.get<ProductDetailExportExcel[]>(`${this.baseUrl}`)
+  private getHttpOptions() {
+    return {
+      Headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
   }
 
+  getAll(): Observable<ProductDetailExportExcel[]> {
+    return this.httpClient.get<ProductDetailExportExcel[]>(`${this.baseUrl}`);
+  }
 
-
-  getProducts(params?: any, activeStatus: number = 0): Promise<IReqApi<IProductDetail[]>> {
+  getProducts(
+    params?: any,
+    activeStatus: number = 0
+  ): Promise<IReqApi<IProductDetail[]>> {
     // Thêm trạng thái hoạt động vào params nếu activeStatus là 1
     if (activeStatus === 1) {
       params = { ...params, active: 1 };
@@ -49,6 +50,16 @@ export class ProductDetailService {
     });
   }
 
+  getProductDetail(params?: any): Promise<IReqApi<IProductDetail[]>> {
+    return new Promise<IReqApi<IProductDetail[]>>((resolve, reject) => {
+      this.baseRequestService.get(`${this.url}/filter`, params).subscribe(
+        (result) => {
+          return resolve(result);
+        },
+        (err) => reject(err)
+      );
+    });
+  }
 
   getTop1Price(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
@@ -61,7 +72,10 @@ export class ProductDetailService {
     });
   }
 
-  getProductByParam(params?: any, activeStatus: number = 0): Promise<IReqApi<IProductDetail[]>> {
+  getProductByParam(
+    params?: any,
+    activeStatus: number = 0
+  ): Promise<IReqApi<IProductDetail[]>> {
     // Thêm trạng thái hoạt động vào params nếu activeStatus là 1
     if (activeStatus === 1) {
       params = { ...params, active: 1 };
@@ -100,7 +114,7 @@ export class ProductDetailService {
   deleteProduct(id: any): Promise<IReqApi<IProductDetail[]>> {
     return new Promise<IReqApi<IProductDetail[]>>((resolve, reject) => {
       this.baseRequestService.delete(`${this.url}/${id}`).subscribe(
-        (result) => { },
+        (result) => {},
         (err) => reject(err)
       );
     });

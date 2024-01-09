@@ -21,6 +21,8 @@ import { NComponent } from './test-new/n/n.component';
 import { SalesComponent } from './sales/sales.component';
 import { VoucherHomeComponent } from './voucher/pages/voucher-home.component';
 import { PaymentSuccessComponent } from './sales/components/payment-success/payment-success.component';
+import { InvoiceComponent } from './invoice/pages/invoice.component';
+import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-detail.component';
 
 
 const routes: Routes = [
@@ -48,6 +50,9 @@ const routes: Routes = [
   { path: 'sales', component: SalesComponent },
   { path: 'phieu-giam-gia', component: VoucherHomeComponent },
   { path: 'payment-success', component: PaymentSuccessComponent },
+  { path: 'hoa-don', component: InvoiceComponent },
+  { path: 'hoa-don/:id', component: InvoiceDetailComponent },
+
 
 
   // { path: 'new-coupon', component: CouponComponent },

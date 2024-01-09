@@ -1,289 +1,674 @@
-<button class="createOrder" mat-raised-button (click)="addTab()">Tạo hóa đơn</button>
-<!-- <button (click)="exportPDF()">Xuất PDF</button> -->
-
-<br>
-<br>
+<button class="createOrder" mat-raised-button (click)="addTab()">
+  Tạo hóa đơn
+</button>
+<br />
+<br />
 
 <mat-tab-group (selectedTabChange)="onTabChange($event)" class="buttonTab">
+  <ng-container *ngIf="tabs">
+    <mat-tab
+      *ngFor="let tab of tabs; let i = index"
+      label="HD{{ tab.id }}"
+      class="buttonTab1"
+    >
+      <ng-template mat-tab-label class="test">
+        <div class="tab-label-container">
+          <span>HD{{ tab.id }}</span>
+          <button
+            mat-icon-button
+            class="close-button"
+            (click)="deleteHD(tab.id)"
+          >
+            <mat-icon aria-label="Xóa" class="close-icon">close</mat-icon>
+          </button>
+        </div>
+      </ng-template>
 
-    <mat-tab *ngFor="let tab of tabs; let i = index" label="{{ tab }}" class="buttonTab1">
-        <ng-template mat-tab-label class="test">
-            <div class="tab-label-container">
-                <span>{{ tab }}</span>
-                <button mat-icon-button (click)="removeTab(tab)" class="close-button">
-                    <mat-icon aria-label="Xóa" class="close-icon">close</mat-icon>
-                </button>
-            </div>
-        </ng-template>
-
-        <!-- <p>Nội dung của {{ tab }}</p> -->
-        <div class="sales-header d-flex justify-content-between">
-
-            <div class="sales-header_search">
-                <!-- <input type="text" name="productCode" [(ngModel)]="productCode.ma" placeholder="Tìm kiếm sản phẩm"
-                    width="300px" required (keypress)="onKeyPress($event)"> -->
-                    <input type="text" name="productCode" [(ngModel)]="productCodes[i].ma" placeholder="Tìm kiếm sản phẩm" width="300px" required (keypress)="onKeyPress($event,i)">
-
-                <!-- <button type="submit" (click)="searchProductByKeyword()"> -->
-                    <button type="submit" (click)="searchProductByKeyword(i)">
-
-                    <span class="pi pi-search"></span>
-                </button>
-            </div>
-
-
-            <div class="d-flex align-items-center">
-                <button type="button" class="btn btn-outline-primary" (click)="showQRCode()">Open qr code</button>
-            </div>
+      <div class="sales-header d-flex justify-content-between">
+        <div class="d-flex align-items-center">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="showQRCode()"
+          >
+            Open qr code
+          </button>
         </div>
 
-        <div class="qr-container" *ngIf="isShowQrCode">
-            <div class="d-flex justify-content-center mt-5">
-                <ngx-scanner-qrcode #action="scanner" [config]="config"
-                    (event)="onEvent($event, action)"></ngx-scanner-qrcode>
-            </div>
-            <!-- loading -->
-            <p *ngIf="action.isLoading">⌛ Loading...</p>
-            <!-- Thêm phần hiển thị kết quả -->
-            <div *ngIf="showQuantityInput">
-                <label for="quantity">Nhập số lượng:</label>
-                <input type="number" [(ngModel)]="quantity" placeholder="Nhập số lượng" class="form-control"
-                    style="width: 300px;" (ngModelChange)="onQuantityChange($event)" />
-                <br>
-                <button class="btn btn-outline-primary" (click)="addToCartFromQR(searchResults, quantity)">Xác nhận
-                    thêm</button>
-            </div>
-            <div *ngIf="result">
-                <h2>Success!</h2>
-                <p><a href="{{ result }}">{{ result }}</a></p>
-            </div>
+        <div
+          *ngIf="showQuantityInput"
+          class="floating-form"
+          #floatingForm
+          (mousedown)="preventFormClose($event)"
+        >
+          <label for="quantity">Nhập số lượng:</label>
+          <input
+            type="number"
+            [(ngModel)]="quantityInvoice"
+            placeholder="Nhập
+            số lượng"
+            class="form-control"
+            style="width: 300px"
+            [min]="1"
+          />
+          <br />
+          <button
+            class="btn btn-outline-primary"
+            (click)="addOrderDetailFromQR(productsDetail, quantity)"
+          >
+            Xác nhận thêm
+          </button>
+          <button class="btn btn-outline-danger" (click)="closeFloatingForm()">
+            Đóng
+          </button>
+        </div>
 
-            <!-- <div *ngIf="showQuantityForm">
+        <div class="addProduct">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Thêm sản phẩm
+          </button>
+        </div>
+        <div>
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModalCustomer"
+          >
+            Chọn khách hàng
+          </button>
+        </div>
+      </div>
+
+      <!-- ! QR Code -->
+      <div class="qr-container" *ngIf="isShowQrCode">
+        <div class="d-flex justify-content-center mt-5">
+          <ngx-scanner-qrcode
+            #action="scanner"
+            [config]="config"
+            (event)="onEvent($event, action)"
+          ></ngx-scanner-qrcode>
+        </div>
+        <!-- loading -->
+        <p *ngIf="action.isLoading">⌛ Loading...</p>
+        <!-- Thêm phần hiển thị kết quả -->
+        <!-- <div *ngIf="showQuantityInput">
+          <button
+            class="btn btn-primary"
+            data-bs-target="#exampleModalToggle"
+            data-bs-toggle="modal"
+            [attr.data-bs-target]="'#' + modal?.nativeElement.id"
+          >
+            Xác nhận thêm
+          </button>
+        </div> -->
+        <div *ngIf="result">
+          <h2>Success!</h2>
+          <p>
+            <a href="{{ result }}">{{ result }}</a>
+          </p>
+        </div>
+
+        <!-- <div *ngIf="showQuantityForm">
             <h3>Nhập số lượng sản phẩm: {{ productInfo.chiTietSanPham.tenSanPham }}</h3>
             <input type="number" [(ngModel)]="quantity" placeholder="Nhập số lượng" />
             <button (click)="addToCartWithQuantity()">Thêm vào hóa đơn chi tiết</button>
             </div> -->
-            <!-- start/stop -->
-            <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
-                [disabled]="action.isLoading" (click)="handle(action, action.isStart ? 'stop' : 'start')">
-                <img [src]="action.isStart ? 'https://id1945.github.io/images/svg/camera-off.svg' : 'https://id1945.github.io/images/svg/camera-on.svg'"
-                    width="30px" />
-            </button>
+        <!-- start/stop -->
+        <button
+          class="btn"
+          [class.btn-info]="!action.isStart"
+          [class.btn-warning]="action.isStart"
+          [disabled]="action.isLoading"
+          (click)="handle(action, action.isStart ? 'stop' : 'start')"
+        >
+          <img
+            [src]="
+              action.isStart
+                ? 'https://id1945.github.io/images/svg/camera-off.svg'
+                : 'https://id1945.github.io/images/svg/camera-on.svg'
+            "
+            width="30px"
+          />
+        </button>
 
-            <!-- play/pause -->
-            <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
-                [disabled]="!action.isStart" (click)="handle(action, action.isPause ? 'play' : 'pause')"
-                *ngIf="!result">
-                <!-- Thêm điều kiện để ẩn nút khi đã có kết quả -->
-                <img [src]="action.isPause ? 'https://id1945.github.io/images/svg/play.svg': 'https://id1945.github.io/images/svg/pause.svg'"
-                    width="30px" />
-            </button>
-            <!-- <button (click)="startScanning()">Quét mã QR</button> -->
-            <button (click)="turnOfQRCode()" class="btn btn-outline-primary">Tắt mã QR</button>
+        <!-- play/pause -->
+        <button
+          class="btn"
+          [class.btn-info]="!action.isStart"
+          [class.btn-warning]="action.isStart"
+          [disabled]="!action.isStart"
+          (click)="handle(action, action.isPause ? 'play' : 'pause')"
+          *ngIf="!result"
+        >
+          <img
+            [src]="
+              action.isPause
+                ? 'https://id1945.github.io/images/svg/play.svg'
+                : 'https://id1945.github.io/images/svg/pause.svg'
+            "
+            width="30px"
+          />
+        </button>
+        <button (click)="turnOfQRCode()" class="btn btn-outline-primary">
+          Tắt mã QR
+        </button>
+      </div>
 
-        </div>
+      <br />
 
-        <br>
-        <div>
-            <table table-hover>
-                <thead>
-                    <tr>
-                        <th>Mã</th>
-                        <th>Tên sản phẩm</th>
-                        <th>Ảnh</th>
-                        <th>Màu sắc</th>
-                        <th>Kích cỡ</th>
-                        <th>Số lượng</th>
-                        <th>Giá bán</th>
-                        <th></th>
-                        <!-- <th></th> -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let searchResult of searchResults[tab]">
-                        <td>{{ searchResult.ma }}</td>
-                        <td>{{ searchResult.sanPham?.ten }}</td>
-                        <td>
-                            <img src="{{searchResult.sanPham?.anhChinh}}" style="width: 60px; height: 75px;">
-                        </td>
-                        <td>{{ searchResult.mauSac?.ten }}</td>
-                        <td>{{ searchResult.kichCo?.size }}</td>
-                        <td>{{ searchResult.soLuong }}</td>
-                        <td>{{ searchResult.giaBan }}</td>
-                        <td>
-                            <button mat-icon-button (click)="addToCart(searchResult)">
-                                <i class="material-icons">shopping_cart_checkout</i>
-                            </button>
-                        </td>
-                        <!-- <td>
-                                <i class="material-icons">highlight_remove</i>
-                            </td> -->
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+      <!-- !bang ctsp -->
+      <br />
+      <div class="text-container">
+        <span class="left-text">Giỏ hàng</span>
+        <span class="right-text">Thông tin đơn hàng</span>
+      </div>
 
-        <br>
-        <div class="text-container">
-            <span class="left-text">Giỏ hàng</span>
-            <span class="right-text">Thông tin đơn hàng</span>
-        </div>
+      <br />
 
-        <br>
-        <mat-grid-list cols="2" rowHeight="2:1">
-            <!-- <mat-grid-tile>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Mã HĐ</th>
-                            <th scope="col">Mã SP</th>
-                            <th scope="col">Số lượng</th>
-                            <th scope="col">Đơn giá</th>
-                            <th scope="col">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let chiTiet of hoaDonChiTiet[selectedTab]">
-                            <td>{{ chiTiet.chiTietSanPham?.ma }}</td>
-                            <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
-                            <td>
-                                <input type="number" [(ngModel)]="newSoLuong" (ngModelChange)="onUpdate(chiTiet)"
-                                    style="width: 100px;" />
-                            </td>
-                            <td>{{ chiTiet.donGia }}</td>
-                            <td>
-                                <button mat-icon-button (click)="removeItemFromInvoice(chiTiet.id)">
-                                    <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </mat-grid-tile> -->
-            <mat-grid-tile>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">STT</th>
-                            <th scope="col">Tên Sản Phẩm</th>
-                            <th scope="col">Số lượng</th>
-                            <th scope="col">Đơn giá</th>
-                            <th scope="col">Thành tiền</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let chiTiet of hoaDonChiTiet[selectedTab]; let i = index">
-                            <!-- <td>{{ chiTiet.chiTietSanPham?.ma }}</td> -->
-                            <td>{{i +1}}</td>
-                            <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
-                            <!-- <td>{{ chiTiet.soLuong }}</td> -->
-                            <td>
-                                <button mat-icon-button (click)="decreaseQuantity(chiTiet)">
-                                    <mat-icon>remove</mat-icon>
-                                </button>
-                                <!-- <input type="number" [(ngModel)]="chiTiet['soLuong']" (ngModelChange)="onUpdate(chiTiet)" /> -->
-                                {{ chiTiet['soLuong'] }}
-                                <button mat-icon-button (click)="increaseQuantity(chiTiet)">
-                                    <mat-icon>add</mat-icon>
-                                </button>
-                            </td>
-                            <td>{{chiTiet.chiTietSanPham?.giaBan}}</td>
-                            <td>{{ chiTiet.donGia }}</td>
-                            <td></td>
-                            <td>
-                                <button mat-icon-button (click)="removeItemFromInvoice(chiTiet.id)">
-                                    <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </mat-grid-tile>
+      <mat-grid-list cols="2" rowHeight="2:1">
+        <!-- ! hoa don chi tiet -->
+        <mat-grid-tile>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Tên Sản Phẩm</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Đơn giá</th>
+                <th scope="col">Thành tiền</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let chiTiet of tab.listHoaDonChiTiet; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
+                <td>
+                  <button mat-icon-button (click)="decrementQuantity(chiTiet)">
+                    <mat-icon aria-label="Trừ số lượng">remove</mat-icon>
+                  </button>
+                  {{ chiTiet.soLuong }}
+                  <button mat-icon-button (click)="incrementQuantity(chiTiet)">
+                    <mat-icon aria-label="Thêm số lượng">add</mat-icon>
+                  </button>
+                </td>
+                <td>{{ chiTiet.donGia }}</td>
+                <td>{{ calculateTotal(chiTiet) }}</td>
+                <td></td>
 
-            <br>
+                <td>
+                  <button
+                    mat-icon-button
+                    (click)="
+                      chiTiet.id !== undefined && deleteOrderDetail(chiTiet.id)
+                    "
+                  >
+                    <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-grid-tile>
+        <br />
+        <!-- ! thong tin hoa don -->
+        <mat-grid-tile class="test">
+          <form class="form-test">
+            <div class="row mb-3">
+              <div class="col">
+                <label class="form-label">Search:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                  placeholder="search by phone or email"
+                />
+              </div>
+              <div class="col">
+                <label class="form-label">Khách hàng:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [value]="currentCustomerName"
+                  disabled
+                />
+              </div>
+            </div>
 
-            <mat-grid-tile class="test">
-                <form class="form-test">
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label class="form-label">Search:</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1"
-                                placeholder="search by phone or email">
-                        </div>
-                        <div class="col">
-                            <label class="form-label">Khách hàng:</label>
-                            <!-- <input type="text" class="form-control"> -->
-                            <input type="text" class="form-control" [value]="currentCustomerName" disabled>
-                        </div>
+            <div class="mb-3">
+              <label class="form-label">Mã HĐ:</label>
+              <input
+                type="text"
+                class="form-control"
+                [id]="'exampleInputHD_' + i"
+                [value]="tab.maHoaDon || 'hi'"
+                disabled
+              />
+            </div>
 
-                    </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label class="form-label">Người bán:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [value]="tab.nhanVien?.hoTen || ''"
+                  disabled
+                />
+              </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Mã HĐ:</label>
-                        <input type="text" class="form-control" [id]="'exampleInputHD_' + i"
-                            [value]="currentInvoiceCodes[i]" disabled>
-                    </div>
+              <div class="col">
+                <label class="form-label">SĐT:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [value]="tab.soDienThoai"
+                />
+              </div>
+            </div>
 
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label class="form-label">Người bán:</label>
-                            <input type="text" class="form-control" [value]="staffName" disabled>
+            <div class="row mb-3">
+              <div class="col">
+                <label class="form-label">Phương thức thanh toán:</label>
+                <select
+                  class="form-select"
+                  aria-label="Default select example"
+                  style="width: 223px"
+                  [(ngModel)]="selectedPaymentMethod"
+                  name="paymentMethod"
+                  [ngModelOptions]="{ standalone: true }"
+                >
+                  <option value="0">Tiền mặt</option>
+                  <option value="1">Online</option>
+                </select>
+              </div>
 
-                        </div>
+              <div class="col" id="a">
+                <div class="input-group">
+                  <label class="form-label">Tổng tiền sản phẩm:</label>
+                  <!-- <input
+                    type="text"
+                    class="form-control"
+                    [value]="
+                      totalAmounts[selectedTab] !== undefined
+                        ? totalAmounts[selectedTab]
+                        : 0
+                    "
+                    id="input-money"
+                    aria-label="Dollar amount (with dot and two decimal places)"
+                    disabled
+                  /> -->
+                  <!-- <input
+                    type="text"
+                    class="form-control"
+                    [value]="totalMoney !== undefined ? totalMoney : 0"
+                    id="input-money"
+                    aria-label="Dollar amount (with dot and two decimal places)"
+                    disabled
+                  />
+                  <span class="input-group-text">VNĐ</span> -->
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="{{ totalMoney !== undefined ? totalMoney : 0 }}"
+                    id="input-money"
+                    aria-label="Dollar amount (with dot and two decimal places)"
+                    readonly
+                  />
+                  <span class="input-group-text">VNĐ</span>
+                </div>
+              </div>
+            </div>
 
-                        <div class="col">
-                            <label class="form-label">SĐT:</label>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
+            <div class="row mb-3">
+              <div class="col" id="a">
+                <div class="input-group">
+                  <label class="form-label">Khuyến mãi:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="input-money"
+                    aria-label="Dollar amount (with dot and two decimal places)"
+                  />
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
 
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label class="form-label">Phương thức thanh toán:</label>
-                            <select class="form-select" aria-label="Default select example" style="width: 223px;"
-                                [(ngModel)]="selectedPaymentMethod" name="paymentMethod"
-                                [ngModelOptions]="{standalone: true}">
-                                <option value="0">Tiền mặt</option>
-                                <option value="1">Online</option>
-                            </select>
+              <div class="col">
+                <button
+                  (click)="notificationInvoice(idHoaDon, IHoaDon)"
+                  class="btn btn-primary"
+                >
+                  Thanh toán
+                </button>
 
-                        </div>
-
-                        <div class="col" id="a">
-                            <div class="input-group">
-                                <label class="form-label">Tổng tiền sản phẩm:</label>
-                                <input type="text" class="form-control" [value]="totalAmounts[selectedTab] !== undefined ? totalAmounts[selectedTab] : 0" id="input-money"
-           aria-label="Dollar amount (with dot and two decimal places)" disabled>
-                                <span class="input-group-text">VNĐ</span>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row mb-3">
-
-                        <div class="col" id="a">
-                            <div class="input-group">
-                                <label class="form-label">Khuyến mãi:</label>
-                                <input type="text" class="form-control" id="input-money"
-                                    aria-label="Dollar amount (with dot and two decimal places)">
-                                <span class="input-group-text">%</span>
-                            </div>
-                        </div>
-                        <!-- <input type="text" class="form-control" id="input-money"> -->
-
-                        <div class="col">
-                            <button (click)="notificationInvoice(idHoaDon,IHoaDon)" class="btn btn-primary">Thanh
-                                toán</button>
-                        </div>
-
-                    </div>
-                    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-                </form>
-            </mat-grid-tile>
-
-        </mat-grid-list>
-
+                <button class="btn btn-primary" (click)="deleteHD(tab.id)">
+                  Hủy hóa đơn
+                </button>
+              </div>
+            </div>
+          </form>
+        </mat-grid-tile>
+      </mat-grid-list>
     </mat-tab>
+  </ng-container>
 </mat-tab-group>
+
+<!-- !modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl-custom-height">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Danh sách sản phẩm
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <br />
+        <div class="d-flex justify-content-between">
+          <div class="col-4">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+              <p-dropdown
+                [options]="listTotalPage"
+                [(ngModel)]="searchQuery.page"
+                optionLabel="name"
+              ></p-dropdown>
+            </span>
+          </div>
+
+          <div class="col-6 sizesss">
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="example-form-field">
+                  <mat-label class="fontsize">Lọc kích Cỡ</mat-label>
+                  <mat-select
+                    [(ngModel)]="selectedSize"
+                    (selectionChange)="filterBySize()"
+                  >
+                    <mat-option [value]="null">select size</mat-option>
+                    <mat-option *ngFor="let sizes of size" [value]="sizes.id">{{
+                      sizes.size
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field class="example-form-field">
+                  <mat-label class="fontsize">Lọc Màu Sắc</mat-label>
+                  <mat-select
+                    [(ngModel)]="selectedColor"
+                    (selectionChange)="filterByColors()"
+                  >
+                    <mat-option [value]="null">Chọn Màu</mat-option>
+                    <mat-option
+                      *ngFor="let colors of color"
+                      [value]="colors.id"
+                      >{{ colors.ten }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+        <br />
+
+        <p-table
+          [value]="productsDetail"
+          [tableStyle]="{ 'min-width': '50rem' }"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="">STT</th>
+              <th style="">Mã</th>
+              <th style="">Sản Phẩm</th>
+              <th style="">Ảnh</th>
+              <th style="">Màu Sắc</th>
+              <th style="">Kích Cỡ</th>
+              <th style="">Số Lượng</th>
+              <th style="">Giá</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+            <tr>
+              <td>
+                {{
+                  productsDetail.indexOf(product) +
+                    1 +
+                    searchQuery.pageSize * (searchQuery.page - 1)
+                }}
+              </td>
+              <td>{{ product.ma }}</td>
+              <td>{{ product.sanPham?.ten }}</td>
+              <td>
+                <img
+                  src="{{ product.sanPham?.anhChinh }}"
+                  style="width: 60px; height: 75px"
+                />
+              </td>
+              <td>{{ product.mauSac?.ten }}</td>
+              <td>{{ product.kichCo?.size }}</td>
+              <td>{{ product.soLuong }}</td>
+              <td>{{ product.giaBan }}</td>
+              <td>
+                <button
+                  mat-icon-button
+                  (click)="addProductToOrderDetail(product)"
+                >
+                  <i class="material-icons">shopping_cart_checkout</i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <div>
+          <div class="d-flex justify-content-end gap-1">
+            <p-dropdown
+              (onChange)="onPageChange()"
+              [options]="listTotalPage"
+              [(ngModel)]="searchQuery.page"
+            ></p-dropdown>
+
+            <div class="button-pagination" (click)="getAll('prev')">
+              <i class="pi pi-angle-left"></i>
+            </div>
+            <div class="button-pagination" (click)="getAll('next')">
+              <i class="pi pi-angle-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ! modal khach hang -->
+
+<div
+  class="modal fade"
+  id="exampleModalCustomer"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl-custom-height">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Danh sách Khách hàng
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <br />
+        <div class="col-4">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+            <p-dropdown
+              [options]="listTotalPage"
+              [(ngModel)]="searchQuery.page"
+              optionLabel="name"
+            ></p-dropdown>
+          </span>
+        </div>
+
+        <br />
+        <br />
+
+        <p-table [value]="customers" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="">STT</th>
+              <th style="">Tên</th>
+              <th style="">Email</th>
+              <th style="">SDT</th>
+              <th style="">Ngày Sinh</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
+            <tr>
+              <td>
+                {{
+                  customers.indexOf(customer) +
+                    1 +
+                    searchQuery.pageSize * (searchQuery.page - 1)
+                }}
+              </td>
+              <td>{{ customer.hoTen }}</td>
+              <td>{{ customer.email }}</td>
+              <td>
+                {{ customer.soDienThoai }}
+              </td>
+              <td>{{ customer.ngaySinh }}</td>
+
+              <td>
+                <button class="btn btn-outline-primary">Chọn</button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <div>
+          <div class="d-flex justify-content-end gap-1">
+            <p-dropdown
+              (onChange)="onPageChange()"
+              [options]="listTotalPage"
+              [(ngModel)]="searchQuery.page"
+            ></p-dropdown>
+
+            <div class="button-pagination" (click)="getAllCustomer('prev')">
+              <i class="pi pi-angle-left"></i>
+            </div>
+            <div class="button-pagination" (click)="getAllCustomer('next')">
+              <i class="pi pi-angle-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            type="text"
+            pInputText
+            [(ngModel)]="searchQuery.keyword"
+            placeholder="Tìm kiếm"
+          />
+        </span> -->
+
+<!-- <p-table
+          [value]="productsDetail"
+          [tableStyle]="{ 'min-width': '50rem' }"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="">STT</th>
+              <th style="">Mã</th>
+              <th style="">Sản Phẩm</th>
+              <th>Ảnh</th>
+              <th style="">Giá</th>
+              <th style="">Màu Sắc</th>
+              <th style="">Kích Cỡ</th>
+              <th style="">Số Lượng</th>
+              <th>Hành động</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+            <tr>
+              <td>
+                {{
+                  productsDetail.indexOf(product) +
+                    1 +
+                    searchQuery.pageSize * (searchQuery.page - 1)
+                }}
+              </td>
+              <td>{{ product.ma }}</td>
+              <td>{{ product.sanPham?.ten }}</td>
+              <td>
+                <img
+                  src="{{ product.sanPham?.anhChinh }}"
+                  style="width: 60px; height: 75px"
+                />
+              </td>
+
+              <td>{{ product.giaBan }}</td>
+              <td>{{ product.mauSac?.ten }}</td>
+              <td>{{ product.kichCo?.size }}</td>
+              <td>{{ product.soLuong }}</td>
+              <td>
+                <button
+                  mat-icon-button
+                  (click)="addProductToOrderDetail(product)"
+                >
+                  <i class="material-icons">shopping_cart_checkout</i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table> -->

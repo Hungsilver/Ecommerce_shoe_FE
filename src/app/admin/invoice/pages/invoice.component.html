@@ -1,0 +1,176 @@
+<!-- app.component.html -->
+<div class="container mt-4">
+  <!-- <ul class="nav nav-tabs">
+    <li class="nav-item" (click)="showTab('all')">
+      <a class="nav-link" [class.active]="selectedTab === 'all'">Tất cả</a>
+    </li>
+    <li class="nav-item" (click)="showTab('1')">
+      <a class="nav-link" [class.active]="selectedTab === 'completed'">Hoàn thành</a>
+    </li>
+    <li class="nav-item" (click)="showTab('2')">
+      <a class="nav-link" [class.active]="selectedTab === 'pending'">Chờ xác nhận</a>
+
+    </li>
+    <li class="nav-item" (click)="showTab('3')">
+      <a class="nav-link" [class.active]="selectedTab === 'completed'">Chờ lấy hàng</a>
+    </li>
+    <li class="nav-item" (click)="showTab('4')">
+      <a class="nav-link" [class.active]="selectedTab === 'completed'">Đang giao hàng</a>
+    </li>
+    <li class="nav-item" (click)="showTab('5')">
+      <a class="nav-link" [class.active]="selectedTab === 'completed'">Đã giao hàng</a>
+    </li>
+    <li class="nav-item" (click)="showTab('6')">
+      <a class="nav-link" [class.active]="selectedTab === 'completed'">Đã hủy</a>
+    </li>
+    <li class="nav-item" (click)="showTab('7')">
+      <a class="nav-link" [class.active]="selectedTab === 'completed'">Trả hàng</a>
+    </li>
+  </ul> -->
+
+  <ul class="nav nav-tabs">
+    <li class="nav-item" (click)="showTab('all')">
+      <a class="nav-link" >Tất cả</a>
+    </li>
+    <li class="nav-item" (click)="showTab('0')">
+      <a class="nav-link" [class.active]="currentStatus === 0">Chờ thanh toán</a>
+    </li>
+    <li class="nav-item" (click)="showTab('1')">
+      <a class="nav-link" [class.active]="currentStatus === 1">Hoàn thành</a>
+    </li>
+    <li class="nav-item" (click)="showTab('2')">
+      <a class="nav-link" [class.active]="currentStatus === 2">Chờ xác nhận</a>
+    </li>
+    <li class="nav-item" (click)="showTab('3')">
+      <a class="nav-link" [class.active]="currentStatus === 3">Chờ lấy hàng</a>
+    </li>
+    <li class="nav-item" (click)="showTab('4')">
+      <a class="nav-link" [class.active]="currentStatus === 4">Đang giao hàng</a>
+    </li>
+    <li class="nav-item" (click)="showTab('5')">
+      <a class="nav-link" [class.active]="currentStatus === 5">Đã giao hàng</a>
+    </li>
+    <li class="nav-item" (click)="showTab('6')">
+      <a class="nav-link" [class.active]="currentStatus === 6">Đã hủy</a>
+    </li>
+    <li class="nav-item" (click)="showTab('7')">
+      <a class="nav-link" [class.active]="currentStatus === 7">Trả hàng</a>
+    </li>
+    <!-- Thêm các tab khác tương tự -->
+  </ul>
+
+ <!--! get-all invoice -->
+  <div *ngIf="selectedTab === 'all'">
+  <br/>    
+    <table class="table">
+      <thead>
+        <tr>
+
+          <th scope="col">#</th>
+          <th scope="col">Mã</th>
+          <th scope="col">Nhân viên</th>
+          <th scope="col">Khách hàng</th>
+          <th scope="col">SDT</th>
+          <th scope="col">Tổng tiền</th>
+          <th scope="col">Trạng thái</th>
+          <th scope="col">Ngày tạo</th>
+          <th scope="col">Hành động</th>
+
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let invoice of invoices; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ invoice.maHoaDon }}</td>
+      <td>{{ invoice.nhanVien?.hoTen }}</td>
+      <td>{{ invoice.khachhang?.hoTen ? invoice.khachhang.hoTen : 'Khách lẻ' }}</td>
+      <td>{{ invoice.soDienThoai }}</td>
+      <td>{{ invoice.tongTien }}</td>
+      <td>{{ invoice.trangThai }}</td>
+      <td>{{ invoice.ngayTao | date:'dd/MM/yyyy' }}</td>
+      <td>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Detail
+        </button>
+        <button (click)="redirectToDetail(invoice.id)">Xác nhận</button>
+      </td>
+        </tr>
+       
+      </tbody>
+    </table>
+
+    <!-- <div>
+      <div class="d-flex justify-content-end gap-1">
+        <p-dropdown (onChange)="onPageChange()" [options]="listTotalPage" [(ngModel)]="searchQuery.page"></p-dropdown>
+  
+        <div class="button-pagination" (click)="getAll( 'prev')">
+          <i class="pi pi-angle-left"></i>
+        </div>
+        <div class="button-pagination" (click)="getAll( 'next')">
+          <i class="pi pi-angle-right"></i>
+        </div>
+      </div>
+    </div> -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+  </div>
+
+  <!--! Hoàn thành -->
+
+  <!-- <div *ngIf="selectedTab === '1'">
+    <h1>tab 1</h1>
+
+  </div>
+
+  <div *ngIf="selectedTab === '2'">
+    <h1>tab 2</h1>
+
+  </div>
+
+  <div *ngIf="selectedTab === '3'">
+    <h1>tab 3</h1>
+
+  </div>
+
+  <div *ngIf="selectedTab === '4'">
+    <h1>tab 4</h1>
+
+  </div>
+
+  <div *ngIf="selectedTab === '5'">
+    <h1>tab 5</h1>
+
+  </div>
+
+  <div *ngIf="selectedTab === '6'">
+    <h1>tab 6</h1>
+
+  </div>
+
+  <div *ngIf="selectedTab === '7'">
+    <h1>tab 7</h1>
+
+  </div> -->
+</div>
+
+  
