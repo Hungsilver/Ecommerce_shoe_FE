@@ -1,13 +1,16 @@
 <div class="d-flex justify-content-between">
-    <span class="p-input-icon-left">
-        <i class="pi pi-search"></i>
-        <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
-        <p-dropdown [options]="listTotalPage" [(ngModel)]="searchQuery.page" optionLabel="name"></p-dropdown>
-    </span>
-    <button mat-button (click)="openDialog()">Thêm Sản Phẩm</button>
-    <button (click)="exportexcel()">Export Excel</button>
-    <input type="file" (change)="ReadExcel($event)">
-
+  <span class="p-input-icon-left">
+    <i class="pi pi-search"></i>
+    <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+    <p-dropdown
+      [options]="listTotalPage"
+      [(ngModel)]="searchQuery.page"
+      optionLabel="name"
+    ></p-dropdown>
+  </span>
+  <button mat-button (click)="openDialog()">Thêm Sản Phẩm</button>
+  <button (click)="exportexcel()">Export Excel</button>
+  <input type="file" (change)="ReadExcel($event)" />
 </div>
 
 <!-- <ul class="nav nav-tabs">
@@ -27,85 +30,104 @@
 </mat-form-field> -->
 
 <mat-form-field>
-    <mat-label>Filter by Status</mat-label>
-    <mat-select [(ngModel)]="selectedStatus" (selectionChange)="filterByStatus()">
-        <mat-option [value]="null">Select status</mat-option>
-        <mat-option [value]="1">Active</mat-option>
-        <mat-option [value]="0">Inactive</mat-option>
-    </mat-select>
+  <mat-label>Filter by Status</mat-label>
+  <mat-select [(ngModel)]="selectedStatus" (selectionChange)="filterByStatus()">
+    <mat-option [value]="null">Select status</mat-option>
+    <mat-option [value]="1">Active</mat-option>
+    <mat-option [value]="0">Inactive</mat-option>
+  </mat-select>
 </mat-form-field>
 
 <mat-form-field>
-    <mat-label>Filter by Brand</mat-label>
-    <mat-select [(ngModel)]="selectedBrand" (selectionChange)="filterByBrand()">
-        <mat-option [value]="null">Select Brand</mat-option>
-        <mat-option *ngFor="let brands of brand" [value]="brands.id">{{ brands.ten }}</mat-option>
-    </mat-select>
+  <mat-label>Filter by Brand</mat-label>
+  <mat-select [(ngModel)]="selectedBrand" (selectionChange)="filterByBrand()">
+    <mat-option [value]="null">Select Brand</mat-option>
+    <mat-option *ngFor="let brands of brand" [value]="brands.id">{{
+      brands.ten
+    }}</mat-option>
+  </mat-select>
 </mat-form-field>
-
-<!-- <div class="form-group">
-    <label for="ngayTao">Sản Phẩm:</label>
-    <select type="text" class="form-control" id="sanPham" [(ngModel)]="products.sanPham" name="sanPham" required>
-        <option *ngFor="let sp of brand" [value]="sp.id">{{ sp.ten }}</option>
-    </select>
+<!-- 
+<div class="form-group">
+  <label for="ngayTao">Sản Phẩm:</label>
+  <select
+    type="text"
+    class="form-control"
+    id="sanPham"
+    [(ngModel)]="products.sanPham"
+    name="sanPham"
+    required
+  >
+    <option *ngFor="let sp of brand" [value]="sp.id">{{ sp.ten }}</option>
+  </select>
 </div> -->
 
-<br>
+<br />
 
 <div class="card">
-    <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width: 3%;">STT</th>
-                <th (click)="sortByName()" style="width: 20%;cursor: pointer;">Tên <i [ngClass]="iconSortName"></i></th>
-                <th style="width: 15%;">Ảnh Chính</th>
-                <th style="width: 15%;">Mô Tả</th>
-                <th style="width: 10%;">Thương hiệu</th>
-                <th style="width: 10%;">Xuất Xứ</th>
-                <th style="width: 10%;">Danh Mục</th>
-                <th style="width: 10%;">Trạng thái</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
-            <tr>
-                <td>
-                    {{
-                    products.indexOf(product) +
-                    1 +
-                    searchQuery.pageSize * (searchQuery.page - 1)
-                    }}
-                </td>
-                <td>{{ product.ten }}</td>
-                <td>
-                    <img src="{{ product.anhChinh }}" alt="img" width="100px" height="120px">
-                </td>
-                <td class="shorten-text">{{ product.moTa }}</td>
-                <td>{{ product.thuongHieu?.ten }}</td>
-                <td>{{ product.xuatXu?.ten }}</td>
-                <td>{{ product.danhMuc?.ten }}</td>
-                <td>{{ product.trangThai?'Hoạt động':'Không hoạt động' }}</td>
-                <td>
-                    <span (click)="openDialogEdit(product)">
-                        <i class="pi pi-file-edit"></i>
-                    </span>
-                    <span (click)="openDialogDelete(product)">
-                        <i class="pi pi-delete-left"></i>
-                    </span>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-    <div>
-        <div class="d-flex justify-content-end gap-1">
-            <p-dropdown (onChange)="onPageChange()" [options]="listTotalPage"
-                [(ngModel)]="searchQuery.page"></p-dropdown>
+  <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3%">STT</th>
+        <th (click)="sortByName()" style="width: 20%; cursor: pointer">
+          Tên <i [ngClass]="iconSortName"></i>
+        </th>
+        <th style="width: 15%">Ảnh Chính</th>
+        <th style="width: 15%">Mô Tả</th>
+        <th style="width: 10%">Thương hiệu</th>
+        <th style="width: 10%">Xuất Xứ</th>
+        <th style="width: 10%">Danh Mục</th>
+        <th style="width: 10%">Trạng thái</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          {{
+            products.indexOf(product) +
+              1 +
+              searchQuery.pageSize * (searchQuery.page - 1)
+          }}
+        </td>
+        <td>{{ product.ten }}</td>
+        <td>
+          <img
+            src="{{ product.anhChinh }}"
+            alt="img"
+            width="100px"
+            height="120px"
+          />
+        </td>
+        <td class="shorten-text">{{ product.moTa }}</td>
+        <td>{{ product.thuongHieu?.ten }}</td>
+        <td>{{ product.xuatXu?.ten }}</td>
+        <td>{{ product.danhMuc?.ten }}</td>
+        <td>{{ product.trangThai ? "Hoạt động" : "Không hoạt động" }}</td>
+        <td>
+          <span (click)="openDialogEdit(product)">
+            <i class="pi pi-file-edit"></i>
+          </span>
+          <span (click)="openDialogDelete(product)">
+            <i class="pi pi-delete-left"></i>
+          </span>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <div>
+    <div class="d-flex justify-content-end gap-1">
+      <p-dropdown
+        (onChange)="onPageChange()"
+        [options]="listTotalPage"
+        [(ngModel)]="searchQuery.page"
+      ></p-dropdown>
 
-            <div class="button-pagination" (click)="getAll( 'prev')">
-                <i class="pi pi-angle-left"></i>
-            </div>
-            <div class="button-pagination" (click)="getAll( 'next')">
-                <i class="pi pi-angle-right"></i>
-            </div>
-        </div>
+      <div class="button-pagination" (click)="getAll('prev')">
+        <i class="pi pi-angle-left"></i>
+      </div>
+      <div class="button-pagination" (click)="getAll('next')">
+        <i class="pi pi-angle-right"></i>
+      </div>
     </div>
+  </div>
 </div>
