@@ -16,21 +16,21 @@ const routes: Routes = [
     path: 'admin',
     component: LayoutAdminComponent, //load component layout
     //load router outlet
-    // canActivateChild: [authAdminGuard],
+    canActivateChild: [authAdminGuard],
     loadChildren: () =>
       import('./admin/admin.module').then((m) => m.AdminModule),
   },
-  // {
-  //   path: 'cart',
-  //   canActivate: [authUserGuard],
-  //   component: CartComponent,
-  //   //load router outlet
-  //   // children: [
-  //   //   { path: '', component: CartComponent }
-  //   // ]
-  //   // loadChildren: () =>
-  //   // import('./page/page.module').then((m) => m.PageModule),
-  // },
+  {
+    path: 'cart',
+    canActivate: [authUserGuard],
+    component: CartComponent,
+    //load router outlet
+    // children: [
+    //   { path: '', component: CartComponent }
+    // ]
+    loadChildren: () =>
+      import('./page/page.module').then((m) => m.PageModule),
+  },
   {
     path: 'auth',
     component: LayoutPageComponent,
@@ -38,14 +38,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('../libs/component/account/account.module').then((m) => m.AccountModule),
   },
-  // {
-  //   path: 'checkout',
-  //   // canActivateChild: [authUserGuard],
-  //   component: LayoutPageComponent,
-  //   //load router outlet
-  //   loadChildren: () =>
-  //     import('./page/page.module').then((m) => m.PageModule),
-  // },
+  {
+    path: 'checkout',
+    canActivateChild: [authUserGuard],
+    component: LayoutPageComponent,
+    //load router outlet
+    loadChildren: () =>
+      import('./page/page.module').then((m) => m.PageModule),
+  },
   {
     path: '**', component: Page404Component,
   }

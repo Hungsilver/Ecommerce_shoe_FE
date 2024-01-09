@@ -146,75 +146,73 @@ export class CartComponent implements OnInit {
   }
 
   deleteCart(id: number) {
-      this.params.listIdGhct = id;
-      Object.keys(this.params).forEach(key => {
-        let value = this.params[key]
-        if (value === null || value === undefined || value === '') {
+    this.params.listIdGhct = id;
+    Object.keys(this.params).forEach(key => {
+      let value = this.params[key]
+      if (value === null || value === undefined || value === '') {
+        delete this.params[key];
+      } else if (Array.isArray(value)) {
+        if (value.length > 0) {
+          this.params[key] = value.join(',');
+        } else {
           delete this.params[key];
-        } else if (Array.isArray(value)) {
-          if (value.length > 0) {
-            this.params[key] = value.join(',');
-          } else {
-            delete this.params[key];
-          }
         }
-      });
+      }
+    });
 
-      this.cartService.deleteAllCart(this.params);
-      this.notificationService.success("Xóa sản phẩm thành công");
+    this.cartService.deleteAllCart(this.params);
+    this.notificationService.success("Xóa sản phẩm thành công");
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
 
 
   }
 
-  soLuong!:number;
-  getCartById= async(id:number)=>{
+  soLuong!: number;
+  getCartById = async (id: number) => {
     this.params.listIdGhct = id;
     await this.cartService.findById(this.params).then((c) => {
       c.forEach((key: any) => {
         this.cart = key;
         console.log(key);
-        
+
       })
     })
   }
 
-  updateQuantity(event:any, id: number) {
+  updateQuantity(event: any, id: number) {
     this.params.listIdGhct = id;
     this.cartService.findById(this.params).then((c) => {
       c.forEach((key: any) => {
         this.cart = key;
-        console.log(key);
+        // console.log(key);
+        if (this.cart) {
+          if (!event.target.value) {
+            this.notificationService.error("Vui lòng nhập số lượng");
+          } else if (event.target.value <= 0) {
+            this.notificationService.error("Số lượng phải lớn hơn 0");
+          } else if (event.target.value > this.cart.chiTietSanPham?.soLuong) {
+            this.notificationService.error("Số lượng phải nhỏ hơn " + this.cart.chiTietSanPham?.soLuong);
+          } else {
+            this.updateQuantitys.id = id;
+            this.updateQuantitys.quantity = event.target.value;
+            this.cartService.updateQuantity(this.updateQuantitys);
+            this.notificationService.success('Cập nhật số lượng sản phẩm ' + this.cart.chiTietSanPham.ma + ' thành công');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        }
       })
     })
-
- if(this.cart){
-  if(!event.target.value){
-    this.notificationService.error("Vui lòng nhập số lượng");
-  }else if (event.target.value <= 0) {
-    this.notificationService.error("Số lượng phải lớn hơn 0");
-  }else if(event.target.value > this.cart.chiTietSanPham.soLuong){
-    this.notificationService.error("Số lượng phải nhỏ hơn "+this.cart.chiTietSanPham.soLuong);
-  }else{
-    this.updateQuantitys.id = id;   
-    this.updateQuantitys.quantity = event.target.value;
-    this.cartService.updateQuantity(this.updateQuantitys);
-    this.notificationService.success('Cập nhật số lượng sản phẩm '+this.cart.chiTietSanPham.ma+' thành công');
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
-  }
- }
-    
   }
 
   checkout() {
-    if(this.checkedItems.length === 0){
+    if (this.checkedItems.length === 0) {
       this.notificationService.error("Vui lòng chọn sản phẩm thanh toán");
-    }else{
+    } else {
       Swal.fire(
         {
           title: 'Xác nhận thanh toán',
@@ -223,15 +221,15 @@ export class CartComponent implements OnInit {
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Thanh toán',
-          cancelButtonText:'Hủy'
+          cancelButtonText: 'Hủy'
         }
-      ).then((result)=>{
-        if(result.isConfirmed){
+      ).then((result) => {
+        if (result.isConfirmed) {
           this.cacheService.set('listIdGhct', this.checkedItems)
-      this.router.navigate(['/checkout'])
+          this.router.navigate(['/checkout'])
         }
       })
     }
-    
+
   }
 }

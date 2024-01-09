@@ -62,7 +62,7 @@
             <h4>Ảnh đã tải lên</h4>
             <img [src]="uploadedUrl" style="width: 50px; height: auto">
           </div>
-          <input  type="file" (change)="onFileChange($event)" multiple >
+          <input  type="file" formControlName="anhDaiDien" (change)="onFileChange($event)" multiple >
         </div>
 
 
@@ -218,10 +218,13 @@
       </div>
         <div class="col-6">
           <label>Avatar</label>
+
+            <!-- <img [src]="staff.anhDaiDien" style="width: 100px; height: auto"> -->
+            <div *ngIf="uploadedUrl">
+              <img [src]="uploadedUrl" style="width: 50px; height: auto;">
+            </div>
+
           <input  type="file" (change)="onFileChange($event)" formControlName="anhDaiDien" multiple >
-          <div>
-            <img [src]="uploadedUrl" style="width: 100px; height: auto">
-          </div>
         </div>
 
 

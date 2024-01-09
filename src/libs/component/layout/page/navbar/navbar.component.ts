@@ -12,8 +12,10 @@ import { CacheService } from 'src/libs/service/request/cache.service';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  quantityInCart = 0;
+  quantityInCart: number = 0;
   customerInfo: any = undefined;
+
+
 
   constructor(
     private cacheService: CacheService,
@@ -36,8 +38,9 @@ export class NavbarComponent implements OnInit {
     this.customerInfo = this.cacheService?.get('customer') ?? undefined;
   }
 
+
   logout() {
-    this.customerInfo = null;
+    this.customerInfo = undefined;
     this.authCustomService.logoutCustomer();
     this.cacheService.remove('customer');
     this.router.navigate(['/'])
