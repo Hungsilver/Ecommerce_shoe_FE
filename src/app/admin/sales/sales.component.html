@@ -25,23 +25,6 @@
       </ng-template>
 
       <div class="sales-header d-flex justify-content-between">
-        <!-- <div class="sales-header_search">
-          <ng-container *ngIf="productCodes[i]">
-            <input
-              type="text"
-              name="productCode"
-              [(ngModel)]="productCodes[i].ma"
-              placeholder="Tìm kiếm sản phẩm"
-              width="300px"
-              required
-              (keypress)="onKeyPress($event, i)"
-            />
-          </ng-container>
-          <button type="submit" (click)="searchProductByKeyword(i)">
-            <span class="pi pi-search"></span>
-          </button>
-        </div> -->
-
         <div class="d-flex align-items-center">
           <button
             type="button"
@@ -69,12 +52,12 @@
             [min]="1"
           />
           <br />
-          <!-- <button
+          <button
             class="btn btn-outline-primary"
             (click)="addOrderDetailFromQR(productsDetail, quantity)"
           >
             Xác nhận thêm
-          </button> -->
+          </button>
           <button class="btn btn-outline-danger" (click)="closeFloatingForm()">
             Đóng
           </button>
@@ -88,6 +71,16 @@
             data-bs-target="#exampleModal"
           >
             Thêm sản phẩm
+          </button>
+        </div>
+        <div>
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModalCustomer"
+          >
+            Chọn khách hàng
           </button>
         </div>
       </div>
@@ -208,13 +201,8 @@
                 <td>{{ chiTiet.donGia }}</td>
                 <td>{{ calculateTotal(chiTiet) }}</td>
                 <td></td>
+
                 <td>
-                  <!-- <button
-                    mat-icon-button
-                    (click)="deleteOrderDetail(chiTiet.id)"
-                  >
-                    <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
-                  </button> -->
                   <button
                     mat-icon-button
                     (click)="
@@ -270,7 +258,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  [value]="staffName"
+                  [value]="tab.nhanVien?.hoTen || ''"
                   disabled
                 />
               </div>
@@ -316,13 +304,22 @@
                     aria-label="Dollar amount (with dot and two decimal places)"
                     disabled
                   /> -->
-                  <input
+                  <!-- <input
                     type="text"
                     class="form-control"
                     [value]="totalMoney !== undefined ? totalMoney : 0"
                     id="input-money"
                     aria-label="Dollar amount (with dot and two decimal places)"
                     disabled
+                  />
+                  <span class="input-group-text">VNĐ</span> -->
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="{{ totalMoney !== undefined ? totalMoney : 0 }}"
+                    id="input-money"
+                    aria-label="Dollar amount (with dot and two decimal places)"
+                    readonly
                   />
                   <span class="input-group-text">VNĐ</span>
                 </div>
@@ -515,6 +512,106 @@
   </div>
 </div>
 
+<!-- ! modal khach hang -->
+
+<div
+  class="modal fade"
+  id="exampleModalCustomer"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl-custom-height">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Danh sách Khách hàng
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <br />
+        <div class="col-4">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+            <p-dropdown
+              [options]="listTotalPage"
+              [(ngModel)]="searchQuery.page"
+              optionLabel="name"
+            ></p-dropdown>
+          </span>
+        </div>
+
+        <br />
+        <br />
+
+        <p-table [value]="customers" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="">STT</th>
+              <th style="">Tên</th>
+              <th style="">Email</th>
+              <th style="">SDT</th>
+              <th style="">Ngày Sinh</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
+            <tr>
+              <td>
+                {{
+                  customers.indexOf(customer) +
+                    1 +
+                    searchQuery.pageSize * (searchQuery.page - 1)
+                }}
+              </td>
+              <td>{{ customer.hoTen }}</td>
+              <td>{{ customer.email }}</td>
+              <td>
+                {{ customer.soDienThoai }}
+              </td>
+              <td>{{ customer.ngaySinh }}</td>
+
+              <td>
+                <button class="btn btn-outline-primary">Chọn</button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <div>
+          <div class="d-flex justify-content-end gap-1">
+            <p-dropdown
+              (onChange)="onPageChange()"
+              [options]="listTotalPage"
+              [(ngModel)]="searchQuery.page"
+            ></p-dropdown>
+
+            <div class="button-pagination" (click)="getAllCustomer('prev')">
+              <i class="pi pi-angle-left"></i>
+            </div>
+            <div class="button-pagination" (click)="getAllCustomer('next')">
+              <i class="pi pi-angle-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- <span class="p-input-icon-left">
           <i class="pi pi-search"></i>
           <input
