@@ -6,6 +6,7 @@ import { IReqApi } from 'src/libs/common/interface/interfaces';
 import { filter } from 'rxjs';
 import { ProductDetailExportExcel } from './ProductDetailExportExcel.module';
 import { Observable } from 'rxjs';
+import { ProductDetailImportExcel } from './ProductDetailImportExcel.module';
 @Injectable({
   providedIn: 'root',
 })
@@ -30,7 +31,10 @@ export class ProductDetailService {
     getAll(): Observable<ProductDetailExportExcel[]> {
       return this.httpClient.get<ProductDetailExportExcel[]>(`${this.baseUrl}`)
   }
+    create(chitietsanpham: ProductDetailImportExcel[]){
+        return this.httpClient.post(`${this.importUrl}`,chitietsanpham);
 
+    }
 
 
   getProducts(params?: any, activeStatus: number = 0): Promise<IReqApi<IProductDetail[]>> {

@@ -16,8 +16,11 @@
                     <mat-form-field class="example-form-field">
                       <mat-label>Sản Phẩm</mat-label>
                       <mat-select formControlName ="sanPham">
-                          <mat-option *ngFor="let products of data.products"
-                           [value]="products.id"  >{{products.ten}}</mat-option>
+                          <ng-container *ngFor="let products of data.products">
+                          <mat-option *ngIf="products.trangThai===1"
+                                     [value]="products.id" >{{products.ten}}
+                          </mat-option>
+                        </ng-container>
                       </mat-select>
                       <mat-error
                           *ngIf="productDetailForm?.get('sanPham')?.hasError('required') && (productDetailForm?.get('sanPham')?.dirty || productDetailForm?.get('sanPham')?.touched)">
@@ -88,8 +91,11 @@
                   <mat-form-field class="example-form-field">
                     <mat-label>Kích Cỡ</mat-label>
                     <mat-select formControlName="kichCo">
-                        <mat-option *ngFor=" let sizes of data.sizes"
+                    <ng-container *ngFor=" let sizes of data.sizes">
+
+                        <mat-option *ngIf="sizes.trangThai===1"
                             [value]="sizes.id">{{sizes.size}}</mat-option>
+                    </ng-container>
                     </mat-select>
                     <mat-error
                         *ngIf="productDetailForm?.get('kichCo')?.hasError('required') && (productDetailForm?.get('kichCo')?.dirty || productDetailForm?.get('kichCo')?.touched)">
@@ -101,8 +107,11 @@
                   <mat-form-field class="example-form-field">
                     <mat-label>Màu Sắc</mat-label>
                     <mat-select formControlName="mauSac">
-                        <mat-option *ngFor="let colors of data.colors"
-                            [value]="colors.id">{{colors.ten}}</mat-option>
+                      <ng-container *ngFor="let colors of data.colors">
+                        <mat-option *ngIf="colors.trangThai===1"
+                            [value]="colors.id">{{colors.ten}}
+                          </mat-option>
+                          </ng-container>
                     </mat-select>
                     <mat-error
                         *ngIf="productDetailForm?.get('mauSac')?.hasError('required') && (productDetailForm?.get('mauSac')?.dirty || productDetailForm?.get('mauSac')?.touched)">
@@ -114,8 +123,13 @@
                   <mat-form-field class="example-form-field">
                     <mat-label>Chất Liệu Giày</mat-label>
                     <mat-select formControlName="chatLieuGiay">
-                        <mat-option *ngFor="let shoeMaterials of data.shoeMaterials"
-                            [value]="shoeMaterials.id">{{shoeMaterials.ten}}</mat-option>
+
+                      <ng-container *ngFor="let shoeMaterials of data.shoeMaterials">
+                        <mat-option *ngIf="shoeMaterials.trangThai===1"
+                            [value]="shoeMaterials.id">{{shoeMaterials.ten}}
+                          </mat-option>
+                          </ng-container>
+
                     </mat-select>
                     <mat-error
                         *ngIf="productDetailForm?.get('chatLieuGiay')?.hasError('required') && (productDetailForm?.get('chatLieuGiay')?.dirty || productDetailForm?.get('chatLieuGiay')?.touched)">
@@ -127,8 +141,10 @@
                   <mat-form-field class="example-form-field">
                     <mat-label>Chất Liệu Đế giày</mat-label>
                     <mat-select formControlName="chatLieuDeGiay">
-                        <mat-option *ngFor="let shoeSoleMaterials of data.shoeSoleMaterials"
+                      <ng-container *ngFor="let shoeSoleMaterials of data.shoeSoleMaterials">
+                        <mat-option *ngIf="shoeSoleMaterials.trangThai===1"
                             [value]="shoeSoleMaterials.id">{{shoeSoleMaterials.ten}}</mat-option>
+                          </ng-container>
                     </mat-select>
                     <mat-error
                         *ngIf="productDetailForm?.get('chatLieuDeGiay')?.hasError('required') && (productDetailForm?.get('chatLieuDeGiay')?.dirty || productDetailForm?.get('chatLieuDeGiay')?.touched)">
