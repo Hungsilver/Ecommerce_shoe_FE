@@ -96,9 +96,11 @@ openDialog() {
   })
 }
 openDialogEdit(voucher: any) {
+  // console.log("in ra:",voucher);
+  if(voucher.trangThai === 2){
   const dialogRef = this.dialog.open(VoucherDialogComponent, {
     width: '1200px',
-    height: '480px',
+    height: '500px',
     data: {
       type: 'update',
       voucher: voucher,
@@ -107,6 +109,10 @@ openDialogEdit(voucher: any) {
   dialogRef.afterClosed().subscribe(data => {
     this.getAll();
   })
+}else{
+alert("Bạn không được sửa voucher kết thúc hoặc đang diễn ra");
+
+}
 }
 
 openDialogDelete(voucher: any) {
