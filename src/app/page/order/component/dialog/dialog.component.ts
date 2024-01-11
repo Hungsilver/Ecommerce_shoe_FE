@@ -204,7 +204,7 @@ export class DialogComponent implements OnInit {
               this.tongTien += element.soLuong * element.donGia;
             });
             this.invoice.tongTien = this.tongTien;
-            if (this.invoice === null) {
+            if (this.invoice.phieuGiamGia === null) {
               this.invoice.tongTienSauGiam = this.invoice.tongTien
             }
             else if (this.invoice.phieuGiamGia.hinhThucGiamGia === false && this.invoice.phieuGiamGia.hinhThucGiamGia !== null) {
@@ -275,7 +275,7 @@ export class DialogComponent implements OnInit {
           this.tongTien += element.soLuong * element.donGia;
         });
         this.invoice.tongTien = this.tongTien;
-        if (this.invoice === null) {
+        if (this.invoice.phieuGiamGia === null) {
           this.invoice.tongTienSauGiam = this.invoice.tongTien
         }
         else if (this.invoice.phieuGiamGia.hinhThucGiamGia === false && this.invoice.phieuGiamGia.hinhThucGiamGia !== null) {
@@ -303,7 +303,7 @@ export class DialogComponent implements OnInit {
           this.tongTien += element.soLuong * element.donGia;
         });
         this.invoice.tongTien = this.tongTien;
-        if (this.invoice === null) {
+        if (this.invoice.phieuGiamGia === null) {
           this.invoice.tongTienSauGiam = this.invoice.tongTien
         }
         else if (this.invoice.phieuGiamGia.hinhThucGiamGia === false && this.invoice.phieuGiamGia.hinhThucGiamGia !== null) {
