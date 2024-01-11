@@ -8,11 +8,11 @@ import { BaseRequestService } from 'src/libs/service/request/base-request.servic
 export class OrderService {
     constructor(private abstractService: BaseRequestService) { }
 
-    
+
 
     findOrderByKhachHangAndTrangThai(params?: any): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            this.abstractService.get('invoice/status/'+params).subscribe(
+            this.abstractService.get('invoice/status/' + params).subscribe(
                 (result) => {
                     return resolve(result)
                 },
@@ -23,7 +23,7 @@ export class OrderService {
 
     findById(id?: number): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            this.abstractService.get('invoice/'+id).subscribe(
+            this.abstractService.get('invoice/' + id).subscribe(
                 (result) => {
                     return resolve(result)
                 },
@@ -34,7 +34,7 @@ export class OrderService {
 
     updateInvoice(body: any): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            this.abstractService.put('invoice/update',body).subscribe(
+            this.abstractService.put('invoice/update', body).subscribe(
                 (result) => {
                     return resolve(result)
                 },
@@ -45,7 +45,7 @@ export class OrderService {
 
     findByIdHDCT(id?: number): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            this.abstractService.get('invoice/detail/'+id).subscribe(
+            this.abstractService.get('invoice/detail/' + id).subscribe(
                 (result) => {
                     return resolve(result)
                 },
@@ -56,7 +56,7 @@ export class OrderService {
 
     huyDon(id?: number): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            this.abstractService.get('invoice/huy-don/'+id).subscribe(
+            this.abstractService.get('invoice/huy-don/' + id).subscribe(
                 (result) => {
                     return resolve(result)
                 },
@@ -67,7 +67,40 @@ export class OrderService {
 
     deleteInvoiceDetail(id?: number): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            this.abstractService.delete('invoice/detail/'+id).subscribe(
+            this.abstractService.delete('invoice/detail/' + id).subscribe(
+                (result) => {
+                    return resolve(result)
+                },
+                (err) => reject(err)
+            );
+        });
+    }
+
+    traHang(body: any): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.abstractService.post('return-product', body).subscribe(
+                (result) => {
+                    return resolve(result)
+                },
+                (err) => reject(err)
+            );
+        });
+    }
+
+    findTraHangByIdHD(id?: number): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.abstractService.get('return-product/id-invoice/' + id).subscribe(
+                (result) => {
+                    return resolve(result)
+                },
+                (err) => reject(err)
+            );
+        });
+    }
+
+    findTraHangByKhachHang(id?: number): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.abstractService.get('return-product/id-customer').subscribe(
                 (result) => {
                     return resolve(result)
                 },

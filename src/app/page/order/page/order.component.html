@@ -1,13 +1,13 @@
 <main>
     <div class="container">
       <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb> 
-      <h1>=> ae làm hộ cái phân trang</h1>
+      <!-- <h1>=> ae làm hộ cái phân trang</h1> -->
         <div class="row">
           <div class="col-2 mt-3">
             <hr>
             <p>Đổi mật khẩu</p>
             <hr>
-            <p>Đơn hàng</p>
+            <p style="margin-left: 20px;">Đơn hàng</p>
             <hr>
             <p>Thông tin tài khoản</p>
             <hr>
@@ -31,6 +31,9 @@
                 </p-tabPanel>
                 <p-tabPanel header="Đã hủy">
                   <app-da-huy></app-da-huy>
+                </p-tabPanel>
+                <p-tabPanel header="Trả hàng">
+                  <app-tra-hang-page></app-tra-hang-page>
                 </p-tabPanel>
               </p-tabView>
             </div>

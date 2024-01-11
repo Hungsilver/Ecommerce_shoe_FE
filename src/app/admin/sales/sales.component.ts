@@ -409,6 +409,7 @@ export class SalesComponent implements OnInit {
   isValidQRCode(qrCode: string): boolean {
     return qrCode.length >= 5;
   }
+
   startScanning(): void {
     const currentTime = Date.now();
     const timeSinceLastScan = currentTime - this.lastScanTime;
@@ -443,6 +444,7 @@ export class SalesComponent implements OnInit {
       this.searchProductByProductCode();
     }
   }
+  
   handle(action: any, fn: string): void {
     const playDeviceFacingBack = (devices: any[]) => {
       const device = devices.find((f) =>
