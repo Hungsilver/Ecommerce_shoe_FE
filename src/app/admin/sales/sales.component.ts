@@ -232,6 +232,7 @@ export class SalesComponent implements OnInit {
       // this.handle(this.action, 'start');
     });
   }
+
   startScanning(): void {
     const currentTime = Date.now();
     const timeSinceLastScan = currentTime - this.lastScanTime;
@@ -277,6 +278,7 @@ export class SalesComponent implements OnInit {
       console.log("biến searchReasults " + this.searchResults);
     }
   }
+  
   handle(action: any, fn: string): void {
     const playDeviceFacingBack = (devices: any[]) => {
       const device = devices.find(f => (/back|rear|environment/gi.test(f.label)));

@@ -99,13 +99,14 @@ export class CartComponent implements OnInit {
     }
 
     // Kiểm tra xem checkedAll có chia hết cho 2 không, nếu chia hết thì bỏ chọn tất cả
-    if (this.checkedAll % 2 === 0) {
-      this.checked.clear();
-      this.tongTien = 0;
+    // if (this.checkedAll % 2 === 0) {
+    //   this.checked.clear();
+    //   this.tongTien = 0;
 
-    }
+    // }
 
   }
+  
   onCheckboxChange(event: any, itemId: number) {
     if (event.target.checked) {
       // Nếu checkbox được chọn, thêm giá trị vào mảng
