@@ -1,3 +1,16 @@
-<p>
-  ForProduct works!
-</p>
+<div>
+  <p-tabView>
+    <p-tabPanel header="7 ngày trước">
+      <app-table-stats-product [dataTable]="data7day" />
+    </p-tabPanel>
+    <p-tabPanel header="28 ngày trước">
+      <app-table-stats-product [dataTable]="data28day" />
+    </p-tabPanel>
+    <p-tabPanel header="6 tháng trước">
+      <app-table-stats-product [dataTable]="data6month" />
+    </p-tabPanel>
+    <p-tabPanel header="trong 1 năm">
+      <app-table-stats-product [dataTable]="data1nam" />
+    </p-tabPanel>
+  </p-tabView>
+</div>

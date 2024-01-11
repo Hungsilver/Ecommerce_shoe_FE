@@ -3,16 +3,15 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
 import { ProductService } from '../../service/product.service';
 import { CategoryService } from '../../../category/service/category.service';
-import { AngularFireStorage } from "@angular/fire/compat/storage"
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dialog-product',
   templateUrl: './dialog-product.component.html',
-  styleUrls: ['./dialog-product.component.scss']
+  styleUrls: ['./dialog-product.component.scss'],
 })
 export class DialogProductComponent implements OnInit {
-
   product: any = {};
   categories: any[] = [];
   origin: any[] = [];
@@ -27,13 +26,15 @@ export class DialogProductComponent implements OnInit {
   productForm: any;
 
   ngOnInit(): void {
-
-    if (this.data.product && this.data.product.thuongHieu && this.data.product.xuatXu) {
+    if (
+      this.data.product &&
+      this.data.product.thuongHieu &&
+      this.data.product.xuatXu
+    ) {
       // Thiết lập giá trị mặc định cho các trường select
       this.selectedBrandId = this.data.product.thuongHieu.id;
       this.selectedOriginId = this.data.product.xuatXu.id;
       this.selectedCategoryId = this.data.product.danhMuc.id;
-
     }
   }
   constructor(
@@ -56,7 +57,7 @@ export class DialogProductComponent implements OnInit {
       danhMuc: [null, Validators.required],
       thuongHieu: [null, Validators.required],
       xuatXu: [null, Validators.required],
-      trangThai: [1, Validators.required]
+      trangThai: [1, Validators.required],
     });
   }
 
@@ -100,7 +101,7 @@ export class DialogProductComponent implements OnInit {
     console.log('Product Image URLs:', this.product.anhChinh);
     if (this.productForm.valid) {
       if (this.product.anhChinh.length > 0) {
-        this.productService.createProduct(this.product).then(res => {
+        this.productService.createProduct(this.product).then((res) => {
           console.log('Data created', res.content);
           if (res) {
             this.dialog.closeAll();
@@ -111,23 +112,32 @@ export class DialogProductComponent implements OnInit {
       }
     } else {
       console.log('Dữ liệu không hợp lệ.');
-
     }
   }
 
   deleteImage(imagePath: string) {
     // Xóa ảnh bằng đường dẫn imagePath
-    this.fireStorage.storage.refFromURL(imagePath).delete().then(() => {
-      console.log('Ảnh đã được xóa thành công');
-    }).catch(error => {
-      console.error('Lỗi xóa ảnh:', error);
-    });
+    this.fireStorage.storage
+      .refFromURL(imagePath)
+      .delete()
+      .then(() => {
+        console.log('Ảnh đã được xóa thành công');
+      })
+      .catch((error) => {
+        console.error('Lỗi xóa ảnh:', error);
+      });
   }
 
   updateProduct() {
-    const selectedBrand = this.brand.find(brand => brand.id === this.selectedBrandId);
-    const selectedOrigin = this.origin.find(origin => origin.id === this.selectedOriginId);
-    const selectedCategory = this.categories.find(category => category.id === this.selectedCategoryId);
+    const selectedBrand = this.brand.find(
+      (brand) => brand.id === this.selectedBrandId
+    );
+    const selectedOrigin = this.origin.find(
+      (origin) => origin.id === this.selectedOriginId
+    );
+    const selectedCategory = this.categories.find(
+      (category) => category.id === this.selectedCategoryId
+    );
 
     if (selectedBrand && selectedOrigin && selectedCategory) {
       this.product.thuongHieu = selectedBrand.id;
@@ -140,15 +150,16 @@ export class DialogProductComponent implements OnInit {
       this.product.anhChinh = this.uploadedUrl || this.product.anhChinh;
       // }
 
-      this.productService.updateProduct(this.product, this.product.id).then(res => {
-        console.log('data updated', res.content);
-        if (res) {
-          this.dialog.closeAll();
-        }
-      });
+      this.productService
+        .updateProduct(this.product, this.product.id)
+        .then((res) => {
+          console.log('data updated', res.content);
+          if (res) {
+            this.dialog.closeAll();
+          }
+        });
     }
   }
-
 
   // updateProduct() {
   //   const selectedBrand = this.brand.find(brand => brand.id === this.selectedBrandId);
@@ -171,8 +182,6 @@ export class DialogProductComponent implements OnInit {
 
   deleteProduct() {
     this.productService.deleteColor(this.product.id);
-    this.dialog.closeAll()
+    this.dialog.closeAll();
   }
-
 }
-

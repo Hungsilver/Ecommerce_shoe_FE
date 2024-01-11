@@ -10,7 +10,8 @@ export class CacheService {
   set(key: 'user' | 'admin' | 'customer' | 'listIdGhct', value: any) {
     localStorage.setItem(key, JSON.stringify(value));
   }
-  get(key: 'user' | 'admin' | 'customer'| 'listIdGhct') {
+
+  get(key: 'user' | 'admin' | 'customer' | 'listIdGhct') {
     const value = localStorage.getItem(key);
     if (value) {
       return JSON.parse(value);

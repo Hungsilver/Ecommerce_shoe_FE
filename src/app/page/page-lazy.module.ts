@@ -20,6 +20,9 @@ import { BlogHomeComponent } from './blog/bloghome-component';
 import { blogdetail } from './blogDetail/blogDetail-component';
 import { VoucherHomeComponent } from '../admin/voucher/pages/voucher-home.component';
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+
 import { InputTextModule } from 'primeng/inputtext';
 import { CarouselModule } from 'primeng/carousel';
 import { TabViewModule } from 'primeng/tabview';
@@ -67,7 +70,9 @@ import { TraHangPageComponent } from './order/component/tra-hang-page/tra-hang-p
         MatTabsModule,
         InputTextModule,
         CarouselModule,
-        TabViewModule
+        TabViewModule,
+        MatDatepickerModule
+        // MatInputModule
     ],
     exports: [],
     declarations: [

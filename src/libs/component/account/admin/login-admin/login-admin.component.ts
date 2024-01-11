@@ -28,32 +28,17 @@ export class LoginAdminComponent implements OnInit {
   onSubmit() {
 
     if (this.formLogin.valid) {
-      // alert(JSON.stringify(this.formLogin.value));
-      // this.cacheService.
       this.authCustomer.loginAdmin(this.formLogin.value).then((res: any) => {
-        if (res) {
-          this.cacheService.set('admin', res);
+        if (res.isOK) {
+          this.cacheService.set('admin', res.data);
           this.notification.success('đăng nhập thành công')
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/admin');
           return;
         }
       }, (err) => {
         this.notification.error('đăng nhập không thành công')
       }
       )
-      // call api luu vao cache
-      // if (this.formLogin.get('email')?.value === 'admin@gmail.com'
-      //   && this.formLogin.get('password')?.value === 'admin@123'
-      // ) {
-      //   this.cacheService.set('admin', { id: 1, ten: 'hung silver' });
-      //   this.router.navigateByUrl('/admin')
-      // }
-
-      // if (!this.cacheService.get('admin')) {
-      //   alert('loi login admin');
-      // } else {
-      // }
-
     }
   }
   ngOnInit() {

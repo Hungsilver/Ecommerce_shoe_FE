@@ -2,7 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { VoucherSevice } from "../service/voucher.service";
 import { MatDialog } from "@angular/material/dialog";
 import { VoucherDialogComponent } from "../components/voucher-Dialog.component";
-
+// import * as moment from 'moment';
+// import * as moment from 'moment-timezone';
 
 @Component({
 selector:'app-voucher-home',
@@ -60,10 +61,10 @@ getAll(action?: 'prev' | 'next'): void {
 
   }
       this.voucherService.getVoucher(this.searchQuery).then(voucher =>{
-      if(voucher && voucher.content){
-    this.vouchers = voucher.content;
-    this.listTotalPage =this.getTotalPage(voucher.totalPages)
-  }
+        if (voucher && voucher.content) {
+          this.vouchers = voucher.content;
+          this.listTotalPage = this.getTotalPage(voucher.totalPages);
+        }
 })
 }
 
@@ -95,9 +96,11 @@ openDialog() {
   })
 }
 openDialogEdit(voucher: any) {
+  // console.log("in ra:",voucher);
+  if(voucher.trangThai === 2){
   const dialogRef = this.dialog.open(VoucherDialogComponent, {
     width: '1200px',
-    height: '480px',
+    height: '500px',
     data: {
       type: 'update',
       voucher: voucher,
@@ -106,6 +109,10 @@ openDialogEdit(voucher: any) {
   dialogRef.afterClosed().subscribe(data => {
     this.getAll();
   })
+}else{
+alert("Bạn không được sửa voucher kết thúc hoặc đang diễn ra");
+
+}
 }
 
 openDialogDelete(voucher: any) {
@@ -121,6 +128,10 @@ openDialogDelete(voucher: any) {
     this.getAll();
   })
 }
+
+
+
+
 
 
 
