@@ -18,47 +18,64 @@ export class DialogProductComponent implements OnInit {
   brand: any[] = [];
   type: any;
 
-  selectedBrandId: number | null = null;
-  selectedOriginId: number | null = null;
-  selectedCategoryId: number | null = null;
+  // selectedBrandId: number | null = null;
+  // selectedOriginId: number | null = null;
+  // selectedCategoryId: number | null = null;
   validUrls: string[] = []; // Mảng để lưu đường dẫn hình ảnh
   uploadedUrl: string | null = null;
-  productForm: any;
+  productForm: FormGroup= new FormGroup({});
 
   ngOnInit(): void {
-    if (
-      this.data.product &&
-      this.data.product.thuongHieu &&
-      this.data.product.xuatXu
-    ) {
-      // Thiết lập giá trị mặc định cho các trường select
-      this.selectedBrandId = this.data.product.thuongHieu.id;
-      this.selectedOriginId = this.data.product.xuatXu.id;
-      this.selectedCategoryId = this.data.product.danhMuc.id;
+
+    this.productForm = this.fb.group({
+      ten: ['', [Validators.required,Validators.minLength(10)]],
+      moTa: ['',[Validators.required,Validators.minLength(10)]],
+      danhMuc: [null, Validators.required],
+      thuongHieu: [null, Validators.required],
+      xuatXu: [null, Validators.required],
+      trangThai: [1, Validators.required],
+      anhChinh:[null,Validators.required],
+    });
+
+    if (this.data.product && this.data.product.ten && this.data.product.moTa
+       && this.data.product.danhMuc && this.data.product.thuongHieu &&
+      this.data.product.xuatXu ) {
+        this.uploadedUrl = this.data.product.anhChinh;
+      this.productForm.patchValue({
+        ten: this.data.product.ten,
+        moTa :this.data.product.moTa,
+        danhMuc: this.data.product.danhMuc.id,
+        thuongHieu: this.data.product.thuongHieu.id,
+        xuatXu: this.data.product.xuatXu.id,
+        trangThai :this.data.product.trangThai,
+
+      });
     }
+    //   this.type =this.data.type;
+    //   if (this.type === 'update') {
+    //     // this.uploadedUrl =this.data.staff.anhDaiDien;
+    //     this.uploadedUrl =this.data.product.anhChinh;
+    //   this.productForm.patchValue(this.data.product);
+    // }
+
+
   }
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data : any,
     private productService: ProductService,
     private dialog: MatDialog,
-    private categoryService: CategoryService,
+    // private categoryService: CategoryService,
     private fireStorage: AngularFireStorage,
     private fb: FormBuilder
   ) {
     this.origin = data.origins;
     this.brand = data.brands;
     this.categories = data.categories;
+
     this.type = data.type;
     this.product = data.product;
 
-    this.productForm = this.fb.group({
-      ten: ['', Validators.required],
-      moTa: ['', Validators.required],
-      danhMuc: [null, Validators.required],
-      thuongHieu: [null, Validators.required],
-      xuatXu: [null, Validators.required],
-      trangThai: [1, Validators.required],
-    });
+
   }
 
   async onFileChange(event: any) {
@@ -80,21 +97,22 @@ export class DialogProductComponent implements OnInit {
   addProduct(): void {
     // console.log('Valid URLs in addProduct:', this.validUrls);
     // Gán giá trị vào this.product.anhChinh
-    const tenValue = this.productForm.get('ten').value;
-    const moTaValue = this.productForm.get('moTa').value;
-    const danhMucId = this.productForm.get('danhMuc').value;
-    const thuongHieuId = this.productForm.get('thuongHieu').value;
-    const xuatXuId = this.productForm.get('xuatXu').value;
-    const trangThaiValue = this.productForm.get('trangThai').value;
+    // const tenValue = this.productForm.get('ten').value;
+    // const moTaValue = this.productForm.get('moTa').value;
+    // const danhMucId = this.productForm.get('danhMuc').value;
+    // const thuongHieuId = this.productForm.get('thuongHieu').value;
+    // const xuatXuId = this.productForm.get('xuatXu').value;
+    // const trangThaiValue = this.productForm.get('trangThai').value;
 
     // Gán giá trị vào this.product
+    const formValue =this.productForm.value;
     this.product = {
-      ten: tenValue,
-      moTa: moTaValue,
-      danhMuc: danhMucId,
-      thuongHieu: thuongHieuId,
-      xuatXu: xuatXuId,
-      trangThai: trangThaiValue,
+      ten: formValue.ten,
+      moTa: formValue.moTa,
+      danhMuc: formValue.danhMuc,
+      thuongHieu: formValue.thuongHieu,
+      xuatXu: formValue.xuatXu,
+      trangThai: formValue.trangThai,
     };
 
     this.product.anhChinh = this.uploadedUrl;
@@ -129,36 +147,33 @@ export class DialogProductComponent implements OnInit {
   }
 
   updateProduct() {
-    const selectedBrand = this.brand.find(
-      (brand) => brand.id === this.selectedBrandId
-    );
-    const selectedOrigin = this.origin.find(
-      (origin) => origin.id === this.selectedOriginId
-    );
-    const selectedCategory = this.categories.find(
-      (category) => category.id === this.selectedCategoryId
-    );
+   const formValue =this.productForm.value;
 
-    if (selectedBrand && selectedOrigin && selectedCategory) {
-      this.product.thuongHieu = selectedBrand.id;
-      this.product.xuatXu = selectedOrigin.id;
-      this.product.danhMuc = selectedCategory.id;
+   this.product = {
+    ten: formValue.ten,
+    moTa: formValue.moTa,
+    danhMuc: formValue.danhMuc,
+    thuongHieu: formValue.thuongHieu,
+    xuatXu: formValue.xuatXu,
+    trangThai: formValue.trangThai,
+    anhChinh:this.uploadedUrl,
+  };
 
       // Sử dụng đường dẫn ảnh mới nếu có
       // if (this.uploadedUrl) {
       // this.product.anhChinh = this.uploadedUrl;
-      this.product.anhChinh = this.uploadedUrl || this.product.anhChinh;
+      // this.product.anhChinh = this.uploadedUrl || this.product.anhChinh;
       // }
 
       this.productService
-        .updateProduct(this.product, this.product.id)
+        .updateProduct(this.product, this.data.product.id)
         .then((res) => {
           console.log('data updated', res.content);
           if (res) {
             this.dialog.closeAll();
           }
         });
-    }
+
   }
 
   // updateProduct() {

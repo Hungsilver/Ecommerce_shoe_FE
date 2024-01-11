@@ -6,7 +6,7 @@
       <button mat-button mat-dialog-close>Close</button>
   </div>
 </div>
-<ng-container *ngIf="(type && type==='add' )|| type==='update' ">
+<ng-container *ngIf="(type && type==='add' )|| type==='' ">
   <mat-dialog-content class="mat-typography">
       <div class="container-fluid">
           <form [formGroup]="productDetailForm" class="row">
@@ -74,16 +74,16 @@
                       </button>
                   </mat-form-field>
                 </div>
-                  <!-- <div class="col-6">
+                  <div class="col-6">
                     <label>Hình ảnh</label>
-                    <input type="file" (change)="onFileChange($event)" multiple />
+                    <input type="file" formControlName="anhSanPhams" (change)="onFileChange($event)" multiple />
 
                     <div *ngIf="validUrls.length > 0">
                       <div *ngFor="let url of validUrls; let i = index">
                         <img [src]="url" style="width: 100px; height: auto" />
                       </div>
                     </div>
-                  </div> -->
+                  </div>
 
               </div>
               <div class="col">
@@ -175,9 +175,9 @@
     <ng-container *ngIf=" type=== 'add'">
         <button mat-button (click)="addProduct()" [disabled]="!productDetailForm.valid">Xác nhận add</button>
     </ng-container>
-    <ng-container *ngIf="type === 'update'">
+    <!-- <ng-container *ngIf="type === 'update'">
       <button mat-button (click)="updateProduct()" [disabled]="productDetailForm.invalid">Xác nhận update</button>
-    </ng-container>
+    </ng-container> -->
 </mat-dialog-actions>
 </ng-container>
 <ng-container *ngIf="type==='delete'">
@@ -192,7 +192,7 @@
 
 
 <!-- update -->
-<ng-container *ngIf="type && type===''">
+<ng-container *ngIf="type && type==='update'">
   <mat-dialog-content class="mat-typography">
       <div class="container-fluid">
           <form [formGroup]="productDetailForm" class="row">
@@ -239,21 +239,25 @@
                         </button>
                   </mat-form-field>
                 </div>
-                  <!-- <div class="col-6">
-                    <mat-label>Ảnh chính</mat-label>
-            <img *ngIf="!validUrls && productDetail.anhSanPhams" [src]="productDetail.anhSanPhams" alt="Product Image"
+                  <div class="col-6">
+
+                    <div *ngIf="!validUrls && productDetail.anhSanPhams.length > 0" >
+                      <mat-label>Ảnh chính</mat-label>
+                      <div *ngFor="let imageUrl of productDetail.anhSanPhams">
+            <img formControlName="anhSanPhams" [src]="imageUrl.ten" alt="Product Image"
                 style="width: 50px; height: auto;">
+              </div>
+              </div>
 
-
-            <div *ngIf="uploadedUrl">
+            <div *ngIf="validUrls">
                 <h4>Ảnh đã tải lên</h4>
-                <img [src]="validUrls" alt="Uploaded Image" style="width: 50px; height: auto;">
+                <img [src]="validUrls" formControlName="anhSanPhams" alt="Uploaded Image" style="width: 50px; height: auto;">
             </div>
 
 
-            <input type="file" (change)="onFileChange($event)" accept="image/*" />
+            <input type="file" formControlName="anhSanPhams" (change)="onFileChange($event)" accept="image/*" multiple />
 
-                  </div>  -->
+                  </div>
 
               </div>
             <div class="col">

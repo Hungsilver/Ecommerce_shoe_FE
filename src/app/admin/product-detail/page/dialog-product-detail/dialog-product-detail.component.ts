@@ -23,7 +23,9 @@ export class dialogProductDetailComponent implements OnInit {
   shoeMaterial: any[] = [];
   shoeSoleMaterial: any[] = [];
 
-  validUrls: string[] = []; // Mảng để lưu đường dẫn hình ảnh
+   validUrls: string[] = []; // Mảng để lưu đường dẫn hình ảnh
+  // validUrls: string[] = new Array(4);
+
   uploadedUrl: string | null = null;
 
   type :any;
@@ -32,7 +34,7 @@ export class dialogProductDetailComponent implements OnInit {
   // selectedColorId : number | null =null;
   // selectedShoeMaterialId : number | null =null;
   // selectedShoeSoleMaterialId : number | null =null;
-  productDetailForm: FormGroup =new FormGroup({}) ;
+  productDetailForm: FormGroup = new FormGroup({}) ;
 
   ngOnInit(): void {
     // if (this.data.productDetail && this.data.productDetail.sanPham && this.data.productDetail.mauSac && this.data.productDetail.kichCo
@@ -55,11 +57,15 @@ export class dialogProductDetailComponent implements OnInit {
       chatLieuGiay: [null, Validators.required],
       chatLieuDeGiay: [null, Validators.required],
       trangThai: [1, Validators.required],
+      anhSanPhams :[null,Validators.required],
     });
 
     if (this.data.productDetail && this.data.productDetail.soLuong && this.data.productDetail.giaBan && this.data.productDetail.sanPham && this.data.productDetail.mauSac &&
       this.data.productDetail.kichCo && this.data.productDetail.chatLieuGiay && this.data.productDetail.chatLieuDeGiay) {
-      this.productDetailForm.patchValue({
+          console.log("anh",this.data.productDetail.anhSanPhams );
+        this.validUrls = this.data.productDetail.anhSanPhams.ten;
+        console.log("validUrls:",this.validUrls);
+        this.productDetailForm.patchValue({
         soLuong: this.data.productDetail.soLuong,
         giaBan :this.data.productDetail.giaBan,
         sanPham: this.data.productDetail.sanPham.id,
@@ -67,6 +73,7 @@ export class dialogProductDetailComponent implements OnInit {
         mauSac: this.data.productDetail.mauSac.id,
         chatLieuGiay: this.data.productDetail.chatLieuGiay.id,
         chatLieuDeGiay: this.data.productDetail.chatLieuDeGiay.id,
+        trangThai:this.data.productDetail.trangThai,
       });
 
   }
@@ -128,13 +135,30 @@ export class dialogProductDetailComponent implements OnInit {
     console.log('files-log', files);
 
     if (files && files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const path = `images/${file.name}`;
-        const uploadTask = await this.fireStorage.upload(path, file);
-        const url = await uploadTask.ref.getDownloadURL();
-        this.validUrls.push(url);
-        console.log(`Uploaded file ${i}: ${this.validUrls}`);
+      try {
+
+        if(files.length < 6){
+
+
+        // this.validUrls = [];
+        for (let i = 0; i < files.length ; i++) {
+          const file = files[i];
+          const path = `images/${file.name}`;
+          const uploadTask = await this.fireStorage.upload(path, file);
+          const url = await uploadTask.ref.getDownloadURL();
+          if (!this.validUrls) {
+            this.validUrls = []; // Khởi tạo mảng nếu chưa tồn tại
+          }
+          this.validUrls.push(url);
+          console.log(`Uploaded file ${i}: ${url}`);
+        }
+      }else{
+        alert('chi dc them 5 anh');
+      }
+
+      } catch (error) {
+        console.error('Error uploading files:', error);
+        // Xử lý lỗi tải lên nếu cần
       }
     }
   }
@@ -180,19 +204,6 @@ export class dialogProductDetailComponent implements OnInit {
 
   }
     updateProduct() {
-      // const selectedProduct = this.product.find(product => product.id ===this.selectedProductId);
-      // const selectedSize = this.size.find( size => size.id === this.selectedSizeId);
-      // const selectedColor = this.color.find( color => color.id === this.selectedColorId);
-      // const selectedShoeMaterial = this.shoeMaterial.find(shoeMaterial => shoeMaterial.id === this.selectedShoeMaterialId);
-      // const selectedShoeSoleMaterial = this.shoeSoleMaterial.find(shoeSoleMaterial => shoeSoleMaterial.id === this.selectedShoeSoleMaterialId);
-
-      // if (selectedProduct && selectedSize && selectedColor && selectedShoeMaterial
-      //   && selectedShoeSoleMaterial) {
-      //   this.productDetail.sanPham = selectedProduct.id;
-      //   this.productDetail.kichCo = selectedSize.id;
-      //   this.productDetail.mauSac = selectedColor.id;
-      //   this.productDetail.chatLieuGiay = selectedShoeMaterial.id;
-      //   this.productDetail.chatLieuDeGiay = selectedShoeSoleMaterial.id;
       const formValue = this.productDetailForm.value;
       this.productDetail = {
         soLuong: formValue.soLuong,
@@ -209,7 +220,7 @@ export class dialogProductDetailComponent implements OnInit {
         // if (this.uploadedUrl) {
         // this.product.anhChinh = this.uploadedUrl;
 
-        this.productDetail.anhSanPhams = this.validUrls || this.productDetail.anhSanPhams;
+        // this.productDetail.anhSanPhams = this.validUrls || this.productDetail.anhSanPhams;
         // }
 
         this.productDetailService.updateProduct(this.productDetail, this.data.productDetail.id).then(res => {

@@ -193,7 +193,7 @@ if(this.ChiTietSanPham.length >0){
       if (product && product.content) {
         this.productsDetails = product.content;
         this.listTotalPage = this.getTotalPage(product.totalPages);
-        console.log(product);
+        console.log("ctsp",product);
       }
     });
 

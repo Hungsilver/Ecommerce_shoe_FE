@@ -1,5 +1,5 @@
 export interface IMaterialSoles {
-    id: number;
-    ten: string;
-    status?: number
+    id?: number;
+    ten?: string;
+    trangThai?: number;
 }

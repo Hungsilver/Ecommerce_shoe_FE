@@ -26,7 +26,7 @@
                && (staffFrom?.get('hoTen')?.dirty || staffFrom?.get('hoTen')?.touched)">
                Tên không đúng định dạng
               </mat-error>
-               <button
+               <!-- <button
                  *ngIf="staff?.hoTen"
                  matSuffix
                  mat-icon-button
@@ -34,7 +34,7 @@
                  (click)="staff.hoTen = ''"
                >
                  <mat-icon>close</mat-icon>
-               </button>
+               </button> -->
 
              </mat-form-field>
             </div>
@@ -86,7 +86,7 @@
           <div class="col-6">
             <mat-form-field class="example-form-field">
            <mat-label>Mật Khẩu</mat-label>
-           <input matInput type="text" formControlName="matKhau"/>
+           <input matInput type="password" formControlName="matKhau"/>
           <mat-error *ngIf="(staffFrom?.get('matKhau')?.hasError('required'))
           && (staffFrom?.get('matKhau')?.dirty || staffFrom?.get('matKhau')?.touched)">
            Mật Khẩu không được để trống
@@ -190,7 +190,7 @@
                && (staffFrom?.get('hoTen')?.dirty || staffFrom?.get('hoTen')?.touched)">
                Tên không đúng định dạng
               </mat-error>
-               <button
+               <!-- <button
                  *ngIf="staff?.hoTen"
                  matSuffix
                  mat-icon-button
@@ -198,7 +198,7 @@
                  (click)="staff.hoTen = ''"
                >
                  <mat-icon>close</mat-icon>
-               </button>
+               </button> -->
 
              </mat-form-field>
             </div>
@@ -248,7 +248,7 @@
           <div class="col-6">
             <mat-form-field class="example-form-field">
            <mat-label>Mật Khẩu</mat-label>
-           <input matInput type="text" formControlName="matKhau"/>
+           <input matInput type="password" formControlName="matKhau"/>
           <mat-error *ngIf="(staffFrom?.get('matKhau')?.hasError('required'))
           && (staffFrom?.get('matKhau')?.dirty || staffFrom?.get('matKhau')?.touched)">
            Mật Khẩu không được để trống
