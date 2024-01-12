@@ -1,0 +1,279 @@
+<div class="container" *ngIf="openDialog===7">
+    <div class="content">
+        <div class="invoice">
+            <div class="row mt-3">
+                <div class="d-flex justify-content-between">
+                    <h2 *ngIf="traHangDetail.trangThai === 0">Trả hàng: {{traHangDetail.hoaDon.maHoaDon}} | Chờ xác nhận
+                        | {{traHangDetail.ngayTao}}</h2>
+                    <h2 *ngIf="traHangDetail.trangThai === 1">Trả hàng: {{traHangDetail.hoaDon.maHoaDon}} | Chờ xử lý |
+                        {{traHangDetail.ngayCapNhat}}</h2>
+                    <h2 *ngIf="traHangDetail.trangThai === 2">Trả hàng: {{traHangDetail.hoaDon.maHoaDon}} | Hoàn thành |
+                        {{traHangDetail.ngayCapNhat}}</h2>
+                    <h2 *ngIf="traHangDetail.trangThai === 3">Trả hàng: {{traHangDetail.hoaDon.maHoaDon}} | Đã hủy |
+                        {{traHangDetail.ngayCapNhat}}</h2>
+                    <div>
+                        <button type="button" class="btn " (click)="closeDialog()">
+                            <i class="pi pi-times" style="font-size: 1.5rem"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <hr>
+                <div class="row invoiceDetail">
+                    <div class="col-6">
+                        <h3>Sản phẩm đã mua:</h3>
+                        <hr>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sản phẩm</th>
+                                    <th scope="col">Số lượng</th>
+                                    <th scope="col">Đơn giá</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let c of traHangDetail.hoaDon.listHoaDonChiTiet; let i = index">
+                                    <td>
+                                        <div class="table-product-detail">
+                                            <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}"
+                                                alt="">
+                                            <div>
+                                                <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                                <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                                <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                                <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                                <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                                <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {{c.soLuong}}
+                                    </td>
+                                    <td>{{c.donGia | currency:'VND'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-6">
+                        <h3>Sản phẩm hoàn trả:</h3>
+                        <hr>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sản phẩm</th>
+                                    <th scope="col">Số lượng</th>
+                                    <th scope="col">Đơn giá</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let c of traHangDetail.listTraHangChiTiet; let i = index">
+                                    <td>
+                                        <div class="table-product-detail">
+                                            <img class="table-image"
+                                                src="{{c.hoaDonChiTiet.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                            <div>
+                                                <p>Tên: {{c.hoaDonChiTiet.chiTietSanPham.sanPham.ten}}</p>
+                                                <p>Mã: {{c.hoaDonChiTiet.chiTietSanPham.ma}}</p>
+                                                <p>Size: {{c.hoaDonChiTiet.chiTietSanPham.kichCo.size}}</p>
+                                                <p>Màu sắc: {{c.hoaDonChiTiet.chiTietSanPham.mauSac.ten}}</p>
+                                                <p>Chất liệu: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                                <p>Loại đế: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{c.soLuong}}
+                                    </td>
+                                    <td>{{c.donGia | currency:'VND'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>*Ghi chú</p>
+                        <textarea class="ghiChu" value="{{traHangDetail.lyDo}}" disabled></textarea>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Phí vận chuyển:</h4>
+                            </div>
+                            <div class="col-6">
+                                <p style="margin-left: 70%;">{{traHangDetail.hoaDon.phiVanChuyen | currency:'VND'}}</p>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="traHangDetail.hoaDon.phieuGiamGia !== null">
+                            <div class="col-6">
+                                <h4>Voucher đã dùng:</h4>
+                            </div>
+                            <div class="col-6">
+                                <div style="margin-left: 70%;"
+                                    *ngIf="traHangDetail.hoaDon.phieuGiamGia.hinhThucGiamGia===false">
+                                    {{traHangDetail.hoaDon.phieuGiamGia.chietKhau}}%</div>
+                                <div style="margin-left: 70%;"
+                                    *ngIf="traHangDetail.hoaDon.phieuGiamGia.hinhThucGiamGia===true">
+                                    {{traHangDetail.hoaDon.phieuGiamGia.chietKhau| currency:'VND'}}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 ">
+                                <h3><b>Tổng thanh toán:</b></h3>
+                            </div>
+                            <div class="col-6 ">
+                                <h3 style="margin-left: 70%;">
+                                    <b>{{tongTienThanhToan |currency:'VND'}}</b>
+                                </h3>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6 ">
+                                <h3><b>Tổng giá hoàn trả:</b></h3>
+                            </div>
+                            <div class="col-6 ">
+                                <h3 style="margin-left: 70%;"><b>{{tongGiaHangTra |currency:'VND'}}</b>
+                                </h3>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6 ">
+                                <h3><b>Tiền hoàn trả :</b></h3>
+                            </div>
+                            <div class="col-6 ">
+                                <h3 style="margin-left: 70%;"><b>{{traHangDetail.tienTraKhach| currency:'VND'}}</b>
+                                </h3>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" *ngIf="openDialog===8">
+    <div class="content">
+        <div class="invoice">
+            <div class="row mt-3">
+                <div class="d-flex justify-content-between">
+                        <h2>Trả hàng: {{invoice.maHoaDon}} | Hoàn thành | {{invoice.ngayCapNhat}}</h2>
+                    <div>
+                        <button type="button" class="btn " (click)="closeDialog()">
+                            <i class="pi pi-times" style="font-size: 1.5rem"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <hr>
+                <div class="row invoiceDetail">
+                    <div class="col-8">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" name="allCheckbox" id="allCheckbox"
+                                            (click)="toggleChecked(1)">
+                                    </th>
+                                    <th scope="col">Sản phẩm</th>
+                                    <th scope="col">Số lượng</th>
+                                    <th scope="col">Đơn giá</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let c of invoice.listHoaDonChiTiet; let i = index">
+                                    <td>
+                                        <input type="checkbox" [checked]="isChecked(1)"
+                                            (change)="onCheckboxChange($event, c.id)" value="{{c.id}}">
+                                    </td>
+                                    <td>
+                                        <div class="table-product-detail">
+                                            <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}"
+                                                alt="">
+                                            <div>
+                                                <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                                <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                                <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                                <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                                <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                                <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="number" min="1" max="{{c.soLuong}}" value="{{c.soLuong}}"
+                                            (blur)="capNhatSoLuong($event,i)"> /{{c.soLuong}}
+                                    </td>
+                                    <td>{{c.donGia | currency:'VND'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-4">
+                        <p>*Ghi chú</p>
+                        <textarea class="ghiChu" [(ngModel)]="ghiChu"></textarea>
+                        <div class="text-danger" *ngIf="loiGhiChu === true">
+                            *Ghi chú phải nhiều hơn 0 ký tự và ít hơn 200 ký tự !
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Tổng tiền đơn hàng:</h4>
+                            </div>
+                            <div class="col-6">
+                                <p style="margin-left: 70%;">{{invoice.tongTien | currency:'VND'}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Phí vận chuyển:</h4>
+                            </div>
+                            <div class="col-6">
+                                <p style="margin-left: 70%;">{{invoice.phiVanChuyen | currency:'VND'}}</p>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="invoice.phieuGiamGia !== null">
+                            <div class="col-6">
+                                <h4>Voucher đã dùng:</h4>
+                            </div>
+                            <div class="col-6">
+                                <div style="margin-left: 70%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===false">
+                                    {{invoice.phieuGiamGia.chietKhau}}%</div>
+                                <div style="margin-left: 70%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===true">
+                                    {{invoice.phieuGiamGia.chietKhau| currency:'VND'}}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 ">
+                                <h3><b>Tổng thanh toán:</b></h3>
+                            </div>
+                            <div class="col-6 ">
+                                <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen|
+                                        currency:'VND'}}</b>
+                                </h3>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6 ">
+                                <h3><b>Tiền hoàn trả :</b></h3>
+                            </div>
+                            <div class="col-6 ">
+                                <h3 style="margin-left: 70%;"><b>{{tienTraKhach| currency:'VND'}}</b>
+                                </h3>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <button class="btn btn-danger ms-3" (click)="trahang()">Trả hàng</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

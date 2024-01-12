@@ -87,7 +87,7 @@ export class dialogProductDetailComponent implements OnInit {
     this.color = data.colors;
     this.shoeSoleMaterial = data.shoeSoleMaterials;
     this.product = data.products;
-    
+
     this.type = data.type;
     this.productDetail = data.productDetail;
     // console.log("messge "+this.sanPham)

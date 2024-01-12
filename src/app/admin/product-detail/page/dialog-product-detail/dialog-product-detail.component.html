@@ -17,7 +17,7 @@
                       <mat-label>Sản Phẩm</mat-label>
                       <mat-select formControlName ="sanPham">
                           <mat-option *ngFor="let products of data.products"
-                              [value]="products.id">{{products.ten}}</mat-option>
+                           [value]="products.id"  >{{products.ten}}</mat-option>
                       </mat-select>
                       <mat-error
                           *ngIf="productDetailForm?.get('sanPham')?.hasError('required') && (productDetailForm?.get('sanPham')?.dirty || productDetailForm?.get('sanPham')?.touched)">

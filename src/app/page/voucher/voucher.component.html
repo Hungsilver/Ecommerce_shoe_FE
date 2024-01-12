@@ -1,23 +1,24 @@
 <main>
     <div class="container">
-        <div class="row mt-2 ms-5">
-            <div class="col-5 border border-success rounded"> 
-                <div class="voucher">
-                    <h1><b>Mã voucher: abc</b></h1>
-                    <h2>Giảm tối đa 100%</h2>
-                    <h3>Đơn tối thiểu 0đ</h3>
-                    <p class="text-danger">*Lưu ý: Mã Voucher không áp dụng cho phí vận chuyển</p>
-                </div>
+
+      <div class="row mt-2">
+        <div  *ngFor="let voucher of listVouchers" class="col-12 col-md-6 mb-3">
+          <div class="colorr border border-success rounded" *ngIf="voucher.trangThai===1">
+            <div class="voucher" >
+              <h1><b>Mã voucher: {{voucher.ma}}</b></h1>
+              <h2>Giảm tối đa {{voucher.chietKhau >= 10000 ? voucher.chietKhau + 'đ' : voucher.chietKhau + '%'}}</h2>
+              <!-- <h3>Đơn tối thiểu 0đ</h3> -->
+
+              <h5 >Trạng Thái: {{
+                voucher.trangThai === 0 ? 'kết thúc' :
+                voucher.trangThai === 1 ? 'Đang diễn ra' :
+                voucher.trangThai === 2 ? 'Sắp diễn ra' :
+                'Trạng Thái Khác'}}
+              </h5>
+              <p class="text-danger">*Lưu ý: Mã Voucher không áp dụng cho phí vận chuyển</p>
             </div>
-            <div class="col-1"> </div>
-            <div class="col-5 border border-success rounded"> 
-                <div class="voucher">
-                    <h1><b>Mã voucher: abc</b></h1>
-                    <h2>Giảm tối đa 100%</h2>
-                    <h3>Đơn tối thiểu 0đ</h3>
-                    <p class="text-danger">*Lưu ý: Mã Voucher không áp dụng cho phí vận chuyển</p>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
 </main>

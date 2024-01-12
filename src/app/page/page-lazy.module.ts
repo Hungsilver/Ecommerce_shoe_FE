@@ -20,6 +20,9 @@ import { BlogHomeComponent } from './blog/bloghome-component';
 import { blogdetail } from './blogDetail/blogDetail-component';
 import { VoucherHomeComponent } from '../admin/voucher/pages/voucher-home.component';
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+
 import { InputTextModule } from 'primeng/inputtext';
 import { CarouselModule } from 'primeng/carousel';
 import { TabViewModule } from 'primeng/tabview';
@@ -37,6 +40,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { DialogComponent } from './order/component/dialog/dialog.component';
 import { ChinhSachComponent } from './chinh-sach/chinh-sach.component';
 import { VoucherComponent } from './voucher/voucher.component';
+import { TraHangComponent } from './order/component/tra-hang/tra-hang.component';
+import { TraHangPageComponent } from './order/component/tra-hang-page/tra-hang-page.component';
 // import { DialogComponent } from './order/component/dialog/dialog.component';
 
 
@@ -65,7 +70,9 @@ import { VoucherComponent } from './voucher/voucher.component';
         MatTabsModule,
         InputTextModule,
         CarouselModule,
-        TabViewModule
+        TabViewModule,
+        MatDatepickerModule
+        // MatInputModule
     ],
     exports: [],
     declarations: [
@@ -85,6 +92,8 @@ import { VoucherComponent } from './voucher/voucher.component';
         DangGiaoHangComponent,
         DaGiaoHangComponent,
         DaHuyComponent,
+        TraHangComponent,
+        TraHangPageComponent,
          DialogComponent
 
 

@@ -27,7 +27,7 @@ staffFrom :FormGroup = new FormGroup({});
       ngaySinh:  ['', Validators.required],
       diaChi: ['', Validators.required],
       trangThai: [1, Validators.required],
-      anhDaiDien :['', Validators.required],
+      anhDaiDien :[null, Validators.required],
   });
 
   // if(this.data.staff && this.data.staff.hoTen && this.data.staff.email && this.data.staff.matKhau
@@ -49,6 +49,7 @@ staffFrom :FormGroup = new FormGroup({});
 
   this.type =this.data.type;
   if (this.type === 'update') {
+      this.uploadedUrl =this.data.staff.anhDaiDien;
     this.staffFrom.patchValue(this.data.staff);
   }
   }
@@ -114,20 +115,20 @@ staffFrom :FormGroup = new FormGroup({});
 
   updateStaff() {
     const formValue = this.staffFrom.value;
-    // this.staff ={
-    //   hoTen :formValue.hoTen,
-    //   email :formValue.email,
-    //   matKhau :formValue.matKhau,
-    //   soDienThoai: formValue.soDienThoai,
-    //   gioiTinh :formValue.gioiTinh,
-    //   ngaySinh:formValue.ngaySinh,
-    //   diaChi : formValue.diaChi,
-    //   trangThai: formValue.trangThai,
-    //   // anhDaiDien :formValue.anhDaiDien,
-    // anhDaiDien :this.uploadedUrl || this.staff.anhDaiDien,
-    // }
-      this.staff.anhDaiDien = this.uploadedUrl || this.staff.anhDaiDien;
-    this.staffService.updateStaff(formValue, this.data.staff.id).then((res) => {
+    this.staff ={
+      hoTen :formValue.hoTen,
+      email :formValue.email,
+      matKhau :formValue.matKhau,
+      soDienThoai: formValue.soDienThoai,
+      gioiTinh :formValue.gioiTinh,
+      ngaySinh:formValue.ngaySinh,
+      diaChi : formValue.diaChi,
+      trangThai: formValue.trangThai,
+      // anhDaiDien :formValue.anhDaiDien,
+    anhDaiDien :this.uploadedUrl,
+    }
+      // this.staff.anhDaiDien = this.uploadedUrl || this.staff.anhDaiDien;
+    this.staffService.updateStaff(this.staff, this.data.staff.id).then((res) => {
       console.log('data updated', res.content);
       if (res) {
         this.dialog.closeAll();

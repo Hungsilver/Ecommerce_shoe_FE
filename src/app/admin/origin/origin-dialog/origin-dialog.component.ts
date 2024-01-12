@@ -16,7 +16,7 @@ export class OriginDialogComponent implements OnInit {
 
 ngOnInit(): void {
   this.originForm = this.fb.group({
-    ten: ['', [Validators.required, Validators.minLength(3)]], // Tên là bắt buộc và ít nhất 3 ký tự
+    ten: ['', [Validators.required,Validators.pattern(/[a-zA-Z]+/)]], // Tên là bắt buộc và ít nhất 3 ký tự
     trangThai: [1, Validators.required],
   });
 

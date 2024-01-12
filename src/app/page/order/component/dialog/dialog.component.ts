@@ -5,6 +5,8 @@ import { OrderService } from '../../service/order.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { TraHangComponent } from '../tra-hang/tra-hang.component';
+import { isAfter, isSameDay, differenceInDays } from 'date-fns';
 
 @Component({
   selector: 'app-dialog',
@@ -35,6 +37,8 @@ export class DialogComponent implements OnInit {
   disabledDistrict = true;
   disabledWard = true;
   hoaDonChiTiets: any[] = [];
+  ngayHienTai: Date = new Date();
+  ngayGiaoHang: Date = new Date();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -127,24 +131,28 @@ export class DialogComponent implements OnInit {
     ).then((result) => {
       if (result.isConfirmed) {
         this.orderService.updateInvoice(this.form.value).then(c => {
-          this.notificationService.success('Cập nhật đơn hàng thành công !');      
+          this.notificationService.success('Cập nhật đơn hàng thành công !');
+          this.dialog.closeAll();
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         }, err => {
-          this.notificationService.success('Cập nhật đơn hàng không thành công !');     
+          this.notificationService.success('Cập nhật đơn hàng không thành công !');
         })
       }
     })
-    
+
 
   }
 
 
   closeDialog() {
-    if(this.invoice.trangThai === 2){
+    if (this.invoice.trangThai === 2) {
       this.dialog.closeAll();
       setTimeout(() => {
         window.location.reload();
       }, 500);
-    }else{
+    } else {
       this.dialog.closeAll();
     }
   }
@@ -189,27 +197,27 @@ export class DialogComponent implements OnInit {
         if (this.invoice.listHoaDonChiTiet.length == 1) {
           this.notificationService.error('Bạn không thể xóa sản phẩm cuối !');
         } else {
-          this.orderService.deleteInvoiceDetail(idHdct).then(h=>{
+          this.orderService.deleteInvoiceDetail(idHdct).then(h => {
             this.tongTien = 0;
             this.invoice.listHoaDonChiTiet = this.invoice.listHoaDonChiTiet.filter((item: { id: number; }) => item.id !== idHdct);
             this.invoice.listHoaDonChiTiet.forEach((element: any) => {
               this.tongTien += element.soLuong * element.donGia;
             });
             this.invoice.tongTien = this.tongTien;
-            if(this.invoice === null){
-              this.invoice.tongTienSauGiam = (this.invoice.phiVanChuyen + this.invoice.tongTien)
+            if (this.invoice.phieuGiamGia === null) {
+              this.invoice.tongTienSauGiam = this.invoice.tongTien
             }
-            else if (this.invoice.phieuGiamGia.hinhThucGiamGia === true && this.invoice.phieuGiamGia.hinhThucGiamGia !== null) {
+            else if (this.invoice.phieuGiamGia.hinhThucGiamGia === false && this.invoice.phieuGiamGia.hinhThucGiamGia !== null) {
               this.invoice.tienGiam = (this.tongTien * this.invoice.phieuGiamGia.chietKhau) / 100;
             } else {
               this.invoice.tienGiam = this.invoice.phieuGiamGia.chietKhau;
             }
-            this.invoice.tongTienSauGiam = (this.invoice.phiVanChuyen + this.invoice.tongTien) - this.invoice.tienGiam;
-    
+            this.invoice.tongTienSauGiam = this.invoice.tongTien - this.invoice.tienGiam;
+
             //update hoadon
             this.invoice.listHoaDonChiTiet.forEach((key: any) => {
-              console.log(key);
-        
+
+
               this.hoaDonChiTiets.push(
                 {
                   id: key.id,
@@ -220,7 +228,7 @@ export class DialogComponent implements OnInit {
                 }
               )
             })
-        
+
             this.form.patchValue({
               id: this.invoice.id,
               maHoaDon: this.invoice.maHoaDon,
@@ -238,14 +246,14 @@ export class DialogComponent implements OnInit {
               listHoaDonChiTiet: this.hoaDonChiTiets,
             })
             console.log(this.form.value);
-        
+
             this.orderService.updateInvoice(this.form.value).then(c => {
-                console.log(c);
-                
+              console.log(c);
+
             }, err => {
               alert('lỗi')
             })
-        
+
           })
         }
 
@@ -267,15 +275,15 @@ export class DialogComponent implements OnInit {
           this.tongTien += element.soLuong * element.donGia;
         });
         this.invoice.tongTien = this.tongTien;
-        if(this.invoice === null){
-          this.invoice.tongTienSauGiam = (this.invoice.phiVanChuyen + this.invoice.tongTien)
+        if (this.invoice.phieuGiamGia === null) {
+          this.invoice.tongTienSauGiam = this.invoice.tongTien
         }
-        else if (this.invoice.phieuGiamGia.hinhThucGiamGia === true && this.invoice.phieuGiamGia.hinhThucGiamGia !== null) {
+        else if (this.invoice.phieuGiamGia.hinhThucGiamGia === false && this.invoice.phieuGiamGia.hinhThucGiamGia !== null) {
           this.invoice.tienGiam = (this.tongTien * this.invoice.phieuGiamGia.chietKhau) / 100;
         } else {
           this.invoice.tienGiam = this.invoice.phieuGiamGia.chietKhau;
         }
-        this.invoice.tongTienSauGiam = (this.invoice.phiVanChuyen + this.invoice.tongTien) - this.invoice.tienGiam;
+        this.invoice.tongTienSauGiam = this.invoice.tongTien - this.invoice.tienGiam;
 
         return;
       }
@@ -295,15 +303,15 @@ export class DialogComponent implements OnInit {
           this.tongTien += element.soLuong * element.donGia;
         });
         this.invoice.tongTien = this.tongTien;
-        if(this.invoice === null){
-          this.invoice.tongTienSauGiam = (this.invoice.phiVanChuyen + this.invoice.tongTien)
+        if (this.invoice.phieuGiamGia === null) {
+          this.invoice.tongTienSauGiam = this.invoice.tongTien
         }
-        else if (this.invoice.phieuGiamGia.hinhThucGiamGia === true && this.invoice.phieuGiamGia.hinhThucGiamGia !== null) {
+        else if (this.invoice.phieuGiamGia.hinhThucGiamGia === false && this.invoice.phieuGiamGia.hinhThucGiamGia !== null) {
           this.invoice.tienGiam = (this.tongTien * this.invoice.phieuGiamGia.chietKhau) / 100;
         } else {
           this.invoice.tienGiam = this.invoice.phieuGiamGia.chietKhau;
         }
-        this.invoice.tongTienSauGiam = (this.invoice.phiVanChuyen + this.invoice.tongTien) - this.invoice.tienGiam;
+        this.invoice.tongTienSauGiam = this.invoice.tongTien - this.invoice.tienGiam;
 
         return;
       }
@@ -468,7 +476,7 @@ export class DialogComponent implements OnInit {
       } else {
         this.invoice.tienGiam = this.invoice.phieuGiamGia.chietKhau;
       }
-      this.invoice.tongTienSauGiam = (this.invoice.phiVanChuyen + this.invoice.tongTien) - this.invoice.tienGiam;
+      this.invoice.tongTienSauGiam = this.invoice.tongTien - this.invoice.tienGiam;
 
     }, (err) => {
       // this.tongTienSauGiam = this.tongTien;
@@ -478,11 +486,71 @@ export class DialogComponent implements OnInit {
       } else {
         this.invoice.tienGiam = this.invoice.phieuGiamGia.chietKhau;
       }
-      this.invoice.tongTienSauGiam = (this.invoice.phiVanChuyen + this.invoice.tongTien) - this.invoice.tienGiam;
+      this.invoice.tongTienSauGiam = this.invoice.tongTien - this.invoice.tienGiam;
 
     });
 
   }
+
+  // trả hàng
+
+  traHang(invoice: any) {
+    this.dialog.closeAll();
+    this.ngayGiaoHang = new Date(invoice.ngayCapNhat)
+    this.orderService.findTraHangByIdHD(invoice.id).then(t => {
+
+      if (differenceInDays(this.ngayHienTai, this.ngayGiaoHang) > 4 || differenceInDays(this.ngayHienTai, this.ngayGiaoHang) < 0) {
+        this.notificationService.error("Đơn hàng đã quá thời gian trả hàng !")
+      } else if (t.length === 0) {
+        const dialogRef = this.dialog.open(TraHangComponent, {
+          width: '1300px',
+          height: '650px',
+
+          data: {
+            type: "add",
+            invoice: invoice,
+            openDialog: 8
+          },
+        })
+      }
+      else {
+        let daTraHang = 0;
+        t.forEach((key: any) => {
+          if (key.trangThai !== 3) {
+            daTraHang = 1;
+          } else {
+            daTraHang = 0
+            
+          }
+        })
+        
+        if(daTraHang === 1){
+          this.notificationService.error("Đơn hàng đã hoàn trả !");
+
+        }else{
+          const dialogRef = this.dialog.open(TraHangComponent, {
+            width: '1300px',
+            height: '650px',
+
+            data: {
+              type: "add",
+              invoice: invoice,
+              openDialog: 8
+            },
+          })
+        }
+      }
+
+
+
+
+    })
+
+    // dialogRef.afterClosed().subscribe(data => {
+    //   // this.getAll();
+    // })
+  }
+
 }
 
 
