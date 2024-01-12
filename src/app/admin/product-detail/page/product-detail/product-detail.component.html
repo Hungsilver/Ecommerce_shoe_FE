@@ -3,11 +3,7 @@
     <span class="p-input-icon-left">
       <i class="pi pi-search"></i>
       <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
-      <p-dropdown
-        [options]="listTotalPage"
-        [(ngModel)]="searchQuery.page"
-        optionLabel="name"
-      ></p-dropdown>
+      <p-dropdown [options]="listTotalPage" [(ngModel)]="searchQuery.page" optionLabel="name"></p-dropdown>
     </span>
   </div>
 
@@ -16,44 +12,31 @@
       <div class="col">
         <mat-form-field class="example-form-field">
           <mat-label class="fontsize">Lọc Sản Phẩm</mat-label>
-          <mat-select
-            [(ngModel)]="selectedProduct"
-            (selectionChange)="filterByProduct()"
-          >
+          <mat-select [(ngModel)]="selectedProduct" (selectionChange)="filterByProduct()">
             <mat-option [value]="null">select Product</mat-option>
-            <mat-option
-              *ngFor="let products of product"
-              [value]="products.id"
-              >{{ products.ten }}</mat-option
-            >
+            <mat-option *ngFor="let products of product" [value]="products.id">{{ products.ten }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
       <div class="col">
         <mat-form-field class="example-form-field">
           <mat-label class="fontsize">Lọc kích Cỡ</mat-label>
-          <mat-select
-            [(ngModel)]="selectedSize"
-            (selectionChange)="filterBySize()"
-          >
+          <mat-select [(ngModel)]="selectedSize" (selectionChange)="filterBySize()">
             <mat-option [value]="null">select size</mat-option>
             <mat-option *ngFor="let sizes of size" [value]="sizes.id">{{
               sizes.size
-            }}</mat-option>
+              }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
       <div class="col">
         <mat-form-field class="example-form-field">
           <mat-label class="fontsize">Lọc Màu Sắc</mat-label>
-          <mat-select
-            [(ngModel)]="selectedColor"
-            (selectionChange)="filterByColors()"
-          >
+          <mat-select [(ngModel)]="selectedColor" (selectionChange)="filterByColors()">
             <mat-option [value]="null">Chọn Màu</mat-option>
             <mat-option *ngFor="let colors of color" [value]="colors.id">{{
               colors.ten
-            }}</mat-option>
+              }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -67,7 +50,6 @@
     </div>
   </div>
 
-  >>>>>>> develop
   <!-- <ul class="nav nav-tabs">
   <li class="nav-item">
     <a class="nav-link" (click)="changeTab('active')" [class.active]="activeTab === 'active'" href="#">Hoạt Động</a>
@@ -101,9 +83,9 @@
         <tr>
           <td>
             {{
-              productsDetails.indexOf(product) +
-                1 +
-                searchQuery.pageSize * (searchQuery.page - 1)
+            productsDetails.indexOf(product) +
+            1 +
+            searchQuery.pageSize * (searchQuery.page - 1)
             }}
           </td>
           <td>{{ product.ma }}</td>
