@@ -12,6 +12,21 @@ export class CustomerService {
   url: string = 'customer';
 
   constructor(private baseRequestService: BaseRequestService) {}
+
+  // getByIdCustomer(body: any, id?: any): Promise<IReqApi<ICustomer>> {
+  //   return new Promise<IReqApi<ICustomer>>((resolve, reject) => {
+  //     this.baseRequestService.get(`${this.url}/${id}`, body).subscribe(
+  //       (result) => {
+  //         return resolve(result);
+  //       },
+  //       (err) => reject(err)
+  //     );
+  //   });
+  // }
+  getCustomerById(id: number): Promise<ICustomer> {
+    return this.baseRequestService.get(`${this.url}/${id}`).toPromise();
+  }
+
   getCustomer(params?: any): Promise<IReqApi<ICustomer[]>> {
     return new Promise<IReqApi<ICustomer[]>>((resolve, reject) => {
       this.baseRequestService.get(`${this.url}`, params).subscribe(

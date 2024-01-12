@@ -47,6 +47,11 @@ export class HDChiTiet {
       .catch((error) => Promise.reject(error));
   }
 
+  updateQuantity(idHDCT: number, soLuong: number): Promise<IHoaDonChiTiet> {
+    const url = `${this.url}/update-quantity/${idHDCT}?soLuong=${soLuong}`;
+    return this.BaseRequestService.put(url, {}).toPromise();
+  }
+
   addProductToInvoice(
     hoaDonChiTietRequest?: any
   ): Promise<IReqApi<IHoaDonChiTiet>> {

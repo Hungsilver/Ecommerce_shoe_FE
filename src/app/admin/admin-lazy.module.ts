@@ -71,6 +71,7 @@ import { TabViewModule } from 'primeng/tabview';
 
 import { InvoiceComponent } from './invoice/pages/invoice.component';
 import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-detail.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 // import { MatInputModule } from '@angular/material/input';
@@ -103,7 +104,7 @@ LOAD_WASM().subscribe();
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
     TabViewModule,
-
+    MatSnackBarModule,
     CalendarModule,
   ],
   exports: [],

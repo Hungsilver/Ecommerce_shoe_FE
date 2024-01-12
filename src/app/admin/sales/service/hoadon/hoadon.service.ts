@@ -7,6 +7,7 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IHoaDonChiTiet } from '../hoadonchitiet/hoadonchitiet.module';
 import { take } from 'rxjs/operators'; // Thêm import này
+import { IVoucher } from 'src/app/admin/voucher/service/voucher.module';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +49,13 @@ export class HoaDonService {
     });
   }
 
+  cancelInvoice(id: number): Promise<any> {
+    return this.BaseRequestService.post(
+      `${this.url}/cance-invoice/${id}`,
+      {}
+    ).toPromise();
+  }
+
   deleteHd(params: any): Promise<IReqApi<IHoaDon[]>> {
     return new Promise<IReqApi<IHoaDon[]>>((resolve, reject) => {
       this.BaseRequestService.get('invoice/update-status', params).subscribe(
@@ -57,6 +65,25 @@ export class HoaDonService {
         (err) => reject(err)
       );
     });
+  }
+
+  findByMaPhieuGiamGia(params?: any): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.BaseRequestService.get('voucher/code', params).subscribe(
+        (result) => {
+          return resolve(result);
+        },
+        (err) => reject(err)
+      );
+    });
+  }
+
+  addPhieuGiamGiaToHoaDon(
+    idHoaDon: number,
+    maPhieu: string
+  ): Promise<IVoucher> {
+    const url = `${this.url}/add-phieu-giam-gia/${idHoaDon}?maPhieuGiamGia=${maPhieu}`;
+    return this.BaseRequestService.post(url, {}).toPromise();
   }
   //end code hung
   private updateTabs(tabs: string[]): void {
@@ -183,15 +210,28 @@ export class HoaDonService {
     });
   }
 
-  // findByIdInvoice(id: any): Promise<IReqApi<IHoaDon>> {
-  //   return new Promise<IReqApi<IHoaDon>>((resolve, reject) => {
-  //     this.BaseRequestService.get(`${this.url}/${id}`).subscribe(
-  //       (result) => {},
-  //       (err) => reject(err)
-  //     );
-  //   });
-  // }
-  getInvoiceDetailsById(id: number): Observable<any> {
-    return this.BaseRequestService.get(`${this.url}/${id}`);
+  findByIdInvoice(id: any): Promise<IReqApi<IHoaDon>> {
+    return new Promise<IReqApi<IHoaDon>>((resolve, reject) => {
+      this.BaseRequestService.get(`${this.url}/${id}`).subscribe(
+        (result) => {},
+        (err) => reject(err)
+      );
+    });
   }
+
+  getInvoiceDetailsById(id: any): Promise<IReqApi<IHoaDonChiTiet>> {
+    return new Promise<IReqApi<IHoaDonChiTiet>>((resolve, reject) => {
+      this.BaseRequestService.get(`${this.url}detail/${id}`).subscribe(
+        (result: IReqApi<IHoaDonChiTiet>) => resolve(result),
+        (err) => reject(err)
+      );
+    });
+  }
+
+  // getInvoiceDetailsById(id: number): Observable<any> {
+  //   return this.BaseRequestService.get(`${this.url}/${id}`);
+  // }
+  // getInvoiceDetailsById(id: number): Promise<IHoaDonChiTiet> {
+  //   return this.BaseRequestService.get(`${this.url}/${id}`).toPromise();
+  // }
 }
