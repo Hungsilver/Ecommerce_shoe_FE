@@ -21,37 +21,40 @@ staffFrom :FormGroup = new FormGroup({});
     this.staffFrom = this.fb.group({
       hoTen: ['', [Validators.required,Validators.pattern(/^[\p{L}]+([\s.'-][\p{L}]+)*$/u)]],
       email : ['', [Validators.required,Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]],
-      matKhau:  ['', [Validators.required,Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/),Validators.minLength(8)]],
-      soDienThoai:  ['',[ Validators.required,Validators.pattern(/^(0[1-9])+([0-9]{8})$/)]],
+      matKhau: ['', [Validators.required,Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/),Validators.minLength(8)]],
+      soDienThoai: ['',[Validators.required,Validators.pattern(/^(0[1-9])+([0-9]{8})$/)]],
       gioiTinh:  [true, Validators.required],
       ngaySinh:  ['', Validators.required],
       diaChi: ['', Validators.required],
       trangThai: [1, Validators.required],
-      anhDaiDien :[null, Validators.required],
+      // anhDaiDien :[null, Validators.required],
   });
 
-  // if(this.data.staff && this.data.staff.hoTen && this.data.staff.email && this.data.staff.matKhau
-  //   &&  this.data.staff.soDienThoai && this.data.staff.gioiTinh && this.data.staff.ngaySinh
-  //   &&this.data.staff.diaChi && this.data.staff.trangThai && this.data.staff.anhDaiDien
-  //   ){
-  //     this.staffFrom.patchValue({
-  //       hoTen :this.data.staff.hoTen,
-  //       email :this.data.staff.email,
-  //       matKhau :this.data.staff.matKhau,
-  //       soDienThoai: this.data.staff.soDienThoai,
-  //       gioiTinh :this.data.staff.gioiTinh,
-  //       ngaySinh:this.data.staff.ngaySinh,
-  //       diaChi : this.data.staff.diaChi,
-  //       trangThai: this.data.staff.trangThai,
-  //       // anhDaiDien :this.data.staff.anhDaiDien,
-  //     });
-  //   }
-
-  this.type =this.data.type;
-  if (this.type === 'update') {
+  if(this.data.staff && this.data.staff.hoTen && this.data.staff.email && this.data.staff.matKhau
+    &&  this.data.staff.soDienThoai && this.data.staff.gioiTinh && this.data.staff.ngaySinh
+    && this.data.staff.diaChi
+    ){
       this.uploadedUrl =this.data.staff.anhDaiDien;
-    this.staffFrom.patchValue(this.data.staff);
-  }
+      this.staffFrom.patchValue({
+        hoTen :this.data.staff.hoTen,
+        email :this.data.staff.email,
+        matKhau :this.data.staff.matKhau,
+        soDienThoai: this.data.staff.soDienThoai,
+        gioiTinh :this.data.staff.gioiTinh,
+        ngaySinh:this.data.staff.ngaySinh,
+        diaChi : this.data.staff.diaChi,
+        trangThai: this.data.staff.trangThai,
+        // anhDaiDien :this.data.staff.anhDaiDien,
+      });
+    }
+
+  // this.type =this.data.type;
+  // if (this.type === 'update') {
+  //     this.uploadedUrl =this.data.staff.anhDaiDien;
+  //   this.staffFrom.patchValue(this.data.staff);
+  // }
+
+
   }
 
   constructor(

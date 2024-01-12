@@ -1,5 +1,5 @@
 export interface ISize {
-    id: number;
-    size: string;
-    status?: number
+    id?: number;
+    size?: string;
+    trangThai?: number;
 }

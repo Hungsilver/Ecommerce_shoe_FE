@@ -60,15 +60,24 @@
     </div>
   </div>
 
-  <div class="col-2">
+  <!-- <div class="col-2">
     <div class="col-2">
       <button mat-button (click)="openDialog()">Thêm CT Sản Phẩm</button>
       <button (click)="exportexcel()">Export Excel</button>
     </div>
-  </div>
+  </div> -->
 
-  >>>>>>> develop
-  <!-- <ul class="nav nav-tabs">
+
+</div>
+
+<div class="col-2">
+  <button mat-button (click)="openDialog()">Thêm CT Sản Phẩm</button>
+  <button (click)="exportexcel()">Export Excel</button>
+  <!-- <input type="file" (change)="readExcel($event)"> -->
+</div>
+<!-- <ul class="nav nav-tabs">
+ <ul class="nav nav-tabs">
+
   <li class="nav-item">
     <a class="nav-link" (click)="changeTab('active')" [class.active]="activeTab === 'active'" href="#">Hoạt Động</a>
   </li>
@@ -85,12 +94,13 @@
         <tr>
           <th style="">STT</th>
           <th style="">Mã</th>
+          <th style="">anh</th>
           <th style="">Sản Phẩm</th>
           <th style="">Giá</th>
           <th style="">Màu Sắc</th>
           <th style="">Kích Cỡ</th>
-          <th style="">Chất Liệu Giày</th>
-          <th style="">Chất Liệu Đế Giày</th>
+          <!-- <th style="">Chất Liệu Giày</th> -->
+          <!-- <th style="">Chất Liệu Đế Giày</th> -->
           <th style="">Số Lượng</th>
           <th style="">Trạng Thái</th>
 
@@ -107,13 +117,15 @@
             }}
           </td>
           <td>{{ product.ma }}</td>
+          <!-- <td> <img src=" {{ product.anhSanPhams[0].ten}}" alt=""></td> -->
+         <td> <img class="table-image" src="{{product.anhSanPhams[0]?.ten}}"  width="100px" height="120px" alt=""></td>
           <td>{{ product.sanPham?.ten }}</td>
           <td>{{ product.giaBan }}</td>
           <td>{{ product.mauSac?.ten }}</td>
           <td>{{ product.kichCo?.size }}</td>
 
-          <td>{{ product.chatLieuGiay?.ten }}</td>
-          <td>{{ product.chatLieuDeGiay?.ten }}</td>
+          <!-- <td>{{ product.chatLieuGiay?.ten }}</td> -->
+          <!-- <td>{{ product.chatLieuDeGiay?.ten }}</td> -->
           <td>{{ product.soLuong }}</td>
           <td>
             {{ product.trangThai === 1 ? "Hoạt động" : "Không hoạt động" }}
@@ -140,4 +152,4 @@
       </div>
     </div>
   </div>
-</div>
+
