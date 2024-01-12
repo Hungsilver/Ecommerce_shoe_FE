@@ -27,12 +27,12 @@ staffFrom :FormGroup = new FormGroup({});
       ngaySinh:  ['', Validators.required],
       diaChi: ['', Validators.required],
       trangThai: [1, Validators.required],
-      anhDaiDien :[null, Validators.required],
+      // anhDaiDien :[null, Validators.required],
   });
 
   if(this.data.staff && this.data.staff.hoTen && this.data.staff.email && this.data.staff.matKhau
     &&  this.data.staff.soDienThoai && this.data.staff.gioiTinh && this.data.staff.ngaySinh
-    && this.data.staff.diaChi && this.data.staff.trangThai
+    && this.data.staff.diaChi
     ){
       this.uploadedUrl =this.data.staff.anhDaiDien;
       this.staffFrom.patchValue({

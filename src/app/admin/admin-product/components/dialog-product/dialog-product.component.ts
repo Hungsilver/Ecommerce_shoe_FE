@@ -34,7 +34,7 @@ export class DialogProductComponent implements OnInit {
       thuongHieu: [null, Validators.required],
       xuatXu: [null, Validators.required],
       trangThai: [1, Validators.required],
-      anhChinh:[null,Validators.required],
+      // anhChinh:[null,Validators.required],
     });
 
     if (this.data.product && this.data.product.ten && this.data.product.moTa
@@ -162,9 +162,9 @@ export class DialogProductComponent implements OnInit {
       // Sử dụng đường dẫn ảnh mới nếu có
       // if (this.uploadedUrl) {
       // this.product.anhChinh = this.uploadedUrl;
-      // this.product.anhChinh = this.uploadedUrl || this.product.anhChinh;
+      //
       // }
-
+      this.product.anhChinh = this.uploadedUrl || this.product.anhChinh;
       this.productService
         .updateProduct(this.product, this.data.product.id)
         .then((res) => {

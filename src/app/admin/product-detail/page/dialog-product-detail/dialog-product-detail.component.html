@@ -74,15 +74,19 @@
                       </button>
                   </mat-form-field>
                 </div>
-                  <div class="col-6">
+                  <div class="col-6 example-form-field">
                     <label>Hình ảnh</label>
-                    <input type="file" formControlName="anhSanPhams" (change)="onFileChange($event)" multiple />
 
                     <div *ngIf="validUrls.length > 0">
-                      <div *ngFor="let url of validUrls; let i = index">
-                        <img [src]="url" style="width: 100px; height: auto" />
-                      </div>
+                      <div class="image-container-horizontal" >
+                      <span *ngFor="let url of validUrls; let i = index" class="image-wrapper">
+                        <img [src]="url" style="width: 60px; height: auto" />
+                      </span>
                     </div>
+                    </div>
+                    <input type="file" formControlName="anhSanPhams" (change)="onFileChange($event)" accept="image/*" multiple />
+
+
                   </div>
 
               </div>
@@ -239,23 +243,30 @@
                         </button>
                   </mat-form-field>
                 </div>
-                  <div class="col-6">
+                  <div class="col-6 example-form-field">
 
-                    <div *ngIf="!validUrls && productDetail.anhSanPhams.length > 0" >
+                    <div *ngIf="!validUrls && productDetail.anhSanPhams?.length > 0" >
                       <mat-label>Ảnh chính</mat-label>
-                      <div *ngFor="let imageUrl of productDetail.anhSanPhams">
-            <img formControlName="anhSanPhams" [src]="imageUrl.ten" alt="Product Image"
-                style="width: 50px; height: auto;">
-              </div>
+
+                    <div class="image-container-horizontal" >
+                     <span *ngFor="let imageUrl of productDetail.anhSanPhams" class="image-wrapper">
+                      <img  [src]="imageUrl.ten" alt="Product Image"
+                            style="width: 50px; height: auto;" *ngIf="imageUrl.ten">
+                     </span>
+                    </div>
               </div>
 
             <div *ngIf="validUrls">
+              <i class="fa fa-2x fa-camera"></i>
                 <h4>Ảnh đã tải lên</h4>
-                <img [src]="validUrls" formControlName="anhSanPhams" alt="Uploaded Image" style="width: 50px; height: auto;">
-            </div>
+                <div class="image-container-horizontal">
+                <span *ngFor="let gh of validUrls" class="image-wrapper">
+                <img [src]="gh"  name="anhSanPhams" alt="Uploaded Image" style="width: 50px; height: auto;">
+                </span>
+                </div>
+              </div>
 
-
-            <input type="file" formControlName="anhSanPhams" (change)="onFileChange($event)" accept="image/*" multiple />
+            <input type="file" formControlName="anhSanPhams" name="anhSanPhams" (change)="onFileChange($event)" accept="image/*" multiple />
 
                   </div>
 
@@ -303,7 +314,7 @@
                 <div class="col-6">
                   <mat-form-field class="example-form-field">
                     <mat-label>Chất Liệu Đế giày</mat-label>
-                    <mat-select   formControlName="chatLieuDeGiay">
+                    <mat-select  formControlName="chatLieuDeGiay">
                         <mat-option *ngFor="let shoeSoleMaterial of data.shoeSoleMaterials"
                             [value]="shoeSoleMaterial.id">{{shoeSoleMaterial.ten}}</mat-option>
                     </mat-select>

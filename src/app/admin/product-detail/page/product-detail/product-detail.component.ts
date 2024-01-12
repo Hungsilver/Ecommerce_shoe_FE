@@ -268,7 +268,7 @@ if(this.ChiTietSanPham.length >0){
   }
   openDialogEdit(productDetail: any) {
     const dialogRef = this.dialog.open(dialogProductDetailComponent, {
-      width: '1100px',
+      width: '1300px',
       height: '600px',
       data: {
         type: 'update',
