@@ -5,6 +5,7 @@ import { LayoutPageComponent } from 'src/libs/component/layout/page/layout-page.
 import { Page404Component } from './page404/page404.component';
 import { authAdminGuard, authUserGuard } from 'src/libs/service/request/auth.guard';
 import { CartComponent } from './page/cart/page/cart.component';
+import { ProfileComponent } from 'src/libs/component/account/customer/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,13 @@ const routes: Routes = [
     //load router outlet
     loadChildren: () =>
       import('./page/page.module').then((m) => m.PageModule),
+  },
+  {
+    path: 'profile',
+    component: LayoutPageComponent,
+    children: [
+      { path: '', component: ProfileComponent }
+    ]
   },
   {
     path: '**', component: Page404Component,
