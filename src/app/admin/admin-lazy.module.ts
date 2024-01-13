@@ -94,6 +94,7 @@ import { InvoiceChiTietComponent } from './hoa-don/component/invoice-chi-tiet/in
 import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
 
 
+
 // import { MatInputModule } from '@angular/material/input';
 
 // LOAD_WASM().subscribe();
@@ -186,6 +187,7 @@ import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
     TableStatsProductComponent,
     HeaderStatsProductComponent,
 
+
     HoaDonComponent,
     InvoiceChoLayHangComponent,
     InvoiceChoXacNhanComponent,
@@ -195,7 +197,9 @@ import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
     InvoiceHoanThanhComponent,
     TatCaComponent,
     InvoiceChiTietComponent,
+
     VndPipe
+    
 
 
 
