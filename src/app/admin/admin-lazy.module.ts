@@ -195,10 +195,11 @@ import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
     InvoiceHoanThanhComponent,
     TatCaComponent,
     InvoiceChiTietComponent,
+    VndPipe
 
 
 
-    // VndPipe
+ 
 
   ],
   providers: [],
