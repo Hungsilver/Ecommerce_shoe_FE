@@ -40,7 +40,7 @@ export class CTSPService {
     }
 
     return new Promise<IReqApi<IChiTietSanPham[]>>((resolve, reject) => {
-      this.BaseRequestService.get(`${this.url}`, params).subscribe(
+      this.BaseRequestService.get(`${this.url}/filter`, params).subscribe(
         (result) => {
           return resolve(result);
         },
@@ -78,7 +78,6 @@ export class CTSPService {
   }
 
   findByMa(ma: string): Promise<any> {
-    // const apiUrl = `${this.url}/code/${ma}`;
     return new Promise<any>((resolve, reject) => {
       this.BaseRequestService.get(`${this.url}/code/${ma}`).subscribe(
         (result) => {
@@ -90,21 +89,10 @@ export class CTSPService {
       );
     });
   }
-
-  // Trong CTSPService
-  // getProductIdByProductCode(param: any): Promise<IChiTietSanPham | null> {
-  //     return new Promise<IChiTietSanPham | null>((resolve, reject) => {
-  //         this.BaseRequestService.get(`${this.url}/findByMa`, param).subscribe(
-  //             (result: IChiTietSanPham | null) => {
-  //                 console.log("result ", result);
-  //                 if (result) {
-  //                     resolve(result);
-  //                 }
-  //             },
-  //             (err) => reject(err)
-  //         );
-  //     });
+  // findByMa(ma: string): Promise<any> {
+  //   return this.BaseRequestService.get(`${this.url}/code/${ma}`).toPromise();
   // }
+
   createCtsp(body: any): Promise<IReqApi<IChiTietSanPham>> {
     return new Promise<IReqApi<IChiTietSanPham>>((resolve, reject) => {
       this.BaseRequestService.post(`${this.url}`, body).subscribe(
