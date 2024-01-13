@@ -82,6 +82,8 @@ import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-d
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
+
+import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
 import { HoaDonComponent } from './hoa-don/page/hoa-don.component';
 import { InvoiceChoLayHangComponent } from './hoa-don/component/invoice-cho-lay-hang/invoice-cho-lay-hang.component';
 import { InvoiceChoXacNhanComponent } from './hoa-don/component/invoice-cho-xac-nhan/invoice-cho-xac-nhan.component';
@@ -91,7 +93,6 @@ import { InvoiceDangGiaoHangComponent } from './hoa-don/component/invoice-dang-g
 import { InvoiceHoanThanhComponent } from './hoa-don/component/invoice-hoan-thanh/invoice-hoan-thanh.component';
 import { TatCaComponent } from './hoa-don/component/tat-ca/tat-ca.component';
 import { InvoiceChiTietComponent } from './hoa-don/component/invoice-chi-tiet/invoice-chi-tiet.component';
-import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
 
 
 
