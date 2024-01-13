@@ -171,9 +171,9 @@ export class InvoiceDetailComponent implements OnInit {
   filterByColors(): void {
     if (this.selectedColor !== null) {
       this.searchQuery.color = this.selectedColor;
-    } else {
-      delete this.searchQuery.color;
+      this.getAll();
     }
+    delete this.searchQuery.color;
     this.getAll();
   }
 

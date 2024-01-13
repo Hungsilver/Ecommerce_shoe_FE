@@ -1,5 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnChanges, OnInit, SimpleChanges, } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { BrandService } from 'src/app/admin/brand/service/brand.service';
 import { ColorService } from 'src/app/admin/color/service/color.service';
@@ -20,7 +19,7 @@ export class ProductComponent implements OnInit {
   minPrice!: number;
   maxPrice!: number;
   products: any[] = [];
-  productDetail!: any;
+  maxPriceProductDetail!: any;
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
   query: any = {};
@@ -49,12 +48,16 @@ export class ProductComponent implements OnInit {
     this.query.origin = []
     this.query.color = []
     this.minPrice = 1;
-    this.maxPrice = 20000000;
 
   }
 
   ngOnInit(): void {
-    this.rangeValues = [this.minPrice, this.maxPrice];
+    this.productDetailService.getTop1Price().then(res => {
+      if (res) {
+        this.maxPrice = res?.giaBan;
+        this.rangeValues = [this.minPrice, this.maxPrice];
+      }
+    })
     this.items = [];
     this.home = { label: 'Home', routerLink: '/' };
     this.typeSort = [
@@ -78,11 +81,7 @@ export class ProductComponent implements OnInit {
     //   }
     // })
 
-    this.productDetailService.getTop1Price().then(res => {
-      if (res) {
-        this.productDetail = res.giaBan;
-      }
-    })
+
 
     this.colorService.getColors().then(res => {
       if (res) {
@@ -119,8 +118,10 @@ export class ProductComponent implements OnInit {
 
 
   getAll(action?: 'prev' | 'next'): void {
-    this.query.pricemin = this.rangeValues[0];
-    this.query.pricemax = this.rangeValues[1];
+    if (this.rangeValues && this.rangeValues.length === 2) {
+      this.query.pricemin = this.rangeValues[0];
+      this.query.pricemax = this.rangeValues[1];
+    }
     let params = { ...this.query }
     if (action) {
       if (action === 'prev' && Number(params.page) > 1) {

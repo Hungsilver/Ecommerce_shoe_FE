@@ -51,7 +51,7 @@ mat-grid-list {
 }
 
 #a {
-    width: 250px;
+    width: 200px;
 }
 
 .grid-3 {
@@ -93,17 +93,29 @@ mat-grid-list {
     margin-right: 50px;
 }
 
-// .createOrder {
-//     top: 20px;
-// }
-
-// .buttonTab {
-//     top: -20px
-// }
-
-// .buttonTab1 {
-//     top: -20px
-// }
+.mat-grid-tile {
+    display: grid;
+    grid-template-rows: 1fr auto; /* 1fr cho bảng, auto cho thông tin khách hàng */
+  }
+  
+  .table {
+    /* CSS của bảng */
+  }
+  
+  .infomationCustomer {
+    margin-top: 20px; /* Độ lệch từ trên xuống */
+    padding: 10px; /* Khoảng cách đường viền từ nội dung bên trong */
+    border: 1px solid #ccc; /* Đường viền với màu xám nhạt */
+    border-radius: 5px; /* Góc bo tròn */
+  }
+  
+  .infomationCustomer h2 {
+    color: #333; /* Màu chữ của tiêu đề */
+    font-size: 18px; /* Kích thước chữ của tiêu đề */
+    margin-bottom: 10px; /* Khoảng cách giữa tiêu đề và nội dung bên dưới */
+  }
+  
+  
 
 .sales-header_search {
     display: flex;

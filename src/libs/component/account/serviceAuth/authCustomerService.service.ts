@@ -33,7 +33,7 @@ export class AuthCustomerService {
 
     forgetPassCustomer(email: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            this.baseService.get('auth/customer/register', email).subscribe(
+            this.baseService.get('auth/customer/forget-password', email).subscribe(
                 (result) => {
                     return resolve(result);
                 },

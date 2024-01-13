@@ -45,13 +45,13 @@
                                     form.get('soDienThoai')?.hasError('minlength') &&
                                     (form.touched || form.dirty)
                                   ">
-                                        *Vui lòng nhập đúng định dạng!
+                                        *Vui lòng nhập đủ 10 kí tự!
                                     </div>
                                     <div class="text-danger" *ngIf="
                                     form.get('soDienThoai')?.hasError('maxlength') &&
                                     (form.touched || form.dirty)
                                   ">
-                                        *Vui lòng nhập đúng định dạng!
+                                        *Vui lòng nhập đúng 10 kí tự!
                                     </div>
                                     <div class="text-danger" *ngIf="
                                     form.get('soDienThoai')?.hasError('pattern') &&
@@ -165,7 +165,8 @@
                                     <div class="col-6">
                                         <input class="input-voucher" type="search" placeholder="Mã voucher..."
                                             (change)="findByCodeVoucher($event)">
-                                        <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia===false">{{chietKhau}}%</div>
+                                        <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia===false">{{chietKhau}}%
+                                        </div>
                                         <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia===true">{{chietKhau|
                                             currency:'VND'}}</div>
                                     </div>
@@ -187,7 +188,8 @@
                                         <h3><b>Tổng thanh toán:</b></h3>
                                     </div>
                                     <div class="col-6 ">
-                                        <h3 style="margin-left: 214px;"><b>{{tongTienThanhToan| currency:'VND'}}</b></h3>
+                                        <h3 style="margin-left: 214px;"><b>{{tongTienThanhToan| currency:'VND'}}</b>
+                                        </h3>
                                     </div>
                                 </div>
                                 <hr>

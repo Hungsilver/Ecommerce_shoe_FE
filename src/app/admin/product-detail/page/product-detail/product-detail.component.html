@@ -2,7 +2,12 @@
   <div class="col-4">
     <span class="p-input-icon-left">
       <i class="pi pi-search"></i>
-      <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+      <input
+        type="text"
+        pInputText
+        [(ngModel)]="searchQuery.keyword"
+        (keyup.enter)="getAll()"
+      />
       <p-dropdown
         [options]="listTotalPage"
         [(ngModel)]="searchQuery.page"
@@ -66,8 +71,6 @@
       <button (click)="exportexcel()">Export Excel</button>
     </div>
   </div> -->
-
-
 </div>
 
 <div class="col-2">
@@ -75,6 +78,7 @@
   <button (click)="exportexcel()">Export Excel</button>
   <!-- <input type="file" (change)="readExcel($event)"> -->
 </div>
+
 <!-- <ul class="nav nav-tabs">
  <ul class="nav nav-tabs">
 
@@ -86,70 +90,74 @@
   </li>
 </ul> -->
 
-  <!-- <div *ngIf="activeTab === 'active'"> -->
+<!-- <div *ngIf="activeTab === 'active'"> -->
 
-  <div class="card">
-    <p-table [value]="productsDetails" [tableStyle]="{ 'min-width': '50rem' }">
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="">STT</th>
-          <th style="">Mã</th>
-          <th style="">anh</th>
-          <th style="">Sản Phẩm</th>
-          <th style="">Giá</th>
-          <th style="">Màu Sắc</th>
-          <th style="">Kích Cỡ</th>
-          <!-- <th style="">Chất Liệu Giày</th> -->
-          <!-- <th style="">Chất Liệu Đế Giày</th> -->
-          <th style="">Số Lượng</th>
-          <th style="">Trạng Thái</th>
+<div class="card">
+  <p-table [value]="productsDetails" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="">STT</th>
+        <th style="">Mã</th>
+        <th style="">anh</th>
+        <th style="">Sản Phẩm</th>
+        <th style="">Giá</th>
+        <th style="">Màu Sắc</th>
+        <th style="">Kích Cỡ</th>
+        <th style="">Số Lượng</th>
+        <th style="">Trạng Thái</th>
 
-          <th></th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
-        <tr>
-          <td>
-            {{
-              productsDetails.indexOf(product) +
-                1 +
-                searchQuery.pageSize * (searchQuery.page - 1)
-            }}
-          </td>
-          <td>{{ product.ma }}</td>
-          <!-- <td> <img src=" {{ product.anhSanPhams[0].ten}}" alt=""></td> -->
-         <td> <img class="table-image" src="{{product.anhSanPhams[0]?.ten}}"  width="100px" height="120px" alt=""></td>
-          <td>{{ product.sanPham?.ten }}</td>
-          <td>{{ product.giaBan }}</td>
-          <td>{{ product.mauSac?.ten }}</td>
-          <td>{{ product.kichCo?.size }}</td>
-
-          <!-- <td>{{ product.chatLieuGiay?.ten }}</td> -->
-          <!-- <td>{{ product.chatLieuDeGiay?.ten }}</td> -->
-          <td>{{ product.soLuong }}</td>
-          <td>
-            {{ product.trangThai === 1 ? "Hoạt động" : "Không hoạt động" }}
-          </td>
-          <td>
-            <span (click)="openDialogEdit(product)">
-              <i class="pi pi-file-edit"></i>
-            </span>
-            <span (click)="openDialogDelete(product)">
-              <i class="pi pi-delete-left"></i>
-            </span>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-    <div>
-      <div class="d-flex justify-content-end gap-1">
-        <div class="button-pagination" (click)="getAll('prev')">
-          <i class="pi pi-angle-left"></i>
-        </div>
-        <div class="button-pagination" (click)="getAll('next')">
-          <i class="pi pi-angle-right"></i>
-        </div>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          {{
+            productsDetails.indexOf(product) +
+              1 +
+              searchQuery.pageSize * (searchQuery.page - 1)
+          }}
+        </td>
+        <td>{{ product.ma }}</td>
+        <!-- <td> <img src=" {{ product.anhSanPhams[0].ten}}" alt=""></td> -->
+        <td>
+          <img
+            class="table-image"
+            src="{{ product.anhSanPhams[0]?.ten }}"
+            width="100px"
+            height="120px"
+            alt=""
+          />
+        </td>
+        <td>{{ product.sanPham?.ten }}</td>
+        <td>{{ product.giaBan }}</td>
+        <td>{{ product.mauSac?.ten }}</td>
+        <td>{{ product.kichCo?.size }}</td>
+        <!-- <td>{{ product.chatLieuGiay?.ten }}</td> -->
+        <!-- <td>{{ product.chatLieuDeGiay?.ten }}</td> -->
+        <td>{{ product.soLuong }}</td>
+        <td>
+          {{ product.trangThai === 1 ? "Hoạt động" : "Không hoạt động" }}
+        </td>
+        <td>
+          <span (click)="openDialogEdit(product)">
+            <i class="pi pi-file-edit"></i>
+          </span>
+          <span (click)="openDialogDelete(product)">
+            <i class="pi pi-delete-left"></i>
+          </span>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <div>
+    <div class="d-flex justify-content-end gap-1">
+      <div class="button-pagination" (click)="getAll('prev')">
+        <i class="pi pi-angle-left"></i>
+      </div>
+      <div class="button-pagination" (click)="getAll('next')">
+        <i class="pi pi-angle-right"></i>
       </div>
     </div>
   </div>
-
+</div>
