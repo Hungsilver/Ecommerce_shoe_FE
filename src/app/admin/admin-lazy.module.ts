@@ -50,7 +50,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
-import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
@@ -79,6 +79,7 @@ import { DialogUpdateCtspComponent } from './tra-hang-admin/component/dialog-upd
 
 import { InvoiceComponent } from './invoice/pages/invoice.component';
 import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-detail.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { HoaDonComponent } from './hoa-don/page/hoa-don.component';
@@ -95,7 +96,7 @@ import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
 
 // import { MatInputModule } from '@angular/material/input';
 
-LOAD_WASM().subscribe();
+// LOAD_WASM().subscribe();
 
 @NgModule({
   imports: [
@@ -123,7 +124,7 @@ LOAD_WASM().subscribe();
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
     TabViewModule,
-
+    MatSnackBarModule,
     CalendarModule,
   ],
   exports: [],
@@ -167,7 +168,6 @@ LOAD_WASM().subscribe();
     OrdersComponent,
     ForProductComponent,
 
-
     TraHangAdminComponent,
     NewTraHangComponent,
     CustomerTraHangComponent,
@@ -178,7 +178,6 @@ LOAD_WASM().subscribe();
     DialogTraHangComponent,
     DialogUpdateCtspComponent,
     // NavbarComponent
-
 
     InvoiceComponent,
     InvoiceDetailComponent,
