@@ -35,8 +35,6 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { HDChiTiet } from './service/hoadonchitiet/hoadonchitiet.service';
 import { IHoaDonChiTiet } from './service/hoadonchitiet/hoadonchitiet.module';
 import {
-  NgxScannerQrcodeModule,
-  LOAD_WASM,
   ScannerQRCodeConfig,
   NgxScannerQrcodeService,
   NgxScannerQrcodeComponent,
@@ -85,17 +83,12 @@ export class SalesComponent implements OnInit {
   totalAmounts: { [key: string]: number } = {};
   money: number | undefined;
   intoMoney: number | undefined;
-  // idHoaDon!: number;
-  idctsp: number | null = null;
 
   showQuantityForm: boolean = false; // Biến này kiểm soát hiển thị form nhập số lượng
-  productInfo: any = {};
-  // quantity: number | null = null; // Biến này lưu trữ số lượng nhập từ người dùng
   qrValue: string | null = null;
   id: number | null = null;
   maxTabs: number = 5; // Số lượng tab tối đa được phép
   currentInvoiceCodes: string[] = [];
-  // quantity: number = 1;
 
   isShowQrCode: boolean = false;
   showSearchResult: boolean = false; // validate keyword kết quả tìm kiếm
@@ -146,6 +139,8 @@ export class SalesComponent implements OnInit {
   quantityProductDetail: number = 0;
   isVoucherLoaded = false;
   maPhieuGiamGia: string = '';
+  idProductDetail!: number;
+  maPhieu: string = '';
 
   constructor(
     private toast: NgToastService,
@@ -158,7 +153,6 @@ export class SalesComponent implements OnInit {
     private notification: ToastrService,
     private router: Router,
     private BaseRequestService: BaseRequestService,
-    // private renderer: Renderer2,
     private colorService: ColorService,
     private sizeService: SizeService,
     private customerService: CustomerService,
@@ -194,6 +188,7 @@ export class SalesComponent implements OnInit {
       this.size = data.content;
     });
     // this.calculateGrandTotal();
+    // this.findByCodeVoucher(this.maPhieu);
   }
 
   onTabChange(event: MatTabChangeEvent): void {
@@ -280,7 +275,13 @@ export class SalesComponent implements OnInit {
     }
   }
 
+  isFormVisible = false;
+  toggleForm() {
+    this.isFormVisible = !this.isFormVisible;
+  }
+
   getAll(action?: 'prev' | 'next' | 'active'): void {
+    // const activeStatus = 1;
     if (action) {
       if (action === 'prev' && Number(this.searchQuery.page) > 1) {
         this.searchQuery.page = this.searchQuery.page - 1;
@@ -291,9 +292,9 @@ export class SalesComponent implements OnInit {
       ) {
         this.searchQuery.page = this.searchQuery.page + 1;
       }
-      // if (action === 'active') {
-      //   this.searchQuery.page = 1;
-      // }
+      if (action === 'active') {
+        this.searchQuery.page = 1;
+      }
       Object.keys(this.searchQuery).forEach((key) => {
         if (this.searchQuery[key] === null || this.searchQuery[key] === '') {
           delete this.searchQuery[key];
@@ -305,6 +306,7 @@ export class SalesComponent implements OnInit {
         this.productsDetail = product.content;
         this.listTotalPage = this.getTotalPage(product.totalPages);
         console.log(product);
+        this.productCodes;
       }
     });
     if (this.selectedSize !== null) {
@@ -381,16 +383,24 @@ export class SalesComponent implements OnInit {
     this.getAll();
   }
 
+  // filterBySize(): void {
+  //   if (this.selectedSize === null) {
+  //     delete this.searchQuery.size;
+  //   } else {
+  //     this.searchQuery.size = this.selectedSize;
+  //   }
+  //   this.getAll();
+  // }
+
   filterBySize(): void {
     if (this.selectedSize !== null) {
       this.searchQuery.size = this.selectedSize;
-      this.getAll();
+    } else {
+      delete this.searchQuery.size;
     }
-    delete this.searchQuery.size;
-
-    console.log('fsalfjlas ' + this.selectedSize);
     this.getAll();
   }
+
   filterByColors(): void {
     if (this.selectedColor !== null) {
       this.searchQuery.color = this.selectedColor;
@@ -418,6 +428,7 @@ export class SalesComponent implements OnInit {
   isValidQRCode(qrCode: string): boolean {
     return qrCode.length >= 5;
   }
+
   startScanning(): void {
     const currentTime = Date.now();
     const timeSinceLastScan = currentTime - this.lastScanTime;
@@ -442,13 +453,9 @@ export class SalesComponent implements OnInit {
       const decodedData = new TextDecoder().decode(e[0].data);
       this.result = decodedData;
       this.showQuantityInput = true;
-      // this.showQRSuccessModal = true;
-      // if (this.modal) {
-      //   this.renderer.addClass(this.modal.nativeElement, 'show');
-      // }
+      this.searchProductByProductCode();
       this.quantityInvoice = this.defaultQuantity;
       this.stopScanning();
-      this.searchProductByProductCode();
     }
   }
 
@@ -498,6 +505,7 @@ export class SalesComponent implements OnInit {
           if (productId !== null) {
             // console.log('ID của sản phẩm là:', productId.id);
             this.productsDetail = productId;
+            this.idProductDetail = productId.id;
             // this.notification.success('Success');
           } else {
             console.error('Không tìm thấy sản phẩm.');
@@ -597,7 +605,10 @@ export class SalesComponent implements OnInit {
     const hoaDon = this.tabs.find(
       (item) => item.listHoaDonChiTiet !== undefined
     );
-
+    if (chiTietSanPham.id !== undefined) {
+      this.idProductDetail = chiTietSanPham.id;
+      console.log('id ctsp ' + this.idProductDetail);
+    }
     if (!hoaDon || !hoaDon.listHoaDonChiTiet) {
       console.error('Hóa đơn không tồn tại hoặc không có danh sách chi tiết.');
       return;
@@ -909,9 +920,10 @@ export class SalesComponent implements OnInit {
   //     console.error('Error loading voucher data:', error);
   //   }
   // }
+  // event: any
   async findByCodeVoucher(event: any) {
-    const maPhieu = event.target.value;
-    if (!maPhieu) {
+    this.maPhieu = event.target.value;
+    if (!this.maPhieu) {
       this.idPhieuGiamGia = null;
       this.tongTienSauGiam = this.tongTien;
       this.chietKhau = 0;
@@ -920,9 +932,8 @@ export class SalesComponent implements OnInit {
     try {
       const p: IVoucher = await this.hoadonService.addPhieuGiamGiaToHoaDon(
         this.idHDGlobal,
-        maPhieu
+        this.maPhieu
       );
-
       console.log('pgg ', p);
       if (p) {
         this.idPhieuGiamGia = p.id;
@@ -944,6 +955,10 @@ export class SalesComponent implements OnInit {
       // Xử lý khi có lỗi trong quá trình gọi API
       // Hiển thị thông báo lỗi hoặc thực hiện các thao tác khác
     }
+  }
+  updateTotalAfterDiscount() {
+    // Cập nhật giá trị tổng tiền sau giảm
+    this.tongTienSauGiam = this.tongTien - this.tienGiam;
   }
 
   addOrderDetailFromQR(
@@ -1013,36 +1028,49 @@ export class SalesComponent implements OnInit {
     event.stopPropagation();
   }
 
-  // // cộng số lượng sp
-  // incrementQuantity(): void {
-  //   // if (chiTiet.soLuong !== undefined) {
-  //   //   const chiTietSanPham = chiTiet.chiTietSanPham;
-  //   //   console.log('Số lượng sản phẩm:', chiTietSanPham?.soLuong);
-  //   //   if (this.productsDetail.soLuong === 0) {
-  //   //     console.log('Số lượng sản phẩm:', this.productsDetail.soLuong);
-  //   //     this.notification.warning('Sản phẩm đã hết.');
-  //   //     return;
-  //   //   }
-  //   //   chiTiet.soLuong = 1;
-  //   //   this.calculateTotal(chiTiet);
-  //   //   this.updateQuantityInvoiceDetail(chiTiet);
-  //   // }
-  //   const quantityInvoice = 1;
-  //   // this.updateQuantityInvoiceDetail(this.idHDCT, quantityInvoice);
-  // }
+  // cộng số lượng sp
+  incrementQuantity(chiTiet: IHoaDonChiTiet): void {
+    if (chiTiet.soLuong !== undefined) {
+      const chiTietSanPham = chiTiet.chiTietSanPham;
+      console.log('Số lượng sản phẩm:', chiTietSanPham?.soLuong);
+      if (this.productsDetail.soLuong === 0) {
+        console.log('Số lượng sản phẩm:', this.productsDetail.soLuong);
+        this.notification.warning('Sản phẩm đã hết.');
+        return;
+      }
+      chiTiet.soLuong++;
+      this.calculateTotal(chiTiet);
+      // this.updateQuantityInvoiceDetail(chiTiet);
+    }
+    // const quantityInvoice = 1;
+    // this.updateQuantityInvoiceDetail(this.idHDCT, quantityInvoice);
+  }
 
-  // decrementQuantity(): void {
-  //   // if (chiTiet.soLuong !== undefined && chiTiet.soLuong > 1) {
-  //   //   // chiTiet.soLuong = -1;
-  //   //   // this.calculateTotal(chiTiet);
-  //   //   this.updateQuantityInvoiceDetail(this.idHDGlobal, -1);
-  //   // } else {
-  //   //   this.notification.error('Số lượng tối thiểu phải là 1.');
-  //   // }
-  //   const quantityInvoice = -1;
-  //   // this.updateQuantityInvoiceDetail(this.idHDGlobal, quantityInvoice);
-  // }
+  decrementQuantity(chiTiet: IHoaDonChiTiet): void {
+    if (chiTiet.soLuong !== undefined && chiTiet.soLuong > 1) {
+      chiTiet.soLuong--;
+      this.calculateTotal(chiTiet);
+      // this.updateQuantityInvoiceDetail(this.idHDGlobal, -1);
+    } else {
+      this.notification.error('Số lượng tối thiểu phải là 1.');
+    }
+  }
 
+  congSoLuong(idHDCT: number, soLuong: number, chiTiet: IHoaDonChiTiet) {
+    if (chiTiet.chiTietSanPham.soLuong == 0) {
+      this.notification.error('Số lượng sản phẩm đã hết');
+      return;
+    }
+    this.updateQuantityInvoiceDetail(idHDCT, soLuong);
+  }
+
+  truSoLuong(idHDCT: number, soLuong: number, chiTiet: IHoaDonChiTiet) {
+    if (chiTiet.soLuong !== undefined && chiTiet.soLuong < 2) {
+      this.notification.error('Số Lượng tối thiểu là 1.');
+      return;
+    }
+    this.updateQuantityInvoiceDetail(idHDCT, soLuong);
+  }
   async updateQuantityInvoiceDetail(
     idHDCT: number,
     soLuong: number
@@ -1051,6 +1079,7 @@ export class SalesComponent implements OnInit {
       const updatedHoaDonChiTiet: IHoaDonChiTiet =
         await this.hdctService.updateQuantity(idHDCT, soLuong);
       this.getAllDataHD();
+      this.getAll();
       this.calculateTotal(updatedHoaDonChiTiet);
       this.calculateGrandTotal(this.idHDGlobal);
       console.log('Cập nhật số lượng thành công', updatedHoaDonChiTiet);
@@ -1058,22 +1087,6 @@ export class SalesComponent implements OnInit {
       console.error('Lỗi cập nhật số lượng', error);
     }
   }
-
-  // getInvoiceDetails(id: number | undefined): void {
-  //   console.log('id hoa don new ' + id);
-  //   if (id !== undefined) {
-  //     this.hoadonService.getInvoiceDetailsById(id).subscribe(
-  //       (data) => {
-  //         this.invoiceDetail = data;
-  //       },
-  //       (error) => {
-  //         console.error('Error fetching hoadon chi tiet:', error);
-  //       }
-  //     );
-  //   } else {
-  //     console.error('Invalid hoaDonId. It should not be undefined.');
-  //   }
-  // }
 
   private updateQuantity(hoaDonChiTiet: IHoaDonChiTiet): void {
     const idHDCT = hoaDonChiTiet.id;

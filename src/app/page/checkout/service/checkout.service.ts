@@ -9,7 +9,6 @@ export class CheckoutService {
     constructor(private abstractService: BaseRequestService) { }
 
     checkout(body:any): Promise<any> {
-
             return new Promise<any>((resolve, reject) => {
                 this.abstractService.post('invoice/online/payment',body)
                 .subscribe(

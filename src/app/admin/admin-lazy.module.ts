@@ -50,7 +50,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
-import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
@@ -68,6 +68,15 @@ import { TableStatsProductComponent } from './dashboard/components/components-ch
 import { CalendarModule } from 'primeng/calendar';
 import { HeaderStatsProductComponent } from './dashboard/components/components-child/header-stats-product/header-stats-product.component';
 import { TabViewModule } from 'primeng/tabview';
+import { TraHangAdminComponent } from './tra-hang-admin/page/tra-hang-admin.component';
+import { NewTraHangComponent } from './tra-hang-admin/component/new-tra-hang/new-tra-hang.component';
+import { CustomerTraHangComponent } from './tra-hang-admin/component/customer-tra-hang/customer-tra-hang.component';
+import { ChoXacNhanComponent } from './tra-hang-admin/component/cho-xac-nhan/cho-xac-nhan.component';
+import { HoanThanhComponent } from './tra-hang-admin/component/hoan-thanh/hoan-thanh.component';
+import { ChoXuLyComponent } from './tra-hang-admin/component/cho-xu-ly/cho-xu-ly.component';
+import { DaHuyComponent } from './tra-hang-admin/component/da-huy/da-huy.component';
+import { DialogTraHangComponent } from './tra-hang-admin/component/dialog-tra-hang/dialog-tra-hang.component';
+import { DialogUpdateCtspComponent } from './tra-hang-admin/component/dialog-update-ctsp/dialog-update-ctsp.component';
 
 import { InvoiceComponent } from './invoice/pages/invoice.component';
 import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-detail.component';
@@ -76,7 +85,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 // import { MatInputModule } from '@angular/material/input';
 
-LOAD_WASM().subscribe();
+// LOAD_WASM().subscribe();
 
 @NgModule({
   imports: [
@@ -148,6 +157,17 @@ LOAD_WASM().subscribe();
     ForDateComponent,
     OrdersComponent,
     ForProductComponent,
+
+    TraHangAdminComponent,
+    NewTraHangComponent,
+    CustomerTraHangComponent,
+    ChoXacNhanComponent,
+    HoanThanhComponent,
+    ChoXuLyComponent,
+    DaHuyComponent,
+    DialogTraHangComponent,
+    DialogUpdateCtspComponent,
+    // NavbarComponent
 
     InvoiceComponent,
     InvoiceDetailComponent,

@@ -28,9 +28,6 @@ export class ChoXacNhanComponent implements OnInit{
   }
 
   openDialog(invoice: any) {
-    
-
-    
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '1500px',
       height: '650px',
@@ -41,9 +38,6 @@ export class ChoXacNhanComponent implements OnInit{
         openDialog:2
       },
     })
-    // dialogRef.afterClosed().subscribe(data => {
-    //   // this.getAll();
-    // })
   }
 
   loadData(){

@@ -37,8 +37,9 @@
           #floatingForm
           (mousedown)="preventFormClose($event)"
         >
+          <p>Mã: {{ productsDetail.ma }}</p>
+          <p>Số lượng: {{ productsDetail.soLuong }}</p>
           <label for="quantity">Nhập số lượng:</label>
-          <span>{{ productsDetail.soLuong }}</span>
           <input
             type="number"
             [(ngModel)]="quantityInvoice"
@@ -94,7 +95,7 @@
           ></ngx-scanner-qrcode>
         </div>
         <!-- loading -->
-        <p *ngIf="action.isLoading">⌛ Loading...</p>
+        <!-- <p *ngIf="action.isLoading">⌛ Loading...</p> -->
         <!-- Thêm phần hiển thị kết quả -->
         <!-- <div *ngIf="showQuantityInput">
           <button
@@ -106,18 +107,17 @@
             Xác nhận thêm
           </button>
         </div> -->
-        <div *ngIf="result">
+        <!-- <div *ngIf="result">
           <h2>Success!</h2>
           <p>
             <a href="{{ result }}">{{ result }}</a>
           </p>
-        </div>
-
+        </div> -->
+        <!-- [disabled]="action.isLoading" -->
         <button
           class="btn"
           [class.btn-info]="!action.isStart"
           [class.btn-warning]="action.isStart"
-          [disabled]="action.isLoading"
           (click)="handle(action, action.isStart ? 'stop' : 'start')"
         >
           <img
@@ -185,14 +185,14 @@
                 <td>
                   <button
                     mat-icon-button
-                    (click)="updateQuantityInvoiceDetail(chiTiet.id, -1)"
+                    (click)="truSoLuong(chiTiet.id, -1, chiTiet)"
                   >
                     <mat-icon aria-label="Trừ số lượng">remove</mat-icon>
                   </button>
                   {{ chiTiet.soLuong }}
                   <button
                     mat-icon-button
-                    (click)="updateQuantityInvoiceDetail(chiTiet.id, 1)"
+                    (click)="congSoLuong(chiTiet.id, 1, chiTiet)"
                   >
                     <mat-icon aria-label="Thêm số lượng">add</mat-icon>
                   </button>
@@ -404,11 +404,11 @@
           <span class="p-input-icon-left">
             <i class="pi pi-search"></i>
             <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
-            <p-dropdown
+            <!-- <p-dropdown
               [options]="listTotalPage"
               [(ngModel)]="searchQuery.page"
               optionLabel="name"
-            ></p-dropdown>
+            ></p-dropdown> -->
           </span>
         </div>
 
@@ -469,7 +469,7 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
-          <tr>
+          <tr *ngIf="product.trangThai === 1">
             <td>
               {{
                 productsDetail.indexOf(product) +
@@ -555,12 +555,67 @@
           <span class="p-input-icon-left">
             <i class="pi pi-search"></i>
             <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
-            <p-dropdown
+            <!-- <p-dropdown
               [options]="listTotalPage"
               [(ngModel)]="searchQuery.page"
               optionLabel="name"
-            ></p-dropdown>
+            ></p-dropdown> -->
           </span>
+
+          <button type="button" class="btn btn-primary" (click)="toggleForm()">
+            Thêm mới
+          </button>
+
+          <div
+            class="floating-form"
+            *ngIf="isFormVisible"
+            #floatingForm
+            (mousedown)="preventFormClose($event)"
+          >
+            <form>
+              <div class="mb-3">
+                <label for="" class="form-label">Họ Tên:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-describedby="emailHelp"
+                  style="width: 250px"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="" class="form-label">Email:</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  aria-describedby="emailHelp"
+                  style="width: 250px"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="" class="form-label">Số điện thoại:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-describedby="emailHelp"
+                  style="width: 250px"
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <br />
+            <!-- <button
+              class="btn btn-outline-primary"
+            >
+              Xác nhận thêm
+            </button>
+            <button
+              class="btn btn-outline-danger"
+            >
+              Đóng
+            </button> -->
+          </div>
         </div>
 
         <br />

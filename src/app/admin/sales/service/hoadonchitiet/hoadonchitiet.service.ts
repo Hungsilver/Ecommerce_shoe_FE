@@ -142,10 +142,25 @@ export class HDChiTiet {
     });
   }
 
-  getByHoaDonId(hoaDonId: number): Observable<IHoaDonChiTiet[]> {
-    return this.BaseRequestService.get(
-      `${this.url}/findByIdInvoice/${hoaDonId}`
-    );
+  // getByHoaDonId(hoaDonId: number): Po<IHoaDonChiTiet[]> {
+  //   return this.BaseRequestService.get(
+  //     `${this.url}/findByIdInvoice/${hoaDonId}`
+  //   );
+  // }
+
+  getByHoaDonId(id: number): Promise<IHoaDonChiTiet> {
+    return new Promise<IHoaDonChiTiet>((resolve, reject) => {
+      this.BaseRequestService.get(
+        `${this.url}/findByIdInvoice/${id}`
+      ).subscribe(
+        (data) => {
+          resolve(data);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+    });
   }
 
   // deleteHdct(id: any): Promise<IReqApi<IHoaDonChiTiet>> {

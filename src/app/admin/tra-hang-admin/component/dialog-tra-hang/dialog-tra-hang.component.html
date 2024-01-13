@@ -1,0 +1,581 @@
+<!-- dialog xác nhận trả hàng -->
+<div class="container" *ngIf="openDialog === 0">
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between">
+            <h2>Chi tiết trả hàng: {{traHangDialog.hoaDon.maHoaDon}} | Chờ xác nhận | {{traHangDialog.ngayTao}}</h2>
+            <div>
+                <button type="button" class="btn " (click)="closeDialogs()">
+                    <i class="pi pi-times" style="font-size: 1.5rem"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row border" >
+        <div class="row mt-3">
+            <h2>Thông tin khách hàng</h2>
+        </div>
+        <div class="row">
+            <div class="col-2 mt-2">
+                <p>Tên khách hàng:</p>
+                <p>Số điện thoại:</p>
+                <p>Địa chỉ: </p>
+                <p>Ghi chú:</p>
+            </div>
+            <div class="col-5 mt-2">
+                <p>{{traHangDialog.hoaDon.tenKhachHang}}</p>
+                <p>{{traHangDialog.hoaDon.soDienThoai}}</p>
+                <p>{{traHangDialog.hoaDon.diaChi}}, {{traHangDialog.hoaDon.phuongXa}}, {{traHangDialog.hoaDon.quanHuyen}}, {{traHangDialog.hoaDon.tinhThanh}}</p>
+                <p>{{traHangDialog.hoaDon.ghiChu}}</p>
+            </div>
+            <div class="col-3 mt-2">
+                <p>Ngày giao hàng:</p>
+                <p>Trạng thái:</p>
+                <p>Phương thức thanh toán: </p>
+            </div>
+            <div class="col-2 mt-2">
+                <p>{{traHangDialog.hoaDon.ngayCapNhat}}</p>
+                <p *ngIf="traHangDialog.hoaDon.trangThai === 1 || traHangDialog.hoaDon.trangThai === 5">Hoàn thành</p>
+                <p *ngIf="traHangDialog.hoaDon.phuongThucThanhToan === 0">Khi nhận hàng</p>
+                <p *ngIf="traHangDialog.hoaDon.phuongThucThanhToan === 1">Thanh toán VNpay</p>
+                <p *ngIf="traHangDialog.hoaDon.trangThai === 1">Thanh toán tại quầy</p>
+            </div>
+        </div>
+    </div>
+    <div class="row border mt-3" >
+        <div class="row mt-3">
+            <h2>Thông tin đơn hàng</h2>
+        </div>
+        <hr>
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Tổng tiền</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of traHangDialog.hoaDon.listHoaDonChiTiet">
+                        <td>
+                            <div class="table-product-detail">
+                                <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                <div>
+                                    <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                    <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                    <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                    <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                    <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                    <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{c.soLuong }}</td>
+                        <td>{{c.donGia | currency:'VND'}}</td>
+                        <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
+                        <td><i class="pi pi-plus" style="font-size: 1.5rem" (click)="addTHCT(c.id)"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row border mt-3" >
+        <div class="row">
+            <div class="col-8">
+                <h2 class="mt-3">Thông tin đơn hàng trả</h2>
+                <hr>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Tổng tiền</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of traHangDialog.listTraHangChiTiet; let i = index">
+                            <td>
+                                <div class="table-product-detail">
+                                    <img class="table-image" src="{{c.hoaDonChiTiet.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                    <div>
+                                        <p>Tên: {{c.hoaDonChiTiet.chiTietSanPham.sanPham.ten}}</p>
+                                        <p>Mã: {{c.hoaDonChiTiet.chiTietSanPham.ma}}</p>
+                                        <p>Size: {{c.hoaDonChiTiet.chiTietSanPham.kichCo.size}}</p>
+                                        <p>Màu sắc: {{c.hoaDonChiTiet.chiTietSanPham.mauSac.ten}}</p>
+                                        <p>Chất liệu: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                        <p>Loại đế: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <input  type="number" min="1" value="{{c.soLuong}}"
+                                    (blur)="updateQuantityTHCT(c.id,$event)" 
+                                    style="width: 50px;"
+                                    > 
+                                    /{{c.hoaDonChiTiet.soLuong}}
+                            </td>
+                            <td>{{c.hoaDonChiTiet.donGia | currency:'VND'}}</td>
+                            <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
+                            <td><i class="pi pi-times" style="font-size: 1.5rem" (click)="deleteTHCT(c.id)"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4 mb-5">
+                <h2 class="mt-3">Thông tin thanh toán</h2>
+                <hr>
+                <h3><b>Tổng giá hàng gốc:</b> {{traHangDialog.hoaDon.tongTien | currency:'VND'}}</h3>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
+                    {{traHangDialog.hoaDon.phieuGiamGia.chietKhau}}%</h3>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
+                    {{traHangDialog.hoaDon.phieuGiamGia.chietKhau | currency:'VND'}}</h3>
+                <h3><b>Phí vận chuyển:</b> {{traHangDialog.hoaDon.phiVanChuyen | currency:'VND'}}</h3>
+                <h3><b>Tổng tiền thanh toán:</b> {{traHangDialog.hoaDon.tongTienSauGiam + traHangDialog.hoaDon.phiVanChuyen | currency:'VND'}}</h3>
+                <h3><b>Tổng giá hàng trả:</b> {{tongGiaSanPhamTra | currency:'VND'}}</h3>
+                <hr>
+                <h3><b>Tổng tiền trả khách</b> {{tongTienTraKhach | currency:'VND'}}</h3>
+                <h3><b class="text-danger">*</b>Ghi chú</h3>
+                <textarea class="ghiChu w-100" [(ngModel)]="ghiChu"></textarea>
+                <div class="text-danger" *ngIf="loiGhiChu === true">
+                    *Ghi chú phải nhiều hơn 0 ký tự và ít hơn 200 ký tự !
+                </div>
+                <button class="btn btn-success mt-2 w-100" (click)="choXuLy()">Xác nhận</button>
+                <button class="btn btn-danger mt-2 w-100" (click)="huyDon(traHangDialog.id)">Hủy trả hàng</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- dialog chờ xử lý -->
+<div class="container" *ngIf="openDialog === 1">
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between">
+            <h2>Chi tiết trả hàng: {{traHangDialog.hoaDon.maHoaDon}} | Chờ xử lý | {{traHangDialog.ngayTao}}</h2>
+            <div>
+                <button type="button" class="btn " (click)="closeDialogs()">
+                    <i class="pi pi-times" style="font-size: 1.5rem"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row border" >
+        <div class="row mt-3">
+            <h2>Thông tin khách hàng</h2>
+        </div>
+        <div class="row">
+            <div class="col-2 mt-2">
+                <p>Tên khách hàng:</p>
+                <p>Số điện thoại:</p>
+                <p>Địa chỉ: </p>
+                <p>Ghi chú:</p>
+            </div>
+            <div class="col-5 mt-2">
+                <p>{{traHangDialog.hoaDon.tenKhachHang}}</p>
+                <p>{{traHangDialog.hoaDon.soDienThoai}}</p>
+                <p>{{traHangDialog.hoaDon.diaChi}}, {{traHangDialog.hoaDon.phuongXa}}, {{traHangDialog.hoaDon.quanHuyen}}, {{traHangDialog.hoaDon.tinhThanh}}</p>
+                <p>{{traHangDialog.hoaDon.ghiChu}}</p>
+            </div>
+            <div class="col-3 mt-2">
+                <p>Ngày giao hàng:</p>
+                <p>Trạng thái:</p>
+                <p>Phương thức thanh toán: </p>
+            </div>
+            <div class="col-2 mt-2">
+                <p>{{traHangDialog.hoaDon.ngayCapNhat}}</p>
+                <p *ngIf="traHangDialog.hoaDon.trangThai === 1 || traHangDialog.hoaDon.trangThai === 5">Hoàn thành</p>
+                <p *ngIf="traHangDialog.hoaDon.phuongThucThanhToan === 0">Khi nhận hàng</p>
+                <p *ngIf="traHangDialog.hoaDon.phuongThucThanhToan === 1">Thanh toán VNpay</p>
+                <p *ngIf="traHangDialog.hoaDon.trangThai === 1">Thanh toán tại quầy</p>
+            </div>
+        </div>
+    </div>
+    <div class="row border mt-3" >
+        <div class="row mt-3">
+            <h2>Thông tin đơn hàng</h2>
+        </div>
+        <hr>
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of traHangDialog.hoaDon.listHoaDonChiTiet">
+                        <td>
+                            <div class="table-product-detail">
+                                <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                <div>
+                                    <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                    <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                    <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                    <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                    <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                    <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{c.soLuong }}</td>
+                        <td>{{c.donGia | currency:'VND'}}</td>
+                        <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row border mt-3" >
+        <div class="row">
+            <div class="col-8">
+                <h2 class="mt-3">Thông tin đơn hàng trả</h2>
+                <hr>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Tổng tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of traHangDialog.listTraHangChiTiet; let i = index">
+                            <td>
+                                <div class="table-product-detail">
+                                    <img class="table-image" src="{{c.hoaDonChiTiet.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                    <div>
+                                        <p>Tên: {{c.hoaDonChiTiet.chiTietSanPham.sanPham.ten}}</p>
+                                        <p>Mã: {{c.hoaDonChiTiet.chiTietSanPham.ma}}</p>
+                                        <p>Size: {{c.hoaDonChiTiet.chiTietSanPham.kichCo.size}}</p>
+                                        <p>Màu sắc: {{c.hoaDonChiTiet.chiTietSanPham.mauSac.ten}}</p>
+                                        <p>Chất liệu: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                        <p>Loại đế: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {{c.soLuong}}
+                            </td>
+                            <td>{{c.hoaDonChiTiet.donGia | currency:'VND'}}</td>
+                            <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4 mb-5">
+                <h2 class="mt-3">Thông tin thanh toán</h2>
+                <hr>
+                <h3><b>Tổng giá hàng gốc:</b> {{traHangDialog.hoaDon.tongTien | currency:'VND'}}</h3>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
+                    {{traHangDialog.hoaDon.phieuGiamGia.chietKhau}}%</h3>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
+                    {{traHangDialog.hoaDon.phieuGiamGia.chietKhau | currency:'VND'}}</h3>
+                <h3><b>Phí vận chuyển:</b> {{traHangDialog.hoaDon.phiVanChuyen | currency:'VND'}}</h3>
+                <h3><b>Tổng tiền thanh toán:</b> {{traHangDialog.hoaDon.tongTienSauGiam + traHangDialog.hoaDon.phiVanChuyen | currency:'VND'}}</h3>
+                <h3><b>Tổng giá hàng trả:</b> {{tongGiaSanPhamTra | currency:'VND'}}</h3>
+                <hr>
+                <h3><b>Tổng tiền trả khách</b> {{tongTienTraKhach | currency:'VND'}}</h3>
+                <h3><b class="text-danger">*</b>Ghi chú</h3>
+                <textarea class="ghiChu w-100" value="{{traHangDialog.lyDo}}" disabled></textarea>
+                <button class="btn btn-success mt-2 w-100" (click)="hoanThanh(traHangDialog.id)">Hoàn thành</button>
+                <button class="btn btn-danger mt-2 w-100" (click)="choXacNhan(traHangDialog.id)">Chờ xác nhận</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- dialog hoàn thành -->
+<div class="container" *ngIf="openDialog === 2">
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between">
+            <h2>Chi tiết trả hàng: {{traHangDialog.hoaDon.maHoaDon}} | Hoàn thành | {{traHangDialog.ngayTao}}</h2>
+            <div>
+                <button type="button" class="btn " (click)="closeDialogs()">
+                    <i class="pi pi-times" style="font-size: 1.5rem"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row border" >
+        <div class="row mt-3">
+            <h2>Thông tin khách hàng</h2>
+        </div>
+        <div class="row">
+            <div class="col-2 mt-2">
+                <p>Tên khách hàng:</p>
+                <p>Số điện thoại:</p>
+                <p>Địa chỉ: </p>
+                <p>Ghi chú:</p>
+            </div>
+            <div class="col-5 mt-2">
+                <p>{{traHangDialog.hoaDon.tenKhachHang}}</p>
+                <p>{{traHangDialog.hoaDon.soDienThoai}}</p>
+                <p>{{traHangDialog.hoaDon.diaChi}}, {{traHangDialog.hoaDon.phuongXa}}, {{traHangDialog.hoaDon.quanHuyen}}, {{traHangDialog.hoaDon.tinhThanh}}</p>
+                <p>{{traHangDialog.hoaDon.ghiChu}}</p>
+            </div>
+            <div class="col-3 mt-2">
+                <p>Ngày giao hàng:</p>
+                <p>Trạng thái:</p>
+                <p>Phương thức thanh toán: </p>
+            </div>
+            <div class="col-2 mt-2">
+                <p>{{traHangDialog.hoaDon.ngayCapNhat}}</p>
+                <p *ngIf="traHangDialog.hoaDon.trangThai === 1 || traHangDialog.hoaDon.trangThai === 5">Hoàn thành</p>
+                <p *ngIf="traHangDialog.hoaDon.phuongThucThanhToan === 0">Khi nhận hàng</p>
+                <p *ngIf="traHangDialog.hoaDon.phuongThucThanhToan === 1">Thanh toán VNpay</p>
+                <p *ngIf="traHangDialog.hoaDon.trangThai === 1">Thanh toán tại quầy</p>
+            </div>
+        </div>
+    </div>
+    <div class="row border mt-3" >
+        <div class="row mt-3">
+            <h2>Thông tin đơn hàng</h2>
+        </div>
+        <hr>
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of traHangDialog.hoaDon.listHoaDonChiTiet">
+                        <td>
+                            <div class="table-product-detail">
+                                <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                <div>
+                                    <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                    <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                    <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                    <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                    <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                    <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{c.soLuong }}</td>
+                        <td>{{c.donGia | currency:'VND'}}</td>
+                        <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row border mt-3" >
+        <div class="row">
+            <div class="col-8">
+                <h2 class="mt-3">Thông tin đơn hàng trả</h2>
+                <hr>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Tổng tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of traHangDialog.listTraHangChiTiet; let i = index">
+                            <td>
+                                <div class="table-product-detail">
+                                    <img class="table-image" src="{{c.hoaDonChiTiet.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                    <div>
+                                        <p>Tên: {{c.hoaDonChiTiet.chiTietSanPham.sanPham.ten}}</p>
+                                        <p>Mã: {{c.hoaDonChiTiet.chiTietSanPham.ma}}</p>
+                                        <p>Size: {{c.hoaDonChiTiet.chiTietSanPham.kichCo.size}}</p>
+                                        <p>Màu sắc: {{c.hoaDonChiTiet.chiTietSanPham.mauSac.ten}}</p>
+                                        <p>Chất liệu: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                        <p>Loại đế: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {{c.soLuong}}
+                            </td>
+                            <td>{{c.hoaDonChiTiet.donGia | currency:'VND'}}</td>
+                            <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4 mb-5">
+                <h2 class="mt-3">Thông tin thanh toán</h2>
+                <hr>
+                <h3><b>Tổng giá hàng gốc:</b> {{traHangDialog.hoaDon.tongTien | currency:'VND'}}</h3>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
+                    {{traHangDialog.hoaDon.phieuGiamGia.chietKhau}}%</h3>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
+                    {{traHangDialog.hoaDon.phieuGiamGia.chietKhau | currency:'VND'}}</h3>
+                <h3><b>Phí vận chuyển:</b> {{traHangDialog.hoaDon.phiVanChuyen | currency:'VND'}}</h3>
+                <h3><b>Tổng tiền thanh toán:</b> {{traHangDialog.hoaDon.tongTienSauGiam + traHangDialog.hoaDon.phiVanChuyen | currency:'VND'}}</h3>
+                <h3><b>Tổng giá hàng trả:</b> {{tongGiaSanPhamTra | currency:'VND'}}</h3>
+                <hr>
+                <h3><b>Tổng tiền trả khách</b> {{tongTienTraKhach | currency:'VND'}}</h3>
+                <h3><b class="text-danger">*</b>Ghi chú</h3>
+                <textarea class="ghiChu w-100" value="{{traHangDialog.lyDo}}" disabled></textarea>
+                <button class="btn btn-success mt-2 w-100" >In hóa đơn</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- dialog đã hủy -->
+<div class="container" *ngIf="openDialog === 3">
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between">
+            <h2>Chi tiết trả hàng: {{traHangDialog.hoaDon.maHoaDon}} | Đã hủy | {{traHangDialog.ngayTao}}</h2>
+            <div>
+                <button type="button" class="btn " (click)="closeDialogs()">
+                    <i class="pi pi-times" style="font-size: 1.5rem"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row border" >
+        <div class="row mt-3">
+            <h2>Thông tin khách hàng</h2>
+        </div>
+        <div class="row">
+            <div class="col-2 mt-2">
+                <p>Tên khách hàng:</p>
+                <p>Số điện thoại:</p>
+                <p>Địa chỉ: </p>
+                <p>Ghi chú:</p>
+            </div>
+            <div class="col-5 mt-2">
+                <p>{{traHangDialog.hoaDon.tenKhachHang}}</p>
+                <p>{{traHangDialog.hoaDon.soDienThoai}}</p>
+                <p>{{traHangDialog.hoaDon.diaChi}}, {{traHangDialog.hoaDon.phuongXa}}, {{traHangDialog.hoaDon.quanHuyen}}, {{traHangDialog.hoaDon.tinhThanh}}</p>
+                <p>{{traHangDialog.hoaDon.ghiChu}}</p>
+            </div>
+            <div class="col-3 mt-2">
+                <p>Ngày giao hàng:</p>
+                <p>Trạng thái:</p>
+                <p>Phương thức thanh toán: </p>
+            </div>
+            <div class="col-2 mt-2">
+                <p>{{traHangDialog.hoaDon.ngayCapNhat}}</p>
+                <p *ngIf="traHangDialog.hoaDon.trangThai === 1 || traHangDialog.hoaDon.trangThai === 5">Hoàn thành</p>
+                <p *ngIf="traHangDialog.hoaDon.phuongThucThanhToan === 0">Khi nhận hàng</p>
+                <p *ngIf="traHangDialog.hoaDon.phuongThucThanhToan === 1">Thanh toán VNpay</p>
+                <p *ngIf="traHangDialog.hoaDon.trangThai === 1">Thanh toán tại quầy</p>
+            </div>
+        </div>
+    </div>
+    <div class="row border mt-3" >
+        <div class="row mt-3">
+            <h2>Thông tin đơn hàng</h2>
+        </div>
+        <hr>
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of traHangDialog.hoaDon.listHoaDonChiTiet">
+                        <td>
+                            <div class="table-product-detail">
+                                <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                <div>
+                                    <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                    <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                    <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                    <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                    <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                    <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{c.soLuong }}</td>
+                        <td>{{c.donGia | currency:'VND'}}</td>
+                        <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row border mt-3" >
+        <div class="row">
+            <div class="col-8">
+                <h2 class="mt-3">Thông tin đơn hàng trả</h2>
+                <hr>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Tổng tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of traHangDialog.listTraHangChiTiet; let i = index">
+                            <td>
+                                <div class="table-product-detail">
+                                    <img class="table-image" src="{{c.hoaDonChiTiet.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                    <div>
+                                        <p>Tên: {{c.hoaDonChiTiet.chiTietSanPham.sanPham.ten}}</p>
+                                        <p>Mã: {{c.hoaDonChiTiet.chiTietSanPham.ma}}</p>
+                                        <p>Size: {{c.hoaDonChiTiet.chiTietSanPham.kichCo.size}}</p>
+                                        <p>Màu sắc: {{c.hoaDonChiTiet.chiTietSanPham.mauSac.ten}}</p>
+                                        <p>Chất liệu: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                        <p>Loại đế: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {{c.soLuong}}
+                            </td>
+                            <td>{{c.hoaDonChiTiet.donGia | currency:'VND'}}</td>
+                            <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4 mb-5">
+                <h2 class="mt-3">Thông tin thanh toán</h2>
+                <hr>
+                <h3><b>Tổng giá hàng gốc:</b> {{traHangDialog.hoaDon.tongTien | currency:'VND'}}</h3>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
+                    {{traHangDialog.hoaDon.phieuGiamGia.chietKhau}}%</h3>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
+                    {{traHangDialog.hoaDon.phieuGiamGia.chietKhau | currency:'VND'}}</h3>
+                <h3><b>Phí vận chuyển:</b> {{traHangDialog.hoaDon.phiVanChuyen | currency:'VND'}}</h3>
+                <h3><b>Tổng tiền thanh toán:</b> {{traHangDialog.hoaDon.tongTienSauGiam + traHangDialog.hoaDon.phiVanChuyen | currency:'VND'}}</h3>
+                <h3><b>Tổng giá hàng trả:</b> {{tongGiaSanPhamTra | currency:'VND'}}</h3>
+                <hr>
+                <h3><b>Tổng tiền trả khách</b> {{tongTienTraKhach | currency:'VND'}}</h3>
+                <h3><b class="text-danger">*</b>Ghi chú</h3>
+                <textarea class="ghiChu w-100" value="{{traHangDialog.lyDo}}" disabled></textarea>
+
+            </div>
+        </div>
+    </div>
+</div>
+
