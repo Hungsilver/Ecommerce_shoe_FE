@@ -55,7 +55,6 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environment/environment';
-import { ForCategoryComponent } from './dashboard/components/ForCategory/ForCategory.component';
 import { ForDateComponent } from './dashboard/components/ForDate/ForDate.component';
 import { OrdersComponent } from './dashboard/components/Orders/Orders.component';
 import { ForProductComponent } from './dashboard/components/ForProduct/ForProduct.component';
@@ -83,6 +82,7 @@ import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-d
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
 // import { MatInputModule } from '@angular/material/input';
 
 // LOAD_WASM().subscribe();
@@ -153,7 +153,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     VoucherHomeComponent,
     VoucherDialogComponent,
 
-    ForCategoryComponent,
     ForDateComponent,
     OrdersComponent,
     ForProductComponent,
@@ -175,7 +174,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     HeaderStatsComponent,
     TableStatsProductComponent,
     HeaderStatsProductComponent,
+    VndPipe
   ],
   providers: [],
 })
-export class AdminLazyModule {}
+export class AdminLazyModule { }

@@ -96,13 +96,14 @@ export class MaterialSolesComponent implements OnInit {
       this.getAll();
     })
   }
-  openDialogEdit(material: any) {
+  openDialogEdit(materialSoles: any) {
+    console.log("de giay", materialSoles);
     const dialogRef = this.dialog.open(MaterialSolesDialogComponent, {
       width: '400px',
       height: '500px',
       data: {
         type: 'update',
-        material: material,
+        material: materialSoles,
       }
     })
     dialogRef.afterClosed().subscribe(data => {

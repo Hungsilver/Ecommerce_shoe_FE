@@ -279,7 +279,7 @@ export class HomeProductComponent implements OnInit {
   openDialogEdit(product: any) {
     const dialogRef = this.dialog.open(DialogProductComponent, {
       width: '1300px',
-      height: '540px',
+      height: '600px',
       data: {
         type: 'update',
         product: product,

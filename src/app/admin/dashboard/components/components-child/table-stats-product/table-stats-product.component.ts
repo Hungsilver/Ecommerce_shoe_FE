@@ -21,11 +21,8 @@ export class TableStatsProductComponent implements OnInit {
       tongSL.push(item.soLuong);
       doanhThus.push(item.doanhThu);
     });
-    this.dataHeaderStatsP.tongDonHang = this.dataTable?.length();
     this.dataHeaderStatsP.tongDoanhThu = doanhThus.reduce((num, currentNum) => num + currentNum, 0);
-    this.dataHeaderStatsP.tbTongDoanhThu = 0
-    console.log(this.dataHeaderStatsP);
-
+    this.dataHeaderStatsP.tongSP = this.dataTable?.length;
   }
 
   getAll(action?: 'prev' | 'next'): void {
@@ -51,7 +48,6 @@ export class TableStatsProductComponent implements OnInit {
     //   }
 
     // })
-    console.log(this.searchQuery)
   }
 
 

@@ -16,25 +16,27 @@ import { BlogHomeComponent } from './blog/bloghome-component';
 import { blogdetail } from './blogDetail/blogDetail-component';
 import { ChinhSachComponent } from './chinh-sach/chinh-sach.component';
 import { VoucherComponent } from './voucher/voucher.component';
+import { ProfileComponent } from 'src/app/page/profile/profile.component';
 
 
 const routes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'product', component: ProductComponent },
-    { path: 'cart', component: CartComponent },
-    // { path: 'cart', component: CartComponent, canActivate: [authUserGuard] },
-    { path: 'checkout',  component: CheckoutComponent },
-    // { path: 'checkout', canActivate: [authUserGuard], component: CheckoutComponent },
-    { path: 'product/:id', component: DetailComponent },
-    { path: 'order', component: OrderComponent },
-    { path: 'chinh-sach', component: ChinhSachComponent },
-    { path: 'voucher', component: VoucherComponent },
-    { path: 'payment/success', component: PaymentSuccessComponent },
-    { path: 'payment/error', component: PaymentErrorComponent },
+  { path: '', component: HomeComponent },
+  { path: 'product', component: ProductComponent },
+  { path: 'cart', component: CartComponent },
+  // { path: 'cart', component: CartComponent, canActivate: [authUserGuard] },
+  { path: 'checkout', component: CheckoutComponent },
+  // { path: 'checkout', canActivate: [authUserGuard], component: CheckoutComponent },
+  { path: 'product/:id', component: DetailComponent },
+  { path: 'order', component: OrderComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'chinh-sach', component: ChinhSachComponent },
+  { path: 'voucher', component: VoucherComponent },
+  { path: 'payment/success', component: PaymentSuccessComponent },
+  { path: 'payment/error', component: PaymentErrorComponent },
 
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PageRoutingModule {}
+export class PageRoutingModule { }

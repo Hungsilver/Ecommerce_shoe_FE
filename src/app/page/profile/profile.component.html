@@ -1,0 +1,85 @@
+<main class="profile">
+  <div class="row">
+    <div class="col-4 d-flex justify-content-center">
+      <div class="profile-image">
+        <img [src]="profile?.avatar ||'/assets/image/user.png'" alt="avatar">
+      </div>
+    </div>
+    <div class="col-8">
+      <div *ngIf="isShowInfo">
+        <div class="d-flex justify-content-between">
+          <h1 class="d-inline-block">My Profile</h1>
+          <!-- <button (click)="showChangePass()" class="btn btn-primary">Đổi mật khẩu</button> -->
+        </div>
+        <div class="d-flex flex-column gap-3">
+          <div>
+            <label for="">Họ Tên: </label>
+            <span>{{profile.hoTen}}</span>
+          </div>
+          <div>
+            <label for="">Số điện thoại: </label>
+            <span>{{profile.soDienThoai}}</span>
+          </div>
+          <div>
+            <label for="">Email: </label>
+            <span>{{profile.email}}</span>
+          </div>
+          <div>
+            <label for="">Địa chỉ: </label>
+            <span></span>
+          </div>
+        </div>
+      </div>
+      <form *ngIf="isShowChangePass">
+        <div class="row">
+          <div class="col-6">
+            <label>Mật khẩu hiện tại</label>
+            <input matInput type="text" [(ngModel)]="infoUpdate.currentPass" name="currentPass">
+            <!-- <mat-error
+              *ngIf="profileForm.get('hoTen').invalid && (profileForm.get('hoTen').dirty || profileForm.get('ten').touched)">
+            Tên không được để trống</mat-error> -->
+          </div>
+
+          <div class="col-6">
+            <label>Số điện thoại</label>
+            <input matInput type="text" [(ngModel)]="infoUpdate.newPass" name="newPass">
+            <!-- <mat-error
+              *ngIf="profileForm.get('soDienThoai').invalid && (profileForm.get('soDienThoai').dirty || profileForm.get('ten').touched)">
+              Tên không được để trống</mat-error> -->
+          </div>
+          <div class="col-6">
+            <label>Số điện thoại</label>
+            <input matInput type="text" [(ngModel)]="infoUpdate.confirmPass" name="confirmPass">
+            <!-- <mat-error
+              *ngIf="profileForm.get('soDienThoai').invalid && (profileForm.get('soDienThoai').dirty || profileForm.get('ten').touched)">
+              Tên không được để trống</mat-error> -->
+          </div>
+        </div>
+      </form>
+      <div>
+
+      </div>
+
+      <!--   <form [formGroup]="profileForm">
+        <div class="row">
+         <mat-form-field class="col-6">
+            <mat-label>Tên</mat-label>
+            <input matInput type="text" formControlName="hoTen">
+            <mat-error
+              *ngIf="profileForm.get('hoTen').invalid && (profileForm.get('hoTen').dirty || profileForm.get('ten').touched)">
+              Tên không được để trống</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-6">
+            <mat-label>Số điện thoại</mat-label>
+            <input matInput type="text" formControlName="soDienThoai">
+            <mat-error
+              *ngIf="profileForm.get('soDienThoai').invalid && (profileForm.get('soDienThoai').dirty || profileForm.get('ten').touched)">
+              Tên không được để trống</mat-error>
+          </mat-form-field>
+        </div>
+      </form> -->
+
+    </div>
+  </div>
+</main>

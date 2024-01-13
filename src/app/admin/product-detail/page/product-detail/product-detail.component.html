@@ -2,7 +2,12 @@
   <div class="col-4">
     <span class="p-input-icon-left">
       <i class="pi pi-search"></i>
-      <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+      <input
+        type="text"
+        pInputText
+        [(ngModel)]="searchQuery.keyword"
+        (keyup.enter)="getAll()"
+      />
       <p-dropdown
         [options]="listTotalPage"
         [(ngModel)]="searchQuery.page"
@@ -93,12 +98,11 @@
       <tr>
         <th style="">STT</th>
         <th style="">Mã</th>
+        <th style="">anh</th>
         <th style="">Sản Phẩm</th>
         <th style="">Giá</th>
         <th style="">Màu Sắc</th>
         <th style="">Kích Cỡ</th>
-        <th style="">Chất Liệu Giày</th>
-        <th style="">Chất Liệu Đế Giày</th>
         <th style="">Số Lượng</th>
         <th style="">Trạng Thái</th>
 
@@ -115,13 +119,22 @@
           }}
         </td>
         <td>{{ product.ma }}</td>
+        <!-- <td> <img src=" {{ product.anhSanPhams[0].ten}}" alt=""></td> -->
+        <td>
+          <img
+            class="table-image"
+            src="{{ product.anhSanPhams[0]?.ten }}"
+            width="100px"
+            height="120px"
+            alt=""
+          />
+        </td>
         <td>{{ product.sanPham?.ten }}</td>
         <td>{{ product.giaBan }}</td>
         <td>{{ product.mauSac?.ten }}</td>
         <td>{{ product.kichCo?.size }}</td>
-
-        <td>{{ product.chatLieuGiay?.ten }}</td>
-        <td>{{ product.chatLieuDeGiay?.ten }}</td>
+        <!-- <td>{{ product.chatLieuGiay?.ten }}</td> -->
+        <!-- <td>{{ product.chatLieuDeGiay?.ten }}</td> -->
         <td>{{ product.soLuong }}</td>
         <td>
           {{ product.trangThai === 1 ? "Hoạt động" : "Không hoạt động" }}

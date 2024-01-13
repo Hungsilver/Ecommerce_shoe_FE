@@ -18,7 +18,7 @@ voucherFrom :FormGroup = new FormGroup ({}) ;
 updateDate : string | null =null;
 tgbd: string | null = null;
 tgkt :string | null =null;
-isEditing: boolean = false;
+
   ngOnInit(): void {
 
 
@@ -27,17 +27,40 @@ isEditing: boolean = false;
       chietKhau: ['',[ Validators.required]],
       // ,Validators.min(0),Validators.max(10),Validators.pattern(/^[1-9]\d{0,2}?$/)
       moTa:['',[Validators.required,Validators.minLength(10)]],
-      hinhThucGiamGia :[false,Validators.required],
-      trangThai: [2, Validators.required],
+      hinhThucGiamGia :[false,[Validators.required]],
+      trangThai: [1, [Validators.required]],
       thoiGianBatDau :[null,[Validators.required]],
       thoiGianKetThuc :[null,[Validators.required]]
       //,Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4} (0[1-9]|1[0-2]):[0-5][0-9] (AM|PM|am|pm)$/)
     });
+
+    // if(this.data.voucher && this.data.voucher.ten && this.data.voucher.chietKhau
+    //   && this.data.voucher.moTa && this.data.voucher.hinhThucGiamGia &&
+    //  this.data.voucher.trangThai && this.data.voucher.thoiGianBatDau &&
+    //   this.data.voucher.thoiGianKetThuc){
+    //   this.tgbd = moment(this.data.voucher.thoiGianBatDau).format('MM/DD/YYYY h:mm A');
+    //   this.tgkt = moment(this.data.voucher.thoiGianKetThuc).format('MM/DD/YYYY h:mm A');
+    //   console.log("show ra:",this.tgbd);
+    //   console.log("tg update",this.data.voucher.thoiGianBatDau);
+
+    //   this.data.voucher.thoiGianBatDau =this.tgbd ;
+    //   this.data.voucher.thoiGianKetThuc = this.tgkt;
+    //   this.voucherFrom.patchValue({
+    //     ten: this.data.voucher.ten,
+    //     chietKhau:this.data.voucher.chietKhau,
+    //     moTa:this.data.voucher.moTa,
+    //     hinhThucGiamGia :this.data.voucher.hinhThucGiamGia,
+    //     trangThai :this.data.voucher.trangThai,
+    //     thoiGianBatDau :this.data.voucher.thoiGianBatDau,
+    //     thoiGianKetThuc:this.data.voucher.thoiGianKetThuc,
+    //   });
+    // }
+
+
     this.type = this.data.type;
 
     if (this.type === 'update') {
       // this.isEditing = false;
-      if(this.data.voucher.trangThai ===2){
       this.tgbd = moment(this.data.voucher.thoiGianBatDau).format('MM/DD/YYYY h:mm A');
     this.tgkt = moment(this.data.voucher.thoiGianKetThuc).format('MM/DD/YYYY h:mm A');
     console.log("show ra:",this.tgbd);
@@ -46,11 +69,8 @@ isEditing: boolean = false;
     this.data.voucher.thoiGianBatDau =this.tgbd ;
     this.data.voucher.thoiGianKetThuc = this.tgkt;
     this.voucherFrom.patchValue(this.data.voucher);
-
-  }else{
-    alert("chỉ được sửa voucher chưa diễn ra");
-  }
     }
+
     this.voucherFrom!.get('hinhThucGiamGia')!.valueChanges.subscribe((value: boolean) => {
       // Cập nhật validators cho chietKhau dựa trên giá trị mới của hinhThucGiamGia
       this.updateValidatorsForChietKhau(value);
