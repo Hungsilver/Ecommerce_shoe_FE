@@ -3,7 +3,7 @@ import { ProductDetailService } from '../../services/product.service';
 import { AngularFireStorage } from "@angular/fire/compat/storage"
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { FormBuilder,Validators,FormGroup,AbstractControl,ValidationErrors } from '@angular/forms';
-// import { NgxCurrencyDirective } from "ngx-currency";
+
 
 
 
@@ -23,28 +23,17 @@ export class dialogProductDetailComponent implements OnInit {
   shoeMaterial: any[] = [];
   shoeSoleMaterial: any[] = [];
 
-  validUrls: string[] = []; // Mảng để lưu đường dẫn hình ảnh
+   validUrls: string[] = []; // Mảng để lưu đường dẫn hình ảnh
+  // validUrls: string[] = new Array(4);
+
   uploadedUrl: string | null = null;
 
   type :any;
-  // selectedProductId: number | null =null;
-  // selectedSizeId : number | null =null;
-  // selectedColorId : number | null =null;
-  // selectedShoeMaterialId : number | null =null;
-  // selectedShoeSoleMaterialId : number | null =null;
-  productDetailForm: FormGroup =new FormGroup({}) ;
+
+  productDetailForm: FormGroup = new FormGroup({}) ;
 
   ngOnInit(): void {
-    // if (this.data.productDetail && this.data.productDetail.sanPham && this.data.productDetail.mauSac && this.data.productDetail.kichCo
-    //   && this.data.productDetail.chatLieuGiay && this.data.productDetail.chatLieuDeGiay) {
-    //   // Thiết lập giá trị mặc định cho các trường select
-    //   this.selectedProductId = this.data.productDetail.sanPham.id;
-    //   this.selectedSizeId = this.data.productDetail.kichCo.id;
-    //   this.selectedColorId = this.data.productDetail.mauSac.id;
-    //   this.selectedShoeMaterialId = this.data.productDetail.chatLieuGiay.id;
-    //   this.selectedShoeSoleMaterialId = this.data.productDetail.chatLieuDeGiay.id;
 
-    // }
 
     this.productDetailForm = this.fb.group({
       soLuong: ['', [Validators.required, Validators.pattern(/^[1-9]\d{0,2}$/)]],
@@ -55,11 +44,15 @@ export class dialogProductDetailComponent implements OnInit {
       chatLieuGiay: [null, Validators.required],
       chatLieuDeGiay: [null, Validators.required],
       trangThai: [1, Validators.required],
+      // anhSanPhams :[null,Validators.required],
     });
 
     if (this.data.productDetail && this.data.productDetail.soLuong && this.data.productDetail.giaBan && this.data.productDetail.sanPham && this.data.productDetail.mauSac &&
       this.data.productDetail.kichCo && this.data.productDetail.chatLieuGiay && this.data.productDetail.chatLieuDeGiay) {
-      this.productDetailForm.patchValue({
+          console.log("anh",this.data.productDetail.anhSanPhams );
+        this.validUrls = this.data.productDetail.anhSanPhams.ten;
+        console.log("validUrls:",this.validUrls);
+        this.productDetailForm.patchValue({
         soLuong: this.data.productDetail.soLuong,
         giaBan :this.data.productDetail.giaBan,
         sanPham: this.data.productDetail.sanPham.id,
@@ -67,6 +60,7 @@ export class dialogProductDetailComponent implements OnInit {
         mauSac: this.data.productDetail.mauSac.id,
         chatLieuGiay: this.data.productDetail.chatLieuGiay.id,
         chatLieuDeGiay: this.data.productDetail.chatLieuDeGiay.id,
+        trangThai:this.data.productDetail.trangThai,
       });
 
   }
@@ -128,29 +122,35 @@ export class dialogProductDetailComponent implements OnInit {
     console.log('files-log', files);
 
     if (files && files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const path = `images/${file.name}`;
-        const uploadTask = await this.fireStorage.upload(path, file);
-        const url = await uploadTask.ref.getDownloadURL();
-        this.validUrls.push(url);
-        console.log(`Uploaded file ${i}: ${this.validUrls}`);
+      try {
+
+        if(files.length < 5){
+
+
+        // this.validUrls = [];
+        for (let i = 0; i < files.length ; i++) {
+          const file = files[i];
+          const path = `images/${file.name}`;
+          const uploadTask = await this.fireStorage.upload(path, file);
+          const url = await uploadTask.ref.getDownloadURL();
+          if (!this.validUrls) {
+            this.validUrls = []; // Khởi tạo mảng nếu chưa tồn tại
+          }
+          this.validUrls.push(url);
+          console.log(`Uploaded file ${i}: ${url}`);
+        }
+      }else{
+        alert('chi dc them 5 anh');
+      }
+
+      } catch (error) {
+        console.error('Error uploading files:', error);
+        // Xử lý lỗi tải lên nếu cần
       }
     }
   }
 
   addProduct(): void {
-    // console.log('Valid URLs in addProduct:', this.validUrls);
-    // Gán giá trị vào this.product.anhChinh
-
-    // const soLuongValue = this.productDetailForm.get('soLuong').value;
-    // const giaBanValue = this.productDetailForm.get('giaBan').value;
-    // const sanPhamId = this.productDetailForm.get('sanPham').value;
-    // const kichCoId = this.productDetailForm.get('kichCo').value;
-    // const mauSacId = this.productDetailForm.get('mauSac').value;
-    // const chatLieuGiayId = this.productDetailForm.get('chatLieuGiay').value;
-    // const chatLieuDeGiayId = this.productDetailForm.get('chatLieuDeGiay').value;
-
     // const trangThaiValue = this.productDetailForm.get('trangThai').value;
     const formValue = this.productDetailForm.value;
     // Gán giá trị vào this.product
@@ -163,37 +163,33 @@ export class dialogProductDetailComponent implements OnInit {
       chatLieuGiay:formValue.chatLieuGiay,
       chatLieuDeGiay :formValue.chatLieuDeGiay,
       trangThai: formValue.trangThai,
+      anhSanPhams: this.validUrls ? [...this.validUrls] : [],
     };
+
+
 
     this.productDetail.anhSanPhams = this.validUrls
   // console.log('Product Image URLs:', this.product.anhChinh);
     if (this.productDetailForm.valid) {
+      if(this.productDetail.anhSanPhams.length >0){
         this.productDetailService.createProduct(this.productDetail).then(res => {
           console.log('Data created', res.content);
           if (res) {
             this.dialog.closeAll();
           }
         });
-      } else {
+      }else{
+        console.log("Ảnh sản phẩm null:");
+      }
+    } else {
         console.error('Image URLs are null or empty. Product not added.');
       }
 
   }
     updateProduct() {
-      // const selectedProduct = this.product.find(product => product.id ===this.selectedProductId);
-      // const selectedSize = this.size.find( size => size.id === this.selectedSizeId);
-      // const selectedColor = this.color.find( color => color.id === this.selectedColorId);
-      // const selectedShoeMaterial = this.shoeMaterial.find(shoeMaterial => shoeMaterial.id === this.selectedShoeMaterialId);
-      // const selectedShoeSoleMaterial = this.shoeSoleMaterial.find(shoeSoleMaterial => shoeSoleMaterial.id === this.selectedShoeSoleMaterialId);
-
-      // if (selectedProduct && selectedSize && selectedColor && selectedShoeMaterial
-      //   && selectedShoeSoleMaterial) {
-      //   this.productDetail.sanPham = selectedProduct.id;
-      //   this.productDetail.kichCo = selectedSize.id;
-      //   this.productDetail.mauSac = selectedColor.id;
-      //   this.productDetail.chatLieuGiay = selectedShoeMaterial.id;
-      //   this.productDetail.chatLieuDeGiay = selectedShoeSoleMaterial.id;
       const formValue = this.productDetailForm.value;
+      console.log("anh cap nhat:",this.validUrls);
+
       this.productDetail = {
         soLuong: formValue.soLuong,
         giaBan: formValue.giaBan,
@@ -203,14 +199,22 @@ export class dialogProductDetailComponent implements OnInit {
         chatLieuGiay: formValue.chatLieuGiay,
         chatLieuDeGiay: formValue.chatLieuDeGiay,
         trangThai: formValue.trangThai,
-        anhSanPhams: this.validUrls,
+        anhSanPhams: this.validUrls ? [...this.validUrls] : [],
+
       };
+
         // Sử dụng đường dẫn ảnh mới nếu có
         // if (this.uploadedUrl) {
         // this.product.anhChinh = this.uploadedUrl;
 
-        this.productDetail.anhSanPhams = this.validUrls || this.productDetail.anhSanPhams;
-        // }
+
+        this.validUrls = new Array(3);
+        if(this.validUrls.length < 4 ){
+        this.productDetail.anhSanPhams.ten = [];
+        // // this.productDetail.anhSanPhams = [];
+
+        this.productDetail.anhSanPhams.ten = this.validUrls;
+        console.log("ảnh 1228",this.productDetail.anhSanPhams);
 
         this.productDetailService.updateProduct(this.productDetail, this.data.productDetail.id).then(res => {
           console.log('data updated', res.content);
@@ -218,7 +222,10 @@ export class dialogProductDetailComponent implements OnInit {
             this.dialog.closeAll();
           }
         });
+      }else{
+        alert('Chỉ được cập nhật thêm 4 ảnh !');
       }
+    }
       deleteProduct() {
         console.log("xoa");
         this.productDetailService.deleteProduct(this.productDetail.id);
