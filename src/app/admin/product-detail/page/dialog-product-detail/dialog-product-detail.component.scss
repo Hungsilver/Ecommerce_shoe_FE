@@ -54,5 +54,26 @@
 width: 300px;
 
 }
+.image-container-horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  // justify-content: space-between; /* Cách đều các ảnh */
+  margin-bottom: 10px; /* Khoảng cách giữa các ảnh */
+  width: calc(120% - 40px);
+}
+
+.image-wrapper {
+  flex: 0 0 calc(25% - 20px); /* Chiếm 1/3 chiều rộng, với khoảng cách 10px */
+  box-sizing: border-box;
+  margin-bottom: 10px;
+
+  img {
+    width: calc(120% - 40px); /* Giảm chiều rộng ảnh để tạo khoảng trống cho viền (20px = 2 * 10px) */
+    height: auto;
+    display: block;
+    border: 1px solid #000; /* Thêm viền đen với kích thước 1px */
+    box-sizing: border-box;
+  }
+}
 
 

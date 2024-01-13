@@ -106,8 +106,8 @@
                             </div>
                         </td>
                         <td>{{c.soLuong }}</td>
-                        <td>{{c.donGia | currency:'VND'}}</td>
-                        <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
+                        <td>{{c.donGia | vnd}}</td>
+                        <td>{{c.soLuong*c.donGia | vnd}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -146,8 +146,8 @@
                                 <input type="number" min="1" max="{{c.soLuong}}" value="{{c.soLuong}}"
                                     (blur)="capNhatSoLuong($event,i)">
                             </td>
-                            <td>{{c.donGia | currency:'VND'}}</td>
-                            <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
+                            <td>{{c.donGia | vnd}}</td>
+                            <td>{{c.soLuong*c.donGia | vnd}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -155,17 +155,17 @@
             <div class="col-4 mb-5">
                 <h2 class="mt-3">Thông tin thanh toán</h2>
                 <hr>
-                <h3><b>Tổng giá hàng gốc:</b> {{hoaDon.tongTien | currency:'VND'}}</h3>
+                <h3><b>Tổng giá hàng gốc:</b> {{hoaDon.tongTien | vnd}}</h3>
                 <h3 *ngIf="hoaDon.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
                 <h3 *ngIf="hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
                     {{hoaDon.phieuGiamGia.chietKhau}}%</h3>
                 <h3 *ngIf="hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
-                    {{hoaDon.phieuGiamGia.chietKhau | currency:'VND'}}</h3>
-                <h3><b>Phí vận chuyển:</b> {{hoaDon.phiVanChuyen | currency:'VND'}}</h3>
-                <h3><b>Tổng tiền thanh toán:</b> {{hoaDon.tongTienSauGiam + hoaDon.phiVanChuyen | currency:'VND'}}</h3>
-                <h3><b>Tổng giá hàng trả:</b> {{tongTienHangTra | currency:'VND'}}</h3>
+                    {{hoaDon.phieuGiamGia.chietKhau | vnd}}</h3>
+                <h3><b>Phí vận chuyển:</b> {{hoaDon.phiVanChuyen | vnd}}</h3>
+                <h3><b>Tổng tiền thanh toán:</b> {{hoaDon.tongTienSauGiam + hoaDon.phiVanChuyen | vnd}}</h3>
+                <h3><b>Tổng giá hàng trả:</b> {{tongTienHangTra | vnd}}</h3>
                 <hr>
-                <h3><b>Tổng tiền trả khách</b> {{tienTraKhach| currency:'VND'}}</h3>
+                <h3><b>Tổng tiền trả khách</b> {{tienTraKhach| vnd}}</h3>
                 <h3><b class="text-danger">*</b>Ghi chú</h3>
                 <textarea class="ghiChu w-100" [(ngModel)]="ghiChu"></textarea>
                 <div class="text-danger" *ngIf="loiGhiChu === true">

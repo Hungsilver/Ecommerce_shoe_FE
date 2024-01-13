@@ -36,7 +36,6 @@ const routes: Routes = [
   { path: 'xuat-xu', component: OriginComponent },
   { path: 'Order', component: OrderComponent },
   { path: 'dashboard', component: DashboardComponent },
-  // { path: 'chi-tiet-san-pham/moi', component: NewProductDetailComponent },
   { path: 'chi-tiet-san-pham', component: ProductDetailComponent },
   { path: 'chat-lieu-giay', component: MaterialComponent },
   { path: 'chat-lieu-de-giay', component: MaterialSolesComponent },

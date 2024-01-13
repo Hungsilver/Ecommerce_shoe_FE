@@ -8,8 +8,12 @@ aside {
   /* Giảm kích thước thanh bên */
   height: 100vh;
   background-color: $background-color;
+  width: 200px;
 
   .box {
+    padding-left: 10px;
+    padding-top: 10px;
+
     .menu-icon {
       adding-right: 10px;
       align-self: center;

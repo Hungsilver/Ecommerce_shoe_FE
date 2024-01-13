@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IDashBoardReq, IDataHeader } from '../../../service/dashboard.module';
 
 @Component({
@@ -6,9 +6,14 @@ import { IDashBoardReq, IDataHeader } from '../../../service/dashboard.module';
   templateUrl: './chart-column.component.html',
   styleUrls: ['./chart-column.component.scss']
 })
-export class ChartColumnComponent implements OnInit {
+export class ChartColumnComponent implements OnInit, OnChanges {
   @Input() dataChart: any;
-
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dataChart']) {
+      // data đã thay đổi 
+      this.ngOnInit();
+    }
+  }
   constructor() { }
 
   data: any;
@@ -39,7 +44,6 @@ export class ChartColumnComponent implements OnInit {
           label: 'Tổng doanh thu',
           backgroundColor: documentStyle.getPropertyValue('--blue-500'),
           borderColor: documentStyle.getPropertyValue('--blue-500'),
-          // data: [65, 59, 80, 81, 56, 55, 40]
           yAxisID: 'y-axis-left',
           data: tongDoanhThuArray //data tong tien
         },
@@ -49,7 +53,6 @@ export class ChartColumnComponent implements OnInit {
           borderColor: documentStyle.getPropertyValue('--pink-500'),
           // yAxisID: 'y-axis-right',
           data: tongDonHangArray //data tong don hang
-          // data: [28, 48, 40, 19, 86, 27, 90]
         }
       ]
     };

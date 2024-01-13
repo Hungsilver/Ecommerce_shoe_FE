@@ -55,7 +55,6 @@ import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environment/environment';
-import { ForCategoryComponent } from './dashboard/components/ForCategory/ForCategory.component';
 import { ForDateComponent } from './dashboard/components/ForDate/ForDate.component';
 import { OrdersComponent } from './dashboard/components/Orders/Orders.component';
 import { ForProductComponent } from './dashboard/components/ForProduct/ForProduct.component';
@@ -91,6 +90,9 @@ import { InvoiceDangGiaoHangComponent } from './hoa-don/component/invoice-dang-g
 import { InvoiceHoanThanhComponent } from './hoa-don/component/invoice-hoan-thanh/invoice-hoan-thanh.component';
 import { TatCaComponent } from './hoa-don/component/tat-ca/tat-ca.component';
 import { InvoiceChiTietComponent } from './hoa-don/component/invoice-chi-tiet/invoice-chi-tiet.component';
+import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
+
+
 // import { MatInputModule } from '@angular/material/input';
 
 LOAD_WASM().subscribe();
@@ -161,7 +163,6 @@ LOAD_WASM().subscribe();
     VoucherHomeComponent,
     VoucherDialogComponent,
 
-    ForCategoryComponent,
     ForDateComponent,
     OrdersComponent,
     ForProductComponent,
@@ -194,10 +195,13 @@ LOAD_WASM().subscribe();
     InvoiceDangGiaoHangComponent,
     InvoiceHoanThanhComponent,
     TatCaComponent,
-    InvoiceChiTietComponent
+    InvoiceChiTietComponent,
 
+
+
+    // VndPipe
 
   ],
   providers: [],
 })
-export class AdminLazyModule {}
+export class AdminLazyModule { }

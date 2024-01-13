@@ -19,7 +19,7 @@
       <span class="pi pi-search"></span>
     </a>
     <a routerLink="/cart">
-      <span class="pi pi-shopping-cart" pBadge *ngIf="quantityInCart" value="{{ quantityInCart }}"></span>
+      <span class="pi pi-shopping-cart" pBadge value="{{ quantityInCart }}"></span>
     </a>
 
     <ng-container *ngIf="customerInfo">
@@ -27,6 +27,10 @@
         <mat-icon>account_circle</mat-icon>
       </div>
       <mat-menu #menu="matMenu">
+        <a routerLink="/profile" mat-menu-item>
+          <mat-icon>dialpad</mat-icon>
+          <span>Profile</span>
+        </a>
         <!-- <button routerLink="/product" mat-menu-item>
           <mat-icon>dialpad</mat-icon>
           <span>Setting</span>

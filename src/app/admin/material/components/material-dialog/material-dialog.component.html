@@ -8,29 +8,39 @@
 </div>
 <ng-container *ngIf="type && type==='add'|| type==='update'">
     <mat-dialog-content class="mat-typography">
-        <div class="container-fluid">
+        <form [formGroup]="materialForm" class="container-fluid">
             <mat-form-field class="example-form-field">
                 <mat-label>Tên</mat-label>
-                <input matInput type="text" [(ngModel)]="material.ten">
-                <button *ngIf="material?.ten" matSuffix mat-icon-button aria-label="Clear" (click)="material.ten=''">
+                <input matInput type="text" formControlName="ten">
+                <mat-error
+                        *ngIf="(materialForm?.get('ten')?.hasError('required') || materialForm?.get('ten')?.hasError('pattern'))
+                         && (materialForm?.get('ten')?.dirty || materialForm?.get('ten')?.touched)">
+                             <ng-container *ngIf="materialForm?.get('ten')?.hasError('pattern')">
+                              tên phải đúng dạng
+                           </ng-container>
+                          <ng-container *ngIf="materialForm?.get('ten')?.hasError('required')">
+                            Tên không được để trống
+                         </ng-container>
+                      </mat-error>
+                <!-- <button *ngIf="material?.ten" matSuffix mat-icon-button aria-label="Clear" (click)="material.ten=''">
                     <mat-icon>close</mat-icon>
-                </button>
+                </button> -->
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Chọn trạng thái</mat-label>
-                <mat-select [(ngModel)]="material.trangThai">
+                <mat-select formControlName="trangThai">
                     <mat-option [value]="1">Hoạt động</mat-option>
                     <mat-option [value]="0">Ngưng Hoạt động</mat-option>
                 </mat-select>
             </mat-form-field>
-        </div>
+        </form>
     </mat-dialog-content>
     <mat-dialog-actions>
         <ng-container *ngIf="type&&type=== 'add'">
-            <button mat-button (click)="addMaterial()">Xác nhận add</button>
+            <button mat-button (click)="addMaterial()"  [disabled]="materialForm.invalid">Xác nhận add</button>
         </ng-container>
         <ng-container *ngIf="type=== 'update'">
-            <button mat-button (click)="updateMaterial()">Xác nhận update</button>
+            <button mat-button (click)="updateMaterial()"  [disabled]="materialForm.invalid">Xác nhận update</button>
         </ng-container>
     </mat-dialog-actions>
 </ng-container>

@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { CheckoutService } from '../service/checkout.service';
-import { isAfter, isSameDay, differenceInDays  } from 'date-fns';
+import { isAfter, isSameDay, differenceInDays } from 'date-fns';
 
 @Component({
   selector: 'app-checkout',
@@ -27,7 +27,7 @@ export class CheckoutComponent implements OnInit {
   query: any = {};
   tongTienSanPham = 0;
   tongTienSauGiam = 0;
-  tongTienThanhToan =0;
+  tongTienThanhToan = 0;
   tienGiam = 0;
   phieuGiamGia: any = []
   hinhThucGiamGia: any;
@@ -38,7 +38,7 @@ export class CheckoutComponent implements OnInit {
   selectedDistrict = '';
   selectedWard = '';
   province = '';
-  district= '';
+  district = '';
   ward = '';
   ngayHienTai: Date = new Date();
   ngayHetHan: Date = new Date();
@@ -92,7 +92,7 @@ export class CheckoutComponent implements OnInit {
       tongTienSauGiam: this.tongTienSauGiam,
       phiVanChuyen: this.phiShip,
       trangThai: null,
-      phieuGiamGia:this.idPhieuGiamGia,
+      phieuGiamGia: this.idPhieuGiamGia,
       khachHang: null,
       nhanVien: null,
       hoaDonChiTietReqests: this.hoaDonChiTietReqest
@@ -100,34 +100,34 @@ export class CheckoutComponent implements OnInit {
 
 
     if (this.form.valid) {
-        Swal.fire(
-          {
-            title: 'Xác nhận thanh toán',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Thanh toán',
-            cancelButtonText: 'Hủy'
+      Swal.fire(
+        {
+          title: 'Xác nhận thanh toán',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Thanh toán',
+          cancelButtonText: 'Hủy'
+        }
+      ).then((result) => {
+        if (result.isConfirmed) {// check confirm
+          if (this.form.value.phuongThucThanhToan === '0') {// check phuongthucthanhtoan
+            this.checkoutService.checkout(this.form.value).then(c => {
+              this.router.navigate(['/payment/success'])
+            }, (err) => {
+              this.router.navigate(['/payment/error'])
+            })
+          } else {
+            this.checkoutService.checkout(this.form.value).then(c => {
+              console.log(c);
+              window.location.href = c.data;
+            })
           }
-        ).then((result) => {
-          if (result.isConfirmed) {// check confirm
-            if (this.form.value.phuongThucThanhToan === '0') {// check phuongthucthanhtoan
-              this.checkoutService.checkout(this.form.value).then(c => {
-                this.router.navigate(['/payment/success'])
-              },(err)=>{
-                this.router.navigate(['/payment/error'])
-              })
-            } else {
-              this.checkoutService.checkout(this.form.value).then(c => {
-                console.log(c);
-                window.location.href = c.data;
-              })
-            }
-          }
-        })
-      
-      
+        }
+      })
+
+
     } else {
       this.notificationService.error('Vui lòng nhập đầy đủ thông tin!');
     }
@@ -155,7 +155,7 @@ export class CheckoutComponent implements OnInit {
   findByCodeVoucher(event: any) {
     this.phieuGiamGia.ma = event.target.value;
     this.tongTienSauGiam = this.tongTienSanPham;
-    this.tongTienThanhToan = this.tongTienSanPham+this.phiShip;
+    this.tongTienThanhToan = this.tongTienSanPham + this.phiShip;
     // this.giaoHangNhanh();
     this.checkoutService.findByMaPhieuGiamGia(this.phieuGiamGia).then((p) => {
       if (p === null) {
@@ -168,15 +168,15 @@ export class CheckoutComponent implements OnInit {
         this.ngayHetHan = new Date(p.thoiGianKetThuc)
         this.idPhieuGiamGia = p.id;
 
-        if(p.trangThai === 1 ){
+        if (p.trangThai === 1) {
           if (p.hinhThucGiamGia === false) {
-              this.hinhThucGiamGia = p.hinhThucGiamGia;
-              this.chietKhau = p.chietKhau;
-              this.tienGiam = ((this.tongTienSanPham * p.chietKhau) / 100)
-              this.tongTienSauGiam -= this.tienGiam;
-              this.tongTienThanhToan -= this.tienGiam;
-              
-              // this.giaoHangNhanh(this.tienGiam);
+            this.hinhThucGiamGia = p.hinhThucGiamGia;
+            this.chietKhau = p.chietKhau;
+            this.tienGiam = ((this.tongTienSanPham * p.chietKhau) / 100)
+            this.tongTienSauGiam -= this.tienGiam;
+            this.tongTienThanhToan -= this.tienGiam;
+
+            // this.giaoHangNhanh(this.tienGiam);
           } else {
             this.hinhThucGiamGia = p.hinhThucGiamGia;
             this.chietKhau = p.chietKhau;
@@ -185,10 +185,10 @@ export class CheckoutComponent implements OnInit {
             this.tongTienThanhToan -= this.tienGiam;
             // this.giaoHangNhanh(this.tienGiam);
           }
-        }else{
+        } else {
           this.notificationService.error('Mã voucher không hợp lệ');
         }
-        
+
       }
 
 
@@ -232,7 +232,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   onProvinceChange(event: any) {
-    this.provinces.forEach((key)=>{
+    this.provinces.forEach((key) => {
       if (key.ProvinceID == event.target.value) {
         this.province = key.ProvinceName
       }
@@ -246,7 +246,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   onDistrictChange(event: any) {
-    this.districts.forEach((key)=>{
+    this.districts.forEach((key) => {
       if (key.DistrictID == event.target.value) {
         this.district = key.DistrictName
       }
@@ -259,7 +259,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   onWardChange(event: any) {
-    this.wards.forEach((key)=>{
+    this.wards.forEach((key) => {
       if (key.WardCode == event.target.value) {
         this.ward = key.WardName
       }
@@ -270,7 +270,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   giaoHangNhanh(tienGiam: number) {
-    
+
     // Thêm headers
     const headers = new HttpHeaders({
       'token': 'b9c52434-a191-11ee-b394-8ac29577e80e',

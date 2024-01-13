@@ -23,7 +23,7 @@ export class ForgotPassComponent {
 
   onSubmit() {
     if (this.formForget.valid) {
-      this.authenticationService.forgetPassCustomer(this.formForget.get('email')?.value).then(res => {
+      this.authenticationService.forgetPassCustomer(this.formForget.value).then(res => {
         if (res?.isOK) {
           this.notificationService.success('Thành công. Vui lòng kiểm tra email');
           this.router.navigateByUrl('/auth/login');

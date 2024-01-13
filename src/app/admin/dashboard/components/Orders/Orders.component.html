@@ -1,4 +1,4 @@
-<div class="stats">
+<div class="stats mt-5">
   <ng-container *ngIf="stat">
     <div class="stats-header">
       <div class="stats-header__box">
@@ -12,7 +12,7 @@
 
       <div class="stats-header__box">
         <div class="stats-header__box-header">
-          <h3>Đơn hàng hoàn thành</h3>
+          <h3>Đã giao hàng</h3>
         </div>
         <div class="ps-1 text-center">
           <span>{{stat.daGiaoHang}}</span>
@@ -39,45 +39,22 @@
 
       <div class="stats-header__box">
         <div class="stats-header__box-header">
-          <h3>Đơn hàng đã hoàn thành</h3>
+          <h3>Chờ xác nhận</h3>
         </div>
         <div class="ps-1 text-center">
-          <span>{{stat.daGiaoHang}}</span>
+          <span>{{stat.choXacNhan}}</span>
+        </div>
+      </div>
+      <div class="stats-header__box">
+        <div class="stats-header__box-header">
+          <h3>Chờ vận chuyển</h3>
+        </div>
+        <div class="ps-1 text-center">
+          <span>{{stat.choVanChuyen}}</span>
         </div>
       </div>
     </div>
   </ng-container>
 
-  <div class="stats-body">
-    <div class="stats-body_search">
-      <div class="d-flex gap-2">
-        <input type="text" class="form-control w-50" placeholder="Nhập từ khóa tìm kiếm">
-        <button class="btn btn-primary">Search</button>
-        <button class="btn btn-dark">Clear</button>
-      </div>
 
-    </div>
-    <div class="stats-body__table">
-      <p-table [value]="dataOrders" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Mã HD</th>
-            <th>Tên khách hàng</th>
-            <th>SDT</th>
-            <th>Tổng tiền</th>
-            <th>Trạng thái</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-order>
-          <tr>
-            <td>{{order.maHoaDon}}</td>
-            <td>{{order.tenKhachHang}}</td>
-            <td>{{order.soDienThoai}}</td>
-            <td>{{order.tongTienSauGiam | currency:'VND':'symbol':'1.0-0'}}</td>
-            <td>{{order.trangThai}}</td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
-  </div>
 </div>

@@ -11,16 +11,16 @@
   <p-table [value]="vouchers" [tableStyle]="{ 'min-width': '50rem' }">
       <ng-template pTemplate="header">
           <tr>
-              <th style="width: 10%;">STT</th>
+              <th style="width: 2%;">STT</th>
               <th (click)="sortByName()" style="width: 10%;cursor: pointer;">Tên <i [ngClass]="iconSortName"></i></th>
-              <th style="width: 10%;">Mã</th>
-              <th style="width: 10%;">Chiết Khấu</th>
+              <th style="width: 5%;">Mã</th>
+              <th style="width: 5%;">Chiết Khấu</th>
               <!-- <th style="width: 10%;">Hình Thức Giảm Giá</th> -->
-              <th style="width: 10%;">Thời Gian Bắt Đầu</th>
-              <th style="width: 10%;">Thời Gian Kết Thúc</th>
-              <th style="width: 10%;">Mô Tả</th>
-              <th style="width: 10%;">Trạng thái</th>
-              <th style="width: 10%;"></th>
+              <th style="width: 5%;">Thời Gian Bắt Đầu</th>
+              <th style="width: 5%;">Thời Gian Kết Thúc</th>
+              <th style="width: 20%;">Mô Tả</th>
+              <th style="width: 5%;">Trạng thái</th>
+              <th style="width: 5%;"></th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-voucher let-rowIndex="rowIndex">
@@ -45,9 +45,8 @@
               <!-- <td>{{ voucher.trangThai?'Đang Diễn Ra':'Kết Thúc' }}</td> -->
               <td>
                 {{
-                  voucher.trangThai === 0 ? 'kết thúc' :
-                  voucher.trangThai === 1 ? 'Đang diễn ra' :
-                  voucher.trangThai === 2 ? 'Sắp diễn ra' :
+                  voucher.trangThai === 0 ? 'Hết hạn sử dụng' :
+                  voucher.trangThai === 1 ? 'còn hạn sử dụng' :
                   'Trạng Thái Khác'
                 }}
               </td>
@@ -56,9 +55,9 @@
                   <span (click)="openDialogEdit(voucher)">
                       <i class="pi pi-file-edit"></i>
                   </span>
-                  <span (click)="openDialogDelete(voucher)">
+                  <!-- <span (click)="openDialogDelete(voucher)">
                       <i class="pi pi-delete-left"></i>
-                  </span>
+                  </span> -->
               </td>
           </tr>
       </ng-template>
