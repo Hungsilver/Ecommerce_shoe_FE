@@ -1,0 +1,28 @@
+<main>
+    <h1 class="mt-3"><b>Quản lý hóa đơn</b></h1>
+    <div class="card p-4">
+        <p-tabView>
+            <p-tabPanel header="Tất cả">
+                <app-tat-ca></app-tat-ca>
+            </p-tabPanel>
+            <p-tabPanel header="Hoàn thành">
+                <app-invoice-hoan-thanh></app-invoice-hoan-thanh>
+            </p-tabPanel>
+            <p-tabPanel header="Chờ xác nhận">
+                <app-invoice-cho-xac-nhan></app-invoice-cho-xac-nhan>
+            </p-tabPanel>
+            <p-tabPanel header="Chờ lấy hàng">
+                <app-invoice-cho-lay-hang></app-invoice-cho-lay-hang>
+            </p-tabPanel>
+            <p-tabPanel header="Đang giao hàng" >
+                <app-invoice-dang-giao-hang></app-invoice-dang-giao-hang>
+            </p-tabPanel>
+            <p-tabPanel header="Đã giao hàng">
+                <app-invoice-da-giao-hang></app-invoice-da-giao-hang>
+            </p-tabPanel>
+            <p-tabPanel header="Đã hủy">
+                <app-invoice-da-huy></app-invoice-da-huy>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</main>

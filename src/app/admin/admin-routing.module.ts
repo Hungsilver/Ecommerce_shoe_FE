@@ -24,6 +24,8 @@ import { PaymentSuccessComponent } from './sales/components/payment-success/paym
 import { TraHangAdminComponent } from './tra-hang-admin/page/tra-hang-admin.component';
 import { InvoiceComponent } from './invoice/pages/invoice.component';
 import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-detail.component';
+import { HoaDonComponent } from './hoa-don/page/hoa-don.component';
+import { InvoiceChiTietComponent } from './hoa-don/component/invoice-chi-tiet/invoice-chi-tiet.component';
 
 
 
@@ -54,7 +56,8 @@ const routes: Routes = [
   { path: 'payment-success', component: PaymentSuccessComponent },
   { path: 'tra-hang', component: TraHangAdminComponent },
   { path: 'hoa-don', component: InvoiceComponent },
-  { path: 'hoa-don/:id', component: InvoiceDetailComponent },
+  { path: 'hoa-don2', component: HoaDonComponent },
+  { path: 'hoa-don/:id', component: InvoiceChiTietComponent },
 
 
   // { path: 'new-coupon', component: CouponComponent },

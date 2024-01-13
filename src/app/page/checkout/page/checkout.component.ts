@@ -63,8 +63,8 @@ export class CheckoutComponent implements OnInit {
   }
 
   form: FormGroup = this.formBuilder.group({
-    tenKhachHang: ['', [Validators.required, Validators.maxLength(50)]],
-    soDienThoai: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('^(0|84)(2(0[3-9]|1[0-6|8|9]|2[0-2|5-9]|3[2-9]|4[0-9]|5[1|2|4-9]|6[0-3|9]|7[0-7]|8[0-9]|9[0-4|6|7|9])|3[2-9]|5[5|6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])([0-9]{7})$')]],
+    tenKhachHang: [this.cacheService.get('customer').hoTen, [Validators.required, Validators.maxLength(50)]],
+    soDienThoai: [this.cacheService.get('customer').soDienThoai, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('^(0|84)(2(0[3-9]|1[0-6|8|9]|2[0-2|5-9]|3[2-9]|4[0-9]|5[1|2|4-9]|6[0-3|9]|7[0-7]|8[0-9]|9[0-4|6|7|9])|3[2-9]|5[5|6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])([0-9]{7})$')]],
     diaChi: ['', [Validators.required, Validators.maxLength(100)]],
     phuongXa: ['', [Validators.required]],
     quanHuyen: ['', [Validators.required]],

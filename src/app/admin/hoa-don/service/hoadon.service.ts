@@ -1,15 +1,15 @@
 import { IHoaDon } from './../../sales/service/hoadon/hoadon.module';
 import { BaseRequestService } from './../../../../libs/service/request/base-request.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IHoaDons } from './hoadon.module';
 import { IReqApi } from './../../../../libs/common/interface/interfaces';
 import { Injectable } from '@angular/core';
 import { IHoaDonChiTiet } from '../../sales/service/hoadonchitiet/hoadonchitiet.module';
+import { IHoaDons } from './hoadon.module';
 
 @Injectable({
   providedIn: 'root',
 })
-export class InvoiceService {
+export class HoaDonService {
   url: string = 'invoice';
 
   constructor(
@@ -28,6 +28,18 @@ export class InvoiceService {
   //         );
   //     });
   // }
+
+  findTraHangByIdHD(id?: number): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+        this.BaseRequestService.get('return-product/id-invoice/' + id).subscribe(
+            (result) => {
+                return resolve(result)
+            },
+            (err) => reject(err)
+        );
+    });
+}
+
   findByIdInvoice(idHoaDon: any): Promise<any> {
     // const apiUrl = `${this.url}/code/${ma}`;
     return new Promise<any>((resolve, reject) => {

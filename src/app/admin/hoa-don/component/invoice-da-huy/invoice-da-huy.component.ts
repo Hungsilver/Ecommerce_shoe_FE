@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { InvoiceService } from '../service/hoadon.service';
-import { Router } from '@angular/router';
+import { HoaDonService } from '../../service/hoadon.service';
 import { ToastrService } from 'ngx-toastr';
-import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-invoice',
-  templateUrl: './invoice.component.html',
-  styleUrls: ['./invoice.component.scss']
+  selector: 'app-invoice-da-huy',
+  templateUrl: './invoice-da-huy.component.html',
+  styleUrls: ['./invoice-da-huy.component.scss']
 })
-export class InvoiceComponent implements OnInit {
-
+export class InvoiceDaHuyComponent implements OnInit {
   invoices !: any;
   searchQuery: any = {};
   listTotalPage: any = [];
@@ -20,53 +18,16 @@ export class InvoiceComponent implements OnInit {
   currentStatus: number | undefined;
 
 
-  constructor(private hoadonService: InvoiceService,
+  constructor(private hoadonService: HoaDonService,
     private notification: ToastrService,
     private router: Router,
   ) {
     this.searchQuery.page = 1;
     this.searchQuery.pageSize = 10;
   }
-
   ngOnInit(): void {
-    //   this.searchQuery.page = 1;
-    // this.searchQuery.pageSize = 10;
+    this.currentStatus = 6;
     this.getAll();
-  }
-
-  onPageChange() {
-    this.getAll();
-  }
-
-  mapTabToStatus(tabId: string): number {
-    switch (tabId) {
-      case '0':
-        return 0;
-      case '1':
-        return 1;
-      case '2':
-        return 2;
-      case '3':
-        return 3;
-      case '4':
-        return 4;
-      case '5':
-        return 5;
-      case '6':
-        return 6;
-      case '7':
-        return 7;
-      // ...Thêm các case cho các tab khác
-      default:
-        return 0; // Mặc định là 'all' nếu không trùng với bất kỳ tab nào
-    }
-  }
-
-  showTab(tabId: string): void {
-    // this.selectedTab = tab;
-    this.currentStatus = (tabId === 'all') ? undefined : this.mapTabToStatus(tabId);
-    this.getAll();
-
   }
 
   getAll(action?: 'prev' | 'next'): void {
@@ -113,7 +74,6 @@ export class InvoiceComponent implements OnInit {
     console.log(this.searchQuery)
   }
 
-
   getTotalPage(totalPages: number) {
     let listTotalPage = []
 
@@ -121,10 +81,6 @@ export class InvoiceComponent implements OnInit {
       listTotalPage.push(i);
     }
     return listTotalPage;
-  }
-  searchByName() {
-    this.searchQuery['keyword'] = this.searchQuery.keyword;
-    this.getAll();
   }
 
   redirectToDetail(id: number) {

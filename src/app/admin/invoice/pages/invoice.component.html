@@ -32,9 +32,6 @@
     <li class="nav-item" (click)="showTab('all')">
       <a class="nav-link" >Tất cả</a>
     </li>
-    <li class="nav-item" (click)="showTab('0')">
-      <a class="nav-link" [class.active]="currentStatus === 0">Chờ thanh toán</a>
-    </li>
     <li class="nav-item" (click)="showTab('1')">
       <a class="nav-link" [class.active]="currentStatus === 1">Hoàn thành</a>
     </li>
@@ -52,9 +49,6 @@
     </li>
     <li class="nav-item" (click)="showTab('6')">
       <a class="nav-link" [class.active]="currentStatus === 6">Đã hủy</a>
-    </li>
-    <li class="nav-item" (click)="showTab('7')">
-      <a class="nav-link" [class.active]="currentStatus === 7">Trả hàng</a>
     </li>
     <!-- Thêm các tab khác tương tự -->
   </ul>
@@ -99,6 +93,16 @@
        
       </tbody>
     </table>
+    <div>
+      <div class="d-flex justify-content-end gap-1">
+        <div class="button-pagination" (click)="getAll('prev')">
+          <i class="pi pi-angle-left"></i>
+        </div>
+        <div class="button-pagination" (click)="getAll('next')">
+          <i class="pi pi-angle-right"></i>
+        </div>
+      </div>
+    </div>
 
     <!-- <div>
       <div class="d-flex justify-content-end gap-1">
@@ -115,14 +119,14 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" style="width: 1500px;" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body " >
         ...
       </div>
       <div class="modal-footer">

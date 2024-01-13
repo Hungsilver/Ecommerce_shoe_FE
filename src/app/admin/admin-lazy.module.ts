@@ -82,6 +82,15 @@ import { InvoiceComponent } from './invoice/pages/invoice.component';
 import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-detail.component';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { HoaDonComponent } from './hoa-don/page/hoa-don.component';
+import { InvoiceChoLayHangComponent } from './hoa-don/component/invoice-cho-lay-hang/invoice-cho-lay-hang.component';
+import { InvoiceChoXacNhanComponent } from './hoa-don/component/invoice-cho-xac-nhan/invoice-cho-xac-nhan.component';
+import { InvoiceDaGiaoHangComponent } from './hoa-don/component/invoice-da-giao-hang/invoice-da-giao-hang.component';
+import { InvoiceDaHuyComponent } from './hoa-don/component/invoice-da-huy/invoice-da-huy.component';
+import { InvoiceDangGiaoHangComponent } from './hoa-don/component/invoice-dang-giao-hang/invoice-dang-giao-hang.component';
+import { InvoiceHoanThanhComponent } from './hoa-don/component/invoice-hoan-thanh/invoice-hoan-thanh.component';
+import { TatCaComponent } from './hoa-don/component/tat-ca/tat-ca.component';
+import { InvoiceChiTietComponent } from './hoa-don/component/invoice-chi-tiet/invoice-chi-tiet.component';
 // import { MatInputModule } from '@angular/material/input';
 
 LOAD_WASM().subscribe();
@@ -176,6 +185,18 @@ LOAD_WASM().subscribe();
     HeaderStatsComponent,
     TableStatsProductComponent,
     HeaderStatsProductComponent,
+
+    HoaDonComponent,
+    InvoiceChoLayHangComponent,
+    InvoiceChoXacNhanComponent,
+    InvoiceDaGiaoHangComponent,
+    InvoiceDaHuyComponent,
+    InvoiceDangGiaoHangComponent,
+    InvoiceHoanThanhComponent,
+    TatCaComponent,
+    InvoiceChiTietComponent
+
+
   ],
   providers: [],
 })
