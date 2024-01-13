@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IDashBoardReq, IDataHeader } from '../../../service/dashboard.module';
 
 @Component({
@@ -6,9 +6,14 @@ import { IDashBoardReq, IDataHeader } from '../../../service/dashboard.module';
   templateUrl: './chart-column.component.html',
   styleUrls: ['./chart-column.component.scss']
 })
-export class ChartColumnComponent implements OnInit {
+export class ChartColumnComponent implements OnInit, OnChanges {
   @Input() dataChart: any;
-
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dataChart']) {
+      // data đã thay đổi 
+      this.ngOnInit();
+    }
+  }
   constructor() { }
 
   data: any;

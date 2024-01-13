@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from '../../service/dashboard.service';
 import { IDashBoardReq } from '../../service/dashboard.module';
 import * as moment from 'moment';
 import { NgToastService } from 'ng-angular-popup';
 import { ToastrService } from 'ngx-toastr';
+import { ChartColumnComponent } from '../components-child/chart-column/chart-column.component';
 
 @Component({
   selector: 'app-ForDate',

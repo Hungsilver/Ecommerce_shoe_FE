@@ -9,27 +9,19 @@ import { DateAdapter, MAT_DATE_FORMATS, MatNativeDateModule } from '@angular/mat
 import * as moment from 'moment';
 import { KhachHangService } from 'src/libs/service/project/khachhangService/KhachHang.service';
 
-// Định dạng ngày tháng
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  standalone: true,
-  imports: [
-    MatInputModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule
-  ],
-  providers: [
-
-  ]
 })
 export class ProfileComponent implements OnInit {
   profile: any = undefined;
   profileForm: FormGroup;
+  isShowOrder: boolean = true;
+  isShowChangePass: boolean = false;
+  isShowInfo: boolean = true;
+  infoUpdate: any = {}
   constructor(
     private cacheService: CacheService,
     private fb: FormBuilder,
@@ -40,6 +32,7 @@ export class ProfileComponent implements OnInit {
       soDienThoai: [null, Validators.required],
       ngaySinh: [null, Validators.required],
     })
+
   }
 
   ngOnInit() {
@@ -55,5 +48,16 @@ export class ProfileComponent implements OnInit {
     if (this.profileForm.valid) {
 
     }
+  }
+
+  changeTab(numTab: number) {
+    if (numTab === 0) {
+      this.isShowInfo = true;
+      this.isShowChangePass = false;
+      this.isShowOrder = false;
+    }
+  }
+  showChangePass() {
+    this.isShowChangePass = true;
   }
 }

@@ -55,7 +55,6 @@ import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environment/environment';
-import { ForCategoryComponent } from './dashboard/components/ForCategory/ForCategory.component';
 import { ForDateComponent } from './dashboard/components/ForDate/ForDate.component';
 import { OrdersComponent } from './dashboard/components/Orders/Orders.component';
 import { ForProductComponent } from './dashboard/components/ForProduct/ForProduct.component';
@@ -153,7 +152,6 @@ LOAD_WASM().subscribe();
     VoucherHomeComponent,
     VoucherDialogComponent,
 
-    ForCategoryComponent,
     ForDateComponent,
     OrdersComponent,
     ForProductComponent,
