@@ -82,6 +82,7 @@ import { InvoiceComponent } from './invoice/pages/invoice.component';
 import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-detail.component';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
 // import { MatInputModule } from '@angular/material/input';
 
 LOAD_WASM().subscribe();
@@ -176,7 +177,8 @@ LOAD_WASM().subscribe();
     HeaderStatsComponent,
     TableStatsProductComponent,
     HeaderStatsProductComponent,
+    VndPipe
   ],
   providers: [],
 })
-export class AdminLazyModule {}
+export class AdminLazyModule { }
