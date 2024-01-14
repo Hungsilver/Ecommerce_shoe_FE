@@ -56,6 +56,8 @@ import { CartService } from 'src/app/page/cart/service/cart.service';
 import { CacheService } from 'src/libs/service/request/cache.service';
 import { IVoucher } from '../voucher/service/voucher.module';
 import { VoucherSevice } from '../voucher/service/voucher.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 //! start ban hang tai quay
 
 @Component({
@@ -128,19 +130,22 @@ export class SalesComponent implements OnInit {
   selectedColor: number | null = null;
   selectedHoaDonId: number | undefined;
 
-  selectedCustomer!: ICustomer;
+  selectedCustomer: ICustomer | null = null;
   phieuGiamGia!: IVoucher;
   tongTienSauGiam = 0;
   chietKhau = 0;
   tienGiam: number = 0;
   hinhThucGiamGia: any;
   idPhieuGiamGia: any = null;
+  idCustomer: any = null;
   idHDGlobal!: number;
   quantityProductDetail: number = 0;
   isVoucherLoaded = false;
   maPhieuGiamGia: string = '';
   idProductDetail!: number;
   maPhieu: string = '';
+  tabCustomers: { [key: number]: ICustomer } = {};
+  addCustomerForm!: FormGroup;
 
   constructor(
     private toast: NgToastService,
@@ -157,8 +162,11 @@ export class SalesComponent implements OnInit {
     private sizeService: SizeService,
     private customerService: CustomerService,
     private caseService: CacheService,
-    private voucherService: VoucherSevice
+    private voucherService: VoucherSevice,
+    private formBuilder: FormBuilder
   ) {
+    this.initAddCustomerForm();
+
     this.searchQuery.page = 1;
     this.searchQuery.pageSize = 4;
   }
@@ -199,6 +207,8 @@ export class SalesComponent implements OnInit {
     this.tongTienSauGiam = 0;
     this.idPhieuGiamGia = null;
     this.chietKhau = 0;
+    this.idCustomer = null;
+    this.selectedCustomer = null;
     this.idHDGlobal = this.tabs[event.index]?.id;
     console.log('Selected Tab ID:', this.idHDGlobal);
     // this.totalMoneyBefore();
@@ -211,7 +221,9 @@ export class SalesComponent implements OnInit {
     this.customerService
       .getCustomerById(customerId)
       .then((fullCustomer) => {
+        this.tabCustomers[this.idHDGlobal] = fullCustomer;
         this.selectedCustomer = fullCustomer;
+        this.idCustomer = fullCustomer.id;
         console.log(fullCustomer);
       })
       .catch((error) => {
@@ -295,12 +307,26 @@ export class SalesComponent implements OnInit {
       if (action === 'active') {
         this.searchQuery.page = 1;
       }
+
+      if (this.selectedSize !== null) {
+        this.searchQuery.size = this.selectedSize;
+      }
+      if (this.selectedColor !== null) {
+        this.searchQuery.color = this.selectedColor;
+      }
+
       Object.keys(this.searchQuery).forEach((key) => {
-        if (this.searchQuery[key] === null || this.searchQuery[key] === '') {
+        if (
+          this.searchQuery[key] === null ||
+          this.searchQuery[key] === '' ||
+          this.searchQuery[key] === undefined
+        ) {
           delete this.searchQuery[key];
         }
       });
     }
+    console.log('param ', this.searchQuery);
+
     this.ctspService.getProducts(this.searchQuery).then((product) => {
       if (product && product.content) {
         this.productsDetail = product.content;
@@ -309,12 +335,7 @@ export class SalesComponent implements OnInit {
         this.productCodes;
       }
     });
-    if (this.selectedSize !== null) {
-      this.searchQuery.size = this.selectedSize;
-    }
-    if (this.selectedColor !== null) {
-      this.searchQuery.color = this.selectedColor;
-    }
+
     console.log(this.searchQuery);
     console.log(this.selectedColor);
     console.log(this.selectedSize);
@@ -347,6 +368,32 @@ export class SalesComponent implements OnInit {
     console.log(this.searchQuery);
   }
 
+  initAddCustomerForm(): void {
+    this.addCustomerForm = this.formBuilder.group({
+      hoTen: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      soDienThoai: ['', Validators.required],
+      ngaySinh: [''],
+    });
+  }
+
+  onSubmitAddCustomer(): void {
+    if (this.addCustomerForm.valid) {
+      const newCustomer = this.addCustomerForm.value;
+
+      // Gọi hàm service để thêm mới khách hàng
+      this.customerService.createCustomer(newCustomer).then(
+        (result) => {
+          console.log('Khách hàng đã được thêm mới:', result);
+          this.addCustomerForm.reset(); // Đặt form về trạng thái rỗng
+          this.toggleForm();
+        },
+        (error) => {
+          console.error('Lỗi khi thêm mới khách hàng:', error);
+        }
+      );
+    }
+  }
   getTotalPageCustomer(totalPages: number) {
     let listTotalPage = [];
 
@@ -582,6 +629,7 @@ export class SalesComponent implements OnInit {
       try {
         await this.hoadonService.cancelInvoice(this.idHDGlobal);
         this.getAllDataHD();
+        this.getAll();
         console.log('Hủy hóa đơn thành công.');
         Swal.fire({
           title: 'Hủy hóa đơn thành công!',
@@ -709,23 +757,19 @@ export class SalesComponent implements OnInit {
     this.isShowQrCode = false;
   }
 
-  hoaDonReq: any = {};
   notificationInvoice(hoaDonRequest: IHoaDon): void {
-    // hoaDonRequest = hoaDonRequest || {};
-    // hoaDonRequest.phieuGiamGia = hoaDonRequest.phieuGiamGia || {};
-    // hoaDonRequest.khachHang = hoaDonRequest.khachHang || {};
-
     hoaDonRequest.id = this.idHDGlobal;
     hoaDonRequest.tongTien = this.tongTien;
     hoaDonRequest.diaChi = '';
     hoaDonRequest.soDienThoai = '';
     hoaDonRequest.phieuGiamGia = this.idPhieuGiamGia;
-    hoaDonRequest.khachHang = this.selectedCustomer?.id;
+    hoaDonRequest.khachHang = this.tabCustomers[this.idHDGlobal]?.id;
     hoaDonRequest.phiVanChuyen = 0;
     hoaDonRequest.tongTienSauGiam = this.tongTienSauGiam;
     hoaDonRequest.phuongThucThanhToan = this.selectedPaymentMethod;
     hoaDonRequest.nhanVien = this.peopleInfo?.id;
     hoaDonRequest.tienGiam = this.tienGiam;
+
     // hoaDonRequest.phieuGiamGia.chietKhau = this.chietKhau;
     // console.log(
     //   'phương thức thanh toán a: ' +
@@ -774,8 +818,6 @@ export class SalesComponent implements OnInit {
             if (printResult.isConfirmed) {
               this.exportPDF();
               this.getAllDataHD();
-              // this.getAllDataHD();
-              // this.removeTab(this.selectedTab);
             }
             // if (printResult.isConfirmed) {
             //   this.makePayment(idHoaDonPayment, hoaDonRequest);
@@ -813,11 +855,18 @@ export class SalesComponent implements OnInit {
   }
 
   makePayment(idHoaDonPayment: number, hoaDonRequest: IHoaDon): void {
-    // hoaDonRequest = hoaDonRequest || {};
-    // hoaDonRequest.tongTien = this.totalMoney;
-    // console.log('Selected Payment Method:', this.selectedPaymentMethod);
-    // hoaDonRequest.phuongThucThanhToan = this.selectedPaymentMethod;
-    // hoaDonRequest.tongTienSauGiam = this.tongTienSauGiam;
+    hoaDonRequest.id = this.idHDGlobal;
+    hoaDonRequest.tongTien = this.tongTien;
+    hoaDonRequest.diaChi = '';
+    hoaDonRequest.soDienThoai = '';
+    hoaDonRequest.phieuGiamGia = this.idPhieuGiamGia;
+    hoaDonRequest.khachHang = this.selectedCustomer?.id;
+    hoaDonRequest.phiVanChuyen = 0;
+    hoaDonRequest.tongTienSauGiam = this.tongTienSauGiam;
+    hoaDonRequest.phuongThucThanhToan = this.selectedPaymentMethod;
+    hoaDonRequest.nhanVien = this.peopleInfo?.id;
+    hoaDonRequest.tienGiam = this.tienGiam;
+    console.log('chiet khau ' + this.idPhieuGiamGia);
 
     console.log('phuong thuc thanh toan' + hoaDonRequest.phuongThucThanhToan);
     if (hoaDonRequest.phuongThucThanhToan === 0) {
@@ -847,34 +896,35 @@ export class SalesComponent implements OnInit {
     }
   }
 
-  // findByCodeVoucher(event: any) {
-  //   const maPhieu = event.target.value;
-  //   if (maPhieu === null || maPhieu === undefined || maPhieu === '') {
-  //     this.idPhieuGiamGia = null;
-  //     this.tongTienSauGiam = this.tongTien;
-  //     this.chietKhau = 0;
-  //     return;
-  //   }
-  //   this.hoadonService
-  //     .addPhieuGiamGiaToHoaDon(this.idHDGlobal, maPhieu)
-  //     .then((p) => {
-  //       console.log('pgg ', p);
-  //       if (p) {
-  //         this.idPhieuGiamGia = p.id;
-  //         if (p.hinhThucGiamGia === false) {
-  //           this.tienGiam = p.chietKhau;
-  //           this.tongTienSauGiam = this.tongTien - this.tienGiam;
-  //         } else if (p.hinhThucGiamGia === true) {
-  //           this.tienGiam = (this.tongTien * p.chietKhau) / 100;
-  //           this.tongTienSauGiam = this.tongTien - this.tienGiam;
-  //         }
-  //       } else {
-  //         this.idPhieuGiamGia = null;
-  //         this.tongTienSauGiam = this.tongTien;
-  //         this.chietKhau = 0;
-  //         this.notification.error('Mã voucher không đúng!');
-  //       }
-  //     });
+  findByCodeVoucher(event: any) {
+    const maPhieu = event.target.value;
+    if (maPhieu === null || maPhieu === undefined || maPhieu === '') {
+      this.idPhieuGiamGia = null;
+      this.tongTienSauGiam = this.tongTien;
+      this.chietKhau = 0;
+      return;
+    }
+    this.hoadonService
+      .addPhieuGiamGiaToHoaDon(this.idHDGlobal, maPhieu)
+      .then((p) => {
+        console.log('pgg ', p);
+        if (p) {
+          this.idPhieuGiamGia = p.id;
+          if (p.hinhThucGiamGia === false) {
+            this.tienGiam = p.chietKhau;
+            this.tongTienSauGiam = this.tongTien - this.tienGiam;
+          } else if (p.hinhThucGiamGia === true) {
+            this.tienGiam = (this.tongTien * p.chietKhau) / 100;
+            this.tongTienSauGiam = this.tongTien - this.tienGiam;
+          }
+        } else {
+          this.idPhieuGiamGia = null;
+          this.tongTienSauGiam = this.tongTien;
+          this.chietKhau = 0;
+          this.notification.error('Mã voucher không đúng!');
+        }
+      });
+  }
 
   //   // this.phieuGiamGia.ma = event.target.value;
   //   // console.log('tong tien sau giam ' + this.totalMoney);
@@ -921,41 +971,41 @@ export class SalesComponent implements OnInit {
   //   }
   // }
   // event: any
-  async findByCodeVoucher(event: any) {
-    this.maPhieu = event.target.value;
-    if (!this.maPhieu) {
-      this.idPhieuGiamGia = null;
-      this.tongTienSauGiam = this.tongTien;
-      this.chietKhau = 0;
-      return;
-    }
-    try {
-      const p: IVoucher = await this.hoadonService.addPhieuGiamGiaToHoaDon(
-        this.idHDGlobal,
-        this.maPhieu
-      );
-      console.log('pgg ', p);
-      if (p) {
-        this.idPhieuGiamGia = p.id;
-        if (p.hinhThucGiamGia === false) {
-          this.tienGiam = p.chietKhau;
-          this.tongTienSauGiam = this.tongTien - this.tienGiam;
-        } else if (p.hinhThucGiamGia === true) {
-          this.tienGiam = (this.tongTien * p.chietKhau) / 100;
-          this.tongTienSauGiam = this.tongTien - this.tienGiam;
-        }
-      } else {
-        this.idPhieuGiamGia = null;
-        this.tongTienSauGiam = this.tongTien;
-        this.chietKhau = 0;
-        this.notification.error('Mã voucher không đúng!');
-      }
-    } catch (error) {
-      console.error('Error calling API:', error);
-      // Xử lý khi có lỗi trong quá trình gọi API
-      // Hiển thị thông báo lỗi hoặc thực hiện các thao tác khác
-    }
-  }
+  // async findByCodeVoucher(event: any) {
+  //   this.maPhieu = event.target.value;
+  //   if (!this.maPhieu) {
+  //     this.idPhieuGiamGia = null;
+  //     this.tongTienSauGiam = this.tongTien;
+  //     this.chietKhau = 0;
+  //     return;
+  //   }
+  //   try {
+  //     const p: IVoucher = await this.hoadonService.addPhieuGiamGiaToHoaDon(
+  //       this.idHDGlobal,
+  //       this.maPhieu
+  //     );
+  //     console.log('pgg ', p);
+  //     if (p) {
+  //       this.idPhieuGiamGia = p.id;
+  //       if (p.hinhThucGiamGia === false) {
+  //         this.tienGiam = p.chietKhau;
+  //         this.tongTienSauGiam = this.tongTien - this.tienGiam;
+  //       } else if (p.hinhThucGiamGia === true) {
+  //         this.tienGiam = (this.tongTien * p.chietKhau) / 100;
+  //         this.tongTienSauGiam = this.tongTien - this.tienGiam;
+  //       }
+  //     } else {
+  //       this.idPhieuGiamGia = null;
+  //       this.tongTienSauGiam = this.tongTien;
+  //       this.chietKhau = 0;
+  //       this.notification.error('Mã voucher không đúng!');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error calling API:', error);
+  //     // Xử lý khi có lỗi trong quá trình gọi API
+  //     // Hiển thị thông báo lỗi hoặc thực hiện các thao tác khác
+  //   }
+  // }
   updateTotalAfterDiscount() {
     // Cập nhật giá trị tổng tiền sau giảm
     this.tongTienSauGiam = this.tongTien - this.tienGiam;
