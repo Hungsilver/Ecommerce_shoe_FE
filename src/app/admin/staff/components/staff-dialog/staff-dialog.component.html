@@ -149,8 +149,10 @@
               *ngIf="staffFrom?.get('gioiTinh')?.hasError('required') && (staffFrom?.get('gioiTinh')?.dirty || staffFrom?.get('gioiTinh')?.touched)">
               Vui lòng chọn trạng thái
           </div>
-            </mat-form-field></div>
-            <div class="col-6"> <mat-form-field class="example-form-field">
+            </mat-form-field>
+          </div>
+            <div class="col-6">
+              <mat-form-field class="example-form-field">
               <mat-label>Chọn trạng thái</mat-label>
               <mat-select formControlName="trangThai" value="1">
                 <mat-option [value]="1">Hoạt động</mat-option>
@@ -161,6 +163,23 @@
               Vui lòng chọn trạng thái
           </div>
             </mat-form-field></div>
+            <!-- <div class="col-6">
+               <mat-form-field class="example-form-field">
+              <mat-label>Chức vụ</mat-label>
+              <mat-select formControlName="chucVu">
+                <ng-container *ngFor="let position of data.positions">
+                  <mat-option *ngIf="position.id===2"
+                    [value]="position.id"
+                    >{{ position.ten }}</mat-option
+                  >
+                  </ng-container>
+              </mat-select>
+              <div
+              *ngIf="(staffFrom?.get('chucVu')?.hasError('required')) && (staffFrom?.get('chucVu')?.dirty || staffFrom?.get('chucVu')?.touched)">
+              Vui lòng chọn chức vụ
+          </div>
+            </mat-form-field>
+          </div> -->
 
 
         </div>

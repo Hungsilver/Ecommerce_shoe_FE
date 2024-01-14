@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { StaffService } from '../../service/staff.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-staff-dialog',
   templateUrl: './staff-dialog.component.html',
@@ -10,6 +11,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 })
 export class StaffDialogComponent implements OnInit {
   staff: any = {};
+  // position: any[] = [];
   type: any;
   uploadedUrl: string | null = null;
 
@@ -26,6 +28,7 @@ staffFrom :FormGroup = new FormGroup({});
       gioiTinh:  [true, Validators.required],
       ngaySinh:  ['', Validators.required],
       diaChi: ['', Validators.required],
+      // chucVu:  [null, Validators.required],
       trangThai: [1, Validators.required],
       // anhDaiDien :[null, Validators.required],
   });
@@ -34,7 +37,7 @@ staffFrom :FormGroup = new FormGroup({});
     &&  this.data.staff.soDienThoai && this.data.staff.gioiTinh && this.data.staff.ngaySinh
     && this.data.staff.diaChi
     ){
-      this.uploadedUrl =this.data.staff.anhDaiDien;
+      this.uploadedUrl = this.data.staff.anhDaiDien;
       this.staffFrom.patchValue({
         hoTen :this.data.staff.hoTen,
         email :this.data.staff.email,
@@ -44,6 +47,7 @@ staffFrom :FormGroup = new FormGroup({});
         ngaySinh:this.data.staff.ngaySinh,
         diaChi : this.data.staff.diaChi,
         trangThai: this.data.staff.trangThai,
+        // chucVu:this.data.staff.chucVu.id,
         // anhDaiDien :this.data.staff.anhDaiDien,
       });
     }
@@ -62,7 +66,8 @@ staffFrom :FormGroup = new FormGroup({});
     private staffService: StaffService,
     private dialog: MatDialog,
     private fireStorage: AngularFireStorage,
-    private fb :FormBuilder
+    private fb :FormBuilder,
+    private notification: ToastrService,
   ) {
     this.type = data.type;
     this.staff = data.staff;
@@ -108,12 +113,19 @@ staffFrom :FormGroup = new FormGroup({});
      anhDaiDien:formValue.anhDaiDien,
     };
     this.staff.anhDaiDien =this.uploadedUrl;
+    if(this.staff.anhDaiDien && this.staff.anhDaiDien.length > 0){
+
     this.staffService.createStaff(this.staff).then((res) => {
       console.log('data created', res.content);
       if (res) {
         this.dialog.closeAll();
       }
     });
+
+  } else {
+      this.notification.error('anh không được để trống');
+  }
+
   }
 
   updateStaff() {
@@ -127,6 +139,7 @@ staffFrom :FormGroup = new FormGroup({});
       ngaySinh:formValue.ngaySinh,
       diaChi : formValue.diaChi,
       trangThai: formValue.trangThai,
+      // chucVu :formValue.chucVu,
       // anhDaiDien :formValue.anhDaiDien,
     anhDaiDien :this.uploadedUrl,
     }

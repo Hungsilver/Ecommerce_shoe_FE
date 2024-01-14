@@ -16,15 +16,15 @@ export const authUserGuard = () => {
   router.navigate(['/'])
   return false;
 };
-export const authStaffGuard = () => {
-  const router: Router = inject(Router);
-  const cacheService = inject(CacheService);
-  if (cacheService.get('user')) {
-    return true;
-  }
-  router.navigate(['/auth/login-admin'])
-  return false;
-};
+// export const authStaffGuard = () => {
+//   const router: Router = inject(Router);
+//   const cacheService = inject(CacheService);
+//   if (cacheService.get('user')) {
+//     return true;
+//   }
+//   router.navigate(['/auth/login-admin'])
+//   return false;
+// };
 
 export const authAdminGuard = () => {
   const router: Router = inject(Router);

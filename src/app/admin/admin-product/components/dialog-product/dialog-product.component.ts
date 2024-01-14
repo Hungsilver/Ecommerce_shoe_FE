@@ -110,14 +110,7 @@ export class DialogProductComponent implements OnInit {
   }
 
   addProduct(): void {
-    // console.log('Valid URLs in addProduct:', this.validUrls);
-    // Gán giá trị vào this.product.anhChinh
-    // const tenValue = this.productForm.get('ten').value;
-    // const moTaValue = this.productForm.get('moTa').value;
-    // const danhMucId = this.productForm.get('danhMuc').value;
-    // const thuongHieuId = this.productForm.get('thuongHieu').value;
-    // const xuatXuId = this.productForm.get('xuatXu').value;
-    // const trangThaiValue = this.productForm.get('trangThai').value;
+
 
     // Gán giá trị vào this.product
     const formValue =this.productForm.value;
@@ -134,6 +127,7 @@ export class DialogProductComponent implements OnInit {
     console.log('Product Image URLs:', this.product.anhChinh);
     if (this.productForm.valid) {
       if (this.product.anhChinh && this.product.anhChinh.length > 0) {
+        
         this.productService.createProduct(this.product).then((res) => {
           console.log('Data created', res.content);
           if (res) {
