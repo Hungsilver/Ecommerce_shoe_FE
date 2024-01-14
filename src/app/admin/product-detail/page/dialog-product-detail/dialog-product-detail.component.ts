@@ -3,7 +3,7 @@ import { ProductDetailService } from '../../services/product.service';
 import { AngularFireStorage } from "@angular/fire/compat/storage"
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { FormBuilder,Validators,FormGroup,AbstractControl,ValidationErrors } from '@angular/forms';
-
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -73,6 +73,7 @@ export class dialogProductDetailComponent implements OnInit {
     private fireStorage: AngularFireStorage,
     private dialog :MatDialog,
     private fb : FormBuilder,
+    private notification: ToastrService,
 
   ) {
 
@@ -130,6 +131,7 @@ export class dialogProductDetailComponent implements OnInit {
         // this.validUrls = [];
         for (let i = 0; i < files.length ; i++) {
           const file = files[i];
+
           const path = `images/${file.name}`;
           const uploadTask = await this.fireStorage.upload(path, file);
           const url = await uploadTask.ref.getDownloadURL();
@@ -138,11 +140,11 @@ export class dialogProductDetailComponent implements OnInit {
           }
           this.validUrls.push(url);
           console.log(`Uploaded file ${i}: ${url}`);
-        }
+
+      }
       }else{
         alert('chi dc them 5 anh');
       }
-
       } catch (error) {
         console.error('Error uploading files:', error);
         // Xử lý lỗi tải lên nếu cần
@@ -175,11 +177,12 @@ export class dialogProductDetailComponent implements OnInit {
         this.productDetailService.createProduct(this.productDetail).then(res => {
           console.log('Data created', res.content);
           if (res) {
+            this.notification.success('Thêm thành công');
             this.dialog.closeAll();
           }
         });
       }else{
-        console.log("Ảnh sản phẩm null:");
+        this.notification.error('Ảnh không được để trống');
       }
     } else {
         console.error('Image URLs are null or empty. Product not added.');
@@ -209,6 +212,7 @@ export class dialogProductDetailComponent implements OnInit {
 
 
         this.validUrls = new Array(3);
+
         if(this.validUrls.length < 4 ){
         this.productDetail.anhSanPhams.ten = [];
         // // this.productDetail.anhSanPhams = [];
@@ -219,6 +223,7 @@ export class dialogProductDetailComponent implements OnInit {
         this.productDetailService.updateProduct(this.productDetail, this.data.productDetail.id).then(res => {
           console.log('data updated', res.content);
           if (res) {
+            this.notification.success('cap nhat thanh cong');
             this.dialog.closeAll();
           }
         });
