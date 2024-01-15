@@ -27,6 +27,7 @@ export class CartComponent implements OnInit {
   params: any = [];
   quantity = 0;
   updateQuantitys: any = [];
+  loiSoLuong = false;
 
 
   constructor(
@@ -192,11 +193,15 @@ export class CartComponent implements OnInit {
         if (this.cart) {
           if (!event.target.value) {
             this.notificationService.error("Vui lòng nhập số lượng");
+            this.loiSoLuong = true;
           } else if (event.target.value <= 0) {
             this.notificationService.error("Số lượng phải lớn hơn 0");
+            this.loiSoLuong = true;
           } else if (event.target.value > this.cart.chiTietSanPham?.soLuong) {
             this.notificationService.error("Số lượng phải nhỏ hơn " + this.cart.chiTietSanPham?.soLuong);
+            this.loiSoLuong = true;
           } else {
+            this.loiSoLuong = false;
             this.updateQuantitys.id = id;
             this.updateQuantitys.quantity = event.target.value;
             this.cartService.updateQuantity(this.updateQuantitys);
@@ -214,22 +219,27 @@ export class CartComponent implements OnInit {
     if (this.checkedItems.length === 0) {
       this.notificationService.error("Vui lòng chọn sản phẩm thanh toán");
     } else {
-      Swal.fire(
-        {
-          title: 'Xác nhận thanh toán',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Thanh toán',
-          cancelButtonText: 'Hủy'
-        }
-      ).then((result) => {
-        if (result.isConfirmed) {
-          this.cacheService.set('listIdGhct', this.checkedItems)
-          this.router.navigate(['/checkout'])
-        }
-      })
+      if(this.loiSoLuong === false){
+        Swal.fire(
+          {
+            title: 'Xác nhận thanh toán',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Thanh toán',
+            cancelButtonText: 'Hủy'
+          }
+        ).then((result) => {
+          if (result.isConfirmed) {
+            this.cacheService.set('listIdGhct', this.checkedItems)
+            this.router.navigate(['/checkout'])
+          }
+        })
+      }else{
+        this.notificationService.error("Số lượng sản phẩm không hợp lệ !")
+      }
+      
     }
 
   }
