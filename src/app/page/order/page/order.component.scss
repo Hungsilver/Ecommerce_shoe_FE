@@ -21,3 +21,9 @@ main{
         }
     }
 }
+
+:host ::ng-deep {
+    .p-tabview-nav li a {
+        text-decoration: none;
+    }
+}

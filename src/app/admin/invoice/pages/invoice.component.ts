@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './invoice.component.html',
   styleUrls: ['./invoice.component.scss']
 })
-export class InvoiceComponent implements OnInit{
+export class InvoiceComponent implements OnInit {
 
   invoices !: any;
   searchQuery: any = {};
@@ -23,14 +23,14 @@ export class InvoiceComponent implements OnInit{
   constructor(private hoadonService: InvoiceService,
     private notification: ToastrService,
     private router: Router,
-    ){
+  ) {
     this.searchQuery.page = 1;
     this.searchQuery.pageSize = 10;
-    }
- 
+  }
+
   ngOnInit(): void {
-  //   this.searchQuery.page = 1;
-  // this.searchQuery.pageSize = 10;
+    //   this.searchQuery.page = 1;
+    // this.searchQuery.pageSize = 10;
     this.getAll();
   }
 
@@ -61,12 +61,12 @@ export class InvoiceComponent implements OnInit{
         return 0; // Mặc định là 'all' nếu không trùng với bất kỳ tab nào
     }
   }
-  
-  showTab(tabId: string):void {
+
+  showTab(tabId: string): void {
     // this.selectedTab = tab;
-  this.currentStatus = (tabId === 'all') ? undefined : this.mapTabToStatus(tabId);
-  this.getAll();
-    
+    this.currentStatus = (tabId === 'all') ? undefined : this.mapTabToStatus(tabId);
+    this.getAll();
+
   }
 
   getAll(action?: 'prev' | 'next'): void {
@@ -75,14 +75,14 @@ export class InvoiceComponent implements OnInit{
     //   ...this.searchQuery,
     //   status: this.currentStatus
     // }
-     const params: any = { ...this.searchQuery };
+    const params: any = { ...this.searchQuery };
 
-  if (this.currentStatus !== undefined) {
-    params.status = this.currentStatus;
-  }
+    if (this.currentStatus !== undefined) {
+      params.status = this.currentStatus;
+    }
 
-   
-    
+
+
     if (action) {
       if (action === 'prev' && Number(this.searchQuery.page) > 1) {
         this.searchQuery.page = this.searchQuery.page - 1
@@ -91,17 +91,17 @@ export class InvoiceComponent implements OnInit{
         Number(this.searchQuery.page) + 1 <= this.listTotalPage.length) {
         this.searchQuery.page = this.searchQuery.page + 1
       }
-      
+
       Object.keys(params).forEach(key => {
-      if (params[key] === null || params[key] === '' || params[key] === undefined) {
-        delete params[key];
-      }
-    });
-    
+        if (params[key] === null || params[key] === '' || params[key] === undefined) {
+          delete params[key];
+        }
+      });
+
     }
-      if (this.currentStatus === undefined) {
-    delete params.status;
-  }
+    if (this.currentStatus === undefined) {
+      delete params.status;
+    }
     this.hoadonService.getInvoice(params).then(hoadon => {
       if (hoadon && hoadon.content) {
         this.invoices = hoadon.content;
@@ -133,7 +133,7 @@ export class InvoiceComponent implements OnInit{
     this.hoadonService.findByInvice(id).then(
       (detailData) => {
         console.log('Detail Data:', detailData);
-        this.router.navigate(['/admin/hoa-don', id], { state: { detailData }});
+        this.router.navigate(['/admin/hoa-don', id], { state: { detailData } });
       },
       (error) => {
         console.error('Error fetching detail:', error);

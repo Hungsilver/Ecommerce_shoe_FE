@@ -106,10 +106,10 @@
                             </div>
                             <div class="col-6">
                                 <div style="margin-left: 70%;"
-                                    *ngIf="traHangDetail.hoaDon.phieuGiamGia.hinhThucGiamGia===false">
+                                    *ngIf="traHangDetail.hoaDon.phieuGiamGia !== null && traHangDetail.hoaDon.phieuGiamGia.hinhThucGiamGia===false">
                                     {{traHangDetail.hoaDon.phieuGiamGia.chietKhau}}%</div>
                                 <div style="margin-left: 70%;"
-                                    *ngIf="traHangDetail.hoaDon.phieuGiamGia.hinhThucGiamGia===true">
+                                    *ngIf="traHangDetail.hoaDon.phieuGiamGia !== null && traHangDetail.hoaDon.phieuGiamGia.hinhThucGiamGia===true">
                                     {{traHangDetail.hoaDon.phieuGiamGia.chietKhau| currency:'VND'}}</div>
                             </div>
                         </div>
@@ -239,9 +239,9 @@
                                 <h4>Voucher đã dùng:</h4>
                             </div>
                             <div class="col-6">
-                                <div style="margin-left: 70%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===false">
+                                <div style="margin-left: 70%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===false">
                                     {{invoice.phieuGiamGia.chietKhau}}%</div>
-                                <div style="margin-left: 70%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===true">
+                                <div style="margin-left: 70%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===true">
                                     {{invoice.phieuGiamGia.chietKhau| currency:'VND'}}</div>
                             </div>
                         </div>
