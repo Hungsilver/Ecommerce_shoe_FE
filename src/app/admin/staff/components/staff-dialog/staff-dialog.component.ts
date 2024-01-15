@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { StaffService } from '../../service/staff.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-staff-dialog',
   templateUrl: './staff-dialog.component.html',
@@ -10,6 +11,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 })
 export class StaffDialogComponent implements OnInit {
   staff: any = {};
+  // position: any[] = [];
   type: any;
   uploadedUrl: string | null = null;
 
@@ -21,37 +23,42 @@ staffFrom :FormGroup = new FormGroup({});
     this.staffFrom = this.fb.group({
       hoTen: ['', [Validators.required,Validators.pattern(/^[\p{L}]+([\s.'-][\p{L}]+)*$/u)]],
       email : ['', [Validators.required,Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]],
-      matKhau:  ['', [Validators.required,Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/),Validators.minLength(8)]],
-      soDienThoai:  ['',[ Validators.required,Validators.pattern(/^(0[1-9])+([0-9]{8})$/)]],
+      matKhau: ['', [Validators.required,Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/),Validators.minLength(8)]],
+      soDienThoai: ['',[Validators.required,Validators.pattern(/^(0[1-9])+([0-9]{8})$/)]],
       gioiTinh:  [true, Validators.required],
       ngaySinh:  ['', Validators.required],
       diaChi: ['', Validators.required],
+      // chucVu:  [null, Validators.required],
       trangThai: [1, Validators.required],
-      anhDaiDien :[null, Validators.required],
+      // anhDaiDien :[null, Validators.required],
   });
 
-  // if(this.data.staff && this.data.staff.hoTen && this.data.staff.email && this.data.staff.matKhau
-  //   &&  this.data.staff.soDienThoai && this.data.staff.gioiTinh && this.data.staff.ngaySinh
-  //   &&this.data.staff.diaChi && this.data.staff.trangThai && this.data.staff.anhDaiDien
-  //   ){
-  //     this.staffFrom.patchValue({
-  //       hoTen :this.data.staff.hoTen,
-  //       email :this.data.staff.email,
-  //       matKhau :this.data.staff.matKhau,
-  //       soDienThoai: this.data.staff.soDienThoai,
-  //       gioiTinh :this.data.staff.gioiTinh,
-  //       ngaySinh:this.data.staff.ngaySinh,
-  //       diaChi : this.data.staff.diaChi,
-  //       trangThai: this.data.staff.trangThai,
-  //       // anhDaiDien :this.data.staff.anhDaiDien,
-  //     });
-  //   }
+  if(this.data.staff && this.data.staff.hoTen && this.data.staff.email && this.data.staff.matKhau
+    &&  this.data.staff.soDienThoai && this.data.staff.gioiTinh && this.data.staff.ngaySinh
+    && this.data.staff.diaChi
+    ){
+      this.uploadedUrl = this.data.staff.anhDaiDien;
+      this.staffFrom.patchValue({
+        hoTen :this.data.staff.hoTen,
+        email :this.data.staff.email,
+        matKhau :this.data.staff.matKhau,
+        soDienThoai: this.data.staff.soDienThoai,
+        gioiTinh :this.data.staff.gioiTinh,
+        ngaySinh:this.data.staff.ngaySinh,
+        diaChi : this.data.staff.diaChi,
+        trangThai: this.data.staff.trangThai,
+        // chucVu:this.data.staff.chucVu.id,
+        // anhDaiDien :this.data.staff.anhDaiDien,
+      });
+    }
 
-  this.type =this.data.type;
-  if (this.type === 'update') {
-      this.uploadedUrl =this.data.staff.anhDaiDien;
-    this.staffFrom.patchValue(this.data.staff);
-  }
+  // this.type =this.data.type;
+  // if (this.type === 'update') {
+  //     this.uploadedUrl =this.data.staff.anhDaiDien;
+  //   this.staffFrom.patchValue(this.data.staff);
+  // }
+
+
   }
 
   constructor(
@@ -59,7 +66,8 @@ staffFrom :FormGroup = new FormGroup({});
     private staffService: StaffService,
     private dialog: MatDialog,
     private fireStorage: AngularFireStorage,
-    private fb :FormBuilder
+    private fb :FormBuilder,
+    private notification: ToastrService,
   ) {
     this.type = data.type;
     this.staff = data.staff;
@@ -105,12 +113,19 @@ staffFrom :FormGroup = new FormGroup({});
      anhDaiDien:formValue.anhDaiDien,
     };
     this.staff.anhDaiDien =this.uploadedUrl;
+    if(this.staff.anhDaiDien && this.staff.anhDaiDien.length > 0){
+
     this.staffService.createStaff(this.staff).then((res) => {
       console.log('data created', res.content);
       if (res) {
         this.dialog.closeAll();
       }
     });
+
+  } else {
+      this.notification.error('anh không được để trống');
+  }
+
   }
 
   updateStaff() {
@@ -124,6 +139,7 @@ staffFrom :FormGroup = new FormGroup({});
       ngaySinh:formValue.ngaySinh,
       diaChi : formValue.diaChi,
       trangThai: formValue.trangThai,
+      // chucVu :formValue.chucVu,
       // anhDaiDien :formValue.anhDaiDien,
     anhDaiDien :this.uploadedUrl,
     }

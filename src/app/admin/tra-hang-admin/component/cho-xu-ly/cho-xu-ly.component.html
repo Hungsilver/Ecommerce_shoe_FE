@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="row border mt-5" *ngFor="let h of listTraHang ">
+        <div class="row">
+            <div class="mt-3 col-6">
+                <h3 class="ms-3" >Hóa đơn: {{h.hoaDon.maHoaDon}}</h3>
+            </div>
+            <div class="mt-3 col-6">
+                <h3 >Trạng thái: Chờ xử lý | {{h.ngayTao}}</h3>
+            </div>
+        </div>
+        <div class="row">
+            <hr>
+        </div>
+        <div class="row mb-4 mt-2">
+            <div class="col-6">
+                <button class="btn btn-info ms-3 " (click)="openDialog(h)">Chi tiết đơn hàng</button>
+            </div>
+        </div>
+    </div>
+</div>

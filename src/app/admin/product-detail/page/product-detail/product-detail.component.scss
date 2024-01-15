@@ -1,48 +1,40 @@
 /* Add this SCSS to your stylesheet */
 
-.d-flex {
+/* Container styles */
+.container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.col-4 {
-  width: 25%; /* Adjust the width as needed */
-}
-
-.sizesss {
-  width: 50%; /* Adjust the width as needed */
-}
-
-.row {
+/* Input styles */
+.input-container {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  margin-right: 5px;
 }
 
-.col {
-  flex: 1;
+.input-container input {
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  text-align: left;
 }
 
-.example-form-field {
-  width: 100%;
-}
-
-.fontsize {
-  font-size: 16px;
-}
-
-/* Style for buttons in the last column */
-/* Add this SCSS to your stylesheet */
-
-.col-2 {
+/* Button styles */
+.button-container {
   display: flex;
   gap: 10px;
 }
 
 .mat-button,
 .mat-flat-button {
-  background-color: #3498db; /* Button background color */
-  color: #fff; /* Button text color */
+  background-color: #3498db;
+  color: #fff;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -53,42 +45,53 @@
 
 .mat-button:hover,
 .mat-flat-button:hover {
-  background-color: #2980b9; /* Button background color on hover */
-  transform: scale(1.05); /* Add a slight scale effect on hover */
+  background-color: #2980b9;
+  transform: scale(1.05);
 }
 
-/* Add this SCSS to your stylesheet */
-
-.search-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.search-input {
-  flex: 1;
-}
-
-.p-input-icon-left {
-  display: flex;
-  align-items: center;
-  margin-right: 5px;
-}
-
-input {
-  border: none;
-  outline: none;
-  border-radius: 10px;
-  text-align: left;
-}
-
+/* Dropdown styles */
 .dropdown-container {
   margin-left: 10px;
 }
 
+/* Form field styles */
+.example-form-field {
+  width: 100%;
+}
 
+/* Filter section styles */
+.filter-section {
+  display: flex;
+  gap: 10px;
+}
 
+.col {
+  flex: 1;
+}
+
+/* Additional styles for table */
+.card {
+  margin-top: 20px;
+}
+
+.table-image {
+  width: 100px;
+  height: 120px;
+  object-fit: cover;
+}
+
+/* Pagination styles */
+.button-pagination {
+  cursor: pointer;
+  font-size: 20px;
+  color: #3498db;
+}
+
+/* Override PrimeNG styles */
+.p-dropdown-label {
+  font-size: 16px;
+}
+
+.p-table {
+  min-width: 50rem;
+}

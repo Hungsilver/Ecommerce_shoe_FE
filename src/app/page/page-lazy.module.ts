@@ -4,7 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { OrderComponent } from './order/page/order.component';
 import { ProductComponent } from './product/page/product-home/product.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
 import { SliderModule } from 'primeng/slider';
@@ -20,7 +20,7 @@ import { BlogHomeComponent } from './blog/bloghome-component';
 import { blogdetail } from './blogDetail/blogDetail-component';
 import { VoucherHomeComponent } from '../admin/voucher/pages/voucher-home.component';
 
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 
 import { InputTextModule } from 'primeng/inputtext';
@@ -40,6 +40,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { DialogComponent } from './order/component/dialog/dialog.component';
 import { ChinhSachComponent } from './chinh-sach/chinh-sach.component';
 import { VoucherComponent } from './voucher/voucher.component';
+import { TraHangComponent } from './order/component/tra-hang/tra-hang.component';
+import { TraHangPageComponent } from './order/component/tra-hang-page/tra-hang-page.component';
+import { ProfileComponent } from './profile/profile.component';
+import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 // import { DialogComponent } from './order/component/dialog/dialog.component';
 
 
@@ -69,7 +73,8 @@ import { VoucherComponent } from './voucher/voucher.component';
         InputTextModule,
         CarouselModule,
         TabViewModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        MatFormFieldModule,
         // MatInputModule
     ],
     exports: [],
@@ -90,9 +95,10 @@ import { VoucherComponent } from './voucher/voucher.component';
         DangGiaoHangComponent,
         DaGiaoHangComponent,
         DaHuyComponent,
-         DialogComponent
-
-
+        TraHangComponent,
+        TraHangPageComponent,
+        DialogComponent,
+        ProfileComponent
     ],
 })
 export class PageLazyModule { }

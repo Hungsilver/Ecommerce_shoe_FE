@@ -140,7 +140,7 @@
                                     <h3><b>Tổng thanh toán:</b></h3>
                                 </div>
                                 <div class="col-6 ">
-                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam| currency:'VND'}}</b>
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
                                     </h3>
                                 </div>
                             </div>
@@ -375,7 +375,7 @@
                                     <h3><b>Tổng thanh toán:</b></h3>
                                 </div>
                                 <div class="col-6 ">
-                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam| currency:'VND'}}</b>
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
                                     </h3>
                                 </div>
                             </div>
@@ -537,7 +537,7 @@
                                     <h3><b>Tổng thanh toán:</b></h3>
                                 </div>
                                 <div class="col-6 ">
-                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam| currency:'VND'}}</b>
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
                                     </h3>
                                 </div>
                             </div>
@@ -691,7 +691,7 @@
                                     <h3><b>Tổng thanh toán:</b></h3>
                                 </div>
                                 <div class="col-6 ">
-                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam| currency:'VND'}}</b>
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
                                     </h3>
                                 </div>
                             </div>
@@ -713,7 +713,7 @@
             <form class="">
                 <div class="row mt-3">
                     <div class="d-flex justify-content-between">
-                        <h2>Chi tiết đơn hàng: {{invoice.maHoaDon}} | Đã giao hàng</h2>
+                        <h2>Chi tiết đơn hàng: {{invoice.maHoaDon}} | Đã giao hàng | {{invoice.ngayCapNhat}}</h2>
                         <div>
                             <button type="button" class="btn " (click)="closeDialog()">
                                 <i class="pi pi-times" style="font-size: 1.5rem"></i>
@@ -845,11 +845,18 @@
                                     <h3><b>Tổng thanh toán:</b></h3>
                                 </div>
                                 <div class="col-6 ">
-                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam| currency:'VND'}}</b>
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
                                     </h3>
                                 </div>
                             </div>
                             <hr>
+                            <div class="row mb-5">
+                                <div class="col-8">
+                                </div>
+                                <div class="col-4">
+                                    <button  class="btn btn-danger ms-5" type="button" (click)="traHang(invoice)">Trả hàng</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -999,7 +1006,7 @@
                                     <h3><b>Tổng thanh toán:</b></h3>
                                 </div>
                                 <div class="col-6 ">
-                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam| currency:'VND'}}</b>
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
                                     </h3>
                                 </div>
                             </div>
@@ -1013,3 +1020,139 @@
         </div>
     </div>
 </div>
+
+<!-- dialog trả hàng -->
+<!-- <div class="container" *ngIf="openDialog===7">
+    <div class="content">
+        <div class="invoice">
+            <form class="">
+                <div class="row mt-3">
+                    <div class="d-flex justify-content-between">
+                        <h2>Trả hàng</h2>
+                        <div>
+                            <button type="button" class="btn " (click)="closeDialog()">
+                                <i class="pi pi-times" style="font-size: 1.5rem"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="row invoiceDetail">
+                            <hr>
+                            <h3>Sản phẩm trả</h3>
+                            <hr>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" name="allCheckbox" id="allCheckbox" >
+                                            </th>
+                                        <th scope="col">Sản phẩm</th>
+                                        <th scope="col">Số lượng</th>
+                                        <th scope="col">Đơn giá</th>
+                                        <th scope="col">Ghi chú</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let c of invoice.listHoaDonChiTiet">
+                                        <td>
+                                            <input type="checkbox"
+                                            name="someCheckbox"
+                                            id="someCheckbox"
+                                            
+                                            >
+                                        </td>
+                                        <td>
+                                            <div class="table-product-detail">
+                                                <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}"
+                                                    alt="">
+                                                <div>
+                                                    <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                                    <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                                    <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                                    <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                                    <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                                    <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{c.soLuong }}</td>
+                                        <td>{{c.donGia | currency:'VND'}}</td>
+                                        <td>
+                                                <textarea style="height: 150px;"></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4>Tổng tiền đơn hàng:</h4>
+                                </div>
+                                <div class="col-6">
+                                    <p style="margin-left: 77%;">{{invoice.tongTien | currency:'VND'}}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4>Phí vận chuyển:</h4>
+                                </div>
+                                <div class="col-6">
+                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | currency:'VND'}}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row" *ngIf="invoice.phieuGiamGia !== null">
+                                <div class="col-6">
+                                    <h4>Voucher:</h4>
+                                </div>
+                                <div class="col-6">
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===true">
+                                        {{invoice.phieuGiamGia.chietKhau}}%</div>
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===false">
+                                        {{invoice.phieuGiamGia.chietKhau| currency:'VND'}}</div>
+                                </div>
+                            </div>
+                            <hr *ngIf="invoice.phieuGiamGia !== null">
+                            <div class="row">
+                                <div class="col-6 mt-1">
+                                    <h4>Đơn vị vận chuyển:</h4>
+                                </div>
+                                <div class="col-6">
+                                    <img class="logoGHN"
+                                        src="https://firebasestorage.googleapis.com/v0/b/duantotnghiep-7b9e5.appspot.com/o/images%2FLogo-GHN-Slogan-VN-768x280.png?alt=media&token=7b40de14-ece3-4841-a3f3-7472cb336e0c"
+                                        alt="">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6 ">
+                                    <h3>Phương thức thanh toán:</h3>
+                                </div>
+                                <div class="col-6">
+                                    <div style="margin-left: 30%;" *ngIf="invoice.phuongThucThanhToan===1">Thanh toán
+                                        VNPay</div>
+                                    <div style="margin-left: 30%;" *ngIf="invoice.phuongThucThanhToan===0">Thanh toán
+                                        khi nhận hàng</div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6 ">
+                                    <h3><b>Tổng thanh toán:</b></h3>
+                                </div>
+                                <div class="col-6 ">
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
+                                    </h3>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div> -->

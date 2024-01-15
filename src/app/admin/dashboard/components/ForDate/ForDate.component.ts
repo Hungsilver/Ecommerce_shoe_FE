@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from '../../service/dashboard.service';
 import { IDashBoardReq } from '../../service/dashboard.module';
 import * as moment from 'moment';
 import { NgToastService } from 'ng-angular-popup';
 import { ToastrService } from 'ngx-toastr';
+import { ChartColumnComponent } from '../components-child/chart-column/chart-column.component';
 
 @Component({
   selector: 'app-ForDate',
@@ -73,7 +74,9 @@ export class ForDateComponent implements OnInit {
       this.notification.error('Ngày bắt đầu phải nhỏ hơn ngày kết thúc');
       return;
     }
-    if (this.endDate.getDate() - this.startDate.getDate() >= 30) {
+    const diffInDays = moment(this.endDate).diff(moment(this.startDate), 'days');
+
+    if (diffInDays > 30) {
       this.notification.error('Không được vượt quá 30 ngày');
       return;
     }

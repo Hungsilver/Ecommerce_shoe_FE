@@ -26,7 +26,7 @@
                && (staffFrom?.get('hoTen')?.dirty || staffFrom?.get('hoTen')?.touched)">
                Tên không đúng định dạng
               </mat-error>
-               <button
+               <!-- <button
                  *ngIf="staff?.hoTen"
                  matSuffix
                  mat-icon-button
@@ -34,7 +34,7 @@
                  (click)="staff.hoTen = ''"
                >
                  <mat-icon>close</mat-icon>
-               </button>
+               </button> -->
 
              </mat-form-field>
             </div>
@@ -55,14 +55,22 @@
 
         <div class="col-6">
           <label>Avatar</label>
-            <img *ngIf="!uploadedUrl && staff.anhDaiDien" [src]="staff.anhDaiDien" alt="Staff Image"
+          <div class="image-container-horizontal">
+            <img *ngIf="!uploadedUrl && staff.anhDaiDien" [src]="staff.anhDaiDien" class="image-wrapper"
             style="width: 50px; height: auto;">
+          </div>
 
           <div *ngIf="uploadedUrl">
             <h4>Ảnh đã tải lên</h4>
-            <img [src]="uploadedUrl" style="width: 50px; height: auto">
+            <img [src]="uploadedUrl" style="width: 100px; height: auto"  class="image-wrapper">
           </div>
-          <input  type="file" formControlName="anhDaiDien" (change)="onFileChange($event)" multiple >
+          <label for="images" class="drop-container" id="dropcontainer">
+            <span class="drop-title">Ảnh Đại Diện</span>
+
+            <input type="file" id="images"
+             (change)="onFileChange($event)" accept="image/*" />
+          </label>
+
         </div>
 
 
@@ -86,7 +94,7 @@
           <div class="col-6">
             <mat-form-field class="example-form-field">
            <mat-label>Mật Khẩu</mat-label>
-           <input matInput type="text" formControlName="matKhau"/>
+           <input matInput type="password" formControlName="matKhau"/>
           <mat-error *ngIf="(staffFrom?.get('matKhau')?.hasError('required'))
           && (staffFrom?.get('matKhau')?.dirty || staffFrom?.get('matKhau')?.touched)">
            Mật Khẩu không được để trống
@@ -141,10 +149,12 @@
               *ngIf="staffFrom?.get('gioiTinh')?.hasError('required') && (staffFrom?.get('gioiTinh')?.dirty || staffFrom?.get('gioiTinh')?.touched)">
               Vui lòng chọn trạng thái
           </div>
-            </mat-form-field></div>
-            <div class="col-6"> <mat-form-field class="example-form-field">
+            </mat-form-field>
+          </div>
+            <div class="col-6">
+              <mat-form-field class="example-form-field">
               <mat-label>Chọn trạng thái</mat-label>
-              <mat-select formControlName="trangThai">
+              <mat-select formControlName="trangThai" value="1">
                 <mat-option [value]="1">Hoạt động</mat-option>
                 <mat-option [value]="0">Ngưng Hoạt động</mat-option>
               </mat-select>
@@ -153,6 +163,23 @@
               Vui lòng chọn trạng thái
           </div>
             </mat-form-field></div>
+            <!-- <div class="col-6">
+               <mat-form-field class="example-form-field">
+              <mat-label>Chức vụ</mat-label>
+              <mat-select formControlName="chucVu">
+                <ng-container *ngFor="let position of data.positions">
+                  <mat-option *ngIf="position.id===2"
+                    [value]="position.id"
+                    >{{ position.ten }}</mat-option
+                  >
+                  </ng-container>
+              </mat-select>
+              <div
+              *ngIf="(staffFrom?.get('chucVu')?.hasError('required')) && (staffFrom?.get('chucVu')?.dirty || staffFrom?.get('chucVu')?.touched)">
+              Vui lòng chọn chức vụ
+          </div>
+            </mat-form-field>
+          </div> -->
 
 
         </div>
@@ -190,7 +217,7 @@
                && (staffFrom?.get('hoTen')?.dirty || staffFrom?.get('hoTen')?.touched)">
                Tên không đúng định dạng
               </mat-error>
-               <button
+               <!-- <button
                  *ngIf="staff?.hoTen"
                  matSuffix
                  mat-icon-button
@@ -198,7 +225,7 @@
                  (click)="staff.hoTen = ''"
                >
                  <mat-icon>close</mat-icon>
-               </button>
+               </button> -->
 
              </mat-form-field>
             </div>
@@ -221,10 +248,17 @@
 
             <!-- <img [src]="staff.anhDaiDien" style="width: 100px; height: auto"> -->
             <div *ngIf="uploadedUrl">
-              <img [src]="uploadedUrl" style="width: 50px; height: auto;">
+              <div class="image-container-horizontal">
+              <img [src]="uploadedUrl" style="width: 100px; height: auto;"  class="image-wrapper">
+</div>
             </div>
 
-          <input  type="file" (change)="onFileChange($event)" formControlName="anhDaiDien" multiple >
+            <label for="images" class="drop-container" id="dropcontainer">
+              <span class="drop-title">Ảnh Đại Diện</span>
+
+              <input type="file" id="images"
+               (change)="onFileChange($event)" accept="image/*" />
+            </label>
         </div>
 
 
@@ -248,7 +282,7 @@
           <div class="col-6">
             <mat-form-field class="example-form-field">
            <mat-label>Mật Khẩu</mat-label>
-           <input matInput type="text" formControlName="matKhau"/>
+           <input matInput type="password" formControlName="matKhau"/>
           <mat-error *ngIf="(staffFrom?.get('matKhau')?.hasError('required'))
           && (staffFrom?.get('matKhau')?.dirty || staffFrom?.get('matKhau')?.touched)">
            Mật Khẩu không được để trống

@@ -7,6 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { CheckoutService } from '../service/checkout.service';
+import { isAfter, isSameDay, differenceInDays } from 'date-fns';
+
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -23,8 +25,9 @@ export class CheckoutComponent implements OnInit {
   headers: any;
   cartDetails: any[] = [];
   query: any = {};
-  tongTien = 0;
+  tongTienSanPham = 0;
   tongTienSauGiam = 0;
+  tongTienThanhToan = 0;
   tienGiam = 0;
   phieuGiamGia: any = []
   hinhThucGiamGia: any;
@@ -35,8 +38,10 @@ export class CheckoutComponent implements OnInit {
   selectedDistrict = '';
   selectedWard = '';
   province = '';
-  district= '';
+  district = '';
   ward = '';
+  ngayHienTai: Date = new Date();
+  ngayHetHan: Date = new Date();
 
 
 
@@ -82,47 +87,47 @@ export class CheckoutComponent implements OnInit {
       phuongXa: this.ward,
       quanHuyen: this.district,
       tinhThanh: this.province,
-      tongTien: this.tongTien,
+      tongTien: this.tongTienSanPham,
       tienGiam: this.tienGiam,
       tongTienSauGiam: this.tongTienSauGiam,
       phiVanChuyen: this.phiShip,
       trangThai: null,
-      phieuGiamGia:this.idPhieuGiamGia,
+      phieuGiamGia: this.idPhieuGiamGia,
       khachHang: null,
       nhanVien: null,
       hoaDonChiTietReqests: this.hoaDonChiTietReqest
     })
-    console.log(this.hoaDonChiTietReqest);
+
 
     if (this.form.valid) {
-        Swal.fire(
-          {
-            title: 'Xác nhận thanh toán',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Thanh toán',
-            cancelButtonText: 'Hủy'
+      Swal.fire(
+        {
+          title: 'Xác nhận thanh toán',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Thanh toán',
+          cancelButtonText: 'Hủy'
+        }
+      ).then((result) => {
+        if (result.isConfirmed) {// check confirm
+          if (this.form.value.phuongThucThanhToan === '0') {// check phuongthucthanhtoan
+            this.checkoutService.checkout(this.form.value).then(c => {
+              this.router.navigate(['/payment/success'])
+            }, (err) => {
+              this.router.navigate(['/payment/error'])
+            })
+          } else {
+            this.checkoutService.checkout(this.form.value).then(c => {
+              console.log(c);
+              window.location.href = c.data;
+            })
           }
-        ).then((result) => {
-          if (result.isConfirmed) {// check confirm
-            if (this.form.value.phuongThucThanhToan === '0') {// check phuongthucthanhtoan
-              this.checkoutService.checkout(this.form.value).then(c => {
-                this.router.navigate(['/payment/success'])
-              },(err)=>{
-                this.router.navigate(['/payment/error'])
-              })
-            } else {
-              this.checkoutService.checkout(this.form.value).then(c => {
-                console.log(c);
-                window.location.href = c.data;
-              })
-            }
-          }
-        })
-      
-      
+        }
+      })
+
+
     } else {
       this.notificationService.error('Vui lòng nhập đầy đủ thông tin!');
     }
@@ -132,8 +137,9 @@ export class CheckoutComponent implements OnInit {
     this.query.listIdGhct = this.cacheService.get('listIdGhct');
     this.cartService.findById(this.query).then((c) => {
       c.forEach((cart: any) => {
-        this.tongTien += (cart.soLuong * cart.chiTietSanPham.giaBan);
-        this.tongTienSauGiam = this.tongTien;
+        this.tongTienSanPham += (cart.soLuong * cart.chiTietSanPham.giaBan);
+        this.tongTienSauGiam = this.tongTienSanPham;
+        this.tongTienThanhToan = this.tongTienSanPham;
         this.cartDetails.push(cart);
         this.hoaDonChiTietReqest.push({
           id: null,
@@ -148,35 +154,41 @@ export class CheckoutComponent implements OnInit {
 
   findByCodeVoucher(event: any) {
     this.phieuGiamGia.ma = event.target.value;
-    this.tongTienSauGiam = this.tongTien+this.phiShip;
+    this.tongTienSauGiam = this.tongTienSanPham;
+    this.tongTienThanhToan = this.tongTienSanPham + this.phiShip;
     // this.giaoHangNhanh();
     this.checkoutService.findByMaPhieuGiamGia(this.phieuGiamGia).then((p) => {
       if (p === null) {
         console.log('không tìm thấy');
         this.chietKhau = 0;
-        this.tongTienSauGiam = this.tongTien;
+        this.tongTienSauGiam = this.tongTienSanPham;
         this.notificationService.error('Mã voucher không hợp lệ');
         this.giaoHangNhanh(0);
       } else {
+        this.ngayHetHan = new Date(p.thoiGianKetThuc)
         this.idPhieuGiamGia = p.id;
-        if(p.trangThai === 1){
-          if (p.hinhThucGiamGia === true) {
-              this.hinhThucGiamGia = p.hinhThucGiamGia;
-              this.chietKhau = p.chietKhau;
-              this.tienGiam = ((this.tongTienSauGiam * p.chietKhau) / 100)
-              this.tongTienSauGiam -= this.tienGiam;
-              // this.giaoHangNhanh(this.tienGiam);
+
+        if (p.trangThai === 1) {
+          if (p.hinhThucGiamGia === false) {
+            this.hinhThucGiamGia = p.hinhThucGiamGia;
+            this.chietKhau = p.chietKhau;
+            this.tienGiam = ((this.tongTienSanPham * p.chietKhau) / 100)
+            this.tongTienSauGiam -= this.tienGiam;
+            this.tongTienThanhToan -= this.tienGiam;
+
+            // this.giaoHangNhanh(this.tienGiam);
           } else {
             this.hinhThucGiamGia = p.hinhThucGiamGia;
             this.chietKhau = p.chietKhau;
             this.tienGiam = p.chietKhau;
             this.tongTienSauGiam -= this.tienGiam;
+            this.tongTienThanhToan -= this.tienGiam;
             // this.giaoHangNhanh(this.tienGiam);
           }
-        }else{
+        } else {
           this.notificationService.error('Mã voucher không hợp lệ');
         }
-        
+
       }
 
 
@@ -220,7 +232,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   onProvinceChange(event: any) {
-    this.provinces.forEach((key)=>{
+    this.provinces.forEach((key) => {
       if (key.ProvinceID == event.target.value) {
         this.province = key.ProvinceName
       }
@@ -234,7 +246,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   onDistrictChange(event: any) {
-    this.districts.forEach((key)=>{
+    this.districts.forEach((key) => {
       if (key.DistrictID == event.target.value) {
         this.district = key.DistrictName
       }
@@ -247,7 +259,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   onWardChange(event: any) {
-    this.wards.forEach((key)=>{
+    this.wards.forEach((key) => {
       if (key.WardCode == event.target.value) {
         this.ward = key.WardName
       }
@@ -258,7 +270,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   giaoHangNhanh(tienGiam: number) {
-    
+
     // Thêm headers
     const headers = new HttpHeaders({
       'token': 'b9c52434-a191-11ee-b394-8ac29577e80e',
@@ -268,7 +280,7 @@ export class CheckoutComponent implements OnInit {
     // Thêm parameters
     const params = new HttpParams()
       .set('service_id', 53321)// id tài khoản GHN
-      .set('insurance_value', this.tongTienSauGiam)// tổng tiền đơn hàng
+      .set('insurance_value', this.tongTienThanhToan)// tổng tiền đơn hàng
       .set('coupon', '')//Mã giảm giá của GHN
       .set('from_district_id', 1915)//D Phường/ Xã người gửi
       .set('to_district_id', this.selectedDistrict)//ID Quận/Huyện người nhận
@@ -281,8 +293,8 @@ export class CheckoutComponent implements OnInit {
     this.http.get(' https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee', { headers, params }).subscribe((response: any) => {
       console.log(response.data.total);
       this.phiShip = response.data.total;
-      this.tongTienSauGiam = this.tongTien;
-      this.tongTienSauGiam += response.data.total
+      this.tongTienThanhToan = this.tongTienSanPham;
+      this.tongTienThanhToan += response.data.total
     }, (err) => {
       // this.tongTienSauGiam = this.tongTien;
       this.phiShip = 0;

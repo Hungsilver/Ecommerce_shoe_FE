@@ -10,9 +10,12 @@
       <div>
         <h3>PRICE</h3>
         <div class="d-flex justify-content-between">
-          <h5 class="">{{ rangeValues[0]| currency:'VND' }}</h5>
-          <!-- <h5 class="">{{ rangeValues[1]| currency:'VND' }}</h5> -->
-          <h5 class="">{{ productDetail| currency:'VND' }}</h5>
+          <ng-container *ngIf="rangeValues && rangeValues.length===2">
+
+            <h5 class="">{{rangeValues[0] && rangeValues[0]| currency:'VND' }}</h5>
+            <h5 class="">{{ rangeValues[1]| currency:'VND' }}</h5>
+          </ng-container>
+          <!-- <h5 class="">{{ productDetail| currency:'VND' }}</h5> -->
         </div>
         <p-slider [(ngModel)]="rangeValues" [min]="minPrice" [max]="maxPrice" [range]="true"
           (onSlideEnd)="getAll()"></p-slider>
@@ -86,7 +89,7 @@
           <!-- <p-dropdown [options]="typeSort" [(ngModel)]="query.isSortDesc" optionLabel="name"
             placeholder="Sắp xếp theo giá" optionValue="value"></p-dropdown> -->
           <span class="p-input-icon-right">
-            <input type="text" pInputText [(ngModel)]="query.keyword" />
+            <input type="search" pInputText [(ngModel)]="query.keyword" />
             <i class="pi pi-search" (click)="getAll()" style="cursor: pointer;"></i>
           </span>
         </div>

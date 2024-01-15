@@ -6,7 +6,7 @@
       <button mat-button mat-dialog-close>Close</button>
   </div>
 </div>
-<ng-container *ngIf="(type && type==='add' )|| type==='update' ">
+<ng-container *ngIf="(type && type==='add' ) ">
   <mat-dialog-content class="mat-typography">
       <div class="container-fluid">
           <form [formGroup]="productDetailForm" class="row">
@@ -16,8 +16,11 @@
                     <mat-form-field class="example-form-field">
                       <mat-label>Sản Phẩm</mat-label>
                       <mat-select formControlName ="sanPham">
-                          <mat-option *ngFor="let products of data.products"
-                           [value]="products.id"  >{{products.ten}}</mat-option>
+                          <ng-container *ngFor="let products of data.products">
+                          <mat-option *ngIf="products.trangThai===1"
+                                     [value]="products.id" >{{products.ten}}
+                          </mat-option>
+                        </ng-container>
                       </mat-select>
                       <mat-error
                           *ngIf="productDetailForm?.get('sanPham')?.hasError('required') && (productDetailForm?.get('sanPham')?.dirty || productDetailForm?.get('sanPham')?.touched)">
@@ -71,16 +74,25 @@
                       </button>
                   </mat-form-field>
                 </div>
-                  <!-- <div class="col-6">
+                  <div class="col-6 example-form-field">
                     <label>Hình ảnh</label>
-                    <input type="file" (change)="onFileChange($event)" multiple />
 
                     <div *ngIf="validUrls.length > 0">
-                      <div *ngFor="let url of validUrls; let i = index">
-                        <img [src]="url" style="width: 100px; height: auto" />
-                      </div>
+                      <div class="image-container-horizontal" >
+                      <span *ngFor="let url of validUrls; let i = index" class="image-wrapper">
+                        <img [src]="url" style="width: 60px; height: auto" />
+                      </span>
                     </div>
-                  </div> -->
+                    </div>
+                    <label for="images" class="drop-container" id="dropcontainer">
+                      <span class="drop-title">Ảnh Sản Phẩm</span>
+
+                      <input type="file" id="images"
+                       (change)="onFileChange($event)" accept="image/*" multiple />
+                    </label>
+
+
+                  </div>
 
               </div>
               <div class="col">
@@ -88,8 +100,11 @@
                   <mat-form-field class="example-form-field">
                     <mat-label>Kích Cỡ</mat-label>
                     <mat-select formControlName="kichCo">
-                        <mat-option *ngFor=" let sizes of data.sizes"
+                    <ng-container *ngFor=" let sizes of data.sizes">
+
+                        <mat-option *ngIf="sizes.trangThai===1"
                             [value]="sizes.id">{{sizes.size}}</mat-option>
+                    </ng-container>
                     </mat-select>
                     <mat-error
                         *ngIf="productDetailForm?.get('kichCo')?.hasError('required') && (productDetailForm?.get('kichCo')?.dirty || productDetailForm?.get('kichCo')?.touched)">
@@ -101,8 +116,11 @@
                   <mat-form-field class="example-form-field">
                     <mat-label>Màu Sắc</mat-label>
                     <mat-select formControlName="mauSac">
-                        <mat-option *ngFor="let colors of data.colors"
-                            [value]="colors.id">{{colors.ten}}</mat-option>
+                      <ng-container *ngFor="let colors of data.colors">
+                        <mat-option *ngIf="colors.trangThai===1"
+                            [value]="colors.id">{{colors.ten}}
+                          </mat-option>
+                          </ng-container>
                     </mat-select>
                     <mat-error
                         *ngIf="productDetailForm?.get('mauSac')?.hasError('required') && (productDetailForm?.get('mauSac')?.dirty || productDetailForm?.get('mauSac')?.touched)">
@@ -114,8 +132,13 @@
                   <mat-form-field class="example-form-field">
                     <mat-label>Chất Liệu Giày</mat-label>
                     <mat-select formControlName="chatLieuGiay">
-                        <mat-option *ngFor="let shoeMaterials of data.shoeMaterials"
-                            [value]="shoeMaterials.id">{{shoeMaterials.ten}}</mat-option>
+
+                      <ng-container *ngFor="let shoeMaterials of data.shoeMaterials">
+                        <mat-option *ngIf="shoeMaterials.trangThai===1"
+                            [value]="shoeMaterials.id">{{shoeMaterials.ten}}
+                          </mat-option>
+                          </ng-container>
+
                     </mat-select>
                     <mat-error
                         *ngIf="productDetailForm?.get('chatLieuGiay')?.hasError('required') && (productDetailForm?.get('chatLieuGiay')?.dirty || productDetailForm?.get('chatLieuGiay')?.touched)">
@@ -127,8 +150,10 @@
                   <mat-form-field class="example-form-field">
                     <mat-label>Chất Liệu Đế giày</mat-label>
                     <mat-select formControlName="chatLieuDeGiay">
-                        <mat-option *ngFor="let shoeSoleMaterials of data.shoeSoleMaterials"
+                      <ng-container *ngFor="let shoeSoleMaterials of data.shoeSoleMaterials">
+                        <mat-option *ngIf="shoeSoleMaterials.trangThai===1"
                             [value]="shoeSoleMaterials.id">{{shoeSoleMaterials.ten}}</mat-option>
+                          </ng-container>
                     </mat-select>
                     <mat-error
                         *ngIf="productDetailForm?.get('chatLieuDeGiay')?.hasError('required') && (productDetailForm?.get('chatLieuDeGiay')?.dirty || productDetailForm?.get('chatLieuDeGiay')?.touched)">
@@ -159,9 +184,9 @@
     <ng-container *ngIf=" type=== 'add'">
         <button mat-button (click)="addProduct()" [disabled]="!productDetailForm.valid">Xác nhận add</button>
     </ng-container>
-    <ng-container *ngIf="type === 'update'">
+    <!-- <ng-container *ngIf="type === 'update'">
       <button mat-button (click)="updateProduct()" [disabled]="productDetailForm.invalid">Xác nhận update</button>
-    </ng-container>
+    </ng-container> -->
 </mat-dialog-actions>
 </ng-container>
 <ng-container *ngIf="type==='delete'">
@@ -176,7 +201,7 @@
 
 
 <!-- update -->
-<ng-container *ngIf="type && type===''">
+<ng-container *ngIf="type && type==='update'">
   <mat-dialog-content class="mat-typography">
       <div class="container-fluid">
           <form [formGroup]="productDetailForm" class="row">
@@ -223,21 +248,38 @@
                         </button>
                   </mat-form-field>
                 </div>
-                  <!-- <div class="col-6">
-                    <mat-label>Ảnh chính</mat-label>
-            <img *ngIf="!validUrls && productDetail.anhSanPhams" [src]="productDetail.anhSanPhams" alt="Product Image"
-                style="width: 50px; height: auto;">
+                  <div class="col-6 example-form-field">
 
+                    <div *ngIf="!validUrls && productDetail.anhSanPhams?.length > 0" >
+                      <mat-label>Ảnh chính</mat-label>
 
-            <div *ngIf="uploadedUrl">
+                    <div class="image-container-horizontal" >
+                     <span *ngFor="let imageUrl of productDetail.anhSanPhams" class="image-wrapper">
+                      <img  [src]="imageUrl.ten" alt="Product Image"
+                            style="width: 50px; height: auto;" *ngIf="imageUrl.ten">
+                     </span>
+                    </div>
+              </div>
+
+            <div *ngIf="validUrls">
+
                 <h4>Ảnh đã tải lên</h4>
-                <img [src]="validUrls" alt="Uploaded Image" style="width: 50px; height: auto;">
-            </div>
+                <div class="image-container-horizontal">
+                <span *ngFor="let gh of validUrls" class="image-wrapper">
+                <img [src]="gh"  alt="Uploaded Image" style="width: 50px; height: auto;">
+                </span>
+                </div>
+              </div>
+
+              <label for="images" class="drop-container" id="dropcontainer">
+                <span class="drop-title">Ảnh Sản Phẩm</span>
+
+                <input type="file" id="images" formControlName="anhSanPhams" (change)="onFileChange($event)"
+                 accept="image/*" multiple />
+              </label>
 
 
-            <input type="file" (change)="onFileChange($event)" accept="image/*" />
-
-                  </div>  -->
+                  </div>
 
               </div>
             <div class="col">
@@ -283,7 +325,7 @@
                 <div class="col-6">
                   <mat-form-field class="example-form-field">
                     <mat-label>Chất Liệu Đế giày</mat-label>
-                    <mat-select   formControlName="chatLieuDeGiay">
+                    <mat-select  formControlName="chatLieuDeGiay">
                         <mat-option *ngFor="let shoeSoleMaterial of data.shoeSoleMaterials"
                             [value]="shoeSoleMaterial.id">{{shoeSoleMaterial.ten}}</mat-option>
                     </mat-select>

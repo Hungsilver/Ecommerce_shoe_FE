@@ -3,6 +3,7 @@ import { VoucherSevice } from "../service/voucher.service";
 import { MAT_DIALOG_DATA,MatDialog } from "@angular/material/dialog";;
 import * as moment from "moment";
 import { FormBuilder,Validators,AbstractControl,ValidationErrors, FormGroup } from "@angular/forms";
+import { ToastrService } from 'ngx-toastr';
 // import * as moment from 'moment-timezone';
 
 @Component({
@@ -18,7 +19,7 @@ voucherFrom :FormGroup = new FormGroup ({}) ;
 updateDate : string | null =null;
 tgbd: string | null = null;
 tgkt :string | null =null;
-isEditing: boolean = false;
+
   ngOnInit(): void {
 
 
@@ -27,17 +28,40 @@ isEditing: boolean = false;
       chietKhau: ['',[ Validators.required]],
       // ,Validators.min(0),Validators.max(10),Validators.pattern(/^[1-9]\d{0,2}?$/)
       moTa:['',[Validators.required,Validators.minLength(10)]],
-      hinhThucGiamGia :[false,Validators.required],
-      trangThai: [2, Validators.required],
+      hinhThucGiamGia :[null,[Validators.required]],
+      trangThai: [2, [Validators.required]],
       thoiGianBatDau :[null,[Validators.required]],
       thoiGianKetThuc :[null,[Validators.required]]
       //,Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4} (0[1-9]|1[0-2]):[0-5][0-9] (AM|PM|am|pm)$/)
     });
+
+    // if(this.data.voucher && this.data.voucher.ten && this.data.voucher.chietKhau
+    //   && this.data.voucher.moTa && this.data.voucher.hinhThucGiamGia &&
+    //  this.data.voucher.trangThai && this.data.voucher.thoiGianBatDau &&
+    //   this.data.voucher.thoiGianKetThuc){
+    //   this.tgbd = moment(this.data.voucher.thoiGianBatDau).format('MM/DD/YYYY h:mm A');
+    //   this.tgkt = moment(this.data.voucher.thoiGianKetThuc).format('MM/DD/YYYY h:mm A');
+    //   console.log("show ra:",this.tgbd);
+    //   console.log("tg update",this.data.voucher.thoiGianBatDau);
+
+    //   this.data.voucher.thoiGianBatDau =this.tgbd ;
+    //   this.data.voucher.thoiGianKetThuc = this.tgkt;
+    //   this.voucherFrom.patchValue({
+    //     ten: this.data.voucher.ten,
+    //     chietKhau:this.data.voucher.chietKhau,
+    //     moTa:this.data.voucher.moTa,
+    //     hinhThucGiamGia :this.data.voucher.hinhThucGiamGia,
+    //     trangThai :this.data.voucher.trangThai,
+    //     thoiGianBatDau :this.data.voucher.thoiGianBatDau,
+    //     thoiGianKetThuc:this.data.voucher.thoiGianKetThuc,
+    //   });
+    // }
+
+
     this.type = this.data.type;
 
     if (this.type === 'update') {
       // this.isEditing = false;
-      if(this.data.voucher.trangThai ===2){
       this.tgbd = moment(this.data.voucher.thoiGianBatDau).format('MM/DD/YYYY h:mm A');
     this.tgkt = moment(this.data.voucher.thoiGianKetThuc).format('MM/DD/YYYY h:mm A');
     console.log("show ra:",this.tgbd);
@@ -45,20 +69,19 @@ isEditing: boolean = false;
 
     this.data.voucher.thoiGianBatDau =this.tgbd ;
     this.data.voucher.thoiGianKetThuc = this.tgkt;
+    console.log(this.data.voucher.hinhThucGiamGia)
+    // this.updateValidatorsForChietKhau(this.data.voucher.hinhThucGiamGia);
     this.voucherFrom.patchValue(this.data.voucher);
-
-  }else{
-    alert("chỉ được sửa voucher chưa diễn ra");
-  }
     }
+
     this.voucherFrom!.get('hinhThucGiamGia')!.valueChanges.subscribe((value: boolean) => {
       // Cập nhật validators cho chietKhau dựa trên giá trị mới của hinhThucGiamGia
       this.updateValidatorsForChietKhau(value);
     });
-    this.voucherFrom!.get('hinhThucGiamGia')!.setValue(false);
+    // this.voucherFrom!.get('hinhThucGiamGia')!.setValue(false);
     // this.voucherFrom!.get('trangThai')!.setValue(2);
   // Cập nhật validators cho chietKhau dựa trên giá trị mặc định của hinhThucGiamGia
-  this.updateValidatorsForChietKhau(false);
+  this.updateValidatorsForChietKhau(this.data.voucher.hinhThucGiamGia);
 
   }
 
@@ -68,6 +91,7 @@ isEditing: boolean = false;
     private voucherService: VoucherSevice,
     private dialog: MatDialog,
       private fb :FormBuilder,
+      private notification: ToastrService,
   ) {
 
     this.type = data.type;
@@ -170,30 +194,70 @@ updateVoucher(){
   // this.isEditing = true;
 const voucherData =this.voucherFrom.value;
 
-const formattedDate = moment(voucherData.thoiGianBatDau).toISOString();
+const batdauDate = moment(voucherData.thoiGianBatDau).toISOString();
 const ketthucdate = moment(voucherData.thoiGianKetThuc).toISOString();
-const thoiGianHienTai  = moment();
 
-if (moment(formattedDate).isSameOrBefore(thoiGianHienTai)) {
-  alert('Thời gian bắt đầu phải lớn hơn thời gian hiện tại.');
-  return; // Không thực hiện thêm voucher nếu kiểm tra không đúng
+
+const thoiGianBatDauForm = moment(batdauDate);
+const thoiGianKetThucForm = moment(ketthucdate);
+// const thoiGianBatDauVoucher = moment(this.data.voucher.thoiGianBatDau);
+// const thoiGianKetThucVoucher = moment(this.data.voucher.thoiGianKetThuc);
+
+console.log("trang thai:",voucherData.trangThai);
+console.log("thoi gian bat dau:",this.data.voucher.thoiGianBatDau);
+console.log("time r",moment(this.data.voucher.thoiGianBatDau));
+const thoiGianHienTai  = moment();
+const tt = voucherData.trangThai;
+
+if(thoiGianBatDauForm.isSameOrBefore(thoiGianHienTai) && tt===2 ){
+  this.notification.error('Thời gian bắt đầu phải có sau thời gian hiện tại');
+  return;
 }
-if (moment(formattedDate).isSameOrAfter(ketthucdate)) {
- alert('Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.');
-  return; // Không thực hiện thêm voucher nếu kiểm tra không đúng
+if(thoiGianBatDauForm.isSameOrAfter(thoiGianKetThucForm) && tt===2){
+  this.notification.error('Thời gian bắt đầu phải có trước thời gian kết thúc.');
+return;
+}
+  // còn hạn sử dụng
+if(thoiGianBatDauForm.isSameOrAfter(thoiGianHienTai) && tt===1){
+  this.notification.error('Thời gian bắt đầu phải có trước Thời gian hiện tại');
+  return;
+}
+if(thoiGianKetThucForm.isSameOrBefore(thoiGianHienTai)  && tt===1){
+  this.notification.error('Thời gian kết thúc phai có sau  thời gian hiện tại');
+  return;
+}
+if(thoiGianBatDauForm.isSameOrAfter(thoiGianKetThucForm) && tt===1){
+  this.notification.error('Thời gian bắt đầu phải có trước thời gian kết thúc.');
+  return;
+}
+//ket thuc
+if(thoiGianBatDauForm.isAfter(thoiGianHienTai)  && tt===0){
+  this.notification.error('Thời gian bắt đầu phai có trước thời gian hiện tại');
+  return;
+}
+if(thoiGianKetThucForm.isSameOrAfter(thoiGianHienTai) && tt===0){
+  this.notification.error('Thời gian kết thúc phải có trước thời gian hiện tại');
+  return;
+}
+if(thoiGianBatDauForm.isSameOrAfter(thoiGianKetThucForm) && tt===0){
+  this.notification.error('Thời gian bắt đầu phải có trước thời gian kết thúc.');
+  return;
 }
 this.voucher ={
   ten: voucherData.ten,
 chietKhau :voucherData.chietKhau,
 moTa :voucherData.moTa,
 hinhThucGiamGia :voucherData.hinhThucGiamGia,
-trangThai: voucherData.trangThai,
-thoiGianBatDau :formattedDate,
+trangThai: tt,
+thoiGianBatDau :batdauDate,
 thoiGianKetThuc :ketthucdate,
 }
 // this.updateDate = this.voucher.thoiGianBatDau;
+
+
   this.voucherService.updateVoucher(this.voucher, this.data.voucher.id).then((res) => {
     if (res) {
+      this.notification.success('Cập nhật lại thành công');
       this.dialog.closeAll();
     }
     console.log('data updated', res.content);

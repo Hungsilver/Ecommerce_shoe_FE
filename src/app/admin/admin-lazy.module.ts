@@ -1,3 +1,4 @@
+import { PaymentSuccessComponent } from './sales/components/payment-success/payment-success.component';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -49,16 +50,14 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
-import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 
-import { AngularFireModule } from '@angular/fire/compat'
-import { AngularFireStorageModule } from '@angular/fire/compat/storage'
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environment/environment';
-import { ForCategoryComponent } from './dashboard/components/ForCategory/ForCategory.component';
 import { ForDateComponent } from './dashboard/components/ForDate/ForDate.component';
 import { OrdersComponent } from './dashboard/components/Orders/Orders.component';
 import { ForProductComponent } from './dashboard/components/ForProduct/ForProduct.component';
-
 
 import { VoucherHomeComponent } from './voucher/pages/voucher-home.component';
 import { VoucherDialogComponent } from './voucher/components/voucher-Dialog.component';
@@ -68,10 +67,25 @@ import { TableStatsProductComponent } from './dashboard/components/components-ch
 import { CalendarModule } from 'primeng/calendar';
 import { HeaderStatsProductComponent } from './dashboard/components/components-child/header-stats-product/header-stats-product.component';
 import { TabViewModule } from 'primeng/tabview';
+import { TraHangAdminComponent } from './tra-hang-admin/page/tra-hang-admin.component';
+import { NewTraHangComponent } from './tra-hang-admin/component/new-tra-hang/new-tra-hang.component';
+import { CustomerTraHangComponent } from './tra-hang-admin/component/customer-tra-hang/customer-tra-hang.component';
+import { ChoXacNhanComponent } from './tra-hang-admin/component/cho-xac-nhan/cho-xac-nhan.component';
+import { HoanThanhComponent } from './tra-hang-admin/component/hoan-thanh/hoan-thanh.component';
+import { ChoXuLyComponent } from './tra-hang-admin/component/cho-xu-ly/cho-xu-ly.component';
+import { DaHuyComponent } from './tra-hang-admin/component/da-huy/da-huy.component';
+import { DialogTraHangComponent } from './tra-hang-admin/component/dialog-tra-hang/dialog-tra-hang.component';
+import { DialogUpdateCtspComponent } from './tra-hang-admin/component/dialog-update-ctsp/dialog-update-ctsp.component';
 
-import {MatDatepickerModule} from '@angular/material/datepicker';
- // import { MatInputModule } from '@angular/material/input';
-LOAD_WASM().subscribe()
+import { InvoiceComponent } from './invoice/pages/invoice.component';
+import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-detail.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
+// import { MatInputModule } from '@angular/material/input';
+
+// LOAD_WASM().subscribe();
 
 @NgModule({
   imports: [
@@ -99,11 +113,8 @@ LOAD_WASM().subscribe()
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
     TabViewModule,
-
-    CalendarModule
- 
-
-
+    MatSnackBarModule,
+    CalendarModule,
   ],
   exports: [],
   declarations: [
@@ -138,17 +149,32 @@ LOAD_WASM().subscribe()
     TestNewComponent,
     NComponent,
     SalesComponent,
+    PaymentSuccessComponent,
     VoucherHomeComponent,
     VoucherDialogComponent,
 
-    ForCategoryComponent,
     ForDateComponent,
     OrdersComponent,
     ForProductComponent,
+
+    TraHangAdminComponent,
+    NewTraHangComponent,
+    CustomerTraHangComponent,
+    ChoXacNhanComponent,
+    HoanThanhComponent,
+    ChoXuLyComponent,
+    DaHuyComponent,
+    DialogTraHangComponent,
+    DialogUpdateCtspComponent,
+    // NavbarComponent
+
+    InvoiceComponent,
+    InvoiceDetailComponent,
     ChartColumnComponent,
     HeaderStatsComponent,
     TableStatsProductComponent,
-    HeaderStatsProductComponent
+    HeaderStatsProductComponent,
+    VndPipe
   ],
   providers: [],
 })

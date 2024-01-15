@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between">
+<div class="d-flex justify-consizet-between">
     <h2 mat-dialog-title>
         Size
     </h2>
@@ -8,29 +8,38 @@
 </div>
 <ng-container *ngIf="type && type==='add'|| type==='update'">
     <mat-dialog-content class="mat-typography">
-        <div class="container-fluid">
+        <form [formGroup]="sizeForm" class="container-fluid">
             <mat-form-field class="example-form-field">
-                <mat-label>Tên</mat-label>
-                <input matInput type="text" [(ngModel)]="size.size">
-                <button *ngIf="size?.size" matSuffix mat-icon-button aria-label="Clear" (click)="size.size=''">
+                <mat-label>Size</mat-label>
+                <input matInput type="number" formControlName="size">
+                <mat-error
+                *ngIf="(sizeForm?.get('size')?.hasError('required'))
+                 && (sizeForm?.get('size')?.dirty || sizeForm?.get('size')?.touched)">
+
+                  <ng-container *ngIf="sizeForm?.get('size')?.hasError('required')">
+                    Tên không được để trống
+                 </ng-container>
+              </mat-error>
+
+                <!-- <button *ngIf="size?.size" matSuffix mat-icon-button aria-label="Clear" (click)="size.size=''">
                     <mat-icon>close</mat-icon>
-                </button>
+                </button> -->
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Chọn trạng thái</mat-label>
-                <mat-select [(ngModel)]="size.trangThai">
+                <mat-select formControlName="trangThai">
                     <mat-option [value]="1">Hoạt động</mat-option>
                     <mat-option [value]="0">Ngưng Hoạt động</mat-option>
                 </mat-select>
             </mat-form-field>
-        </div>
+        </form>
     </mat-dialog-content>
     <mat-dialog-actions>
         <ng-container *ngIf="type&&type=== 'add'">
-            <button mat-button (click)="addOrigin()">Xác nhận add</button>
+            <button mat-button (click)="addOrigin()"  [disabled]="sizeForm.invalid">Xác nhận add</button>
         </ng-container>
         <ng-container *ngIf="type=== 'update'">
-            <button mat-button (click)="updateOrigin()">Xác nhận update</button>
+            <button mat-button (click)="updateOrigin()" [disabled]="sizeForm.invalid">Xác nhận update</button>
         </ng-container>
     </mat-dialog-actions>
 </ng-container>
