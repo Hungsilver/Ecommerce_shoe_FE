@@ -171,7 +171,7 @@ export class DetailComponent implements OnInit {
         this.notificationService.error('Sản phẩm tạm hết hàng');
       } else if (this.productDetail.soLuong! < this.quantity) {
         this.notificationService.error("Số lượng sản phẩm phải nhỏ hơn số lượng trong kho");
-      } else if (this.quantity < 0) {
+      } else if (this.quantity < 0 || this.quantity === null) {
         this.notificationService.error("Số lượng phải lớn hơn 0");
       } else if (this.productDetail.trangThai === 0) {
         this.notificationService.error("Sản phẩm dừng kinh doanh");
@@ -187,7 +187,7 @@ export class DetailComponent implements OnInit {
         this.detailService.addToCart(this.addProductToCart).then(c => {
           this.notificationService.success("Thêm sản phẩm vào giỏ hàng thành công");
         }, err => {
-          this.notificationService.error("Vui lòng đăng nhập");
+          this.notificationService.success("Thêm sản phẩm vào giỏ hàng không thành công");
         })
       }
     })
