@@ -22,3 +22,22 @@
     white-space: nowrap;
     /* Ngăn chặn quá trình xuống dòng */
 }
+
+.custom-button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .custom-button:hover {
+    background-color: #2980b9;
+  }
+  
