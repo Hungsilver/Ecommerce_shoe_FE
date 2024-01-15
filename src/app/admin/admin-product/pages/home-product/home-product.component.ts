@@ -13,7 +13,7 @@ import { OriginService } from 'src/libs/service/project/origin/origin.service';
 import * as XLSX from 'xlsx';
 import { IProductExportExcel } from '../../service/productExportExcel.module';
 import { IProductImportExcel } from '../../service/productIportExcel.module';
-import { ProductDetailImportExcel } from 'src/app/admin/product-detail/services/ProductDetailImportExcel.module';
+import { IProductDetailImportExcel } from 'src/app/admin/product-detail/services/ProductDetailImportExcel.module';
 @Component({
   selector: 'app-home-product',
   templateUrl: './home-product.component.html',
@@ -32,7 +32,8 @@ export class HomeProductComponent implements OnInit {
   ExcelData: any;
   selectedStatus: number | null = null;
   selectedBrand: number | null = null;
-  chiTietSanPhams!: ProductDetailImportExcel[];
+  chiTietSanPhams!: IProductDetailImportExcel[];
+  // chiTietSanPhams!: IProductImportExcel[];
 
   iconSortName = 'pi pi-sort-amount-up';
   constructor(
@@ -264,7 +265,8 @@ export class HomeProductComponent implements OnInit {
 
   ReadExcel(event: any) {
     // Khởi tạo danh sách (list) để lưu trữ các đối tượng ChiTietSanPham
-    const danhSachChiTietSanPham: ProductDetailImportExcel[] = [];
+    const danhSachChiTietSanPham: IProductDetailImportExcel[] = [];
+    // const danhSachChiTietSanPham: IProductImportExcel[] = [];
 
     // lấy file được chọn bên view
     let file = event.target.files[0];
@@ -291,7 +293,7 @@ export class HomeProductComponent implements OnInit {
 
         // sử dụng for để chuyển đổi sang đối tượng chitietsanpham
         for (let i = 0; i < this.ExcelData.length; i++) {
-          const chitietsanpham: ProductDetailImportExcel = {
+          const chitietsanpham: IProductDetailImportExcel = {
             stt: this.ExcelData[i].stt,
             // tenSanPham: this.ExcelData[i].tenSanPham,
             soLuong: this.ExcelData[i].soLuong,

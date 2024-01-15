@@ -1,3 +1,4 @@
+import { IProductDetailImportExcel } from 'src/app/admin/product-detail/services/ProductDetailImportExcel.module';
 import { Component, OnInit } from '@angular/core';
 import { ProductDetailService } from '../../services/product.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,9 +9,11 @@ import { ColorService } from 'src/app/admin/color/service/color.service';
 import { SizeService } from 'src/app/admin/size/service/size.service';
 import { MaterialService } from 'src/app/admin/material/service/material.service';
 import { MaterialSolesService } from 'src/app/admin/material-soles/service/material-soles.service';
-import { ProductDetailExportExcel } from '../../services/ProductDetailExportExcel.module';
+import { IProductDetailExportExcel } from '../../services/ProductDetailExportExcel.module';
 import * as XLSX from 'xlsx';
-import { ProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
+// import { IProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
+
+// import { ProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -32,7 +35,7 @@ export class ProductDetailComponent implements OnInit {
 
   selectedSize: number | null = null;
   selectedColor: number | null = null;
-  ChiTietSanPham!: ProductDetailExportExcel[];
+  ChiTietSanPham!: IProductDetailExportExcel[];
   fileName = 'ExcelSheet.xlsx';
   ExcelData: any;
 
@@ -89,7 +92,7 @@ export class ProductDetailComponent implements OnInit {
   }
   readExcel(event: any) {
     // Khởi tạo danh sách (list) để lưu trữ các đối tượng ChiTietSanPham
-    const danhSachCTSanPham: ProductDetailImportExcel[] = [];
+    const danhSachCTSanPham: IProductDetailImportExcel[] = [];
     // lấy file được chọn bên view
     let file = event.target.files[0];
     const extension = file.name.split('.').pop().toLowerCase();
@@ -106,7 +109,7 @@ export class ProductDetailComponent implements OnInit {
         );
 
         for (let i = 0; i < this.ExcelData.length; i++) {
-          const chitietsanpham: ProductDetailImportExcel = {
+          const chitietsanpham: IProductDetailImportExcel = {
             stt: this.ExcelData[i].stt,
             // maSanPham:this.ExcelData[i].ma,
             // tenSanPham:this.ExcelData[i].ten,
@@ -230,6 +233,21 @@ export class ProductDetailComponent implements OnInit {
     }
     this.getAll();
   }
+
+  // updateProductDetail() {
+  //   this.newProduct.anhSanPhams = this.validUrls
+  //   this.productDetailService.updateProduct(this.newProduct).then(
+  //     (data) => {
+  //       console.log("data " + data);
+  //     },
+  //     (error) => console.log(error)
+  //   );
+  // }
+  // filterBySize(): void{
+  //   if(this.selectedSize !== null){
+  //   }
+  // }
+
   filterBySize(): void {
     if (this.selectedSize !== null) {
       this.searchQuery.size = this.selectedSize;

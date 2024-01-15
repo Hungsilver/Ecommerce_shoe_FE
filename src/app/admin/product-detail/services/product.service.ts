@@ -4,9 +4,9 @@ import { BaseRequestService } from 'src/libs/service/request/base-request.servic
 import { IProductDetail } from './product.module';
 import { IReqApi } from 'src/libs/common/interface/interfaces';
 import { filter } from 'rxjs';
-import { ProductDetailExportExcel } from './ProductDetailExportExcel.module';
+import { IProductDetailExportExcel } from './ProductDetailExportExcel.module';
 import { Observable } from 'rxjs';
-import { ProductDetailImportExcel } from './ProductDetailImportExcel.module';
+import { IProductDetailImportExcel } from './ProductDetailImportExcel.module';
 @Injectable({
   providedIn: 'root',
 })
@@ -27,11 +27,11 @@ export class ProductDetailService {
       }),
     };
   }
-  create(chitietsanpham: ProductDetailImportExcel[]) {
+  create(chitietsanpham: IProductDetailImportExcel[]) {
     return this.httpClient.post(`${this.importUrl}`, chitietsanpham);
   }
-  getAll(): Observable<ProductDetailExportExcel[]> {
-    return this.httpClient.get<ProductDetailExportExcel[]>(`${this.baseUrl}`);
+  getAll(): Observable<IProductDetailExportExcel[]> {
+    return this.httpClient.get<IProductDetailExportExcel[]>(`${this.baseUrl}`);
   }
 
   getProducts(
