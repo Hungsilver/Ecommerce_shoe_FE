@@ -168,19 +168,23 @@ export class dialogProductDetailComponent implements OnInit {
       anhSanPhams: this.validUrls ? [...this.validUrls] : [],
     };
 
-
-
     this.productDetail.anhSanPhams = this.validUrls
   // console.log('Product Image URLs:', this.product.anhChinh);
     if (this.productDetailForm.valid) {
       if(this.productDetail.anhSanPhams.length >0){
+        try{
         this.productDetailService.createProduct(this.productDetail).then(res => {
-          console.log('Data created', res.content);
+
           if (res) {
             this.notification.success('Thêm thành công');
             this.dialog.closeAll();
+          } else {
+            this.notification.error('Chi tiết sản phẩm đã có');
           }
         });
+      } catch(error){
+          this.notification.error('lỗi');
+      }
       }else{
         this.notification.error('Ảnh không được để trống');
       }
@@ -223,7 +227,7 @@ export class dialogProductDetailComponent implements OnInit {
         this.productDetailService.updateProduct(this.productDetail, this.data.productDetail.id).then(res => {
           console.log('data updated', res.content);
           if (res) {
-            this.notification.success('cap nhat thanh cong');
+            this.notification.success('Cập nhật thành công');
             this.dialog.closeAll();
           }
         });
