@@ -67,12 +67,19 @@
             </mat-form-field>
           </div>
 
-          <div class="col-6">
-            <label>Image</label>
-            <input type="file" formControlName="anhChinh" (change)="onFileChange($event)" multiple />
-            <div>
-              <img [src]="uploadedUrl" style="width: 200px; height: auto" />
+          <div class="col-6 example-form-field">
+            <label>Ảnh Sản phẩm</label>
+
+            <div class="image-container-horizontal">
+              <img [src]="uploadedUrl" style="width: 80px; height: auto" class="image-wrapper" />
             </div>
+            <!-- <input type="file" formControlName="anhChinh" (change)="onFileChange($event)" multiple /> -->
+            <label for="images" class="drop-container" id="dropcontainer">
+              <span class="drop-title">Ảnh Sản Phẩm</span>
+
+              <input type="file" id="images"
+               (change)="onFileChange($event)" accept="image/*" />
+            </label>
           </div>
         </div>
         <div class="col">
@@ -189,7 +196,7 @@
             </mat-form-field>
           </div>
 
-          <div>
+          <div class="col-6">
             <!-- <mat-label>Ảnh chính</mat-label> -->
             <img
               *ngIf="!uploadedUrl && product.anhChinh"
@@ -201,18 +208,23 @@
             <!-- Hiển thị hình ảnh đã tải lên nếu có -->
             <div *ngIf="uploadedUrl">
               <h4>Ảnh đã tải lên</h4>
+              <div class="image-container-horizontal">
               <img
                 [src]="uploadedUrl"
                 alt="Uploaded Image"
                 style="width: 50px; height: auto"
               />
             </div>
+            </div>
+            <label for="images" class="drop-container" id="dropcontainer">
+              <span class="drop-title">Ảnh Sản Phẩm</span>
 
-            <input
-              type="file" formControlName="anhChinh"
+              <input
+              type="file" id="images"  formControlName="anhChinh"
               (change)="onFileChange($event)"
               accept="image/*"
             />
+            </label>
           </div>
         </div>
         <div class="col">

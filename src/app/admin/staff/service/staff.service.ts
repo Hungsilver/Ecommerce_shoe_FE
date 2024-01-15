@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { IReqApi } from 'src/libs/common/interface/interfaces';
 import { IStaff } from './staff.module';
 import { BaseRequestService } from '../../../../libs/service/request/base-request.service';
+import { IPosition } from './position.module';
 
 
 
@@ -11,6 +12,19 @@ import { BaseRequestService } from '../../../../libs/service/request/base-reques
 })
 export class StaffService {
     url: string = 'staff';
+    urlPosition = 'position';
+
+
+    getPositions(params?: any): Promise<IReqApi<IPosition[]>> {
+      return new Promise<IReqApi<IPosition[]>>((resolve, reject) => {
+        this.baseRequestService.get(`${this.urlPosition}`, params).subscribe(
+          (result) => {
+            return resolve(result);
+          },
+          (err) => reject(err)
+        );
+      });
+    }
 
     constructor(private baseRequestService: BaseRequestService) { }
     getStaff(params?: any): Promise<IReqApi<IStaff>> {
@@ -23,6 +37,8 @@ export class StaffService {
             );
         });
     }
+
+
 
     // getNhanVien(params?: any): Promise<IStaff[]> {
     //     return new Promise<IStaff[]>((resolve, reject) => {

@@ -9,5 +9,5 @@ export interface IStaff {
     ngaySinh?: string;
     diaChi?: string;
     trangThai?: number;
-    // chucVu?: any;
+    chucVu?: any;
 }

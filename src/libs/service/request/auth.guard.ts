@@ -12,7 +12,9 @@ export const authUserGuard = () => {
   } else {
     return true;
   }
+
   router.navigate(['/']);
+
   return false;
 };
 // export const authStaffGuard = () => {

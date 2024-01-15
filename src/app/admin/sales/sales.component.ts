@@ -874,6 +874,7 @@ export class SalesComponent implements OnInit {
             const id = this.idHDGlobal;
             const vnpPaymentUrl = response.vnpPaymentUrl;
             console.log('Redirecting to VNPay:', response);
+            // this.getAllDataHD();
             window.location.href = response;
             // this.router.navigate(['/admin/hoa-don', id], { state: { response }});
           },
