@@ -1,58 +1,94 @@
-/* Container styles */
-.button-container {
-  margin-bottom: 10px;
-  margin-top: 20px;
+/* Add this SCSS to your stylesheet */
+
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.card {
-  margin-top: 20px;
+.col-4 {
+  width: 25%; /* Adjust the width as needed */
 }
 
-/* Table styles */
-.p-table {
+.sizesss {
+  width: 50%; /* Adjust the width as needed */
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.col {
+  flex: 1;
+}
+
+.example-form-field {
   width: 100%;
-  margin-bottom: 20px;
 }
 
-/* Header styles */
-th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-  padding: 10px;
-  text-align: left;
+.fontsize {
+  font-size: 16px;
 }
 
-/* Body styles */
-td {
-  padding: 10px;
+/* Style for buttons in the last column */
+/* Add this SCSS to your stylesheet */
+
+.col-2 {
+  display: flex;
+  gap: 10px;
 }
 
-/* Alternating row colors */
-.p-table .p-datatable-tbody tr:nth-child(odd) {
-  background-color: #f9f9f9;
-}
-
-/* Pagination styles */
-.button-pagination {
+.mat-button,
+.mat-flat-button {
+  background-color: #3498db; /* Button background color */
+  color: #fff; /* Button text color */
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
   cursor: pointer;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mat-button:hover,
+.mat-flat-button:hover {
+  background-color: #2980b9; /* Button background color on hover */
+  transform: scale(1.05); /* Add a slight scale effect on hover */
+}
+
+/* Add this SCSS to your stylesheet */
+
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+  flex: 1;
+}
+
+.p-input-icon-left {
+  display: flex;
+  align-items: center;
   margin-right: 5px;
 }
 
-/* Hover effect for pagination buttons */
-.button-pagination:hover {
-  background-color: rgb(9, 160, 165);
+input {
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  text-align: left;
 }
 
-.example-form-field{
-  width: 150px;
+.dropdown-container {
+  margin-left: 10px;
 }
-.sizesss{
-  width: 500px;
-}
-.fontsize{
-  font-size: 0.875em;
 
-}
+
+
