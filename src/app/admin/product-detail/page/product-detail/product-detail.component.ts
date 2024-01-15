@@ -1,3 +1,4 @@
+import { IProductDetailImportExcel } from 'src/app/admin/product-detail/services/ProductDetailImportExcel.module';
 import { Component, OnInit } from '@angular/core';
 import { ProductDetailService } from '../../services/product.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,7 +11,8 @@ import { MaterialService } from 'src/app/admin/material/service/material.service
 import { MaterialSolesService } from 'src/app/admin/material-soles/service/material-soles.service';
 import { ProductDetailExportExcel } from '../../services/ProductDetailExportExcel.module';
 import * as XLSX from 'xlsx';
-import { ProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
+
+// import { ProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -89,7 +91,7 @@ export class ProductDetailComponent implements OnInit {
   }
   readExcel(event: any) {
     // Khởi tạo danh sách (list) để lưu trữ các đối tượng ChiTietSanPham
-    const danhSachCTSanPham: ProductDetailImportExcel[] = [];
+    const danhSachCTSanPham: IProductDetailImportExcel[] = [];
     // lấy file được chọn bên view
     let file = event.target.files[0];
     const extension = file.name.split('.').pop().toLowerCase();
@@ -106,7 +108,7 @@ export class ProductDetailComponent implements OnInit {
         );
 
         for (let i = 0; i < this.ExcelData.length; i++) {
-          const chitietsanpham: ProductDetailImportExcel = {
+          const chitietsanpham: IProductDetailImportExcel = {
             stt: this.ExcelData[i].stt,
             // maSanPham:this.ExcelData[i].ma,
             // tenSanPham:this.ExcelData[i].ten,

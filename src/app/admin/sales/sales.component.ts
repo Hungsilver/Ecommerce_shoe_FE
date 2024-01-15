@@ -885,14 +885,12 @@ export class SalesComponent implements OnInit {
     }
   }
 
-  invalidVoucherCode: boolean = false;
   findByCodeVoucher(event: any) {
     const maPhieu = event.target.value;
     if (maPhieu === null || maPhieu === undefined || maPhieu === '') {
       this.idPhieuGiamGia = null;
       this.tongTienSauGiam = this.tongTien;
       this.chietKhau = 0;
-      this.invalidVoucherCode = false;
       return;
     }
 
@@ -901,17 +899,19 @@ export class SalesComponent implements OnInit {
       .then((p) => {
         console.log('pgg ', p);
         if (p && p.ma === maPhieu && p.trangThai === 1) {
-          this.invalidVoucherCode = false;
           this.idPhieuGiamGia = p.id;
-          if (p.hinhThucGiamGia === false) {
+          if (p.hinhThucGiamGia === true) {
+            this.hinhThucGiamGia = p.hinhThucGiamGia;
+            this.chietKhau = p.chietKhau;
             this.tienGiam = p.chietKhau;
             this.tongTienSauGiam = this.tongTien - this.tienGiam;
-          } else if (p.hinhThucGiamGia === true) {
+          } else {
+            this.hinhThucGiamGia = p.hinhThucGiamGia;
+            this.chietKhau = p.chietKhau;
             this.tienGiam = (this.tongTien * p.chietKhau) / 100;
             this.tongTienSauGiam = this.tongTien - this.tienGiam;
           }
         } else if (!p) {
-          this.invalidVoucherCode = true;
           this.idPhieuGiamGia = null;
           this.tongTienSauGiam = this.tongTien;
           this.chietKhau = 0;

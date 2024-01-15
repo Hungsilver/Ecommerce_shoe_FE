@@ -16,7 +16,6 @@
             class="close-button"
             (click)="cancelInvoice()"
           >
-
             <mat-icon aria-label="Xóa" class="close-icon">close</mat-icon>
           </button>
         </div>
@@ -24,20 +23,40 @@
 
       <div class="sales-header d-flex justify-content-between">
         <div class="d-flex align-items-center">
-          <button type="button" class="btn btn-outline-primary" (click)="showQRCode()">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="showQRCode()"
+          >
             Open qr code
           </button>
         </div>
 
-        <div *ngIf="showQuantityInput" class="floating-form" #floatingForm (mousedown)="preventFormClose($event)">
+        <div
+          *ngIf="showQuantityInput"
+          class="floating-form"
+          #floatingForm
+          (mousedown)="preventFormClose($event)"
+        >
           <p>Mã: {{ productsDetail.ma }}</p>
           <p>Số lượng: {{ productsDetail.soLuong }}</p>
           <label for="quantity">Nhập số lượng:</label>
-          <input type="number" [(ngModel)]="quantityInvoice" placeholder="Nhập
-            số lượng" class="form-control" style="width: 300px" [min]="1" [max]="productsDetail.soLuong" />
+          <input
+            type="number"
+            [(ngModel)]="quantityInvoice"
+            placeholder="Nhập
+            số lượng"
+            class="form-control"
+            style="width: 300px"
+            [min]="1"
+            [max]="productsDetail.soLuong"
+          />
           <br />
-          <button class="btn btn-outline-primary" (click)="addOrderDetailFromQR(productsDetail, quantityInvoice)"
-            [disabled]="quantityInvoice > productsDetail.soLuong">
+          <button
+            class="btn btn-outline-primary"
+            (click)="addOrderDetailFromQR(productsDetail, quantityInvoice)"
+            [disabled]="quantityInvoice > productsDetail.soLuong"
+          >
             Xác nhận thêm
           </button>
           <button class="btn btn-outline-danger" (click)="closeFloatingForm()">
@@ -46,13 +65,22 @@
         </div>
 
         <div class="addProduct">
-          <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
             Thêm sản phẩm
           </button>
         </div>
         <div>
-          <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-            data-bs-target="#exampleModalCustomer">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModalCustomer"
+          >
             Chọn khách hàng
           </button>
         </div>
@@ -61,8 +89,11 @@
       <!-- ! QR Code -->
       <div class="qr-container" *ngIf="isShowQrCode">
         <div class="d-flex justify-content-center mt-5">
-          <ngx-scanner-qrcode #action="scanner" [config]="config"
-            (event)="onEvent($event, action)"></ngx-scanner-qrcode>
+          <ngx-scanner-qrcode
+            #action="scanner"
+            [config]="config"
+            (event)="onEvent($event, action)"
+          ></ngx-scanner-qrcode>
         </div>
         <!-- loading -->
         <!-- <p *ngIf="action.isLoading">⌛ Loading...</p> -->
@@ -84,23 +115,39 @@
           </p>
         </div> -->
         <!-- [disabled]="action.isLoading" -->
-        <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
-          (click)="handle(action, action.isStart ? 'stop' : 'start')">
-          <img [src]="
+        <button
+          class="btn"
+          [class.btn-info]="!action.isStart"
+          [class.btn-warning]="action.isStart"
+          (click)="handle(action, action.isStart ? 'stop' : 'start')"
+        >
+          <img
+            [src]="
               action.isStart
                 ? 'https://id1945.github.io/images/svg/camera-off.svg'
                 : 'https://id1945.github.io/images/svg/camera-on.svg'
-            " width="30px" />
+            "
+            width="30px"
+          />
         </button>
 
         <!-- play/pause -->
-        <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
-          [disabled]="!action.isStart" (click)="handle(action, action.isPause ? 'play' : 'pause')" *ngIf="!result">
-          <img [src]="
+        <button
+          class="btn"
+          [class.btn-info]="!action.isStart"
+          [class.btn-warning]="action.isStart"
+          [disabled]="!action.isStart"
+          (click)="handle(action, action.isPause ? 'play' : 'pause')"
+          *ngIf="!result"
+        >
+          <img
+            [src]="
               action.isPause
                 ? 'https://id1945.github.io/images/svg/play.svg'
                 : 'https://id1945.github.io/images/svg/pause.svg'
-            " width="30px" />
+            "
+            width="30px"
+          />
         </button>
         <button (click)="turnOfQRCode()" class="btn btn-outline-primary">
           Tắt mã QR
@@ -137,20 +184,29 @@
                 <td>{{ i + 1 }}</td>
                 <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
                 <td>
-                  <button mat-icon-button (click)="truSoLuong(chiTiet.id, -1, chiTiet)">
+                  <button
+                    mat-icon-button
+                    (click)="truSoLuong(chiTiet.id, -1, chiTiet)"
+                  >
                     <mat-icon aria-label="Trừ số lượng">remove</mat-icon>
                   </button>
                   {{ chiTiet.soLuong }}
-                  <button mat-icon-button (click)="congSoLuong(chiTiet.id, 1, chiTiet)">
+                  <button
+                    mat-icon-button
+                    (click)="congSoLuong(chiTiet.id, 1, chiTiet)"
+                  >
                     <mat-icon aria-label="Thêm số lượng">add</mat-icon>
                   </button>
                 </td>
                 <td>{{ chiTiet.donGia }}</td>
                 <td>{{ calculateTotal(chiTiet) }}</td>
                 <td>
-                  <button mat-icon-button (click)="
+                  <button
+                    mat-icon-button
+                    (click)="
                       chiTiet.id !== undefined && deleteOrderDetail(chiTiet.id)
-                    ">
+                    "
+                  >
                     <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
                   </button>
                 </td>
@@ -208,14 +264,25 @@
             <div class="row mb-3">
               <div class="col">
                 <label class="form-label">Mã HĐ:</label>
-                <input type="text" class="form-control" [id]="'exampleInputHD_' + i" [value]="tab.maHoaDon || 'hi'"
-                  style="width: 223px" disabled />
+                <input
+                  type="text"
+                  class="form-control"
+                  [id]="'exampleInputHD_' + i"
+                  [value]="tab.maHoaDon || 'hi'"
+                  style="width: 223px"
+                  disabled
+                />
               </div>
 
               <div class="col">
                 <label class="form-label">Người bán:</label>
-                <input type="text" class="form-control" [value]="tab.nhanVien?.hoTen || ''" style="width: 223px"
-                  disabled />
+                <input
+                  type="text"
+                  class="form-control"
+                  [value]="tab.nhanVien?.hoTen || ''"
+                  style="width: 223px"
+                  disabled
+                />
               </div>
             </div>
 
@@ -232,24 +299,25 @@
                   style="width: 223px"
                   (change)="findByCodeVoucher($event)"
                 />
-                <div *ngIf="invalidVoucherCode" class="error-message">
-                  Mã voucher không đúng!
-                </div>
-
-
-                <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === true">
-                  {{ chietKhau }}% - {{ tienGiam | currency : "VND" }}
-                </div>
-                <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === false">
-                  {{ chietKhau | currency : "VND" }}
-                </div>
                 <!-- </div> -->
+              </div>
+              <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === false">
+                {{ chietKhau }}% - {{ tienGiam }}đ
+              </div>
+              <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === true">
+                {{ chietKhau | currency : "VND" }}
               </div>
 
               <div class="col">
                 <label class="form-label">Phương thức thanh toán:</label>
-                <select class="form-select" aria-label="Default select example" style="width: 223px"
-                  [(ngModel)]="selectedPaymentMethod" name="paymentMethod" [ngModelOptions]="{ standalone: true }">
+                <select
+                  class="form-select"
+                  aria-label="Default select example"
+                  style="width: 223px"
+                  [(ngModel)]="selectedPaymentMethod"
+                  name="paymentMethod"
+                  [ngModelOptions]="{ standalone: true }"
+                >
                   <option value="0">Tiền mặt</option>
                   <option value="1">Online</option>
                 </select>
@@ -260,8 +328,14 @@
               <div class="col" id="a">
                 <div class="input-group">
                   <label class="form-label">Tổng tiền sản phẩm:</label>
-                  <input type="text" class="form-control" value="{{ tongTien !== undefined ? tongTien : 0 }}"
-                    id="input-money" aria-label="Dollar amount (with dot and two decimal places)" readonly />
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="{{ tongTien !== undefined ? tongTien : 0 }}"
+                    id="input-money"
+                    aria-label="Dollar amount (with dot and two decimal places)"
+                    readonly
+                  />
                   <span class="input-group-text">VNĐ</span>
                 </div>
               </div>
@@ -269,9 +343,16 @@
               <div class="col">
                 <div class="input-group">
                   <label class="form-label">Tổng tiền sau giảm:</label>
-                  <input type="text" class="form-control" value="{{
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="{{
                       tongTienSauGiam !== undefined ? tongTienSauGiam : 0
-                    }}" id="input-money" aria-label="Dollar amount (with dot and two decimal places)" readonly />
+                    }}"
+                    id="input-money"
+                    aria-label="Dollar amount (with dot and two decimal places)"
+                    readonly
+                  />
                   <span class="input-group-text">VNĐ</span>
                 </div>
               </div>
@@ -305,14 +386,25 @@
 </mat-tab-group>
 
 <!-- !modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-xl-custom-height">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">
           Danh sách sản phẩm
         </h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <br />
@@ -396,22 +488,28 @@
           <tr *ngIf="product.trangThai === 1">
             <td>
               {{
-              productsDetail.indexOf(product) +
-              1 +
-              searchQuery.pageSize * (searchQuery.page - 1)
+                productsDetail.indexOf(product) +
+                  1 +
+                  searchQuery.pageSize * (searchQuery.page - 1)
               }}
             </td>
             <td>{{ product.ma }}</td>
             <td>{{ product.sanPham?.ten }}</td>
             <td>
-              <img src="{{ product.sanPham?.anhChinh }}" style="width: 60px; height: 75px" />
+              <img
+                src="{{ product.sanPham?.anhChinh }}"
+                style="width: 60px; height: 75px"
+              />
             </td>
             <td>{{ product.mauSac?.ten }}</td>
             <td>{{ product.kichCo?.size }}</td>
             <td>{{ product.soLuong }}</td>
             <td>{{ product.giaBan }}</td>
             <td>
-              <button mat-icon-button (click)="addProductToOrderDetail(product)">
+              <button
+                mat-icon-button
+                (click)="addProductToOrderDetail(product)"
+              >
                 <i class="material-icons">shopping_cart_checkout</i>
               </button>
             </td>
@@ -421,7 +519,11 @@
 
       <div>
         <div class="d-flex justify-content-end gap-1">
-          <p-dropdown (onChange)="onPageChange()" [options]="listTotalPage" [(ngModel)]="searchQuery.page"></p-dropdown>
+          <p-dropdown
+            (onChange)="onPageChange()"
+            [options]="listTotalPage"
+            [(ngModel)]="searchQuery.page"
+          ></p-dropdown>
 
           <div class="button-pagination" (click)="getAll('prev')">
             <i class="pi pi-angle-left"></i>
@@ -443,14 +545,25 @@
 
 <!-- ! modal khach hang -->
 
-<div class="modal fade" id="exampleModalCustomer" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+<div
+  class="modal fade"
+  id="exampleModalCustomer"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel1"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-xl-custom-height">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">
           Danh sách Khách hàng
         </h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <br />
@@ -468,7 +581,6 @@
           <button type="button" class="btn btn-primary" (click)="toggleForm()">
             Thêm mới
           </button>
-
 
           <div class="col" *ngIf="isFormVisible">
             <div
@@ -592,9 +704,9 @@
             <tr>
               <td>
                 {{
-                customers.indexOf(customer) +
-                1 +
-                searchQuery.pageSize * (searchQuery.page - 1)
+                  customers.indexOf(customer) +
+                    1 +
+                    searchQuery.pageSize * (searchQuery.page - 1)
                 }}
               </td>
               <td>{{ customer.hoTen }}</td>
@@ -605,7 +717,11 @@
               <td>{{ customer.ngaySinh }}</td>
 
               <td>
-                <button class="btn btn-outline-primary" (click)="onSelectCustomer(customer.id)" data-bs-dismiss="modal">
+                <button
+                  class="btn btn-outline-primary"
+                  (click)="onSelectCustomer(customer.id)"
+                  data-bs-dismiss="modal"
+                >
                   Chọn
                 </button>
               </td>
@@ -615,8 +731,11 @@
 
         <div>
           <div class="d-flex justify-content-end gap-1">
-            <p-dropdown (onChange)="onPageChange()" [options]="listTotalPage"
-              [(ngModel)]="searchQuery.page"></p-dropdown>
+            <p-dropdown
+              (onChange)="onPageChange()"
+              [options]="listTotalPage"
+              [(ngModel)]="searchQuery.page"
+            ></p-dropdown>
 
             <div class="button-pagination" (click)="getAllCustomer('prev')">
               <i class="pi pi-angle-left"></i>
@@ -661,4 +780,3 @@
 
                   <span class="input-group-text">VNĐ</span> -->
 <!-- </div> -->
-
