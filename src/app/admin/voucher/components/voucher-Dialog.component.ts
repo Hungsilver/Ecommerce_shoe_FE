@@ -194,53 +194,62 @@ updateVoucher(){
   // this.isEditing = true;
 const voucherData =this.voucherFrom.value;
 
-const formattedDate = moment(voucherData.thoiGianBatDau).toISOString();
+const batdauDate = moment(voucherData.thoiGianBatDau).toISOString();
 const ketthucdate = moment(voucherData.thoiGianKetThuc).toISOString();
 
+
+const thoiGianBatDauForm = moment(batdauDate);
+const thoiGianKetThucForm = moment(ketthucdate);
+// const thoiGianBatDauVoucher = moment(this.data.voucher.thoiGianBatDau);
+// const thoiGianKetThucVoucher = moment(this.data.voucher.thoiGianKetThuc);
 
 console.log("trang thai:",voucherData.trangThai);
 console.log("thoi gian bat dau:",this.data.voucher.thoiGianBatDau);
 console.log("time r",moment(this.data.voucher.thoiGianBatDau));
 const thoiGianHienTai  = moment();
 const tt = voucherData.trangThai;
-  // sap dien ra check
-if ( (moment(formattedDate).isSameOrBefore(thoiGianHienTai) && moment(this.data.voucher.thoiGianBatDau).isSameOrBefore(thoiGianHienTai)
-&& voucherData.trangThai===2 ) ||
-( moment(formattedDate).isSameOrAfter(ketthucdate) && moment(this.data.voucher.thoiGianKetThuc).isSameOrAfter(thoiGianHienTai)
-&& voucherData.trangThai===2 )) {
-  console.log("vao if");
-  this.notification.error('Voucher sắp diễn ra có Thời gian bắt đầu  và thời gian kết thúc phải sau Thời gian hiện tai ');
-  return; // Không thực hiện thêm voucher nếu kiểm tra không đúng
-}
-// dang dien ra
-if( (moment(formattedDate).isSameOrAfter(thoiGianHienTai) && moment(this.data.voucher.thoiGianBatDau).isSameOrAfter(thoiGianHienTai)
- && voucherData.trangThai===1) ||
-    (moment(ketthucdate).isBefore(thoiGianHienTai) &&  moment(this.data.voucher.thoiGianKetThuc).isBefore(thoiGianHienTai)
-    && voucherData.trangThai===1) ){
-      this.notification.error("voucher đang diễn ra có thời gian hiện tại nằm giữa thời gian bắt đầu và thời gian kết thúc");
-    return;
-}
-// //ket thuc
-if((moment(formattedDate).isAfter(thoiGianHienTai) && moment(this.data.voucher.thoiGianBatDau).isAfter(thoiGianHienTai)
-&& voucherData.trangThai===0 ) ||
-(  moment(ketthucdate).isAfter(thoiGianHienTai) &&  moment(this.data.voucher.thoiGianKetThuc).isAfter(thoiGianHienTai)
- && voucherData.trangThai===0)){
-  this.notification.error("voucher hết hạn có thời gian sau thời gian hiện tại");
+
+if(thoiGianBatDauForm.isSameOrBefore(thoiGianHienTai) && tt===2 ){
+  this.notification.error('Thời gian bắt đầu phải có sau thời gian hiện tại');
   return;
 }
-
-
-// if () {
-//  alert('Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.');
-//   return; // Không thực hiện thêm voucher nếu kiểm tra không đúng
-// }
+if(thoiGianBatDauForm.isSameOrAfter(thoiGianKetThucForm) && tt===2){
+  this.notification.error('Thời gian bắt đầu phải có trước thời gian kết thúc.');
+return;
+}
+  // còn hạn sử dụng
+if(thoiGianBatDauForm.isSameOrAfter(thoiGianHienTai) && tt===1){
+  this.notification.error('Thời gian bắt đầu phải có trước Thời gian hiện tại');
+  return;
+}
+if(thoiGianKetThucForm.isSameOrBefore(thoiGianHienTai)  && tt===1){
+  this.notification.error('Thời gian kết thúc phai có sau  thời gian hiện tại');
+  return;
+}
+if(thoiGianBatDauForm.isSameOrAfter(thoiGianKetThucForm) && tt===1){
+  this.notification.error('Thời gian bắt đầu phải có trước thời gian kết thúc.');
+  return;
+}
+//ket thuc
+if(thoiGianBatDauForm.isAfter(thoiGianHienTai)  && tt===0){
+  this.notification.error('Thời gian bắt đầu phai có trước thời gian hiện tại');
+  return;
+}
+if(thoiGianKetThucForm.isSameOrAfter(thoiGianHienTai) && tt===0){
+  this.notification.error('Thời gian kết thúc phải có trước thời gian hiện tại');
+  return;
+}
+if(thoiGianBatDauForm.isSameOrAfter(thoiGianKetThucForm) && tt===0){
+  this.notification.error('Thời gian bắt đầu phải có trước thời gian kết thúc.');
+  return;
+}
 this.voucher ={
   ten: voucherData.ten,
 chietKhau :voucherData.chietKhau,
 moTa :voucherData.moTa,
 hinhThucGiamGia :voucherData.hinhThucGiamGia,
 trangThai: tt,
-thoiGianBatDau :formattedDate,
+thoiGianBatDau :batdauDate,
 thoiGianKetThuc :ketthucdate,
 }
 // this.updateDate = this.voucher.thoiGianBatDau;
@@ -248,6 +257,7 @@ thoiGianKetThuc :ketthucdate,
 
   this.voucherService.updateVoucher(this.voucher, this.data.voucher.id).then((res) => {
     if (res) {
+      this.notification.success('Cập nhật lại thành công');
       this.dialog.closeAll();
     }
     console.log('data updated', res.content);
