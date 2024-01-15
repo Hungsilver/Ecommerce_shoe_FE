@@ -13,6 +13,7 @@ export const authUserGuard = () => {
     return true;
   }
 
+
   router.navigate(['/']);
 
   return false;
