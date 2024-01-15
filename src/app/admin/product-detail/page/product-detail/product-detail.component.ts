@@ -1,3 +1,4 @@
+import { IProductDetailImportExcel } from 'src/app/admin/product-detail/services/ProductDetailImportExcel.module';
 import { Component, OnInit } from '@angular/core';
 import { ProductDetailService } from '../../services/product.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,7 +11,6 @@ import { MaterialService } from 'src/app/admin/material/service/material.service
 import { MaterialSolesService } from 'src/app/admin/material-soles/service/material-soles.service';
 import { ProductDetailExportExcel } from '../../services/ProductDetailExportExcel.module';
 import * as XLSX from 'xlsx';
-import { IProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
