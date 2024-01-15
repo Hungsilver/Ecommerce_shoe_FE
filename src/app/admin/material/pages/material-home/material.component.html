@@ -2,7 +2,7 @@
     <span class="p-input-icon-left">
         <i class="pi pi-search"></i>
         <input type="text" pInputText [(ngModel)]="searchQuery.keyword" (keyup.enter)="searchByName()" />
-        <p-dropdown [options]="listTotalPage" [(ngModel)]="searchQuery.page" optionLabel="name"></p-dropdown>
+        <!-- <p-dropdown [options]="listTotalPage" [(ngModel)]="searchQuery.page" optionLabel="name"></p-dropdown> -->
     </span>
     <button mat-button (click)="openDialog()">Thêm</button>
 

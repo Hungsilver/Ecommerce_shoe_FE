@@ -8,15 +8,9 @@
         [(ngModel)]="searchQuery.keyword"
         (keyup.enter)="getAll()"
       />
-      <p-dropdown
-        [options]="listTotalPage"
-        [(ngModel)]="searchQuery.page"
-        optionLabel="name"
-      ></p-dropdown>
     </span>
   </div>
-
-  <div class="col-6 sizesss">
+  <div class="col-8 sizesss">
     <div class="row">
       <div class="col">
         <mat-form-field class="example-form-field">
@@ -105,13 +99,14 @@
       <tr>
         <th style="">STT</th>
         <th style="">Mã</th>
-        <th style="">anh</th>
+        <th style="">Ảnh</th>
         <th style="">Sản Phẩm</th>
         <th style="">Giá</th>
         <th style="">Màu Sắc</th>
         <th style="">Kích Cỡ</th>
         <th style="">Số Lượng</th>
         <th style="">Trạng Thái</th>
+        <th style=""></th>
 
         <th></th>
       </tr>
@@ -148,6 +143,11 @@
         </td>
         <td>
           <span (click)="openDialogEdit(product)">
+            <i class="pi pi-file-edit"></i>
+          </span>
+        </td>
+        <td>
+          <span>
             <i class="pi pi-file-edit"></i>
           </span>
           <span (click)="openDialogDelete(product)">
