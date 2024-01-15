@@ -37,13 +37,13 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>{{ c.chiTietSanPham.giaBan| vnd }}</td>
+                            <td>{{ c.chiTietSanPham.giaBan| currency:'VND' }}</td>
                             <td>
                                 <input type="number" value="{{c.soLuong}}" min="0" style="width: 70px;"
                                     (blur)="updateQuantity($event,c.id)">
                             </td>
 
-                            <td>{{ c.chiTietSanPham.giaBan * c.soLuong| vnd }}</td>
+                            <td>{{ c.chiTietSanPham.giaBan * c.soLuong| currency:'VND' }}</td>
                             <td class="table-action">
                                 <!-- <span class="table-icon-action" (click)="updateQuantity($event,c.id)"
                                     style="cursor: pointer;">
@@ -59,7 +59,7 @@
                 </p-table>
             </div>
             <div>
-                <h3>Tổng tiền: {{tongTien| vnd}}</h3>
+                <h3>Tổng tiền: {{tongTien| currency:'VND'}}</h3>
                 <button (click)="checkout()">Thanh toán</button>
             </div>
 

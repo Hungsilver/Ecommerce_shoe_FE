@@ -26,8 +26,8 @@
         <div class="card-body">
           <a href="product/{{ p.id }}">
             <h3 class="card-title">{{ p.ten }}</h3>
-            <p>{{p.listChiTietSanPham[0].giaBan| vnd}} -
-              {{p.listChiTietSanPham[p.listChiTietSanPham.length-1].giaBan| vnd}}</p>
+            <p>{{p.listChiTietSanPham[0].giaBan| currency:'VND'}} -
+              {{p.listChiTietSanPham[p.listChiTietSanPham.length-1].giaBan| currency:'VND'}}</p>
           </a>
         </div>
       </div>
@@ -43,8 +43,8 @@
         <div class="card-body">
           <a href="product/{{ p.id }}">
             <h3 class="card-title">{{ p.ten }}</h3>
-            <p>{{p.listChiTietSanPham[0].giaBan| vnd}} -
-              {{p.listChiTietSanPham[p.listChiTietSanPham.length-1].giaBan| vnd}}</p>
+            <p>{{p.listChiTietSanPham[0].giaBan| currency:'VND'}} -
+              {{p.listChiTietSanPham[p.listChiTietSanPham.length-1].giaBan| currency:'VND'}}</p>
           </a>
         </div>
       </div>
@@ -62,8 +62,8 @@
           </div>
           <div>
             <h4 class="mb-1 ">{{ product.ten }}</h4>
-            <h6>{{product.listChiTietSanPham[0].giaBan| vnd}} -
-              {{product.listChiTietSanPham[product.listChiTietSanPham.length-1].giaBan| vnd}}</h6>
+            <h6>{{product.listChiTietSanPham[0].giaBan| currency:'VND'}} -
+              {{product.listChiTietSanPham[product.listChiTietSanPham.length-1].giaBan| currency:'VND'}}</h6>
           </div>
         </a>
       </ng-template>

@@ -100,7 +100,6 @@ import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
         TraHangPageComponent,
         DialogComponent,
         ProfileComponent,
-        VndPipe
     ],
 })
 export class PageLazyModule { }

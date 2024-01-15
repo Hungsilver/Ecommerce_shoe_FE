@@ -54,8 +54,8 @@ const routes: Routes = [
   { path: 'phieu-giam-gia', component: VoucherHomeComponent },
   { path: 'payment-success', component: PaymentSuccessComponent },
   { path: 'tra-hang', component: TraHangAdminComponent },
-  { path: 'hoa-don', component: InvoiceComponent },
-  { path: 'hoa-don2', component: HoaDonComponent },
+  { path: 'hoa-don2', component: InvoiceComponent },
+  { path: 'hoa-don', component: HoaDonComponent },
   { path: 'hoa-don/:id', component: InvoiceChiTietComponent },
 
 

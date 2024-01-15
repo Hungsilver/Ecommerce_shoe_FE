@@ -76,8 +76,8 @@
                                         <td>
                                             {{c.soLuong  }}
                                         </td>
-                                        <td>{{c.donGia | vnd}}</td>
-                                        <td>{{c.soLuong*c.donGia | vnd}}</td>
+                                        <td>{{c.donGia | currency:'VND'}}</td>
+                                        <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
                                         
                                     </tr>
                                 </tbody>
@@ -87,7 +87,7 @@
                                     <h4>Tổng tiền đơn hàng:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.tongTien | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.tongTien | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -96,7 +96,7 @@
                                     <h4>Phí vận chuyển:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -105,10 +105,10 @@
                                     <h4>Voucher:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===true">
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===true">
                                         {{invoice.phieuGiamGia.chietKhau}}%</div>
-                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===false">
-                                        {{invoice.phieuGiamGia.chietKhau| vnd}}</div>
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===false">
+                                        {{invoice.phieuGiamGia.chietKhau| currency:'VND'}}</div>
                                 </div>
                             </div>
                             <hr *ngIf="invoice.phieuGiamGia !== null">
@@ -140,7 +140,7 @@
                                     <h3><b>Tổng thanh toán:</b></h3>
                                 </div>
                                 <div class="col-6 ">
-                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| vnd}}</b>
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
                                     </h3>
                                 </div>
                             </div>
@@ -307,8 +307,8 @@
                                             {{c.soLuong  }}
                                             <i class="pi pi-plus" (click)="tangSoLuong(i)" *ngIf="c.chiTietSanPham.soLuong > c.soLuong"></i>
                                         </td>
-                                        <td>{{c.donGia | vnd}}</td>
-                                        <td>{{c.soLuong*c.donGia | vnd}}</td>
+                                        <td>{{c.donGia | currency:'VND'}}</td>
+                                        <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
                                         <td>
                                             <button type="button" class="btn " (click)="deleteProduct(c.id)">
                                                 <i class="pi pi-times" ></i>
@@ -322,7 +322,7 @@
                                     <h4>Tổng tiền đơn hàng:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.tongTien | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.tongTien | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -331,7 +331,7 @@
                                     <h4>Phí vận chuyển:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -340,10 +340,10 @@
                                     <h4>Voucher:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===true">
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===true">
                                         {{invoice.phieuGiamGia.chietKhau}}%</div>
-                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===false">
-                                        {{invoice.phieuGiamGia.chietKhau| vnd}}</div>
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===false">
+                                        {{invoice.phieuGiamGia.chietKhau| currency:'VND'}}</div>
                                 </div>
                             </div>
                             <hr *ngIf="invoice.phieuGiamGia !== null">
@@ -375,7 +375,7 @@
                                     <h3><b>Tổng thanh toán:</b></h3>
                                 </div>
                                 <div class="col-6 ">
-                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| vnd}}</b>
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
                                     </h3>
                                 </div>
                             </div>
@@ -474,8 +474,8 @@
                                             </div>
                                         </td>
                                         <td>{{c.soLuong }}</td>
-                                        <td>{{c.donGia | vnd}}</td>
-                                        <td>{{c.soLuong*c.donGia | vnd}}</td>
+                                        <td>{{c.donGia | currency:'VND'}}</td>
+                                        <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -484,7 +484,7 @@
                                     <h4>Tổng tiền đơn hàng:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.tongTien | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.tongTien | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -493,7 +493,7 @@
                                     <h4>Phí vận chuyển:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -502,10 +502,10 @@
                                     <h4>Voucher:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===true">
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===true">
                                         {{invoice.phieuGiamGia.chietKhau}}%</div>
-                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===false">
-                                        {{invoice.phieuGiamGia.chietKhau| vnd}}</div>
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===false">
+                                        {{invoice.phieuGiamGia.chietKhau| currency:'VND'}}</div>
                                 </div>
                             </div>
                             <hr *ngIf="invoice.phieuGiamGia !== null">
@@ -537,7 +537,7 @@
                                     <h3><b>Tổng thanh toán:</b></h3>
                                 </div>
                                 <div class="col-6 ">
-                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| vnd}}</b>
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
                                     </h3>
                                 </div>
                             </div>
@@ -628,8 +628,8 @@
                                             </div>
                                         </td>
                                         <td>{{c.soLuong }}</td>
-                                        <td>{{c.donGia | vnd}}</td>
-                                        <td>{{c.soLuong*c.donGia | vnd}}</td>
+                                        <td>{{c.donGia | currency:'VND'}}</td>
+                                        <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -638,7 +638,7 @@
                                     <h4>Tổng tiền đơn hàng:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.tongTien | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.tongTien | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -647,7 +647,7 @@
                                     <h4>Phí vận chuyển:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -656,10 +656,10 @@
                                     <h4>Voucher:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===true">
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===true">
                                         {{invoice.phieuGiamGia.chietKhau}}%</div>
-                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===false">
-                                        {{invoice.phieuGiamGia.chietKhau| vnd}}</div>
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===false">
+                                        {{invoice.phieuGiamGia.chietKhau| currency:'VND'}}</div>
                                 </div>
                             </div>
                             <hr *ngIf="invoice.phieuGiamGia !== null">
@@ -691,7 +691,7 @@
                                     <h3><b>Tổng thanh toán:</b></h3>
                                 </div>
                                 <div class="col-6 ">
-                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| vnd}}</b>
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
                                     </h3>
                                 </div>
                             </div>
@@ -782,8 +782,8 @@
                                             </div>
                                         </td>
                                         <td>{{c.soLuong }}</td>
-                                        <td>{{c.donGia | vnd}}</td>
-                                        <td>{{c.soLuong*c.donGia | vnd}}</td>
+                                        <td>{{c.donGia | currency:'VND'}}</td>
+                                        <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -792,7 +792,7 @@
                                     <h4>Tổng tiền đơn hàng:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.tongTien | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.tongTien | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -801,7 +801,7 @@
                                     <h4>Phí vận chuyển:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -810,10 +810,10 @@
                                     <h4>Voucher:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===true">
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===true">
                                         {{invoice.phieuGiamGia.chietKhau}}%</div>
-                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===false">
-                                        {{invoice.phieuGiamGia.chietKhau| vnd}}</div>
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===false">
+                                        {{invoice.phieuGiamGia.chietKhau| currency:'VND'}}</div>
                                 </div>
                             </div>
                             <hr *ngIf="invoice.phieuGiamGia !== null">
@@ -845,7 +845,7 @@
                                     <h3><b>Tổng thanh toán:</b></h3>
                                 </div>
                                 <div class="col-6 ">
-                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| vnd}}</b>
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
                                     </h3>
                                 </div>
                             </div>
@@ -943,8 +943,8 @@
                                             </div>
                                         </td>
                                         <td>{{c.soLuong }}</td>
-                                        <td>{{c.donGia | vnd}}</td>
-                                        <td>{{c.soLuong*c.donGia | vnd}}</td>
+                                        <td>{{c.donGia | currency:'VND'}}</td>
+                                        <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -953,7 +953,7 @@
                                     <h4>Tổng tiền đơn hàng:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.tongTien | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.tongTien | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -962,7 +962,7 @@
                                     <h4>Phí vận chuyển:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -971,10 +971,10 @@
                                     <h4>Voucher:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===true">
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===true">
                                         {{invoice.phieuGiamGia.chietKhau}}%</div>
-                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===false">
-                                        {{invoice.phieuGiamGia.chietKhau| vnd}}</div>
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===false">
+                                        {{invoice.phieuGiamGia.chietKhau| currency:'VND'}}</div>
                                 </div>
                             </div>
                             <hr *ngIf="invoice.phieuGiamGia !== null">
@@ -1006,7 +1006,7 @@
                                     <h3><b>Tổng thanh toán:</b></h3>
                                 </div>
                                 <div class="col-6 ">
-                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| vnd}}</b>
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
                                     </h3>
                                 </div>
                             </div>
@@ -1077,7 +1077,7 @@
                                             </div>
                                         </td>
                                         <td>{{c.soLuong }}</td>
-                                        <td>{{c.donGia | vnd}}</td>
+                                        <td>{{c.donGia | currency:'VND'}}</td>
                                         <td>
                                                 <textarea style="height: 150px;"></textarea>
                                         </td>
@@ -1089,7 +1089,7 @@
                                     <h4>Tổng tiền đơn hàng:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.tongTien | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.tongTien | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -1098,7 +1098,7 @@
                                     <h4>Phí vận chuyển:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | vnd}}</p>
+                                    <p style="margin-left: 77%;">{{invoice.phiVanChuyen | currency:'VND'}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -1110,7 +1110,7 @@
                                     <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===true">
                                         {{invoice.phieuGiamGia.chietKhau}}%</div>
                                     <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia.hinhThucGiamGia===false">
-                                        {{invoice.phieuGiamGia.chietKhau| vnd}}</div>
+                                        {{invoice.phieuGiamGia.chietKhau| currency:'VND'}}</div>
                                 </div>
                             </div>
                             <hr *ngIf="invoice.phieuGiamGia !== null">
@@ -1142,7 +1142,7 @@
                                     <h3><b>Tổng thanh toán:</b></h3>
                                 </div>
                                 <div class="col-6 ">
-                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| vnd}}</b>
+                                    <h3 style="margin-left: 70%;"><b>{{invoice.tongTienSauGiam+invoice.phiVanChuyen| currency:'VND'}}</b>
                                     </h3>
                                 </div>
                             </div>

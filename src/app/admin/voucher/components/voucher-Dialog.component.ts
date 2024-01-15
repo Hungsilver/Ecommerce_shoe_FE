@@ -116,7 +116,7 @@ console.log("hinh thuc",hinhThucGiamGiaValue)
     chietKhauControl!.setValidators([
       Validators.required,
       Validators.min(0),
-      Validators.max(10),
+      Validators.max(100),
       Validators.pattern(/^[1-9]\d{0,2}?$/),
     ]);
   }

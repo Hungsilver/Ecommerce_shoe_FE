@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { HoaDonService } from '../../service/hoadon.service';
-
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-tat-ca',
-  templateUrl: './tat-ca.component.html',
-  styleUrls: ['./tat-ca.component.scss']
+  selector: 'app-invoice-tra-hang',
+  templateUrl: './invoice-tra-hang.component.html',
+  styleUrls: ['./invoice-tra-hang.component.scss']
 })
-export class TatCaComponent implements OnInit {
+export class InvoiceTraHangComponent implements OnInit {
   invoices !: any;
   searchQuery: any = {};
   listTotalPage: any = [];
@@ -27,6 +26,7 @@ export class TatCaComponent implements OnInit {
     this.searchQuery.pageSize = 10;
   }
   ngOnInit(): void {
+    this.currentStatus = 7;
     this.getAll();
   }
 
@@ -36,11 +36,11 @@ export class TatCaComponent implements OnInit {
     //   ...this.searchQuery,
     //   status: this.currentStatus
     // }
-    // const params: any = { ...this.searchQuery };
+    const params: any = { ...this.searchQuery };
 
-    // if (this.currentStatus !== undefined) {
-    //   params.status = this.currentStatus;
-    // }
+    if (this.currentStatus !== undefined) {
+      params.status = this.currentStatus;
+    }
 
 
 
@@ -53,17 +53,17 @@ export class TatCaComponent implements OnInit {
         this.searchQuery.page = this.searchQuery.page + 1
       }
 
-      Object.keys(this.searchQuery).forEach(key => {
-        if (this.searchQuery[key] === null || this.searchQuery[key] === '' || this.searchQuery[key] === undefined) {
-          delete this.searchQuery[key];
+      Object.keys(params).forEach(key => {
+        if (params[key] === null || params[key] === '' || params[key] === undefined) {
+          delete params[key];
         }
       });
 
     }
     if (this.currentStatus === undefined) {
-      delete this.searchQuery.status;
+      delete params.status;
     }
-    this.hoadonService.getInvoice(this.searchQuery).then(hoadon => {
+    this.hoadonService.getInvoice(params).then(hoadon => {
       if (hoadon && hoadon.content) {
         this.invoices = hoadon.content;
         this.listTotalPage = this.getTotalPage(hoadon.totalPages)
@@ -82,13 +82,16 @@ export class TatCaComponent implements OnInit {
   }
 
   redirectToDetail(id: number) {
+
     this.hoadonService.findByInvice(id).then(
       (detailData) => {
         this.router.navigate(['/admin/hoa-don', id], { state: { detailData } });
       },
       (error) => {
+        console.error('Error fetching detail:', error);
       }
     );
   }
+
 
 }

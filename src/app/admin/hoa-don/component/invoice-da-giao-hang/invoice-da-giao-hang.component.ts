@@ -67,11 +67,9 @@ export class InvoiceDaGiaoHangComponent implements OnInit {
       if (hoadon && hoadon.content) {
         this.invoices = hoadon.content;
         this.listTotalPage = this.getTotalPage(hoadon.totalPages)
-        console.log(hoadon)
       }
 
     })
-    console.log(this.searchQuery)
   }
 
   getTotalPage(totalPages: number) {
@@ -84,11 +82,9 @@ export class InvoiceDaGiaoHangComponent implements OnInit {
   }
 
   redirectToDetail(id: number) {
-    console.log('Navigating to InvoiceDetail with ID:', id);
 
     this.hoadonService.findByInvice(id).then(
       (detailData) => {
-        console.log('Detail Data:', detailData);
         this.router.navigate(['/admin/hoa-don', id], { state: { detailData } });
       },
       (error) => {

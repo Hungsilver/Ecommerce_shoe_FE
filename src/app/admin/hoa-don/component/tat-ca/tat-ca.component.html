@@ -30,8 +30,11 @@
                    <td *ngIf="invoice.trangThai === 4">Đang giao hàng</td>
                    <td *ngIf="invoice.trangThai === 5">Đã giao hàng</td>
                    <td *ngIf="invoice.trangThai === 6">Đã hủy</td>
+                   <td *ngIf="invoice.trangThai === 0">Chờ thanh toán</td>
+                   <td *ngIf="invoice.trangThai === 7">Trả hàng</td>
+                   <td *ngIf="invoice.trangThai === 8"></td>
                    <td *ngIf="invoice.trangThai === null"></td>
-                   <td><button class="btn btn-primary" (click)="redirectToDetail(invoice.id)">Chi tiết</button></td>
+                   <td *ngIf="invoice.trangThai !== 0"><button class="btn btn-primary" (click)="redirectToDetail(invoice.id)">Chi tiết</button></td>
                 </tr>
             </tbody>
         </table>

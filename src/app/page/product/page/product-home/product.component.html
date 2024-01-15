@@ -12,10 +12,10 @@
         <div class="d-flex justify-content-between">
           <ng-container *ngIf="rangeValues && rangeValues.length===2">
 
-            <h5 class="">{{rangeValues[0] && rangeValues[0]| vnd }}</h5>
-            <h5 class="">{{ rangeValues[1]| vnd }}</h5>
+            <h5 class="">{{rangeValues[0] && rangeValues[0]| currency:'VND' }}</h5>
+            <h5 class="">{{ rangeValues[1]| currency:'VND' }}</h5>
           </ng-container>
-          <!-- <h5 class="">{{ productDetail| vnd }}</h5> -->
+          <!-- <h5 class="">{{ productDetail| currency:'VND' }}</h5> -->
         </div>
         <p-slider [(ngModel)]="rangeValues" [min]="minPrice" [max]="maxPrice" [range]="true"
           (onSlideEnd)="getAll()"></p-slider>
@@ -103,8 +103,8 @@
             <a [routerLink]="[product.id]">
               <h4>{{product.ten}}</h4>
             </a>
-            <span>{{product.listChiTietSanPham[0].giaBan| vnd}}đ - {{
-              product.listChiTietSanPham[product.listChiTietSanPham.length - 1].giaBan| vnd }}đ</span>
+            <span>{{product.listChiTietSanPham[0].giaBan| currency:'VND'}}đ - {{
+              product.listChiTietSanPham[product.listChiTietSanPham.length - 1].giaBan| currency:'VND' }}đ</span>
           </div>
         </div>
 

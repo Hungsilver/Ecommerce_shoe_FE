@@ -130,9 +130,9 @@
                 <hr>
                 <h3><b>Tổng giá hàng gốc:</b> {{traHangDialog.hoaDon.tongTien | vnd}}</h3>
                 <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
-                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia !== null && traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
                     {{traHangDialog.hoaDon.phieuGiamGia.chietKhau}}%</h3>
-                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia !== null && traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
                     {{traHangDialog.hoaDon.phieuGiamGia.chietKhau | vnd}}</h3>
                 <h3><b>Phí vận chuyển:</b> {{traHangDialog.hoaDon.phiVanChuyen | vnd}}</h3>
                 <h3><b>Tổng tiền thanh toán:</b> {{traHangDialog.hoaDon.tongTienSauGiam + traHangDialog.hoaDon.phiVanChuyen | vnd}}</h3>
@@ -276,9 +276,9 @@
                 <hr>
                 <h3><b>Tổng giá hàng gốc:</b> {{traHangDialog.hoaDon.tongTien | vnd}}</h3>
                 <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
-                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia !== null && traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
                     {{traHangDialog.hoaDon.phieuGiamGia.chietKhau}}%</h3>
-                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia !== null && traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
                     {{traHangDialog.hoaDon.phieuGiamGia.chietKhau | vnd}}</h3>
                 <h3><b>Phí vận chuyển:</b> {{traHangDialog.hoaDon.phiVanChuyen | vnd}}</h3>
                 <h3><b>Tổng tiền thanh toán:</b> {{traHangDialog.hoaDon.tongTienSauGiam + traHangDialog.hoaDon.phiVanChuyen | vnd}}</h3>
@@ -420,9 +420,9 @@
                 <hr>
                 <h3><b>Tổng giá hàng gốc:</b> {{traHangDialog.hoaDon.tongTien | vnd}}</h3>
                 <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
-                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia !== null &&  traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
                     {{traHangDialog.hoaDon.phieuGiamGia.chietKhau}}%</h3>
-                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia !== null && traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
                     {{traHangDialog.hoaDon.phieuGiamGia.chietKhau | vnd}}</h3>
                 <h3><b>Phí vận chuyển:</b> {{traHangDialog.hoaDon.phiVanChuyen | vnd}}</h3>
                 <h3><b>Tổng tiền thanh toán:</b> {{traHangDialog.hoaDon.tongTienSauGiam + traHangDialog.hoaDon.phiVanChuyen | vnd}}</h3>
@@ -562,9 +562,9 @@
                 <hr>
                 <h3><b>Tổng giá hàng gốc:</b> {{traHangDialog.hoaDon.tongTien | vnd}}</h3>
                 <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
-                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia !== null && traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
                     {{traHangDialog.hoaDon.phieuGiamGia.chietKhau}}%</h3>
-                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
+                <h3 *ngIf="traHangDialog.hoaDon.phieuGiamGia !== null && traHangDialog.hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
                     {{traHangDialog.hoaDon.phieuGiamGia.chietKhau | vnd}}</h3>
                 <h3><b>Phí vận chuyển:</b> {{traHangDialog.hoaDon.phiVanChuyen | vnd}}</h3>
                 <h3><b>Tổng tiền thanh toán:</b> {{traHangDialog.hoaDon.tongTienSauGiam + traHangDialog.hoaDon.phiVanChuyen | vnd}}</h3>

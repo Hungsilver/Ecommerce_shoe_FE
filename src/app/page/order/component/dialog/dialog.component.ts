@@ -89,6 +89,7 @@ export class DialogComponent implements OnInit {
 
   onSubmit() {
 
+
     this.invoice.listHoaDonChiTiet.forEach((key: any) => {
       this.hoaDonChiTiets.push(
         {

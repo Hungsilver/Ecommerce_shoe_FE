@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HoaDonService } from '../../service/hoadon.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-invoice-cho-lay-hang',
@@ -67,11 +68,9 @@ export class InvoiceChoLayHangComponent implements OnInit {
       if (hoadon && hoadon.content) {
         this.invoices = hoadon.content;
         this.listTotalPage = this.getTotalPage(hoadon.totalPages)
-        console.log(hoadon)
       }
 
     })
-    console.log(this.searchQuery)
   }
 
   getTotalPage(totalPages: number) {
@@ -95,6 +94,32 @@ export class InvoiceChoLayHangComponent implements OnInit {
         console.error('Error fetching detail:', error);
       }
     );
+  }
+
+  dangGiaoHang(id: number) {
+    Swal.fire(
+      {
+        title: 'Xác nhận giao hàng',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: 'Hủy'
+      }
+    ).then((result) => {
+      if (result.isConfirmed) {// check confirm
+        this.hoadonService.updateStatus(id, 4).then(c => {
+          if(c!== null){
+
+            this.notification.success("Xác nhận giao hàng thành công");
+            this.getAll();
+          }
+        }, err => {
+          this.notification.error("Xác nhận giao hàng không thành công");
+        })
+      }
+    })
   }
 
 }

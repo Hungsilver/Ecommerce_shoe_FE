@@ -93,6 +93,7 @@ import { InvoiceDangGiaoHangComponent } from './hoa-don/component/invoice-dang-g
 import { InvoiceHoanThanhComponent } from './hoa-don/component/invoice-hoan-thanh/invoice-hoan-thanh.component';
 import { TatCaComponent } from './hoa-don/component/tat-ca/tat-ca.component';
 import { InvoiceChiTietComponent } from './hoa-don/component/invoice-chi-tiet/invoice-chi-tiet.component';
+import { InvoiceTraHangComponent } from './hoa-don/component/invoice-tra-hang/invoice-tra-hang.component';
 
 
 
@@ -198,6 +199,7 @@ import { InvoiceChiTietComponent } from './hoa-don/component/invoice-chi-tiet/in
     InvoiceHoanThanhComponent,
     TatCaComponent,
     InvoiceChiTietComponent,
+    InvoiceTraHangComponent,
 
     VndPipe
     

@@ -157,9 +157,9 @@
                 <hr>
                 <h3><b>Tổng giá hàng gốc:</b> {{hoaDon.tongTien | vnd}}</h3>
                 <h3 *ngIf="hoaDon.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
-                <h3 *ngIf="hoaDon.phieuGiamGia.hinhThucGiamGia === false"><b>Voucher đã sử dụng:</b>
+                <h3 *ngIf=" hoaDon.phieuGiamGia !== null && hoaDon.phieuGiamGia.hinhThucGiamGia === false "><b>Voucher đã sử dụng:</b>
                     {{hoaDon.phieuGiamGia.chietKhau}}%</h3>
-                <h3 *ngIf="hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
+                <h3 *ngIf="hoaDon.phieuGiamGia !== null && hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
                     {{hoaDon.phieuGiamGia.chietKhau | vnd}}</h3>
                 <h3><b>Phí vận chuyển:</b> {{hoaDon.phiVanChuyen | vnd}}</h3>
                 <h3><b>Tổng tiền thanh toán:</b> {{hoaDon.tongTienSauGiam + hoaDon.phiVanChuyen | vnd}}</h3>
