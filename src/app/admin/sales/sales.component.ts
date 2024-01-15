@@ -46,7 +46,7 @@ import { IStaff } from '../staff/service/staff.module';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { BaseRequestService } from 'src/libs/service/request/base-request.service';
 import { ColorService } from '../color/service/color.service';
 import { SizeService } from '../size/service/size.service';
@@ -817,8 +817,9 @@ export class SalesComponent implements OnInit {
           }).then((printResult) => {
             if (printResult.isConfirmed) {
               this.exportPDF();
-              this.getAllDataHD();
             }
+            this.getAllDataHD();
+
             // if (printResult.isConfirmed) {
             //   this.makePayment(idHoaDonPayment, hoaDonRequest);
             // }
@@ -826,9 +827,6 @@ export class SalesComponent implements OnInit {
               title: printResult.isConfirmed
                 ? 'Thanh toán thành công!'
                 : 'Thanh toán thành công!',
-              // text: printResult.isConfirmed
-              //   ? 'Your payment has been completed.'
-              //   : 'Your payment has been completed, but the invoice was not printed.',
               icon: 'success',
             });
           });
@@ -855,19 +853,6 @@ export class SalesComponent implements OnInit {
   }
 
   makePayment(idHoaDonPayment: number, hoaDonRequest: IHoaDon): void {
-    hoaDonRequest.id = this.idHDGlobal;
-    hoaDonRequest.tongTien = this.tongTien;
-    hoaDonRequest.diaChi = '';
-    hoaDonRequest.soDienThoai = '';
-    hoaDonRequest.phieuGiamGia = this.idPhieuGiamGia;
-    hoaDonRequest.khachHang = this.selectedCustomer?.id;
-    hoaDonRequest.phiVanChuyen = 0;
-    hoaDonRequest.tongTienSauGiam = this.tongTienSauGiam;
-    hoaDonRequest.phuongThucThanhToan = this.selectedPaymentMethod;
-    hoaDonRequest.nhanVien = this.peopleInfo?.id;
-    hoaDonRequest.tienGiam = this.tienGiam;
-    console.log('chiet khau ' + this.idPhieuGiamGia);
-
     console.log('phuong thuc thanh toan' + hoaDonRequest.phuongThucThanhToan);
     if (hoaDonRequest.phuongThucThanhToan === 0) {
       this.hoadonService
@@ -885,10 +870,13 @@ export class SalesComponent implements OnInit {
         .shopPaymentsVnpay(idHoaDonPayment, hoaDonRequest)
         .subscribe(
           (response: any) => {
+            this.getAllDataHD();
+            const id = this.idHDGlobal;
             const vnpPaymentUrl = response.vnpPaymentUrl;
             console.log('Redirecting to VNPay:', response);
             // this.getAllDataHD();
             window.location.href = response;
+            // this.router.navigate(['/admin/hoa-don', id], { state: { response }});
           },
           (error) => {
             console.error('Error making VNPay payment:', error);
@@ -897,19 +885,23 @@ export class SalesComponent implements OnInit {
     }
   }
 
+  invalidVoucherCode: boolean = false;
   findByCodeVoucher(event: any) {
     const maPhieu = event.target.value;
     if (maPhieu === null || maPhieu === undefined || maPhieu === '') {
       this.idPhieuGiamGia = null;
       this.tongTienSauGiam = this.tongTien;
       this.chietKhau = 0;
+      this.invalidVoucherCode = false;
       return;
     }
+
     this.hoadonService
       .addPhieuGiamGiaToHoaDon(this.idHDGlobal, maPhieu)
       .then((p) => {
         console.log('pgg ', p);
-        if (p) {
+        if (p && p.ma === maPhieu && p.trangThai === 1) {
+          this.invalidVoucherCode = false;
           this.idPhieuGiamGia = p.id;
           if (p.hinhThucGiamGia === false) {
             this.tienGiam = p.chietKhau;
@@ -918,14 +910,62 @@ export class SalesComponent implements OnInit {
             this.tienGiam = (this.tongTien * p.chietKhau) / 100;
             this.tongTienSauGiam = this.tongTien - this.tienGiam;
           }
-        } else {
+        } else if (!p) {
+          this.invalidVoucherCode = true;
           this.idPhieuGiamGia = null;
           this.tongTienSauGiam = this.tongTien;
           this.chietKhau = 0;
-          this.notification.error('Mã voucher không đúng!');
+          this.notification.error(
+            'Mã voucher không đúng hoặc phiếu đã hết hạn!'
+          );
         }
+      })
+      .catch((error) => {
+        console.error('Error during addPhieuGiamGiaToHoaDon:', error);
+        this.notification.error('Mã voucher không đúng hoặc phiếu đã hết hạn!');
       });
   }
+
+  // findByCodeVoucher(event: any) {
+  //   const maPhieu = event.target.value;
+  //   if (maPhieu === null || maPhieu === undefined || maPhieu === '') {
+  //     this.idPhieuGiamGia = null;
+  //     this.tongTienSauGiam = this.tongTien;
+  //     this.chietKhau = 0;
+  //     this.invalidVoucherCode = false;
+  //     return;
+  //   }
+
+  //   this.hoadonService
+  //     .addPhieuGiamGiaToHoaDon(this.idHDGlobal, maPhieu)
+  //     .then((p) => {
+  //       console.log('pgg ', p);
+
+  //       if (p && p.trangThai === 1) {
+  //         this.idPhieuGiamGia = p.id;
+  //         if (p.hinhThucGiamGia === false) {
+  //           this.tienGiam = p.chietKhau;
+  //           this.tongTienSauGiam = this.tongTien - this.tienGiam;
+  //         } else if (p.hinhThucGiamGia === true) {
+  //           this.tienGiam = (this.tongTien * p.chietKhau) / 100;
+  //           this.tongTienSauGiam = this.tongTien - this.tienGiam;
+  //         }
+  //         console.log('ssssssssssss2');
+  //       } else {
+  //         this.idPhieuGiamGia = null;
+  //         this.tongTienSauGiam = this.tongTien;
+  //         this.chietKhau = 0;
+  //         this.invalidVoucherCode = true;
+  //         this.notification.error('Mã voucher không đúng!');
+  //         console.log('ssssssssssss3');
+  //         if (!p) {
+  //           this.notification.error(
+  //             'Mã voucher không đúng hoặc phiếu đã hết hạn!'
+  //           );
+  //         }
+  //       }
+  //     });
+  // }
 
   //   // this.phieuGiamGia.ma = event.target.value;
   //   // console.log('tong tien sau giam ' + this.totalMoney);
@@ -960,53 +1000,6 @@ export class SalesComponent implements OnInit {
   //   // });
   // }
 
-  //  async loadVoucherData(): Promise<void> {
-  //   // Gọi API hoặc service để lấy dữ liệu mã voucher
-  //   try {
-  //     const voucherData = await this.voucherService.getVoucherWithInvoice(); // Thay thế bằng hàm thực tế
-  //     if (voucherData) {
-  //       this.maPhieuGiamGia = voucherData.ma; // Cập nhật giá trị mã voucher
-  //     }
-  //   } catch (error) {
-  //     console.error('Error loading voucher data:', error);
-  //   }
-  // }
-  // event: any
-  // async findByCodeVoucher(event: any) {
-  //   this.maPhieu = event.target.value;
-  //   if (!this.maPhieu) {
-  //     this.idPhieuGiamGia = null;
-  //     this.tongTienSauGiam = this.tongTien;
-  //     this.chietKhau = 0;
-  //     return;
-  //   }
-  //   try {
-  //     const p: IVoucher = await this.hoadonService.addPhieuGiamGiaToHoaDon(
-  //       this.idHDGlobal,
-  //       this.maPhieu
-  //     );
-  //     console.log('pgg ', p);
-  //     if (p) {
-  //       this.idPhieuGiamGia = p.id;
-  //       if (p.hinhThucGiamGia === false) {
-  //         this.tienGiam = p.chietKhau;
-  //         this.tongTienSauGiam = this.tongTien - this.tienGiam;
-  //       } else if (p.hinhThucGiamGia === true) {
-  //         this.tienGiam = (this.tongTien * p.chietKhau) / 100;
-  //         this.tongTienSauGiam = this.tongTien - this.tienGiam;
-  //       }
-  //     } else {
-  //       this.idPhieuGiamGia = null;
-  //       this.tongTienSauGiam = this.tongTien;
-  //       this.chietKhau = 0;
-  //       this.notification.error('Mã voucher không đúng!');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error calling API:', error);
-  //     // Xử lý khi có lỗi trong quá trình gọi API
-  //     // Hiển thị thông báo lỗi hoặc thực hiện các thao tác khác
-  //   }
-  // }
   updateTotalAfterDiscount() {
     // Cập nhật giá trị tổng tiền sau giảm
     this.tongTienSauGiam = this.tongTien - this.tienGiam;
