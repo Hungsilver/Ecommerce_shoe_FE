@@ -188,12 +188,17 @@ export class CheckoutComponent implements OnInit {
 
             // this.giaoHangNhanh(this.tienGiam);
           } else {
-            this.hinhThucGiamGia = p.hinhThucGiamGia;
-            this.chietKhau = p.chietKhau;
-            this.tienGiam = p.chietKhau;
-            this.tongTienSauGiam -= this.tienGiam;
-            this.tongTienThanhToan -= this.tienGiam;
-            // this.giaoHangNhanh(this.tienGiam);
+            if(p.chietKhau > this.tongTienSanPham){
+              this.notificationService.error('Bạn phải đạt đơn tối thiểu '+p.chietKhau)
+            }else{
+
+              this.hinhThucGiamGia = p.hinhThucGiamGia;
+              this.chietKhau = p.chietKhau;
+              this.tienGiam = p.chietKhau;
+              this.tongTienSauGiam -= this.tienGiam;
+              this.tongTienThanhToan -= this.tienGiam;
+              // this.giaoHangNhanh(this.tienGiam);
+            }
           }
         } else {
           this.notificationService.error('Mã voucher không hợp lệ');
