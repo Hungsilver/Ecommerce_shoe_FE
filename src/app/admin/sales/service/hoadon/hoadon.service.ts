@@ -23,8 +23,12 @@ export class HoaDonService {
     private http: HttpClient // private localStorageService:storageSer
   ) {}
 
-  private tabsSubject = new BehaviorSubject<string[]>([]);
-  public tabs$ = this.tabsSubject.asObservable();
+  private currentHoaDonId = new BehaviorSubject<number | null>(null);
+  currentHoaDonId$ = this.currentHoaDonId.asObservable();
+
+  setCurrentHoaDonId(id: number): void {
+    this.currentHoaDonId.next(id);
+  }
   //start code hung
   getAllHd(params?: any): Promise<IReqApi<IHoaDon[]>> {
     return new Promise<IReqApi<IHoaDon[]>>((resolve, reject) => {
@@ -87,14 +91,14 @@ export class HoaDonService {
   }
   //end code hung
   private updateTabs(tabs: string[]): void {
-    this.tabsSubject.next(tabs);
+    // this.tabsSubject.next(tabs);
   }
 
   addTab(tab: string): void {
-    this.tabs$.pipe(take(1)).subscribe((tabs) => {
-      const updatedTabs = [...tabs, tab];
-      this.updateTabs(updatedTabs);
-    });
+    // this.tabs$.pipe(take(1)).subscribe((tabs) => {
+    //   const updatedTabs = [...tabs, tab];
+    //   this.updateTabs(updatedTabs);
+    // });
   }
 
   private printInvoiceSubject = new BehaviorSubject<boolean>(false);
@@ -109,6 +113,11 @@ export class HoaDonService {
 
   getLatestHoaDonWithTrangThai1(): Observable<any> {
     const url = `${this.url}/new-invoice`;
+    return this.BaseRequestService.get(url);
+  }
+
+  getNewInvoice(): Observable<any> {
+    const url = `${this.url}/getInvoice-new`;
     return this.BaseRequestService.get(url);
   }
 
