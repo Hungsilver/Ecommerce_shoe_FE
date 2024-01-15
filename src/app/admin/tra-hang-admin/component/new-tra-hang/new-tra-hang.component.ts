@@ -89,7 +89,7 @@ export class NewTraHangComponent implements OnInit {
       // Dừng quét khi có kết quả thành công
       this.showQuantityInput = true;
 
-      this.traHangService.findByMaHoaDon(this.timKiem).then(c => {
+      this.traHangService.findByMaHoaDon(this.result).then(c => {
         this.traHangService.findTraHangByIdHD(c.id).then(t => {
           if (t === null) {
             if (c === null) {

@@ -51,8 +51,8 @@
                             <input type="number" min="1" max="{{c.soLuong}}" value="{{c.soLuong}}"
                                 (blur)="capNhatSoLuong($event,i)"> /{{c.soLuong}}
                         </td>
-                        <td>{{c.donGia | currency:'VND'}}</td>
-                        <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
+                        <td>{{c.donGia | vnd}}</td>
+                        <td>{{c.soLuong*c.donGia | vnd}}</td>
                         
                     </tr>
                 </tbody>

@@ -6,7 +6,7 @@ import { IReqApi } from 'src/libs/common/interface/interfaces';
 import { filter } from 'rxjs';
 import { ProductDetailExportExcel } from './ProductDetailExportExcel.module';
 import { Observable } from 'rxjs';
-import { IProductDetailImportExcel } from './ProductDetailImportExcel.module';
+import { ProductDetailImportExcel } from './ProductDetailImportExcel.module';
 @Injectable({
   providedIn: 'root',
 })
@@ -27,7 +27,7 @@ export class ProductDetailService {
       }),
     };
   }
-  create(chitietsanpham: IProductDetailImportExcel[]) {
+  create(chitietsanpham: ProductDetailImportExcel[]) {
     return this.httpClient.post(`${this.importUrl}`, chitietsanpham);
   }
   getAll(): Observable<ProductDetailExportExcel[]> {
