@@ -1,0 +1,109 @@
+<main>
+    <div class="row mt-3">
+        <div class="col-4">
+            <input type="search" [(ngModel)]="timKiem" class="form-control" placeholder="Mã hóa đơn...">
+        </div>
+        <div class="col-8">
+            <button class="btn btn-primary" (click)="timKiemMaHoaDon()">Tìm kiếm</button>
+            <button class="btn btn-primary ms-3" (click)="showQRCode()">QR code</button>
+        </div>
+        <div class="row mt-2" *ngIf="showInvoice === true">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Mã hóa đơn</th>
+                        <th scope="col">Nhân viên</th>
+                        <th scope="col">Khách hàng</th>
+                        <th scope="col">Số điện thoại</th>
+                        <th scope="col">Tổng tiền</th>
+                        <th scope="col">Ngày tạo</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td >{{invoice.maHoaDon}}</td>
+                        <td *ngIf="invoice.nhanVien !== null">{{invoice.nhanVien.hoTen}}</td>
+                        <td *ngIf="invoice.nhanVien === null"></td>
+                        <td *ngIf="invoice.tenKhachHang !== null">{{invoice.tenKhachHang}}</td>
+                        <td *ngIf="invoice.tenKhachHang === null"></td>
+                        <td *ngIf="invoice.soDienThoai !== null">{{invoice.soDienThoai}}</td>
+                        <td *ngIf="invoice.soDienThoai === null"></td>
+                        <td >{{invoice.tongTienSauGiam + invoice.phiVanChuyen | vnd}}</td>
+                        <td >{{invoice.ngayTao}}</td>
+                        <td *ngIf="invoice.trangThai === 1">Hoàn thành</td>
+                        <td *ngIf="invoice.trangThai === 2">Chờ xác nhận</td>
+                        <td *ngIf="invoice.trangThai === 3">Chờ lấy hàng</td>
+                        <td *ngIf="invoice.trangThai === 4">Đang giao hàng</td>
+                        <td *ngIf="invoice.trangThai === 5">Đã giao hàng</td>
+                        <td *ngIf="invoice.trangThai === 6">Đã hủy</td>
+                        <td *ngIf="invoice.trangThai === 0">Chờ thanh toán</td>
+                        <td *ngIf="invoice.trangThai === 7">Trả hàng</td>
+                        <td *ngIf="invoice.trangThai === 8"></td>
+                        <td *ngIf="invoice.trangThai === null"></td>
+                        <td *ngIf="invoice.trangThai !== 0"><button class="btn btn-primary" (click)="redirectToDetail(invoice.id)">Chi tiết</button></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr>
+    <div class="row" *ngIf="hienThiQrcode === true">
+        <div class="qr-container" *ngIf="isShowQrCode">
+            <div class="d-flex justify-content-center mt-5">
+                <ngx-scanner-qrcode #action="scanner" [config]="config"
+                    (event)="onEvent($event, action)"></ngx-scanner-qrcode>
+            </div>
+            <!-- loading -->
+            <p *ngIf="action.isLoading">⌛ Loading...</p>
+            <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
+                [disabled]="action.isLoading" (click)="handle(action, action.isStart ? 'stop' : 'start')">
+                <img [src]="action.isStart ? 'https://id1945.github.io/images/svg/camera-off.svg' : 'https://id1945.github.io/images/svg/camera-on.svg'"
+                    width="30px" />
+            </button>
+
+            <!-- play/pause -->
+            <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
+                [disabled]="!action.isStart" (click)="handle(action, action.isPause ? 'play' : 'pause')"
+                *ngIf="!result">
+                <!-- Thêm điều kiện để ẩn nút khi đã có kết quả -->
+                <img [src]="action.isPause ? 'https://id1945.github.io/images/svg/play.svg': 'https://id1945.github.io/images/svg/pause.svg'"
+                    width="30px" />
+            </button>
+            <!-- <button (click)="startScanning()">Quét mã QR</button> -->
+            <button (click)="turnOfQRCode()" class="btn btn-outline-primary">Tắt mã QR</button>
+
+        </div>
+
+    </div>
+    <div class="card p-4 mt-3">
+        <p-tabView>
+            <p-tabPanel header="Tất cả / {{stat.tongDonHang}}">
+                <app-tat-ca></app-tat-ca>
+            </p-tabPanel>
+            <p-tabPanel header="Hoàn thành / {{stat.donHangTaiQuay}}">
+                <app-invoice-hoan-thanh></app-invoice-hoan-thanh>
+            </p-tabPanel>
+            <p-tabPanel header="Chờ xác nhận / {{stat.choXacNhan}}">
+                <app-invoice-cho-xac-nhan></app-invoice-cho-xac-nhan>
+            </p-tabPanel>
+            <p-tabPanel header="Chờ lấy hàng / {{stat.choVanChuyen}}">
+                <app-invoice-cho-lay-hang></app-invoice-cho-lay-hang>
+            </p-tabPanel>
+            <p-tabPanel header="Đang giao hàng / {{stat.dangGiaoHang}}">
+                <app-invoice-dang-giao-hang></app-invoice-dang-giao-hang>
+            </p-tabPanel>
+            <p-tabPanel header="Đã giao hàng / {{stat.daGiaoHang}}">
+                <app-invoice-da-giao-hang></app-invoice-da-giao-hang>
+            </p-tabPanel>
+            <p-tabPanel header="Đã hủy / {{stat.daHuy}}">
+                <app-invoice-da-huy></app-invoice-da-huy>
+            </p-tabPanel>
+            <p-tabPanel header="Trả hàng / {{stat.doiHang}}">
+                <app-invoice-tra-hang></app-invoice-tra-hang>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</main>
