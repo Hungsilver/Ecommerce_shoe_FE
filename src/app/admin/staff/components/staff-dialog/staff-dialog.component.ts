@@ -118,7 +118,10 @@ staffFrom :FormGroup = new FormGroup({});
     this.staffService.createStaff(this.staff).then((res) => {
       console.log('data created', res.content);
       if (res) {
+        this.notification.success('Đăng ký thành công');
         this.dialog.closeAll();
+      }else{
+        this.notification.error('Nhân viên bị trùng email');
       }
     });
 
