@@ -403,7 +403,7 @@ export class DialogTraHangComponent implements OnInit {
         }
       ).then((result) => {
         if (result.isConfirmed) {
-          this.traHangService.updateGhiChu(this.traHangDialog.id,this.ghiChu).then(c=>{
+          this.traHangService.updateGhiChu(this.traHangDialog.id, this.ghiChu).then(c => {
             this.notificationService.success('Xác nhận đơn hàng trả thành công !')
             this.dialog.closeAll();
             setTimeout(() => {
@@ -415,7 +415,7 @@ export class DialogTraHangComponent implements OnInit {
     }
   }
 
-  choXacNhan(id:number) {
+  choXacNhan(id: number) {
     Swal.fire(
       {
         title: 'Chờ xác nhận đơn hàng trả',
@@ -428,7 +428,7 @@ export class DialogTraHangComponent implements OnInit {
       }
     ).then((result) => {
       if (result.isConfirmed) {
-        this.traHangService.updateStatus(id,0).then(c=>{
+        this.traHangService.updateStatus(id, 0).then(c => {
           this.notificationService.success('Chờ xác nhận đơn hàng trả thành công !')
           this.dialog.closeAll();
           setTimeout(() => {
@@ -440,69 +440,94 @@ export class DialogTraHangComponent implements OnInit {
   }
 
 
-  huyDon(id:number) {
-      Swal.fire(
-        {
-          title: 'Xác nhận hủy đơn hàng trả',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Xác nhận',
-          cancelButtonText: 'Hủy'
-        }
-      ).then((result) => {
-        if (result.isConfirmed) {
-          this.traHangService.updateStatus(id,3).then(c=>{
-            this.notificationService.success('Xác nhận hủy đơn hàng trả thành công !')
-            this.dialog.closeAll();
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000);
-          })
-        }
-      })
-    }
+  huyDon(id: number) {
+    Swal.fire(
+      {
+        title: 'Xác nhận hủy đơn hàng trả',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: 'Hủy'
+      }
+    ).then((result) => {
+      if (result.isConfirmed) {
+        this.traHangService.updateStatus(id, 3).then(c => {
+          this.notificationService.success('Xác nhận hủy đơn hàng trả thành công !')
+          this.dialog.closeAll();
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        })
+      }
+    })
+  }
 
-    hoanThanh(id:number) {
-      Swal.fire(
-        {
-          title: 'Xác nhận hoàn thành đơn hàng trả',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Xác nhận',
-          cancelButtonText: 'Hủy'
-        }
-      ).then((result) => {
-        if (result.isConfirmed) {
-          this.traHangService.updateStatus(id,2).then(c=>{
-            this.notificationService.success('Xác nhận hoàn thành đơn hàng trả thành công !')
-            this.dialog.closeAll();
-            this.openDialogs(this.traHangDialog.listTraHangChiTiet,this.traHangDialog);
-            this.traHangService.updateTongTien(this.traHangDialog.id).then(c=>{
-            })
-            // this.dialog.closeAll();
-            // setTimeout(() => {
-            //   window.location.reload();
-            // }, 1000);
+  hoanThanh(id: number) {
+    Swal.fire(
+      {
+        title: 'Xác nhận hoàn thành đơn hàng trả',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: 'Hủy'
+      }
+    ).then((result) => {
+      if (result.isConfirmed) {
+        this.traHangService.updateStatus(id, 2).then(c => {
+          this.notificationService.success('Xác nhận hoàn thành đơn hàng trả thành công !')
+          this.exportPDF(this.traHangDialog.id);
+          this.dialog.closeAll();
+          this.openDialogs(this.traHangDialog.listTraHangChiTiet, this.traHangDialog);
+          this.traHangService.updateTongTien(this.traHangDialog.id).then(c => {
           })
-        }
-      })
-    }
-    openDialogs(listSanPhamTra: any, traHang: any) {
-      const dialogRef = this.dialog.open(DialogUpdateCtspComponent, {
-        width: '1000px',
-        height: '500px',
-  
-        data: {
-          type: "add",
-          listSanPhamTra: listSanPhamTra,
-          traHang: traHang,
-          openDialog: 4
-        },
-      })
-    }
+          // this.dialog.closeAll();
+          // setTimeout(() => {
+          //   window.location.reload();
+          // }, 1000);
+        })
+      }
+    })
+  }
+  openDialogs(listSanPhamTra: any, traHang: any) {
+    const dialogRef = this.dialog.open(DialogUpdateCtspComponent, {
+      width: '1000px',
+      height: '500px',
+
+      data: {
+        type: "add",
+        listSanPhamTra: listSanPhamTra,
+        traHang: traHang,
+        openDialog: 4
+      },
+    })
+  }
+
+  inHoaDon(){
+    this.exportPDF(50);
+  }
+
+  exportPDF(id: number): void {
+
+    this.traHangService.exportPdf(id).subscribe(
+      (data) => {
+        this.downloadFile(data);
+      },
+      (error) => {
+        console.error('Error exporting PDF', error);
+      }
+    );
+  }
+
+  private downloadFile(data: Blob): void {
+    const blob = new Blob([data], { type: 'application/pdf' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'hoadon.pdf';
+    link.click();
+  }
 
 }
