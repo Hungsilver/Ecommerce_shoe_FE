@@ -13,7 +13,7 @@
           <button
             mat-icon-button
             class="close-button"
-            (click)="deleteHD(tab.id)"
+            (click)="cancelInvoice()"
           >
             <mat-icon aria-label="Xóa" class="close-icon">close</mat-icon>
           </button>
@@ -297,6 +297,10 @@
                   style="width: 223px"
                   (change)="findByCodeVoucher($event)"
                 />
+                <div *ngIf="invalidVoucherCode" class="error-message">
+                  Mã voucher không đúng!
+                </div>
+
                 <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === true">
                   {{ chietKhau }}% - {{ tienGiam | currency : "VND" }}
                 </div>
