@@ -46,7 +46,7 @@ export class PaymentSuccessComponent implements OnInit {
   }
 
   private fetchLatestHoaDon(): void {
-    this.hoaDonService.getLatestHoaDonWithTrangThai1().subscribe(
+    this.hoaDonService.getNewInvoice().subscribe(
       (hoaDon: IHoaDon) => {
         this.latestHoaDon = hoaDon;
         console.log('invice new ' + this.latestHoaDon.id);
@@ -56,6 +56,22 @@ export class PaymentSuccessComponent implements OnInit {
       }
     );
   }
+  response: any;
+
+  // test() {
+  //   this.route.params.subscribe((params) => {
+  //     const objectId = params['id'];
+  //     this.response = history.state.response;
+
+  //     console.log('Object ID:', objectId);
+  //     console.log('Detail Data:', this.response);
+  //     if (this.response) {
+  //       console.log('Detail Data exists:', this.response);
+  //     } else {
+  //       console.error('Detail Data is undefined or null.');
+  //     }
+  //   });
+  // }
 
   exportPDF(): void {
     if (this.latestHoaDon?.id !== undefined) {

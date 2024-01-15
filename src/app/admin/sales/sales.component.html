@@ -10,7 +10,13 @@
       <ng-template mat-tab-label class="test">
         <div class="tab-label-container">
           <span>HD{{ tab.id }}</span>
-          <button mat-icon-button class="close-button" (click)="deleteHD(tab.id)">
+
+          <button
+            mat-icon-button
+            class="close-button"
+            (click)="cancelInvoice()"
+          >
+
             <mat-icon aria-label="Xóa" class="close-icon">close</mat-icon>
           </button>
         </div>
@@ -181,17 +187,21 @@
                   disabled
                 />
               </div> -->
-              <div class="col" *ngIf="!selectedCustomer">
+              <div class="col" *ngIf="!tabCustomers[tab.id]">
                 <label class="form-label">Khách hàng:</label>
                 <span class="form-control">{{ currentCustomerName }}</span>
               </div>
-              <div class="col" *ngIf="selectedCustomer">
+              <div class="col" *ngIf="tabCustomers[tab.id]">
                 <label class="form-label">Khách hàng:</label>
-                <span class="form-control">{{ selectedCustomer.hoTen }}</span>
-                <span class="form-control">{{ selectedCustomer.email }}</span>
                 <span class="form-control">{{
-                  selectedCustomer.soDienThoai
-                  }}</span>
+                  tabCustomers[tab.id].hoTen
+                }}</span>
+                <span class="form-control">{{
+                  tabCustomers[tab.id].email
+                }}</span>
+                <span class="form-control">{{
+                  tabCustomers[tab.id].soDienThoai
+                }}</span>
               </div>
             </div>
 
@@ -213,8 +223,20 @@
               <div class="col">
                 <!-- <div class="input-group"> -->
                 <label class="form-label">Khuyến mãi:</label>
-                <input type="search" class="form-control" id="input-money" placeholder="Mã voucher..."
-                  style="width: 223px" [value]="tab.phieuGiamGia?.ma" (change)="findByCodeVoucher($event)" />
+
+                <input
+                  type="search"
+                  class="form-control"
+                  id="input-money"
+                  placeholder="Mã voucher..."
+                  style="width: 223px"
+                  (change)="findByCodeVoucher($event)"
+                />
+                <div *ngIf="invalidVoucherCode" class="error-message">
+                  Mã voucher không đúng!
+                </div>
+
+
                 <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === true">
                   {{ chietKhau }}% - {{ tienGiam | currency : "VND" }}
                 </div>
@@ -257,8 +279,15 @@
 
             <div class="row mb-3">
               <div class="col">
-                <ng-container *ngIf="tab.id">
-                  <button (click)="notificationInvoice(tab)" class="btn btn-primary">
+                <ng-container
+                  *ngIf="
+                    tab.listHoaDonChiTiet && tab.listHoaDonChiTiet.length > 0
+                  "
+                >
+                  <button
+                    (click)="notificationInvoice(tab)"
+                    class="btn btn-primary"
+                  >
                     Thanh toán
                   </button>
                 </ng-container>
@@ -291,7 +320,12 @@
         <div class="col-4">
           <span class="p-input-icon-left">
             <i class="pi pi-search"></i>
-            <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+            <input
+              type="text"
+              pInputText
+              [(ngModel)]="searchQuery.keyword"
+              (keyup.enter)="getAll()"
+            />
             <!-- <p-dropdown
               [options]="listTotalPage"
               [(ngModel)]="searchQuery.page"
@@ -306,9 +340,13 @@
               <div class="col">
                 <div class="form-group">
                   <label class="fontsize">Lọc kích Cỡ</label>
-                  <select class="form-control" [(ngModel)]="selectedSize" (change)="filterBySize()"
-                    style="width: 200px">
-                    <option [value]="null">select size</option>
+
+                  <select
+                    class="form-control"
+                    [(ngModel)]="selectedSize"
+                    (change)="filterBySize()"
+                    style="width: 200px"
+                  >
                     <option *ngFor="let sizes of size" [value]="sizes.id">
                       {{ sizes.size }}
                     </option>
@@ -318,8 +356,14 @@
               <div class="col">
                 <div class="form-group">
                   <label class="fontsize">Lọc Màu Sắc</label>
-                  <select class="form-control" [(ngModel)]="selectedColor" (change)="filterByColors()">
-                    <option [value]="null">Chọn Màu</option>
+
+                  <select
+                    class="form-control"
+                    [(ngModel)]="selectedColor"
+                    (change)="filterByColors()"
+                  >
+                    <option [value]="">Chọn Màu</option>
+
                     <option *ngFor="let colors of color" [value]="colors.id">
                       {{ colors.ten }}
                     </option>
@@ -425,7 +469,74 @@
             Thêm mới
           </button>
 
-          <div class="floating-form" *ngIf="isFormVisible" #floatingForm (mousedown)="preventFormClose($event)">
+
+          <div class="col" *ngIf="isFormVisible">
+            <div
+              class="floating-form"
+              #floatingForm
+              (mousedown)="preventFormClose($event)"
+            >
+              <form
+                [formGroup]="addCustomerForm"
+                (ngSubmit)="onSubmitAddCustomer()"
+              >
+                <div class="mb-3">
+                  <label for="hoTen" class="form-label">Họ Tên:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="hoTen"
+                    formControlName="hoTen"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email:</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    formControlName="email"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="soDienThoai" class="form-label"
+                    >Số điện thoại:</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="soDienThoai"
+                    formControlName="soDienThoai"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="ngaySinh" class="form-label">Ngày sinh:</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="ngaySinh"
+                    formControlName="ngaySinh"
+                  />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Thêm mới</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- <div
+            class="floating-form"
+            *ngIf="isFormVisible"
+            #floatingForm
+            (mousedown)="preventFormClose($event)"
+          >
+
             <form>
               <div class="mb-3">
                 <label for="" class="form-label">Họ Tên:</label>
@@ -441,20 +552,26 @@
                 <label for="" class="form-label">Số điện thoại:</label>
                 <input type="text" class="form-control" aria-describedby="emailHelp" style="width: 250px" />
               </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <div class="mb-3">
+                <label for="" class="form-label">Ngày sinh:</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  aria-describedby="emailHelp"
+                  style="width: 250px"
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">Thêm</button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="toggleForm()"
+              >
+                Hủy
+              </button>
             </form>
             <br />
-            <!-- <button
-              class="btn btn-outline-primary"
-            >
-              Xác nhận thêm
-            </button>
-            <button
-              class="btn btn-outline-danger"
-            >
-              Đóng
-            </button> -->
-          </div>
+          </div> -->
         </div>
 
         <br />
@@ -541,4 +658,7 @@
                     aria-label="Dollar amount (with dot and two decimal places)"
                     disabled
                   />
+
                   <span class="input-group-text">VNĐ</span> -->
+<!-- </div> -->
+

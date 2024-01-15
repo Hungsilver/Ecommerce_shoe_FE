@@ -27,14 +27,12 @@ export class ProductDetailService {
       }),
     };
   }
-    create(chitietsanpham: ProductDetailImportExcel[]){
-        return this.httpClient.post(`${this.importUrl}`,chitietsanpham);
-
-    }
+  create(chitietsanpham: ProductDetailImportExcel[]) {
+    return this.httpClient.post(`${this.importUrl}`, chitietsanpham);
+  }
   getAll(): Observable<ProductDetailExportExcel[]> {
     return this.httpClient.get<ProductDetailExportExcel[]>(`${this.baseUrl}`);
   }
-
 
   getProducts(
     params?: any,

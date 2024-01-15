@@ -117,19 +117,20 @@
                 <mat-option [value]="true">Tiền Mặt</mat-option>
                 <mat-option [value]="false">Phần Trăm</mat-option>
               </mat-select>
-              <div
-              *ngIf="voucherFrom?.get('hinhThucGiamGia')?.invalid && (voucherFrom?.get('hinhThucGiamGia')?.dirty || voucherFrom?.get('hinhThucGiamGia')?.touched)">
+              <mat-error
+              *ngIf="(voucherFrom?.get('hinhThucGiamGia')?.invalid) &&
+               (voucherFrom?.get('hinhThucGiamGia')?.dirty || voucherFrom?.get('hinhThucGiamGia')?.touched)">
               Vui lòng chọn hình thức
-          </div>
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="col-6">
             <mat-form-field class="example-form-field">
               <mat-label>Chọn trạng thái</mat-label>
               <mat-select formControlName="trangThai" >
-                <mat-option [value]="1">Còn hạn</mat-option>
-                <!-- <mat-option [value]="1">Đang Diễn ra</mat-option>
-                <mat-option [value]="0">Kết Thúc</mat-option> -->
+                <!-- <mat-option [value]="1">Còn hạn Sử dụng</mat-option> -->
+                <mat-option [value]="2">Sắp diễn ra</mat-option>
+                <!-- <mat-option [value]="0">Hết hạn sử dụng</mat-option> -->
               </mat-select>
               <div
               *ngIf="voucherFrom?.get('trangThai')?.invalid && (voucherFrom?.get('trangThai')?.dirty || voucherFrom?.get('trangThai')?.touched)">
@@ -308,6 +309,7 @@
               <mat-select formControlName="trangThai" >
                 <mat-option [value]="1">còn Hạn sử dụng</mat-option>
                 <mat-option [value]="0">Hết hạn sử dụng</mat-option>
+                <mat-option [value]="2">Sắp diễn ra</mat-option>
               </mat-select>
               <div
               *ngIf="voucherFrom?.get('trangThai')?.invalid && (voucherFrom?.get('trangThai')?.dirty || voucherFrom?.get('trangThai')?.touched)">
