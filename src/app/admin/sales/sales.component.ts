@@ -887,6 +887,7 @@ export class SalesComponent implements OnInit {
           (response: any) => {
             const vnpPaymentUrl = response.vnpPaymentUrl;
             console.log('Redirecting to VNPay:', response);
+            // this.getAllDataHD();
             window.location.href = response;
           },
           (error) => {
