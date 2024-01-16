@@ -7,7 +7,7 @@ import { PageLazyModule } from './page-lazy.module';
 @NgModule({
   imports: [
     PageRoutingModule,
-    PageLazyModule
+    PageLazyModule,
   ],
   exports: [PageLazyModule],
 })

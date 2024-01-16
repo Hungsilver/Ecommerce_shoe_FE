@@ -1,68 +1,147 @@
 <main class="profile">
   <div class="row">
-    <div class="col-4 d-flex justify-content-center">
+    <div class="col-3 sideBar-account">
+      <div (click)="changeTab(1)">
+        Thông tin cá nhân
+      </div>
+      <div (click)="changeTab(2)">
+        Đơn hàng
+      </div>
+      <div (click)="changeTab(3)">
+        Đổi mật khẩu
+      </div>
+    </div>
+    <!-- <div class="col-4 d-flex justify-content-center">
       <div class="profile-image">
         <img [src]="profile?.avatar ||'/assets/image/user.png'" alt="avatar">
       </div>
-    </div>
+    </div> -->
+
     <div class="col-8">
+      <!-- change info -->
       <div *ngIf="isShowInfo">
         <div class="d-flex justify-content-between">
           <h1 class="d-inline-block">My Profile</h1>
-          <!-- <button (click)="showChangePass()" class="btn btn-primary">Đổi mật khẩu</button> -->
+          <div>
+            <!-- <button (click)="showChangePass()" class="btn btn-primary">Đổi mật khẩu</button> -->
+            <button style="margin-right: 3px;" (click)="openEdit()" class="btn btn-primary">
+              {{isDisableUpdate?"Chỉnh sửa":"Đóng chỉnh sửa"}}
+            </button>
+            <button (click)="updateProfile()" class="btn btn-primary" [hidden]="isDisableUpdate">Lưu</button>
+          </div>
+
         </div>
-        <div class="d-flex flex-column gap-3">
-          <div>
-            <label for="">Họ Tên: </label>
-            <span>{{profile.hoTen}}</span>
+        <form [formGroup]="profileForm" class="d-flex flex-column gap-3">
+          <div class="row">
+
+            <div class="col-6 mb-3">
+              <label for="">Họ Tên: </label>
+              <input type="text" pInputText formControlName="hoTen" [readonly]="isDisableUpdate" />
+              <p>
+                <mat-error
+                  *ngIf="profileForm?.get('hoTen')?.hasError('required') && (profileForm?.get('hoTen')?.dirty || profileForm?.get('danhMuc')?.touched)">
+                  Vui lòng không được để trống
+                </mat-error>
+              </p>
+            </div>
+            <div class="col-6 mb-3">
+              <label for="">Số điện thoại: </label>
+              <input type="text" pInputText formControlName="soDienThoai" [readonly]="isDisableUpdate" />
+              <p>
+                <mat-error
+                  *ngIf="profileForm?.get('soDienThoai')?.hasError('required') && (profileForm?.get('soDienThoai')?.dirty || profileForm?.get('soDienThoai')?.touched)">
+                  Vui lòng không được để trống
+                </mat-error>
+                <mat-error
+                  *ngIf="profileForm?.get('soDienThoai')?.hasError('pattern') && (profileForm?.get('soDienThoai')?.dirty || profileForm?.get('soDienThoai')?.touched)">
+                  Vui lòng nhập đúng định dạng
+                </mat-error>
+              </p>
+            </div>
+            <div class="col-6 mb-3">
+
+              <label for="">Email: </label>
+              <input type="text" pInputText formControlName="email" [readonly]="true" />
+              <p>
+                <mat-error
+                  *ngIf="profileForm?.get('email')?.hasError('required') && (profileForm?.get('email')?.dirty || profileForm?.get('email')?.touched)">
+                  Vui lòng không được để trống
+                </mat-error>
+              </p>
+            </div>
+
+            <div class="col-6 mb-3">
+              <label for="">Ngày Sinh: </label>
+              <p-calendar formControlName="ngaySinh" dateFormat="dd/mm/yy" [disabled]="isDisableUpdate"></p-calendar>
+              <p>
+                <mat-error
+                  *ngIf="profileForm?.get('ngaySinh')?.hasError('required') && (profileForm?.get('ngaySinh')?.dirty || profileForm?.get('ngaySinh')?.touched)">
+                  Vui lòng không được để trống
+                </mat-error>
+              </p>
+            </div>
+            <!-- <div class="col-6 mb-3">
+              <label class="">Tỉnh / Thành phố*</label>
+              <select id="city" formControlName="tinhThanh" (change)="onProvinceChange($event)" class="form-control">
+                <option *ngFor="let province of provinces" [disabled]="isDisableUpdate" [value]="province.ProvinceID
+                    ">{{province.ProvinceName}}</option>
+              </select>
+
+            </div>
+            <div class="col-6 mb-3 ">
+              <label class="">Quận / Huyện*</label>
+              <select id="district" formControlName="quanHuyen" (change)="onDistrictChange($event)"
+                class="form-control">
+                <option [disabled]="isDisableUpdate" *ngFor="let district of districts" [value]="district.DistrictID">
+                  {{district.DistrictName}}</option>
+              </select>
+            </div>
+            <div class="col-6 mb-3 mb-3">
+              <label class="">Xã / Phường*</label>
+              <select id="ward" formControlName="phuongXa" (change)="onWardChange($event)" class="form-control">
+                <option [disabled]="isDisableUpdate" *ngFor="let ward of wards" [value]="ward.WardCode">
+                  {{ward.WardName}}</option>
+              </select>
+            </div>
+            <div class="col-6 mb-3">
+              <label class="">Địa chỉ chi tiết</label>
+              <input pInputText type="text" formControlName="dcChiTiet" [readonly]="isDisableUpdate">
+            </div> -->
           </div>
-          <div>
-            <label for="">Số điện thoại: </label>
-            <span>{{profile.soDienThoai}}</span>
-          </div>
-          <div>
-            <label for="">Email: </label>
-            <span>{{profile.email}}</span>
-          </div>
-          <div>
-            <label for="">Địa chỉ: </label>
-            <span></span>
-          </div>
-        </div>
+
+        </form>
       </div>
       <form *ngIf="isShowChangePass">
         <div class="row">
-          <div class="col-6">
-            <label>Mật khẩu hiện tại</label>
-            <input matInput type="text" [(ngModel)]="infoUpdate.currentPass" name="currentPass">
-            <!-- <mat-error
-              *ngIf="profileForm.get('hoTen').invalid && (profileForm.get('hoTen').dirty || profileForm.get('ten').touched)">
-            Tên không được để trống</mat-error> -->
+          <div class="col-6 mb-3">
+            <label for="">Mật khẩu mới: </label>
+            <input type="password" pInputText [(ngModel)]="password" name="password">
+
+          </div>
+          <div class="col-6 mb-3">
+            <label for="">Xác nhận mật khẩu mới: </label>
+            <input type="password" pInputText [(ngModel)]="confirmPassword" name="confirmPassword">
+            <p>
+              <!-- <mat-error *ngIf="">
+                Vui lòng không được để trống
+              </mat-error> -->
+            </p>
           </div>
 
-          <div class="col-6">
-            <label>Số điện thoại</label>
-            <input matInput type="text" [(ngModel)]="infoUpdate.newPass" name="newPass">
-            <!-- <mat-error
-              *ngIf="profileForm.get('soDienThoai').invalid && (profileForm.get('soDienThoai').dirty || profileForm.get('ten').touched)">
-              Tên không được để trống</mat-error> -->
-          </div>
-          <div class="col-6">
-            <label>Số điện thoại</label>
-            <input matInput type="text" [(ngModel)]="infoUpdate.confirmPass" name="confirmPass">
-            <!-- <mat-error
-              *ngIf="profileForm.get('soDienThoai').invalid && (profileForm.get('soDienThoai').dirty || profileForm.get('ten').touched)">
-              Tên không được để trống</mat-error> -->
+          <div class=" col-6 mb-3">
+            <button class="btn btn-primary" type="button" (click)="changePass()">Lưu</button>
           </div>
         </div>
       </form>
       <div>
 
       </div>
-
+      <form *ngIf="isShowOrder">
+        <app-order></app-order>
+      </form>
       <!--   <form [formGroup]="profileForm">
         <div class="row">
-         <mat-form-field class="col-6">
+         <mat-form-field class="col-6 mb-3">
             <mat-label>Tên</mat-label>
             <input matInput type="text" formControlName="hoTen">
             <mat-error
@@ -70,7 +149,7 @@
               Tên không được để trống</mat-error>
           </mat-form-field>
 
-          <mat-form-field class="col-6">
+          <mat-form-field class="col-6 mb-3">
             <mat-label>Số điện thoại</mat-label>
             <input matInput type="text" formControlName="soDienThoai">
             <mat-error
@@ -79,7 +158,6 @@
           </mat-form-field>
         </div>
       </form> -->
-
     </div>
   </div>
 </main>
