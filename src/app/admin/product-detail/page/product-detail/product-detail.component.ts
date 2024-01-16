@@ -11,6 +11,7 @@ import { MaterialService } from 'src/app/admin/material/service/material.service
 import { MaterialSolesService } from 'src/app/admin/material-soles/service/material-soles.service';
 import { IProductDetailExportExcel } from '../../services/ProductDetailExportExcel.module';
 import * as XLSX from 'xlsx';
+// import { IProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
 
 
 // import { ProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
@@ -234,6 +235,21 @@ export class ProductDetailComponent implements OnInit {
     }
     this.getAll();
   }
+
+  // updateProductDetail() {
+  //   this.newProduct.anhSanPhams = this.validUrls
+  //   this.productDetailService.updateProduct(this.newProduct).then(
+  //     (data) => {
+  //       console.log("data " + data);
+  //     },
+  //     (error) => console.log(error)
+  //   );
+  // }
+  // filterBySize(): void{
+  //   if(this.selectedSize !== null){
+  //   }
+  // }
+
   filterBySize(): void {
     if (this.selectedSize !== null) {
       this.searchQuery.size = this.selectedSize;

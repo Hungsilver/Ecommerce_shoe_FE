@@ -34,7 +34,9 @@ export class HomeProductComponent implements OnInit {
   selectedBrand: number | null = null;
 
   chiTietSanPhams!: IProductImportExcel[];
- 
+
+  // chiTietSanPhams!: IProductDetailImportExcel[];
+  // chiTietSanPhams!: IProductImportExcel[];
 
   iconSortName = 'pi pi-sort-amount-up';
   constructor(
@@ -267,7 +269,9 @@ export class HomeProductComponent implements OnInit {
   ReadExcel(event: any) {
     // Khởi tạo danh sách (list) để lưu trữ các đối tượng ChiTietSanPham
 
-    const danhSachChiTietSanPham: IProductImportExcel[] = [];
+    const danhSachChiTietSanPham: IProductDetailImportExcel[] = [];
+    // const danhSachChiTietSanPham: IProductImportExcel[] = [];
+
 
 
     // lấy file được chọn bên view

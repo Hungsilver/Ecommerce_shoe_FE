@@ -174,13 +174,13 @@ export class dialogProductDetailComponent implements OnInit {
       if(this.productDetail.anhSanPhams.length >0){
         try{
         this.productDetailService.createProduct(this.productDetail).then(res => {
-
+          console.log('data created', res.content);
           if (res) {
             this.notification.success('Thêm thành công');
             this.dialog.closeAll();
-          } else {
-            this.notification.error('Chi tiết sản phẩm đã có');
           }
+        }).catch(err =>{
+          this.notification.error('Lỗi khi thêm chi tiết sản phẩm');
         });
       } catch(error){
           this.notification.error('lỗi');
@@ -223,16 +223,23 @@ export class dialogProductDetailComponent implements OnInit {
 
         this.productDetail.anhSanPhams.ten = this.validUrls;
         console.log("ảnh 1228",this.productDetail.anhSanPhams);
+            try{
+
 
         this.productDetailService.updateProduct(this.productDetail, this.data.productDetail.id).then(res => {
-          console.log('data updated', res.content);
+          // console.log('data updated', res.content);
           if (res) {
             this.notification.success('Cập nhật thành công');
             this.dialog.closeAll();
+          }else{
+            this.notification.error('Chi tiet san pham da co');
           }
         });
+      } catch(error){
+        this.notification.error('lỗi');
+      }
       }else{
-        alert('Chỉ được cập nhật thêm 4 ảnh !');
+        this.notification.error('Chỉ được cập nhật thêm 4 ảnh !');
       }
     }
       deleteProduct() {

@@ -8,15 +8,9 @@
         [(ngModel)]="searchQuery.keyword"
         (keyup.enter)="getAll()"
       />
-      <p-dropdown
-        [options]="listTotalPage"
-        [(ngModel)]="searchQuery.page"
-        optionLabel="name"
-      ></p-dropdown>
     </span>
   </div>
-
-  <div class="col-6 sizesss">
+  <div class="col-8 sizesss">
     <div class="row">
       <div class="col">
         <mat-form-field class="example-form-field">
@@ -147,6 +141,9 @@
           <span (click)="openDialogEdit(product)">
             <i class="pi pi-file-edit"></i>
           </span>
+        </td>
+        <td>
+          
           <span (click)="openDialogDelete(product)">
             <i class="pi pi-delete-left"></i>
           </span>

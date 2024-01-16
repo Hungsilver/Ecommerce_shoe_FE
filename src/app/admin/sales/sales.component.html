@@ -601,6 +601,7 @@
                     formControlName="hoTen"
                     required
                   />
+
                 </div>
 
                 <div class="mb-3">
@@ -612,6 +613,9 @@
                     formControlName="email"
                     required
                   />
+                  <mat-error *ngIf="addCustomerForm?.get('email')?.hasError('required') && (addCustomerForm?.get('email')?.dirty || addCustomerForm?.get('email')?.touched)">
+                    <small class="text-danger">Vui lòng nhập email.</small>
+                  </mat-error>
                 </div>
 
                 <div class="mb-3">
@@ -625,6 +629,9 @@
                     formControlName="soDienThoai"
                     required
                   />
+                  <mat-error *ngIf="addCustomerForm?.get('soDienThoai')?.hasError('required') && (addCustomerForm?.get('soDienThoai')?.dirty || addCustomerForm?.get('soDienThoai')?.touched)">
+                    <small class="text-danger">Vui lòng nhập số điện thoại.</small>
+                  </mat-error>
                 </div>
 
                 <div class="mb-3">

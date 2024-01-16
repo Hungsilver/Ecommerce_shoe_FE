@@ -7,6 +7,7 @@ import { filter } from 'rxjs';
 import { IProductDetailExportExcel } from './ProductDetailExportExcel.module';
 import { Observable } from 'rxjs';
 import { IProductDetailImportExcel } from './ProductDetailImportExcel.module';
+import { ToastrService } from 'ngx-toastr';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,6 +18,7 @@ export class ProductDetailService {
 
   constructor(
     private baseRequestService: BaseRequestService,
+    private notification: ToastrService,
     private httpClient: HttpClient
   ) {}
 
@@ -94,14 +96,26 @@ export class ProductDetailService {
     });
   }
 
+checkMa(ma: String): Promise<boolean> {
+  return this.baseRequestService.get(`${this.url}/TrungMa/${ma}`).toPromise();
+}
+
   createProduct(body: any): Promise<IReqApi<IProductDetail>> {
     return new Promise<IReqApi<IProductDetail>>((resolve, reject) => {
-      this.baseRequestService.post(`${this.url}`, body).subscribe(
-        (result) => {
-          return resolve(result);
-        },
-        (err) => reject(err)
-      );
+this.checkMa(body.ma)
+.then(exists =>{
+      if(exists){
+this.notification.error('Chi Tiết sản phẩm đã tồn tại')
+      }else{
+        this.baseRequestService.post(`${this.url}`, body).subscribe(
+          (result) => {
+            return resolve(result);
+          },
+          (err) => reject(err)
+        );
+      }
+}).catch((err) => reject(err));
+
     });
   }
   updateProduct(body: any, id?: any): Promise<IReqApi<IProductDetail[]>> {

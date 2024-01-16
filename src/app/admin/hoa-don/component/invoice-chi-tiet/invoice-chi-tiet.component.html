@@ -393,9 +393,11 @@
                     {{invoiceDetail.phieuGiamGia.chietKhau | vnd}}</h3>
                 <h3><b>Phí vận chuyển:</b> {{invoiceDetail.phiVanChuyen | vnd}}</h3>
                 <h3><b>Tổng tiền thanh toán:</b> {{invoiceDetail.tongTienSauGiam + invoiceDetail.phiVanChuyen | vnd}}</h3>
-                <!-- <h3><b>Tổng giá hàng trả:</b> {{tongGiaSanPhamTra | vnd}}</h3> -->
+                
                 <hr>
-                <!-- <h3><b>Tổng tiền trả khách</b> {{tongTienTraKhach | vnd}}</h3> -->
+                <h3 *ngIf="invoiceDetail.phuongThucThanhToan === 1"><b>Tổng tiền đã thanh toán: {{tongTienDaThanhToan | vnd}}</b> </h3>
+                <h3 *ngIf="invoiceDetail.phuongThucThanhToan === 1 && (invoiceDetail.tongTienSauGiam + invoiceDetail.phiVanChuyen) > tongTienDaThanhToan"><b>Tổng tiền cần thanh toán thêm: {{(invoiceDetail.tongTienSauGiam + invoiceDetail.phiVanChuyen) - tongTienDaThanhToan | vnd}}</b> </h3>
+                <h3 *ngIf="invoiceDetail.phuongThucThanhToan === 1 && tongTienDaThanhToan > (invoiceDetail.tongTienSauGiam + invoiceDetail.phiVanChuyen)"><b>Tổng tiền hoàn trả khách: {{tongTienDaThanhToan - (invoiceDetail.tongTienSauGiam + invoiceDetail.phiVanChuyen)  | vnd}}</b> </h3>
                 <h3><b class="text-danger">*</b>Ghi chú</h3>
                 <textarea class="ghiChu w-100" value="{{invoiceDetail.ghiChu}}" ></textarea>
                 <button class="btn btn-success mt-2 w-100"  (click)="choLayHang(invoiceDetail.id)" >Chờ lấy hàng</button>

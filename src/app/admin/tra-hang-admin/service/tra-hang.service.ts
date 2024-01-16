@@ -1,12 +1,15 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { IReqApi } from 'src/libs/common/interface/interfaces';
 import { BaseRequestAbstractService } from 'src/libs/service/request/abstract-api.service';
 import { BaseRequestService } from 'src/libs/service/request/base-request.service';
 @Injectable({ providedIn: 'root' })
 
 export class TraHangService {
-    constructor(private abstractService: BaseRequestService) { }
+    constructor(private abstractService: BaseRequestService ,
+    private http: HttpClient
+        ) { }
 
     findByMaHoaDon(ma?: any): Promise<any> {
         return new Promise<any>((resolve, reject) => {
@@ -18,6 +21,16 @@ export class TraHangService {
             );
         });
     }
+
+    exportPdf(id: number): Observable<Blob> {
+        // const url = `${this.url}/export/giao-hang/${id}`;
+        const headers = new HttpHeaders({
+          'Content-Type': 'text/plain',
+          Accept: 'application/pdf',
+        });
+    
+        return this.http.get(`//localhost:8080/api/invoice/export/tra-hang/${id}`, { headers, responseType: 'blob' });
+      }
 
 
 
