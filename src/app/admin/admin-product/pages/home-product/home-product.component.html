@@ -2,65 +2,45 @@
   <span class="p-input-icon-left">
     <i class="pi pi-search"></i>
     <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
-    <p-dropdown
-      [options]="listTotalPage"
-      [(ngModel)]="searchQuery.page"
-      optionLabel="name"
-    ></p-dropdown>
+
   </span>
+  <div class="col-6 sizesss">
+    <div class="row">
+    <div class="col">
+      <mat-form-field>
+        <mat-label>Filter by Status</mat-label>
+        <mat-select [(ngModel)]="selectedStatus" (selectionChange)="filterByStatus()">
+          <mat-option [value]="null">Select status</mat-option>
+          <mat-option [value]="1">Active</mat-option>
+          <mat-option [value]="0">Inactive</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field>
+        <mat-label>Filter by Brand</mat-label>
+        <mat-select [(ngModel)]="selectedBrand" (selectionChange)="filterByBrand()">
+          <mat-option [value]="null">Select Brand</mat-option>
+          <mat-option *ngFor="let brands of brand" [value]="brands.id">{{
+            brands.ten
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+<div class="col-2">
   <button mat-button (click)="openDialog()">Thêm Sản Phẩm</button>
   <button class="custom-button" (click)="exportexcel()">Export Excel</button>
+  <br>
   <input type="file" (change)="ReadExcel($event)" />
 </div>
 
-<!-- <ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link" href="#">Hoạt động</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Không hoạt động</a>
-    </li>
-</ul> -->
-<!-- <mat-form-field>
-    <mat-label>Trạng thái</mat-label>
-    <mat-select matNativeControl [(ngModel)]="selectedStatus" (change)="filterByStatus()">
-        <mat-option [value]="1">Hoạt động</mat-option>
-        <mat-option [value]="0">Không hoạt động </mat-option>
-    </mat-select>
-</mat-form-field> -->
 
-<mat-form-field>
-  <mat-label>Filter by Status</mat-label>
-  <mat-select [(ngModel)]="selectedStatus" (selectionChange)="filterByStatus()">
-    <mat-option [value]="null">Select status</mat-option>
-    <mat-option [value]="1">Active</mat-option>
-    <mat-option [value]="0">Inactive</mat-option>
-  </mat-select>
-</mat-form-field>
 
-<mat-form-field>
-  <mat-label>Filter by Brand</mat-label>
-  <mat-select [(ngModel)]="selectedBrand" (selectionChange)="filterByBrand()">
-    <mat-option [value]="null">Select Brand</mat-option>
-    <mat-option *ngFor="let brands of brand" [value]="brands.id">{{
-      brands.ten
-    }}</mat-option>
-  </mat-select>
-</mat-form-field>
-<!-- 
-<div class="form-group">
-  <label for="ngayTao">Sản Phẩm:</label>
-  <select
-    type="text"
-    class="form-control"
-    id="sanPham"
-    [(ngModel)]="products.sanPham"
-    name="sanPham"
-    required
-  >
-    <option *ngFor="let sp of brand" [value]="sp.id">{{ sp.ten }}</option>
-  </select>
-</div> -->
 
 <br />
 
