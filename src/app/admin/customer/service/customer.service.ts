@@ -23,6 +23,13 @@ export class CustomerService {
   //     );
   //   });
   // }
+
+  checkDuplicate(field: string, value: string): Promise<boolean> {
+    return this.baseRequestService
+      .get(`${this.url}/check-duplicate?field=${field}&value=${value}`)
+      .toPromise();
+  }
+
   getCustomerById(id: number): Promise<ICustomer> {
     return this.baseRequestService.get(`${this.url}/${id}`).toPromise();
   }
