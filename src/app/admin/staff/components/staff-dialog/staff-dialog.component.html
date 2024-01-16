@@ -79,7 +79,7 @@
           <div class="col-6">
             <mat-form-field class="example-form-field">
               <mat-label>Email</mat-label>
-              <input matInput type="text" formControlName="email"/>
+              <input matInput type="email" formControlName="email"/>
               <mat-error *ngIf="(staffFrom?.get('email')?.hasError('required') || staffFrom?.get('email')?.hasError('pattern') )
               && (staffFrom?.get('email')?.dirty || staffFrom?.get('email')?.touched)">
               <ng-container *ngIf="staffFrom?.get('email')?.hasError('pattern')">

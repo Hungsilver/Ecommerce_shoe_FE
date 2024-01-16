@@ -145,8 +145,8 @@ export class SalesComponent implements OnInit {
   idProductDetail!: number;
   maPhieu: string = '';
   tabCustomers: { [key: number]: ICustomer } = {};
-  // addCustomerForm!: FormGroup;
-  addCustomerForm: FormGroup | null = null;
+  addCustomerForm!: FormGroup;
+  // addCustomerForm: FormGroup | null = null;
 
   isFormVisible = false;
 

@@ -110,8 +110,6 @@ export class DialogProductComponent implements OnInit {
   }
 
   addProduct(): void {
-
-
     // Gán giá trị vào this.product
     const formValue =this.productForm.value;
     this.product = {
@@ -127,7 +125,7 @@ export class DialogProductComponent implements OnInit {
     console.log('Product Image URLs:', this.product.anhChinh);
     if (this.productForm.valid) {
       if (this.product.anhChinh && this.product.anhChinh.length > 0) {
-        
+
         this.productService.createProduct(this.product).then((res) => {
           console.log('Data created', res.content);
           if (res) {

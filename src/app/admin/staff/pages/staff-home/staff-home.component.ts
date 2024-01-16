@@ -97,7 +97,7 @@ export class StaffHomeComponent implements OnInit {
       if (staff && staff.content) {
         this.staffs = staff.content;
         this.listTotalPage = this.getTotalPage(staff.totalPages)
-        console.log(staff)
+        console.log("in ra:",this.staffs);
       }
 
     })

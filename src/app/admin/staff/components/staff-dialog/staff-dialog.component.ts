@@ -92,39 +92,43 @@ staffFrom :FormGroup = new FormGroup({});
     }
   }
   addStaff() {
-    // const hotenValue = this.staffFrom.get('hoTen').value;
-    // const emailValue = this.staffFrom.get('email').value;
-    // const matKhauValue = this.staffFrom.get('matKhau').value;
-    // const soDienThoaiValue = this.staffFrom.get('soDienThoai').value;
-    // const gioiTinhValue = this.staffFrom.get('gioiTinh').value;
-    // const ngaySinhValue = this.staffFrom.get('ngaySinh').value;
-    // const diaChiValue = this.staffFrom.get('diaChi').value;
-    // const trangThaiValue = this.staffFrom.get('trangThai').value;
+
       const formValue = this.staffFrom.value;
-    this.staff ={
-      hoTen: formValue.hoTen,
-      email : formValue.email,
-      matKhau:formValue.matKhau,
-      soDienThoai:formValue.soDienThoai,
-     gioiTinh : formValue.gioiTinh,
-     ngaySinh :formValue.ngaySinh,
-     diaChi:formValue.diaChi,
-     trangThai:formValue.trangThai,
-     anhDaiDien:formValue.anhDaiDien,
-    };
-    this.staff.anhDaiDien =this.uploadedUrl;
-    if(this.staff.anhDaiDien && this.staff.anhDaiDien.length > 0){
+      const emailValue = formValue.email;
+      const sdtValue = formValue.soDienThoai;
 
-    this.staffService.createStaff(this.staff).then((res) => {
-      console.log('data created', res.content);
-      if (res) {
-        this.dialog.closeAll();
-      }
-    });
+            this.staff ={
+              hoTen: formValue.hoTen,
+              email : formValue.email,
+              matKhau:formValue.matKhau,
+              soDienThoai:formValue.soDienThoai,
+             gioiTinh : formValue.gioiTinh,
+             ngaySinh :formValue.ngaySinh,
+             diaChi:formValue.diaChi,
+             trangThai:formValue.trangThai,
+             anhDaiDien:formValue.anhDaiDien,
+            };
+            this.staff.anhDaiDien =this.uploadedUrl;
+            if(this.staff.anhDaiDien && this.staff.anhDaiDien.length > 0){
 
-  } else {
-      this.notification.error('anh không được để trống');
-  }
+            this.staffService.createStaff(this.staff).then((res) => {
+              console.log('data created', res.content);
+              if (res) {
+                this.notification.success('Đăng ký thành công');
+                this.dialog.closeAll();
+              }
+            }).catch((err) =>{
+              if (err === 'Email already exists') {
+                this.notification.error('Email đã tồn tại');
+              }else if (err === 'Phone number already exists') {
+                this.notification.error('Số điện thoại đã tồn tại');
+              }else {
+                this.notification.error('Lỗi khi thêm nhân viên');
+              }
+            });
+          } else {
+              this.notification.error('anh không được để trống');
+          }
 
   }
 
@@ -148,6 +152,14 @@ staffFrom :FormGroup = new FormGroup({});
       console.log('data updated', res.content);
       if (res) {
         this.dialog.closeAll();
+      }
+    }).catch(err =>{
+      if (err === 'Email already exists') {
+        this.notification.error('Email đã tồn tại');
+      } else if (err === 'Phone number already exists') {
+        this.notification.error('Số điện thoại đã tồn tại');
+      } else {
+        this.notification.error('Lỗi khi cập nhật nhân viên');
       }
     });
   }

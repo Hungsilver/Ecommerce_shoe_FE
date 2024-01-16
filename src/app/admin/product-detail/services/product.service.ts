@@ -7,6 +7,7 @@ import { filter } from 'rxjs';
 import { IProductDetailExportExcel } from './ProductDetailExportExcel.module';
 import { Observable } from 'rxjs';
 import { IProductDetailImportExcel } from './ProductDetailImportExcel.module';
+import { ToastrService } from 'ngx-toastr';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,6 +18,7 @@ export class ProductDetailService {
 
   constructor(
     private baseRequestService: BaseRequestService,
+    private notification: ToastrService,
     private httpClient: HttpClient
   ) {}
 
@@ -94,16 +96,21 @@ export class ProductDetailService {
     });
   }
 
-  createProduct(body: any): Promise<IReqApi<IProductDetail>> {
-    return new Promise<IReqApi<IProductDetail>>((resolve, reject) => {
-      this.baseRequestService.post(`${this.url}`, body).subscribe(
-        (result) => {
-          return resolve(result);
-        },
-        (err) => reject(err)
-      );
-    });
-  }
+checkMa(ma: String): Promise<boolean> {
+  return this.baseRequestService.get(`${this.url}/TrungMa/${ma}`).toPromise();
+}
+
+createProduct(body: any): Promise<IReqApi<IProductDetail>> {
+  return new Promise<IReqApi<IProductDetail>>((resolve, reject) => {
+    this.baseRequestService.post(`${this.url}`, body).subscribe(
+      (result) => {
+        return resolve(result);
+      },
+      (err) => reject(err)
+    );
+  });
+}
+
   updateProduct(body: any, id?: any): Promise<IReqApi<IProductDetail[]>> {
     return new Promise<IReqApi<IProductDetail[]>>((resolve, reject) => {
       this.baseRequestService.put(`${this.url}/${id}`, body).subscribe(
