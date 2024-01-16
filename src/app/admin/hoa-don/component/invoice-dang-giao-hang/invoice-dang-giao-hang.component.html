@@ -32,7 +32,10 @@
                     <td *ngIf="invoice.trangThai === 6">Đã hủy</td>
                     <td *ngIf="invoice.trangThai === 7">Trả hàng</td>
                     <td *ngIf="invoice.trangThai === null"> </td>
-                    <td><button class="btn btn-primary" (click)="redirectToDetail(invoice.id)">Chi tiết</button></td>
+                    <td>
+                        <button class="btn btn-primary" style="font-size: 0.8rem" (click)="redirectToDetail(invoice.id)">Chi tiết</button>
+                        <button class="btn btn-success ms-1" style="font-size: 0.8rem" (click)="hoanThanh(invoice.id)">Hoàn thành</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
