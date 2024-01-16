@@ -1,44 +1,27 @@
 <main>
-    <div class="container">
-      <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb> 
-      <!-- <h1>=> ae làm hộ cái phân trang</h1> -->
-        <div class="row">
-          <div class="col-2 mt-3">
-            <hr>
-            <p>Đổi mật khẩu</p>
-            <hr>
-            <p style="margin-left: 20px;">Đơn hàng</p>
-            <hr>
-            <p>Thông tin tài khoản</p>
-            <hr>
-            <p>Đăng xuất</p>
-            <hr>
-          </div>
-          <div class="col-10">
-            <div class="card p-4">
-              <p-tabView>
-                <p-tabPanel header="Chờ xác nhận">
-                  <app-cho-xac-nhan></app-cho-xac-nhan>
-                </p-tabPanel>
-                <p-tabPanel header="Chờ lấy hàng">
-                  <app-cho-lay-hang></app-cho-lay-hang>
-                </p-tabPanel>
-                <p-tabPanel header="Đang giao hàng">
-                  <app-dang-giao-hang></app-dang-giao-hang>
-                </p-tabPanel>
-                <p-tabPanel header="Đã giao hàng">
-                  <app-da-giao-hang></app-da-giao-hang>
-                </p-tabPanel>
-                <p-tabPanel header="Đã hủy">
-                  <app-da-huy></app-da-huy>
-                </p-tabPanel>
-                <p-tabPanel header="Trả hàng">
-                  <app-tra-hang-page></app-tra-hang-page>
-                </p-tabPanel>
-              </p-tabView>
-            </div>
-          </div>
-        </div>
-        
+  <div class="container-fluid">
+    <div class="">
+      <p-tabView>
+        <p-tabPanel header="Chờ xác nhận">
+          <app-cho-xac-nhan></app-cho-xac-nhan>
+        </p-tabPanel>
+        <p-tabPanel header="Chờ lấy hàng">
+          <app-cho-lay-hang></app-cho-lay-hang>
+        </p-tabPanel>
+        <p-tabPanel header="Đang giao hàng">
+          <app-dang-giao-hang></app-dang-giao-hang>
+        </p-tabPanel>
+        <p-tabPanel header="Đã giao hàng">
+          <app-da-giao-hang></app-da-giao-hang>
+        </p-tabPanel>
+        <p-tabPanel header="Đã hủy">
+          <app-da-huy></app-da-huy>
+        </p-tabPanel>
+        <p-tabPanel header="Trả hàng">
+          <app-tra-hang-page></app-tra-hang-page>
+        </p-tabPanel>
+      </p-tabView>
     </div>
+
+  </div>
 </main>

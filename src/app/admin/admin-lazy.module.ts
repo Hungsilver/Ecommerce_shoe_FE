@@ -167,7 +167,7 @@ LOAD_WASM().subscribe();
     DialogTraHangComponent,
     DialogUpdateCtspComponent,
     // NavbarComponent
-
+    VndPipe,
 
     InvoiceComponent,
     InvoiceDetailComponent,
@@ -175,7 +175,6 @@ LOAD_WASM().subscribe();
     HeaderStatsComponent,
     TableStatsProductComponent,
     HeaderStatsProductComponent,
-    VndPipe
   ],
   providers: [],
 })

@@ -1,16 +1,37 @@
 .profile {
     padding: 30px 80px;
 
-    .profile-image {
-        height: 150px;
+    label {
         width: 150px;
+    }
 
-        img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: fill;
+    p {
+        padding-top: 3px;
+        padding-left: 150px;
+    }
+
+    .sideBar-account {
+        div {
+            cursor: pointer;
+            width: 300px;
+            padding: 8px 2px;
+            border-bottom: 1px solid gray;
+
+            &:hover {
+                background: rgb(171, 160, 160);
+            }
         }
     }
+
+    // .profile-image {
+    // height: 150px;
+    //     width: 150px;
+    //     img {
+    //         width: 100%;
+    //         height: 100%;
+    //         border-radius: 50%;
+    //         object-fit: fill;
+    //     }
+    // }
 
 }

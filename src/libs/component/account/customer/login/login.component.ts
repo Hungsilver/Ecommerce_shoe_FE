@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   }
   formLogin: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
-    matKhau: ['', [Validators.required, Validators.maxLength(15)]],
+    matKhau: ['', [Validators.required, Validators.maxLength(15), Validators.minLength(6)]],
   });
 
   onSubmit() {

@@ -45,7 +45,8 @@ import { TraHangPageComponent } from './order/component/tra-hang-page/tra-hang-p
 import { ProfileComponent } from './profile/profile.component';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 // import { DialogComponent } from './order/component/dialog/dialog.component';
-
+import { CalendarModule } from 'primeng/calendar';
+import { VndPipePage } from 'src/libs/common/pipe/changeVNDPage.pipe';
 
 
 
@@ -75,6 +76,7 @@ import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-
         TabViewModule,
         MatDatepickerModule,
         MatFormFieldModule,
+        CalendarModule
         // MatInputModule
     ],
     exports: [],
@@ -89,6 +91,7 @@ import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-
         blogdetail,
         ChinhSachComponent,
         VoucherComponent,
+        VndPipePage,
 
         ChoXacNhanComponent,
         ChoLayHangComponent,
