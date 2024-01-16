@@ -388,7 +388,7 @@ export class DialogTraHangComponent implements OnInit {
 
   choXuLy() {
     this.loiGhiChu = false;
-    if (this.ghiChu === '' || this.ghiChu.length < 1 || this.ghiChu.length > 200) {
+    if (this.ghiChu.trim() === '' || this.ghiChu.length < 1 || this.ghiChu.length > 200) {
       this.loiGhiChu = true;
     } else {
       Swal.fire(
@@ -416,52 +416,66 @@ export class DialogTraHangComponent implements OnInit {
   }
 
   choXacNhan(id: number) {
-    Swal.fire(
-      {
-        title: 'Chờ xác nhận đơn hàng trả',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Xác nhận',
-        cancelButtonText: 'Hủy'
-      }
-    ).then((result) => {
-      if (result.isConfirmed) {
-        this.traHangService.updateStatus(id, 0).then(c => {
-          this.notificationService.success('Chờ xác nhận đơn hàng trả thành công !')
-          this.dialog.closeAll();
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
-        })
-      }
-    })
+    this.loiGhiChu = false;
+    if (this.ghiChu.trim() === '' || this.ghiChu.length < 1 || this.ghiChu.length > 200) {
+      this.loiGhiChu = true;
+    } else {
+
+      Swal.fire(
+        {
+          title: 'Chờ xác nhận đơn hàng trả',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Xác nhận',
+          cancelButtonText: 'Hủy'
+        }
+      ).then((result) => {
+        if (result.isConfirmed) {
+          this.traHangService.updateStatus(id, 0).then(c => {
+            this.notificationService.success('Chờ xác nhận đơn hàng trả thành công !')
+            this.dialog.closeAll();
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          })
+        }
+      })
+    }
+    
   }
 
 
   huyDon(id: number) {
-    Swal.fire(
-      {
-        title: 'Xác nhận hủy đơn hàng trả',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Xác nhận',
-        cancelButtonText: 'Hủy'
-      }
-    ).then((result) => {
-      if (result.isConfirmed) {
-        this.traHangService.updateStatus(id, 3).then(c => {
-          this.notificationService.success('Xác nhận hủy đơn hàng trả thành công !')
-          this.dialog.closeAll();
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
-        })
-      }
-    })
+    this.loiGhiChu = false;
+    if (this.ghiChu.trim() === '' || this.ghiChu.length < 1 || this.ghiChu.length > 200) {
+      this.loiGhiChu = true;
+    } else {
+
+      Swal.fire(
+        {
+          title: 'Xác nhận hủy đơn hàng trả',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Xác nhận',
+          cancelButtonText: 'Hủy'
+        }
+      ).then((result) => {
+        if (result.isConfirmed) {
+          this.traHangService.updateStatus(id, 3).then(c => {
+            this.notificationService.success('Xác nhận hủy đơn hàng trả thành công !')
+            this.dialog.closeAll();
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          })
+        }
+      })
+    }
+    
   }
 
   hoanThanh(id: number) {

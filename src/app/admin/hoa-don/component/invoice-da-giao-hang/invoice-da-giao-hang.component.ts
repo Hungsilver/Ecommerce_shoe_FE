@@ -36,10 +36,10 @@ export class InvoiceDaGiaoHangComponent implements OnInit {
     //   ...this.searchQuery,
     //   status: this.currentStatus
     // }
-    const params: any = { ...this.searchQuery };
+    // const params: any = { ...this.searchQuery };
 
     if (this.currentStatus !== undefined) {
-      params.status = this.currentStatus;
+      this.searchQuery.status = this.currentStatus;
     }
 
 
@@ -53,17 +53,17 @@ export class InvoiceDaGiaoHangComponent implements OnInit {
         this.searchQuery.page = this.searchQuery.page + 1
       }
 
-      Object.keys(params).forEach(key => {
-        if (params[key] === null || params[key] === '' || params[key] === undefined) {
-          delete params[key];
+      Object.keys(this.searchQuery).forEach(key => {
+        if (this.searchQuery[key] === null || this.searchQuery[key] === '' || this.searchQuery[key] === undefined) {
+          delete this.searchQuery[key];
         }
       });
 
     }
     if (this.currentStatus === undefined) {
-      delete params.status;
+      delete this.searchQuery.status;
     }
-    this.hoadonService.getInvoice(params).then(hoadon => {
+    this.hoadonService.getInvoice(this.searchQuery).then(hoadon => {
       if (hoadon && hoadon.content) {
         this.invoices = hoadon.content;
         this.listTotalPage = this.getTotalPage(hoadon.totalPages)
