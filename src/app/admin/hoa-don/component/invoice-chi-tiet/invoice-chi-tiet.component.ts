@@ -7,6 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxScannerQrcodeComponent, ScannerQRCodeConfig, ScannerQRCodeResult } from 'ngx-scanner-qrcode';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogLichSuComponent } from '../dialog-lich-su/dialog-lich-su.component';
 
 @Component({
   selector: 'app-invoice-chi-tiet',
@@ -33,6 +35,8 @@ export class InvoiceChiTietComponent implements OnInit {
   hoaDonChiTietAdd: any = {};
   hoaDonChiTiets: any[] = [];
   tongTienDaThanhToan = 0;
+  ghiChu:any = {};
+  loiGhiChu = true;
 
   provinces: any[] = [];
   districts: any[] = [];
@@ -57,6 +61,7 @@ export class InvoiceChiTietComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private http: HttpClient,
+    private dialog: MatDialog,
   ) {
 
   }
@@ -177,11 +182,20 @@ export class InvoiceChiTietComponent implements OnInit {
     this.isShowQrCode = false;
   }
 
-  timKiemCtsp() {
-    if (this.timKiem === '') {
-      this.showCtsp = false;
-    } else {
-      this.hoaDonService.findByMaCtsp(this.timKiem).then(c => {
+  getGhiChu($event:any){
+    if ($event.target.value.trim() === '' || $event.target.value.length < 1 || $event.target.value.length > 200) {
+      this.loiGhiChu = true;
+    }else{
+      this.loiGhiChu = false;
+      this.ghiChu.ghiChu = $event.target.value;
+    }
+  }
+
+  timKiemCtsp($event:any) {
+    console.log($event.target.value);
+    
+    
+      this.hoaDonService.findByMaCtsp($event.target.value).then(c => {
         if (c) {
           this.showCtsp = true;
           this.chiTietSanPham = c;
@@ -190,7 +204,7 @@ export class InvoiceChiTietComponent implements OnInit {
         this.showCtsp = false;
         this.notification.error("Không tìm thấy sản phẩm");
       })
-    }
+    
   }
 
   deleteProduct(idHdct: number) {
@@ -347,10 +361,6 @@ export class InvoiceChiTietComponent implements OnInit {
                   })
                 })
               })
-
-
-
-
             }
           }, err => {
             alert('loi')
@@ -365,32 +375,42 @@ export class InvoiceChiTietComponent implements OnInit {
 
 
   dangGiaoHang(id: number) {
-    Swal.fire(
-      {
-        title: 'Xác nhận giao hàng',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Xác nhận',
-        cancelButtonText: 'Hủy'
-      }
-    ).then((result) => {
-      if (result.isConfirmed) {// check confirm
-        this.hoaDonService.updateStatus(id, 4).then(c => {
-          if (c !== null) {
-            this.notification.success("Xác nhận giao hàng thành công");
-            this.router.navigate(['/admin/hoa-don']);
-          }
-        }, err => {
-          this.notification.error("Xác nhận giao hàng không thành công");
-        })
-      }
-    })
+    if(this.loiGhiChu === false){
+      Swal.fire(
+        {
+          title: 'Xác nhận giao hàng',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Xác nhận',
+          cancelButtonText: 'Hủy'
+        }
+      ).then((result) => {
+        if (result.isConfirmed) {// check confirm
+          this.ghiChu.idHoaDon = id;
+            this.ghiChu.trangThai = 4;
+            this.hoaDonService.addGhiChu(this.ghiChu).then(c=>{
+
+            })
+          this.hoaDonService.updateStatus(id, 4).then(c => {
+            if (c !== null) {
+              this.notification.success("Xác nhận giao hàng thành công");
+              this.router.navigate(['/admin/hoa-don']);
+            }
+          }, err => {
+            this.notification.error("Xác nhận giao hàng không thành công");
+          })
+        }
+      })
+    }else{
+      this.notification.error("Vui lòng điền ghi chú !");
+    }
+   
   }
 
   choLayHang(id: number) {
-    if (this.showUpdate === true) {
+    if(this.loiGhiChu === false){
       Swal.fire(
         {
           title: 'Xác nhận đơn hàng',
@@ -403,23 +423,13 @@ export class InvoiceChiTietComponent implements OnInit {
         }
       ).then((result) => {
         if (result.isConfirmed) {// check confirm
+          this.ghiChu.idHoaDon = id;
+            this.ghiChu.trangThai = 3;
+            this.hoaDonService.addGhiChu(this.ghiChu).then(c=>{
+
+            })
           this.hoaDonService.updateStatus(id, 3).then(c => {
             if (c !== null) {
-              Swal.fire(
-                {
-                  title: 'In hóa đơn',
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Xác nhận',
-                  cancelButtonText: 'Hủy'
-                }
-              ).then((result) => {
-                if (result.isConfirmed) {// check confirm
-                  this.exportPDF(id);
-                }
-              })
               this.notification.success("Xác nhận đơn hàng thành công");
               this.router.navigate(['/admin/hoa-don']);
             }
@@ -428,9 +438,73 @@ export class InvoiceChiTietComponent implements OnInit {
           })
         }
       })
-    } else {
+    }else{
+      this.notification.error("Vui lòng điền ghi chú !");
+    }
+        
+      
+
+
+  }
+
+  xacNhanDon(id: number) {
+    if (this.showUpdate === true) {
+      if (this.form.valid) {
+        if(this.loiGhiChu === false){
+          Swal.fire(
+            {
+              title: 'Xác nhận đơn hàng',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Xác nhận',
+              cancelButtonText: 'Hủy'
+            }
+          ).then((result) => {
+            if (result.isConfirmed) {// check confirm
+              this.ghiChu.idHoaDon = id;
+            this.ghiChu.trangThai = 3;
+            this.hoaDonService.addGhiChu(this.ghiChu).then(c=>{
+
+            })
+              this.hoaDonService.updateStatus(id, 3).then(c => {
+                if (c !== null) {
+                  Swal.fire(
+                    {
+                      title: 'In hóa đơn',
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Xác nhận',
+                      cancelButtonText: 'Hủy'
+                    }
+                  ).then((result) => {
+                    if (result.isConfirmed) {// check confirm
+                      this.exportPDF(id);
+                    }
+                  })
+                  this.notification.success("Xác nhận đơn hàng thành công");
+                  this.router.navigate(['/admin/hoa-don']);
+                }
+              }, err => {
+                this.notification.error("Xác nhận đơn hàng không thành công");
+              })
+            }
+          })
+        }else{
+
+          this.notification.error('Vui lòng điền ghi chú')
+        }
+      } else {
+        this.notification.error('Vui lòng điền đầy đủ thông tin')
+      }
+      
+    }else{
       this.notification.error('Vui lòng cập nhật đơn hàng trước')
     }
+
 
   }
 
@@ -455,78 +529,108 @@ export class InvoiceChiTietComponent implements OnInit {
   }
 
   hoanThanh(id: number) {
-    Swal.fire(
-      {
-        title: 'Xác nhận hoàn thành đơn hàng',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Xác nhận',
-        cancelButtonText: 'Hủy'
-      }
-    ).then((result) => {
-      if (result.isConfirmed) {// check confirm
-        this.hoaDonService.updateStatus(id, 5).then(c => {
-          if (c !== null) {
-            this.notification.success("Xác nhận hoàn thành đơn hàng thành công");
-            this.router.navigate(['/admin/hoa-don']);
-          }
-        }, err => {
-          this.notification.error("Xác nhận hoàn thành đơn hàng không thành công");
-        })
-      }
-    })
+    if(this.loiGhiChu === false){
+      Swal.fire(
+        {
+          title: 'Xác nhận hoàn thành đơn hàng',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Xác nhận',
+          cancelButtonText: 'Hủy'
+        }
+      ).then((result) => {
+        if (result.isConfirmed) {// check confirm
+          this.ghiChu.idHoaDon = id;
+            this.ghiChu.trangThai = 5;
+            this.hoaDonService.addGhiChu(this.ghiChu).then(c=>{
+
+            })
+          this.hoaDonService.updateStatus(id, 5).then(c => {
+            if (c !== null) {
+              this.notification.success("Xác nhận hoàn thành đơn hàng thành công");
+              this.router.navigate(['/admin/hoa-don']);
+            }
+          }, err => {
+            this.notification.error("Xác nhận hoàn thành đơn hàng không thành công");
+          })
+        }
+      })
+    }else{
+      this.notification.error("Vui lòng điền ghi chú !");
+    }
+   
   }
 
   choXacNhan(id: number) {
-    Swal.fire(
-      {
-        title: 'Chờ xác nhận đơn hàng',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Xác nhận',
-        cancelButtonText: 'Hủy'
-      }
-    ).then((result) => {
-      if (result.isConfirmed) {// check confirm
-        this.hoaDonService.updateStatus(id, 2).then(c => {
-          if (c !== null) {
-            this.notification.success("Chờ xác nhận đơn hàng thành công");
-            this.router.navigate(['/admin/hoa-don']);
-          }
-        }, err => {
-          this.notification.error("Chờ xác nhận đơn hàng không thành công");
-        })
-      }
-    })
+    if(this.loiGhiChu === false){
+      Swal.fire(
+        {
+          title: 'Chờ xác nhận đơn hàng',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Xác nhận',
+          cancelButtonText: 'Hủy'
+        }
+      ).then((result) => {
+        if (result.isConfirmed) {// check confirm
+          this.ghiChu.idHoaDon = id;
+            this.ghiChu.trangThai = 2;
+            this.hoaDonService.addGhiChu(this.ghiChu).then(c=>{
+
+            })
+          this.hoaDonService.updateStatus(id, 2).then(c => {
+            if (c !== null) {
+              this.notification.success("Chờ xác nhận đơn hàng thành công");
+              this.router.navigate(['/admin/hoa-don']);
+            }
+          }, err => {
+            this.notification.error("Chờ xác nhận đơn hàng không thành công");
+          })
+        }
+      })
+    }else{
+      this.notification.error("Vui lòng điền ghi chú !");
+    }
+    
+
   }
 
   huyDon(id: number) {
-    Swal.fire(
-      {
-        title: 'Xác nhận hủy đơn hàng',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Xác nhận',
-        cancelButtonText: 'Hủy'
-      }
-    ).then((result) => {
-      if (result.isConfirmed) {// check confirm
-        this.hoaDonService.updateStatus(id, 6).then(c => {
-          if (c !== null) {
-            this.notification.success("Xác nhận hủy đơn hàng thành công");
-            this.router.navigate(['/admin/hoa-don']);
+      if(this.loiGhiChu === false){
+        Swal.fire(
+          {
+            title: 'Xác nhận hủy đơn hàng',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy'
           }
-        }, err => {
-          this.notification.error("Xác nhận hủy đơn hàng không thành công");
+        ).then((result) => {
+          if (result.isConfirmed) {// check confirm
+            this.ghiChu.idHoaDon = id;
+            this.ghiChu.trangThai = 6;
+            this.hoaDonService.addGhiChu(this.ghiChu).then(c=>{
+
+            })
+            this.hoaDonService.updateStatus(id, 6).then(c => {
+              if (c !== null) {
+                this.notification.success("Xác nhận hủy đơn hàng thành công");
+                this.router.navigate(['/admin/hoa-don']);
+              }
+            }, err => {
+              this.notification.error("Xác nhận hủy đơn hàng không thành công");
+            })
+          }
         })
+      }else{
+        this.notification.error("Vui lòng điền ghi chú");
       }
-    })
   }
 
   // deleteProduct(idHdct: number) {
@@ -751,7 +855,7 @@ export class InvoiceChiTietComponent implements OnInit {
   }
 
   giaoHangNhanh(tienGiam: number) {
-this.showUpdate = false;
+    this.showUpdate = false;
     // Thêm headers
     const headers = new HttpHeaders({
       'token': 'b9c52434-a191-11ee-b394-8ac29577e80e',
@@ -832,44 +936,62 @@ this.showUpdate = false;
       listHoaDonChiTiet: this.hoaDonChiTiets,
     })
 
-    if (this.invoiceDetail.tenKhachHang === '' || this.invoiceDetail.soDienThoai === '' || this.invoiceDetail.diaChi === '') {
-
-      Swal.fire(
-        {
-          title: 'Xác nhận cập nhật đơn hàng',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Xác nhận',
-          cancelButtonText: 'Hủy'
-        }
-      ).then((result) => {
-        if (result.isConfirmed) {
-          this.hoaDonService.updateInvoice(this.form.value).then(c => {
-            this.notification.success('Cập nhật đơn hàng thành công !');
-            this.hoaDonService.findByInvice(history.state.detailData.id).then(key => {
-              this.invoiceDetail = key;
-              setTimeout(() => {
-                window.location.reload();
-              }, 500);
+    if (this.form.valid) {
+      if(this.loiGhiChu === false){
+        Swal.fire(
+          {
+            title: 'Xác nhận cập nhật đơn hàng',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy'
+          }
+        ).then((result) => {
+          if (result.isConfirmed) {
+            this.hoaDonService.updateInvoice(this.form.value).then(c => {
+              this.notification.success('Cập nhật đơn hàng thành công !');
+              this.hoaDonService.findByInvice(history.state.detailData.id).then(key => {
+                this.invoiceDetail = key;
+                setTimeout(() => {
+                  window.location.reload();
+                }, 500);
+              })
+            }, err => {
+              this.notification.error('Cập nhật đơn hàng không thành công !');
             })
-          }, err => {
-            this.notification.success('Cập nhật đơn hàng không thành công !');
-          })
-        }
-      })
-
+          }else{
+            this.showUpdate = false;
+          }
+        })
+      }else{
+        this.notification.error('Vui lòng điền ghi chú !');
+      }
       
-    }else{
+
+
+    } else {
       this.notification.error('Vui lòng nhập đủ thông tin !')
     }
-    
+
 
 
   }
 
 
+  openLichSu(id:number){
+      const dialogRef = this.dialog.open(DialogLichSuComponent, {
+        width: '1300px',
+        height: '570px',
+  
+        data: {
+          type: "add",
+          idHoaDon: id,
+        },
+      })
+    
+  }
 
 
 }
