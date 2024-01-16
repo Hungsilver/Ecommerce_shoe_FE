@@ -299,14 +299,14 @@
                   style="width: 223px"
                   (change)="findByCodeVoucher($event)"
                 />
-                <!-- </div> -->
+                <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === false">
+                  {{ chietKhau }}% - {{ tienGiam }}đ
+                </div>
+                <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === true">
+                  {{ chietKhau | currency : "VND" }}
+                </div>
               </div>
-              <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === false">
-                {{ chietKhau }}% - {{ tienGiam }}đ
-              </div>
-              <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === true">
-                {{ chietKhau | currency : "VND" }}
-              </div>
+
 
               <div class="col">
                 <label class="form-label">Phương thức thanh toán:</label>
