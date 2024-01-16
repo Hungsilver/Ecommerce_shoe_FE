@@ -32,6 +32,7 @@ export class InvoiceChiTietComponent implements OnInit {
   chiTietSanPham: any = {};
   hoaDonChiTietAdd: any = {};
   hoaDonChiTiets: any[] = [];
+  tongTienDaThanhToan = 0;
 
   provinces: any[] = [];
   districts: any[] = [];
@@ -86,6 +87,7 @@ export class InvoiceChiTietComponent implements OnInit {
       this.invoiceDetail = history.state.detailData;
       this.hoaDonService.findByInvice(history.state.detailData.id).then(key => {
         this.invoiceDetail = key;
+        this.tongTienDaThanhToan = this.invoiceDetail.tongTienSauGiam + this.invoiceDetail.phiVanChuyen;
         this.province = this.invoiceDetail.tinhThanh
         this.district = this.invoiceDetail.quanHuyen
         this.ward = this.invoiceDetail.phuongXa
@@ -297,8 +299,8 @@ export class InvoiceChiTietComponent implements OnInit {
             if (c) {
               this.hoaDonService.findByInvice(c.hoaDon.id).then(key => {
                 this.invoiceDetail = key;
-                
-                this.invoiceDetail.listHoaDonChiTiet.forEach((element:any)=>{
+
+                this.invoiceDetail.listHoaDonChiTiet.forEach((element: any) => {
                   this.invoiceDetail.tongTien += element.soLuong * element.donGia;
                 })
                 if (this.invoiceDetail.phieuGiamGia === null) {
@@ -310,7 +312,7 @@ export class InvoiceChiTietComponent implements OnInit {
                   this.invoiceDetail.tienGiam = this.invoiceDetail.phieuGiamGia.chietKhau;
                 }
                 this.invoiceDetail.tongTienSauGiam = this.invoiceDetail.tongTien - this.invoiceDetail.tienGiam;
-                
+
                 this.invoiceDetail.listHoaDonChiTiet.forEach((key: any) => {
                   this.hoaDonChiTiets.push(
                     {
@@ -322,7 +324,7 @@ export class InvoiceChiTietComponent implements OnInit {
                     }
                   )
                 })
-            
+
                 this.form.patchValue({
                   id: this.invoiceDetail.id,
                   maHoaDon: this.invoiceDetail.maHoaDon,
@@ -339,16 +341,16 @@ export class InvoiceChiTietComponent implements OnInit {
                   tinhThanh: this.province,
                   listHoaDonChiTiet: this.hoaDonChiTiets,
                 })
-                this.hoaDonService.updateInvoice(this.form.value).then(c=>{
+                this.hoaDonService.updateInvoice(this.form.value).then(c => {
                   this.hoaDonService.findByInvice(c.id).then(key => {
                     this.invoiceDetail = key;
                   })
                 })
               })
 
-          
-              
-              
+
+
+
             }
           }, err => {
             alert('loi')
@@ -388,7 +390,7 @@ export class InvoiceChiTietComponent implements OnInit {
   }
 
   choLayHang(id: number) {
-    if(this.showUpdate === true){
+    if (this.showUpdate === true) {
       Swal.fire(
         {
           title: 'Xác nhận đơn hàng',
@@ -426,10 +428,10 @@ export class InvoiceChiTietComponent implements OnInit {
           })
         }
       })
-    }else{
+    } else {
       this.notification.error('Vui lòng cập nhật đơn hàng trước')
     }
-    
+
   }
 
   exportPDF(id: number): void {
@@ -749,7 +751,7 @@ export class InvoiceChiTietComponent implements OnInit {
   }
 
   giaoHangNhanh(tienGiam: number) {
-
+this.showUpdate = false;
     // Thêm headers
     const headers = new HttpHeaders({
       'token': 'b9c52434-a191-11ee-b394-8ac29577e80e',
@@ -775,17 +777,18 @@ export class InvoiceChiTietComponent implements OnInit {
       this.invoiceDetail.tongTienSauGiam = this.invoiceDetail.tongTien;
       if (this.invoiceDetail.phieuGiamGia === null) {
         this.invoiceDetail.tienGiam = 0;
-      } else if (this.invoiceDetail.phieuGiamGia.hinhThucGiamGia === true) {
+      } else if (this.invoiceDetail.phieuGiamGia.hinhThucGiamGia === false) {
         this.invoiceDetail.tienGiam = (this.invoiceDetail.tongTien * this.invoiceDetail.phieuGiamGia.chietKhau) / 100;
       } else {
         this.invoiceDetail.tienGiam = this.invoiceDetail.phieuGiamGia.chietKhau;
       }
       this.invoiceDetail.tongTienSauGiam = this.invoiceDetail.tongTien - this.invoiceDetail.tienGiam;
-
     }, (err) => {
       // this.tongTienSauGiam = this.tongTien;
       this.invoiceDetail.phiVanChuyen = 0;
-      if (this.invoiceDetail.phieuGiamGia.hinhThucGiamGia === true) {
+      if (this.invoiceDetail.phieuGiamGia === null) {
+        this.invoiceDetail.tienGiam = 0;
+      } else if (this.invoiceDetail.phieuGiamGia.hinhThucGiamGia === false) {
         this.invoiceDetail.tienGiam = (this.invoiceDetail.tongTien * this.invoiceDetail.phieuGiamGia.chietKhau) / 100;
       } else {
         this.invoiceDetail.tienGiam = this.invoiceDetail.phieuGiamGia.chietKhau;
@@ -798,7 +801,7 @@ export class InvoiceChiTietComponent implements OnInit {
 
   onSubmit() {
 
-this.showUpdate = true;
+    this.showUpdate = true;
 
     this.invoiceDetail.listHoaDonChiTiet.forEach((key: any) => {
       this.hoaDonChiTiets.push(
@@ -829,31 +832,39 @@ this.showUpdate = true;
       listHoaDonChiTiet: this.hoaDonChiTiets,
     })
 
-    Swal.fire(
-      {
-        title: 'Xác nhận cập nhật đơn hàng',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Xác nhận',
-        cancelButtonText: 'Hủy'
-      }
-    ).then((result) => {
-      if (result.isConfirmed) {
-        this.hoaDonService.updateInvoice(this.form.value).then(c => {
-          this.notification.success('Cập nhật đơn hàng thành công !');
-          this.hoaDonService.findByInvice(history.state.detailData.id).then(key => {
-            this.invoiceDetail = key;
-            setTimeout(() => {
-              window.location.reload();
-            }, 500);
+    if (this.invoiceDetail.tenKhachHang === '' || this.invoiceDetail.soDienThoai === '' || this.invoiceDetail.diaChi === '') {
+
+      Swal.fire(
+        {
+          title: 'Xác nhận cập nhật đơn hàng',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Xác nhận',
+          cancelButtonText: 'Hủy'
+        }
+      ).then((result) => {
+        if (result.isConfirmed) {
+          this.hoaDonService.updateInvoice(this.form.value).then(c => {
+            this.notification.success('Cập nhật đơn hàng thành công !');
+            this.hoaDonService.findByInvice(history.state.detailData.id).then(key => {
+              this.invoiceDetail = key;
+              setTimeout(() => {
+                window.location.reload();
+              }, 500);
+            })
+          }, err => {
+            this.notification.success('Cập nhật đơn hàng không thành công !');
           })
-        }, err => {
-          this.notification.success('Cập nhật đơn hàng không thành công !');
-        })
-      }
-    })
+        }
+      })
+
+      
+    }else{
+      this.notification.error('Vui lòng nhập đủ thông tin !')
+    }
+    
 
 
   }
