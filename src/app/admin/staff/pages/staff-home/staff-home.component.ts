@@ -13,12 +13,16 @@ import { StaffDialogComponent } from '../../components/staff-dialog/staff-dialog
 export class StaffHomeComponent implements OnInit {
 
   staffs!: any;
+  // positions! :any;
+  // position: any =[];
+
   searchQuery: any = {};
   listTotalPage: any = [];
 
-
+// selectedPosition : number | null =null;
   iconSortName = 'pi pi-sort-amount-up';
   constructor(private staffService: StaffService,
+
     private dialog: MatDialog
   ) {
     this.searchQuery.page = 1;
@@ -46,6 +50,33 @@ export class StaffHomeComponent implements OnInit {
       this.iconSortName = 'pi pi-sort-amount-up'
     }
   }
+
+  // getAllChucVu(): void {
+  //   // if (action) {
+  //   //   if (action === 'prev' && Number(this.searchQuery.page) > 1) {
+  //   //     this.searchQuery.page = this.searchQuery.page - 1
+  //   //   }
+  //   //   if (action === 'next' &&
+  //   //     Number(this.searchQuery.page) + 1 <= this.listTotalPage.length) {
+  //   //     this.searchQuery.page = this.searchQuery.page + 1
+  //   //   }
+  //   //   Object.keys(this.searchQuery).forEach(key => {
+  //   //     if (this.searchQuery[key] === null || this.searchQuery[key] === '') {
+  //   //       delete this.searchQuery[key];
+  //   //     }
+  //   //   });
+  //   // }
+  //   this.staffService.getPositions(this.searchQuery).then(staff => {
+  //     if (staff && staff.content) {
+  //       // this.positions = position.content;
+  //       this.listTotalPage = this.getTotalPage(staff.totalPages)
+  //       console.log(staff)
+  //     }
+
+  //   })
+  //   console.log(this.searchQuery)
+  // }
+
 
   getAll(action?: 'prev' | 'next'): void {
     if (action) {
@@ -95,7 +126,8 @@ export class StaffHomeComponent implements OnInit {
       height: '550px',
       data: {
         type: "add",
-        staff: {}
+        staff: {},
+        // positions: this.position,
       },
     })
     dialogRef.afterClosed().subscribe(data => {
@@ -109,11 +141,14 @@ export class StaffHomeComponent implements OnInit {
       data: {
         type: 'update',
         staff: staff,
-      }
-    })
+      //   positions : this.position,
+
+      // selectedPosition: staff.chucVu ? staff.chucVu.id :null,
+      },
+    });
     dialogRef.afterClosed().subscribe(data => {
       this.getAll();
-    })
+    });
   }
   openDialogDelete(staff: any) {
     const dialogRef = this.dialog.open(StaffDialogComponent, {

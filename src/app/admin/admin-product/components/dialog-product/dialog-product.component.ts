@@ -5,6 +5,7 @@ import { ProductService } from '../../service/product.service';
 import { CategoryService } from '../../../category/service/category.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dialog-product',
@@ -66,7 +67,8 @@ export class DialogProductComponent implements OnInit {
     private dialog: MatDialog,
     // private categoryService: CategoryService,
     private fireStorage: AngularFireStorage,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private notification: ToastrService,
   ) {
     this.origin = data.origins;
     this.brand = data.brands;
@@ -83,26 +85,32 @@ export class DialogProductComponent implements OnInit {
     console.log('files-log', files);
 
     if (files && files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const path = `images/${file.name}`;
-        const uploadTask = await this.fireStorage.upload(path, file);
-        // const url = await uploadTask.ref.getDownloadURL();
-        this.uploadedUrl = await uploadTask.ref.getDownloadURL();
-        console.log(`Uploaded file ${i}: ${this.uploadedUrl}`);
+      try{
+        if(files.length <= 1){
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const path = `images/${file.name}`;
+          const uploadTask = await this.fireStorage.upload(path, file);
+          // const url = await uploadTask.ref.getDownloadURL();
+          this.uploadedUrl = await uploadTask.ref.getDownloadURL();
+          console.log(`Uploaded file ${i}: ${this.uploadedUrl}`);
+        }
+      }else{
+        this.notification.error('Chỉ được thêm hoặc cập nhật 1 ảnh');
       }
+
+      } catch(error){
+        console.error('Error uploading files:', error);
+
+      }
+
+
+
     }
   }
 
   addProduct(): void {
-    // console.log('Valid URLs in addProduct:', this.validUrls);
-    // Gán giá trị vào this.product.anhChinh
-    // const tenValue = this.productForm.get('ten').value;
-    // const moTaValue = this.productForm.get('moTa').value;
-    // const danhMucId = this.productForm.get('danhMuc').value;
-    // const thuongHieuId = this.productForm.get('thuongHieu').value;
-    // const xuatXuId = this.productForm.get('xuatXu').value;
-    // const trangThaiValue = this.productForm.get('trangThai').value;
+
 
     // Gán giá trị vào this.product
     const formValue =this.productForm.value;
@@ -118,15 +126,17 @@ export class DialogProductComponent implements OnInit {
     this.product.anhChinh = this.uploadedUrl;
     console.log('Product Image URLs:', this.product.anhChinh);
     if (this.productForm.valid) {
-      if (this.product.anhChinh.length > 0) {
+      if (this.product.anhChinh && this.product.anhChinh.length > 0) {
+        
         this.productService.createProduct(this.product).then((res) => {
           console.log('Data created', res.content);
           if (res) {
+            this.notification.success('Thêm thành công');
             this.dialog.closeAll();
           }
         });
       } else {
-        console.error('Image URLs are null or empty. Product not added.');
+        this.notification.error('Ảnh không được để trống');
       }
     } else {
       console.log('Dữ liệu không hợp lệ.');
@@ -170,6 +180,7 @@ export class DialogProductComponent implements OnInit {
         .then((res) => {
           console.log('data updated', res.content);
           if (res) {
+            this.notification.success('cap nhat thanh cong');
             this.dialog.closeAll();
           }
         });

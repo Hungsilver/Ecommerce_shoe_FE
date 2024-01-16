@@ -1,6 +1,7 @@
+import { IVoucher } from './../../../voucher/service/voucher.module';
 import { IHoaDonChiTiet } from '../hoadonchitiet/hoadonchitiet.module';
 export interface IHoaDon {
-  id?: number;
+  id: number;
   tenKhachHang?: string;
   maHoaDon?: string;
   soDienThoai?: string;
@@ -16,9 +17,10 @@ export interface IHoaDon {
   phiVanChuyen?: number;
   phuongThucThanhToan?: number;
   trangThai?: number;
-  phieuGiamGia?: any;
+  phieuGiamGia: any | IVoucher;
   nhanVien?: any;
   khachHang?: any;
   listHoaDonChiTiet?: any[];
 }
+
 // tenKhachHang?: string;

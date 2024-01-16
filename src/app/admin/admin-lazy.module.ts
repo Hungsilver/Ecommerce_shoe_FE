@@ -50,7 +50,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
-import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
@@ -79,12 +79,28 @@ import { DialogUpdateCtspComponent } from './tra-hang-admin/component/dialog-upd
 
 import { InvoiceComponent } from './invoice/pages/invoice.component';
 import { InvoiceDetailComponent } from './invoice/pages/invoice-detail/invoice-detail.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
+
 import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
+import { HoaDonComponent } from './hoa-don/page/hoa-don.component';
+import { InvoiceChoLayHangComponent } from './hoa-don/component/invoice-cho-lay-hang/invoice-cho-lay-hang.component';
+import { InvoiceChoXacNhanComponent } from './hoa-don/component/invoice-cho-xac-nhan/invoice-cho-xac-nhan.component';
+import { InvoiceDaGiaoHangComponent } from './hoa-don/component/invoice-da-giao-hang/invoice-da-giao-hang.component';
+import { InvoiceDaHuyComponent } from './hoa-don/component/invoice-da-huy/invoice-da-huy.component';
+import { InvoiceDangGiaoHangComponent } from './hoa-don/component/invoice-dang-giao-hang/invoice-dang-giao-hang.component';
+import { InvoiceHoanThanhComponent } from './hoa-don/component/invoice-hoan-thanh/invoice-hoan-thanh.component';
+import { TatCaComponent } from './hoa-don/component/tat-ca/tat-ca.component';
+import { InvoiceChiTietComponent } from './hoa-don/component/invoice-chi-tiet/invoice-chi-tiet.component';
+import { InvoiceTraHangComponent } from './hoa-don/component/invoice-tra-hang/invoice-tra-hang.component';
+import { DialogLichSuComponent } from './hoa-don/component/dialog-lich-su/dialog-lich-su.component';
+
+
+
 // import { MatInputModule } from '@angular/material/input';
 
-LOAD_WASM().subscribe();
+// LOAD_WASM().subscribe();
 
 @NgModule({
   imports: [
@@ -112,7 +128,7 @@ LOAD_WASM().subscribe();
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
     TabViewModule,
-
+    MatSnackBarModule,
     CalendarModule,
   ],
   exports: [],
@@ -156,7 +172,6 @@ LOAD_WASM().subscribe();
     OrdersComponent,
     ForProductComponent,
 
-
     TraHangAdminComponent,
     NewTraHangComponent,
     CustomerTraHangComponent,
@@ -175,6 +190,25 @@ LOAD_WASM().subscribe();
     HeaderStatsComponent,
     TableStatsProductComponent,
     HeaderStatsProductComponent,
+
+
+    HoaDonComponent,
+    InvoiceChoLayHangComponent,
+    InvoiceChoXacNhanComponent,
+    InvoiceDaGiaoHangComponent,
+    InvoiceDaHuyComponent,
+    InvoiceDangGiaoHangComponent,
+    InvoiceHoanThanhComponent,
+    TatCaComponent,
+    InvoiceChiTietComponent,
+    InvoiceTraHangComponent,
+    DialogLichSuComponent,
+
+
+
+
+
+
   ],
   providers: [],
 })

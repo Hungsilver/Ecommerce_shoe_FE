@@ -1,3 +1,4 @@
+import { IProductDetailImportExcel } from 'src/app/admin/product-detail/services/ProductDetailImportExcel.module';
 import { Component, OnInit } from '@angular/core';
 import { ProductDetailService } from '../../services/product.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,9 +9,11 @@ import { ColorService } from 'src/app/admin/color/service/color.service';
 import { SizeService } from 'src/app/admin/size/service/size.service';
 import { MaterialService } from 'src/app/admin/material/service/material.service';
 import { MaterialSolesService } from 'src/app/admin/material-soles/service/material-soles.service';
-import { ProductDetailExportExcel } from '../../services/ProductDetailExportExcel.module';
+import { IProductDetailExportExcel } from '../../services/ProductDetailExportExcel.module';
 import * as XLSX from 'xlsx';
-import { ProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
+// import { IProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
+
+// import { ProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -32,7 +35,7 @@ export class ProductDetailComponent implements OnInit {
 
   selectedSize: number | null = null;
   selectedColor: number | null = null;
-  ChiTietSanPham!: ProductDetailExportExcel[];
+  ChiTietSanPham!: IProductDetailExportExcel[];
   fileName = 'ExcelSheet.xlsx';
   ExcelData: any;
 
@@ -87,65 +90,65 @@ export class ProductDetailComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, wr, 'Sheet1');
     XLSX.writeFile(wb, this.fileName);
   }
-  readExcel(event:any){
-      // Khởi tạo danh sách (list) để lưu trữ các đối tượng ChiTietSanPham
-      const danhSachCTSanPham:ProductDetailImportExcel[] = [];
-      // lấy file được chọn bên view
-      let file = event.target.files[0];
-      const extension = file.name.split('.').pop().toLowerCase();
-      if(extension ==='xlsx'){
+  readExcel(event: any) {
+    // Khởi tạo danh sách (list) để lưu trữ các đối tượng ChiTietSanPham
+    const danhSachCTSanPham: IProductDetailImportExcel[] = [];
+    // lấy file được chọn bên view
+    let file = event.target.files[0];
+    const extension = file.name.split('.').pop().toLowerCase();
+    if (extension === 'xlsx') {
+      let fileReader = new FileReader();
+      fileReader.readAsBinaryString(file);
 
-        let fileReader = new FileReader();
-        fileReader.readAsBinaryString(file);
+      fileReader.onload = (e) => {
+        var workBook = XLSX.read(fileReader.result, { type: 'binary' });
+        var sheetNames = workBook.SheetNames;
 
-fileReader.onload = (e) =>{
-  var workBook = XLSX.read(fileReader.result, { type: 'binary' });
-  var sheetNames = workBook.SheetNames;
+        this.ExcelData = XLSX.utils.sheet_to_json(
+          workBook.Sheets[sheetNames[0]]
+        );
 
-  this.ExcelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]);
+        for (let i = 0; i < this.ExcelData.length; i++) {
+          const chitietsanpham: IProductDetailImportExcel = {
+            stt: this.ExcelData[i].stt,
+            // maSanPham:this.ExcelData[i].ma,
+            // tenSanPham:this.ExcelData[i].ten,
+            soLuong: this.ExcelData[i].soLuong,
+            giaBan: this.ExcelData[i].giaBan,
+            ngayTao: this.ExcelData[i].ngayTao,
+            ngayCapNhat: this.ExcelData[i].ngayCapNhat,
+            trangThai: this.ExcelData[i].trangThai,
+            mauSac: this.ExcelData[i].mauSac,
+            kichCo: this.ExcelData[i].kichCo,
+            chatLieuGiay: this.ExcelData[i].chatLieuGiay,
+            chatLieuDeGiay: this.ExcelData[i].chatLieuDeGiay,
+            // xuatXu:this.ExcelData[i].xuatXu,
+            // thuongHieu:this.ExcelData[i].thuongHieu
+            sanPham: this.ExcelData[i].sanPham,
+          };
+          danhSachCTSanPham.push(chitietsanpham);
+        }
+        this.productDetailService.create(danhSachCTSanPham).subscribe(
+          (data) => {
+            if (Array.isArray(data)) {
+              this.ChiTietSanPham = data;
+            }
+            if (this.ChiTietSanPham.length > 0) {
+              const wr: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+                this.ChiTietSanPham
+              );
+              const wb: XLSX.WorkBook = XLSX.utils.book_new();
+              XLSX.utils.book_append_sheet(wb, wr, 'Sheet1');
 
-for(let i=0 ;i<this.ExcelData.length;i++){
-
-  const chitietsanpham: ProductDetailImportExcel ={
-    stt: this.ExcelData[i].stt,
-    // maSanPham:this.ExcelData[i].ma,
-    // tenSanPham:this.ExcelData[i].ten,
-    soLuong:this.ExcelData[i].soLuong,
-    giaBan:this.ExcelData[i].giaBan,
-    ngayTao:this.ExcelData[i].ngayTao,
-    ngayCapNhat:this.ExcelData[i].ngayCapNhat,
-    trangThai:this.ExcelData[i].trangThai,
-    mauSac:this.ExcelData[i].mauSac,
-    kichCo:this.ExcelData[i].kichCo,
-    chatLieuGiay:this.ExcelData[i].chatLieuGiay,
-    chatLieuDeGiay:this.ExcelData[i].chatLieuDeGiay,
-    // xuatXu:this.ExcelData[i].xuatXu,
-    // thuongHieu:this.ExcelData[i].thuongHieu
-    sanPham:this.ExcelData[i].sanPham
-  }
-  danhSachCTSanPham.push(chitietsanpham);
-
-}
-this.productDetailService.create(danhSachCTSanPham).subscribe((data) =>{
-if(Array.isArray(data)){
-  this.ChiTietSanPham =data;
-}
-if(this.ChiTietSanPham.length >0){
-
-  const wr: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.ChiTietSanPham);
-  const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, wr, 'Sheet1')
-
-  XLSX.writeFile(wb, "productdetailImportError.xlsx");
-      }
-
-    }, error =>console.log(error));
-
-  }
-} else{
-        alert('chỉ được chọn file có đuôi .xlsx');
-      }
-
+              XLSX.writeFile(wb, 'productdetailImportError.xlsx');
+            }
+          },
+          (error) => console.log(error)
+        );
+      };
+    } else {
+      alert('chỉ được chọn file có đuôi .xlsx');
+    }
   }
 
   sortByName() {
@@ -193,7 +196,7 @@ if(this.ChiTietSanPham.length >0){
       if (product && product.content) {
         this.productsDetails = product.content;
         this.listTotalPage = this.getTotalPage(product.totalPages);
-        console.log("ctsp",product);
+        console.log('ctsp', product);
       }
     });
 
@@ -230,6 +233,21 @@ if(this.ChiTietSanPham.length >0){
     }
     this.getAll();
   }
+
+  // updateProductDetail() {
+  //   this.newProduct.anhSanPhams = this.validUrls
+  //   this.productDetailService.updateProduct(this.newProduct).then(
+  //     (data) => {
+  //       console.log("data " + data);
+  //     },
+  //     (error) => console.log(error)
+  //   );
+  // }
+  // filterBySize(): void{
+  //   if(this.selectedSize !== null){
+  //   }
+  // }
+
   filterBySize(): void {
     if (this.selectedSize !== null) {
       this.searchQuery.size = this.selectedSize;
@@ -248,7 +266,6 @@ if(this.ChiTietSanPham.length >0){
   }
 
   openDialog() {
-
     const dialogRef = this.dialog.open(dialogProductDetailComponent, {
       width: '1100px',
       height: '600px',

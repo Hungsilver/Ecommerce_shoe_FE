@@ -89,7 +89,7 @@ export class NewTraHangComponent implements OnInit {
       // Dừng quét khi có kết quả thành công
       this.showQuantityInput = true;
 
-      this.traHangService.findByMaHoaDon(this.timKiem).then(c => {
+      this.traHangService.findByMaHoaDon(this.result).then(c => {
         this.traHangService.findTraHangByIdHD(c.id).then(t => {
           if (t === null) {
             if (c === null) {
@@ -410,7 +410,7 @@ export class NewTraHangComponent implements OnInit {
   trahang() {
 
     this.loiGhiChu = false;
-    if (this.ghiChu === '' || this.ghiChu.length < 1 || this.ghiChu.length > 200) {
+    if (this.ghiChu.trim() === '' || this.ghiChu.length < 1 || this.ghiChu.length > 200) {
       this.loiGhiChu = true;
     } else if (this.loiSoLuong === true) {
       this.notificationService.error("Số lượng trả hàng không hợp lệ ");

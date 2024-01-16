@@ -89,6 +89,7 @@ export class DialogComponent implements OnInit {
 
   onSubmit() {
 
+
     this.invoice.listHoaDonChiTiet.forEach((key: any) => {
       this.hoaDonChiTiets.push(
         {
@@ -471,7 +472,7 @@ export class DialogComponent implements OnInit {
       console.log(response.data.total);
       this.invoice.phiVanChuyen = response.data.total;
       this.invoice.tongTienSauGiam = this.tongTien;
-      if (this.invoice.phieuGiamGia.hinhThucGiamGia === true) {
+      if (this.invoice.phieuGiamGia.hinhThucGiamGia === false) {
         this.invoice.tienGiam = (this.tongTien * this.invoice.phieuGiamGia.chietKhau) / 100;
       } else {
         this.invoice.tienGiam = this.invoice.phieuGiamGia.chietKhau;
@@ -481,7 +482,7 @@ export class DialogComponent implements OnInit {
     }, (err) => {
       // this.tongTienSauGiam = this.tongTien;
       this.invoice.phiVanChuyen = 0;
-      if (this.invoice.phieuGiamGia.hinhThucGiamGia === true) {
+      if (this.invoice.phieuGiamGia.hinhThucGiamGia === false) {
         this.invoice.tienGiam = (this.tongTien * this.invoice.phieuGiamGia.chietKhau) / 100;
       } else {
         this.invoice.tienGiam = this.invoice.phieuGiamGia.chietKhau;

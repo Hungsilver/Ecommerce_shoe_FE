@@ -1,0 +1,1126 @@
+<!-- chi tiết hoàn thành -->
+<div class="container" *ngIf="invoiceDetail.trangThai === 1">
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between">
+            <h2 *ngIf="invoiceDetail.nhanVien === null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Hoàn thành |
+                {{invoiceDetail.ngayTao}} </h2>
+            <h2 *ngIf="invoiceDetail.nhanVien !== null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Hoàn thành |
+                {{invoiceDetail.ngayTao}} | {{invoiceDetail.nhanVien.hoTen}}</h2>
+        </div>
+    </div>
+    <div class="row border">
+        <div class="row mt-3">
+            <h2>Thông tin khách hàng</h2>
+        </div>
+        <div class="row">
+            <div class="col-2 mt-2">
+                <p>Tên khách hàng:</p>
+                <p>Số điện thoại:</p>
+                <p>Địa chỉ: </p>
+                <p>Ghi chú:</p>
+            </div>
+            <div class="col-5 mt-2">
+                <p>{{invoiceDetail.tenKhachHang}}</p>
+                <p>{{invoiceDetail.soDienThoai}}</p>
+                <p>{{invoiceDetail.diaChi}}, {{invoiceDetail.phuongXa}}, {{invoiceDetail.quanHuyen}},
+                    {{invoiceDetail.tinhThanh}}</p>
+                <p>{{invoiceDetail.ghiChu}}</p>
+            </div>
+            <div class="col-3 mt-2">
+                <p>Ngày giao hàng:</p>
+                <p>Trạng thái:</p>
+                <p>Phương thức thanh toán: </p>
+            </div>
+            <div class="col-2 mt-2">
+                <p>{{invoiceDetail.ngayCapNhat}}</p>
+                <p *ngIf="invoiceDetail.trangThai === 1">Hoàn thành</p>
+                <p *ngIf="invoiceDetail.trangThai === 2">Chờ xác nhận</p>
+                <p *ngIf="invoiceDetail.trangThai === 3">Chờ lấy hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 4">Đang giao hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 5">Đã giao hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 6">Đã hủy</p>
+                <p *ngIf="invoiceDetail.phuongThucThanhToan === 0">Tiền mặt</p>
+                <p *ngIf="invoiceDetail.phuongThucThanhToan === 1">Thanh toán VNpay</p>
+            </div>
+        </div>
+    </div>
+    <div class="row border mt-3">
+        <div class="row mt-3">
+            <div class="col-10">
+                <h2>Thông tin đơn hàng</h2>
+
+            </div>
+            <div class="col-2">
+                <button class="btn btn-success  " type="button" (click)="openLichSu(invoiceDetail.id)">Lịch sử</button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of invoiceDetail.listHoaDonChiTiet; let i = index">
+                        <td>
+                            <div class="table-product-detail">
+                                <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                <div>
+                                    <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                    <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                    <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                    <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                    <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                    <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{c.soLuong }}</td>
+                        <td>{{c.donGia | vnd}}</td>
+                        <td>{{c.soLuong*c.donGia | vnd}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row border mt-3 mb-5">
+        <div class="row">
+            <div class="col-8">
+                <h2 class="mt-3" *ngIf="traHang !== undefined">Thông tin đơn hàng trả </h2>
+                <hr *ngIf="traHang !== undefined">
+                <table class="table table-hover" *ngIf="traHang !== undefined">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Tổng tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of traHang.listTraHangChiTiet; let i = index">
+                            <td>
+                                <div class="table-product-detail">
+                                    <img class="table-image"
+                                        src="{{c.hoaDonChiTiet.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                    <div>
+                                        <p>Tên: {{c.hoaDonChiTiet.chiTietSanPham.sanPham.ten}}</p>
+                                        <p>Mã: {{c.hoaDonChiTiet.chiTietSanPham.ma}}</p>
+                                        <p>Size: {{c.hoaDonChiTiet.chiTietSanPham.kichCo.size}}</p>
+                                        <p>Màu sắc: {{c.hoaDonChiTiet.chiTietSanPham.mauSac.ten}}</p>
+                                        <p>Chất liệu: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                        <p>Loại đế: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{c.hoaDonChiTiet.soLuong}}</td>
+                            <td>{{c.hoaDonChiTiet.donGia | vnd}}</td>
+                            <td>{{c.soLuong*c.donGia | vnd}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4 mb-5">
+                <h2 class="mt-3">Thông tin thanh toán</h2>
+                <hr>
+                <h3><b>Tổng giá hàng gốc:</b> {{invoiceDetail.tongTien | vnd}}</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
+                <h3
+                    *ngIf=" invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === false ">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau}}%</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === true">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau | vnd}}</h3>
+                <h3><b>Phí vận chuyển:</b> {{invoiceDetail.phiVanChuyen | vnd}}</h3>
+                <h3 *ngIf="traHang !== undefined"><b>Tổng giá hàng trả:</b> {{tongGiaHangTra | vnd}}</h3>
+                <hr>
+                <h3 *ngIf="traHang === undefined"><b>Tổng tiền thanh toán:</b> {{invoiceDetail.tongTienSauGiam +
+                    invoiceDetail.phiVanChuyen | vnd}}</h3>
+                <h3 *ngIf="traHang !== undefined"><b>Tổng tiền thanh toán:</b> {{invoiceDetail.tongTienSauGiam | vnd}}
+                </h3>
+                <!-- <h3><b>Tổng tiền trả khách</b> {{tongTienTraKhach | vnd}}</h3> -->
+                <h3><b class="text-danger">*</b>Ghi chú</h3>
+                <textarea class="ghiChu w-100" value="{{invoiceDetail.ghiChu}}" disabled></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5"></div>
+</div>
+
+<!-- chi tiết chờ xác nhận -->
+<form [formGroup]="form" (submit)="onSubmit()">
+<div class="container" *ngIf="invoiceDetail.trangThai === 2">
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between">
+            <h2 *ngIf="invoiceDetail.nhanVien === null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Chờ xác nhận |
+                {{invoiceDetail.ngayTao}}</h2>
+            <h2 *ngIf="invoiceDetail.nhanVien !== null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Chờ xác nhận |
+                {{invoiceDetail.ngayTao}} | {{invoiceDetail.nhanVien.hoTen}}</h2>
+        </div>
+    </div>
+
+    <div class="row border">
+        <div class="row mt-3">
+            <div class="col-10">
+                <h2>Thông tin khách hàng</h2>
+
+            </div>
+            <div class="col-2">
+                <button class="btn btn-success  " type="button" (click)="openLichSu(invoiceDetail.id)">Lịch sử</button>
+            </div>
+        </div>
+        
+            <div class="row formInvoice">
+                <hr>
+                <div class="col-6 mb-3">
+                    <h4 class="mt-3">Họ và Tên*</h4>
+                    <input type="text" formControlName="tenKhachHang" class="form-control" />
+                    <div class="text-danger" *ngIf="
+                  form.get('tenKhachHang')?.hasError('required') &&
+                  (form.touched || form.dirty)
+                ">
+                        *Vui lòng nhập thông tin!
+                    </div>
+                    <div class="text-danger" *ngIf="
+                  form.get('tenKhachHang')?.hasError('maxlength') &&
+                  (form.touched || form.dirty)
+                ">
+                        *Vui lòng không nhập quá 50 ký tự!
+                    </div>
+                    <div class="text-danger" *ngIf="
+                  form.get('tenKhachHang')?.hasError('pattern') &&
+                  (form.touched || form.dirty)
+                ">
+                        *Vui lòng nhập đúng định dạng!
+                    </div>
+                </div>
+                <div class="col-6 mb-3">
+                    <h4 class="mt-3">Số điện thoại*</h4>
+                    <input type="text" formControlName="soDienThoai" class="form-control" required />
+                    <div class="text-danger" *ngIf="
+                form.get('soDienThoai')?.hasError('required') &&
+                (form.touched || form.dirty)
+              ">
+                        *Vui lòng nhập thông tin!
+                    </div>
+                    <div class="text-danger" *ngIf="
+                form.get('soDienThoai')?.hasError('minlength') &&
+                (form.touched || form.dirty)
+              ">
+                        *Vui lòng nhập đúng định dạng!
+                    </div>
+                    <div class="text-danger" *ngIf="
+                form.get('soDienThoai')?.hasError('maxlength') &&
+                (form.touched || form.dirty)
+              ">
+                        *Vui lòng nhập đúng định dạng!
+                    </div>
+                    <div class="text-danger" *ngIf="
+                form.get('soDienThoai')?.hasError('pattern') &&
+                (form.touched || form.dirty)
+              ">
+                        *Vui lòng nhập đúng định dạng!
+                    </div>
+                </div>
+                <div class="col-6 mb-3">
+                    <h4 class="mt-3">Tỉnh / Thành phố*</h4>
+                    <select id="city" formControlName="tinhThanh" (change)="onProvinceChange($event)"
+                        class="form-control">
+                        <option *ngFor="let province of provinces"
+                            [selected]="invoiceDetail.tinhThanh === province.ProvinceName">{{province.ProvinceName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-6 mb-3">
+                    <h4 class="mt-3">Quận / Huyện*</h4>
+                    <select id="district" formControlName="quanHuyen" (change)="onDistrictChange($event)"
+                        class="form-control">
+                        <option *ngFor="let district of districts"
+                            [selected]="invoiceDetail.quanHuyen === district.DistrictName">
+                            {{district.DistrictName}}</option>
+                    </select>
+                </div>
+                <div class="col-6 mb-3">
+                    <h4 class="mt-3">Xã / Phường*</h4>
+                    <select id="ward" formControlName="phuongXa" (change)="onWardChange($event)" class="form-control">
+                        <option *ngFor="let ward of wards" [selected]="invoiceDetail.phuongXa === ward.WardName">
+                            {{ward.WardName}}</option>
+                    </select>
+                </div>
+                <div class="col-6 mb-3">
+                    <h4 class="mt-3">Địa chỉ chi tiết*</h4>
+                    <input type="text" formControlName="diaChi" class="form-control" required />
+                    <div class="text-danger" *ngIf="
+                form.get('diaChi')?.hasError('required') &&
+                (form.touched || form.dirty)
+              ">
+                        *Vui lòng nhập thông tin!
+                    </div>
+                    <div class="text-danger" *ngIf="
+                form.get('diaChi')?.hasError('maxlength') &&
+                (form.touched || form.dirty)
+              ">
+                        *Vui lòng không nhập quá 100 ký tự!
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6 mt-2">
+                    <p>Ngày tạo đơn:</p>
+                    <p>Trạng thái:</p>
+                    <p>Phương thức thanh toán: </p>
+                </div>
+                <div class="col-6 mt-2">
+                    <p>{{invoiceDetail.ngayTao}}</p>
+                    <p *ngIf="invoiceDetail.trangThai === 1">Hoàn thành</p>
+                    <p *ngIf="invoiceDetail.trangThai === 2">Chờ xác nhận</p>
+                    <p *ngIf="invoiceDetail.trangThai === 3">Chờ lấy hàng</p>
+                    <p *ngIf="invoiceDetail.trangThai === 4">Đang giao hàng</p>
+                    <p *ngIf="invoiceDetail.trangThai === 5">Đã giao hàng</p>
+                    <p *ngIf="invoiceDetail.trangThai === 6">Đã hủy</p>
+                    <p *ngIf="invoiceDetail.phuongThucThanhToan === 0">Khi nhận hàng</p>
+                    <p *ngIf="invoiceDetail.phuongThucThanhToan === 1">Thanh toán VNpay</p>
+                </div>
+            </div>
+    </div>
+
+    <div class="row border mt-3">
+        <div class="col-4 mt-2 mb-2">
+            <input type="search" class="form-control" placeholder="Mã sản phẩm ..."
+            (blur)="timKiemCtsp($event)"
+            >
+        </div>
+        <div class="col-8  mt-2 mb-2">
+            <button class="btn btn-primary ms-3" type="button" (click)="showQRCode()">QR code</button>
+        </div>
+        <hr>
+        <div class="row" *ngIf="showCtsp === true">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Giá bán</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="table-product-detail">
+                                <img class="table-image" src="{{chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                <div>
+                                    <p>Tên: {{chiTietSanPham.sanPham.ten}}</p>
+                                    <p>Mã: {{chiTietSanPham.ma}}</p>
+                                    <p>Size: {{chiTietSanPham.kichCo.size}}</p>
+                                    <p>Màu sắc: {{chiTietSanPham.mauSac.ten}}</p>
+                                    <p>Chất liệu: {{chiTietSanPham.chatLieuGiay.ten}}</p>
+                                    <p>Loại đế: {{chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{chiTietSanPham.soLuong }} </td>
+                        <td>{{chiTietSanPham.giaBan | vnd}}</td>
+                        <td *ngIf="chiTietSanPham.trangThai === 1">Kinh doanh</td>
+                        <td *ngIf="chiTietSanPham.trangThai !== 1">Kinh doanh</td>
+                        <td><i class="pi pi-shopping-cart" style="font-size: 1.5rem" (click)="addProduct()"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- <hr> -->
+    <div class="row border" *ngIf="hienThiQrcode === true">
+        <div class="qr-container" *ngIf="isShowQrCode">
+            <div class="d-flex justify-content-center mt-5">
+                <ngx-scanner-qrcode #action="scanner" [config]="config"
+                    (event)="onEvent($event, action)"></ngx-scanner-qrcode>
+            </div>
+            <!-- loading -->
+            <p *ngIf="action.isLoading">⌛ Loading...</p>
+            <button  type="button" class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
+                [disabled]="action.isLoading" (click)="handle(action, action.isStart ? 'stop' : 'start')">
+                <img [src]="action.isStart ? 'https://id1945.github.io/images/svg/camera-off.svg' : 'https://id1945.github.io/images/svg/camera-on.svg'"
+                    width="30px" />
+            </button>
+
+            <!-- play/pause -->
+            <button  type="button" class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
+                [disabled]="!action.isStart" (click)="handle(action, action.isPause ? 'play' : 'pause')"
+                *ngIf="!result">
+                <!-- Thêm điều kiện để ẩn nút khi đã có kết quả -->
+                <img [src]="action.isPause ? 'https://id1945.github.io/images/svg/play.svg': 'https://id1945.github.io/images/svg/pause.svg'"
+                    width="30px" />
+            </button>
+            <!-- <button (click)="startScanning()">Quét mã QR</button> -->
+            <button  type="button" (click)="turnOfQRCode()" class="btn btn-outline-primary">Tắt mã QR</button>
+
+        </div>
+
+    </div>
+
+    <div class="row border mt-3 mb-5">
+        <div class="row">
+            <div class="col-8">
+                <h2 class="mt-3">Thông tin đơn hàng </h2>
+                <hr>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Tổng tiền</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of invoiceDetail.listHoaDonChiTiet; let i = index">
+                            <td>
+                                <div class="table-product-detail">
+                                    <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                    <div>
+                                        <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                        <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                        <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                        <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                        <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                        <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <i class="pi pi-minus" *ngIf="c.soLuong>=2" (click)="giamSoLuong(i)"></i>
+                                {{c.soLuong }}
+                                <i class="pi pi-plus" *ngIf="c.chiTietSanPham.soLuong > c.soLuong"
+                                    (click)="tangSoLuong(i)"></i>
+                            </td>
+                            <td>{{c.donGia | vnd}}</td>
+                            <td>{{c.soLuong*c.donGia | vnd}}</td>
+                            <td><i class="pi pi-times" style="font-size: 1.5rem" (click)="deleteProduct(c.id)"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4 mb-5">
+                <h2 class="mt-3">Thông tin thanh toán</h2>
+                <hr>
+                <h3><b>Tổng giá hàng gốc:</b> {{invoiceDetail.tongTien | vnd}}</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
+                <h3
+                    *ngIf=" invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === false ">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau}}%</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === true">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau | vnd}}</h3>
+                <h3><b>Phí vận chuyển:</b> {{invoiceDetail.phiVanChuyen | vnd}}</h3>
+                <h3><b>Tổng tiền thanh toán:</b> {{invoiceDetail.tongTienSauGiam + invoiceDetail.phiVanChuyen | vnd}}
+                </h3>
+
+                <hr>
+                <h3 *ngIf="invoiceDetail.phuongThucThanhToan === 1"><b>Tổng tiền đã thanh toán: {{tongTienDaThanhToan |
+                        vnd}}</b> </h3>
+                <h3
+                    *ngIf="invoiceDetail.phuongThucThanhToan === 1 && (invoiceDetail.tongTienSauGiam + invoiceDetail.phiVanChuyen) > tongTienDaThanhToan">
+                    <b>Tổng tiền cần thanh toán thêm: {{(invoiceDetail.tongTienSauGiam + invoiceDetail.phiVanChuyen) -
+                        tongTienDaThanhToan | vnd}}</b> </h3>
+                <h3
+                    *ngIf="invoiceDetail.phuongThucThanhToan === 1 && tongTienDaThanhToan > (invoiceDetail.tongTienSauGiam + invoiceDetail.phiVanChuyen)">
+                    <b>Tổng tiền hoàn trả khách: {{tongTienDaThanhToan - (invoiceDetail.tongTienSauGiam +
+                        invoiceDetail.phiVanChuyen) | vnd}}</b> </h3>
+                <h3><b class="text-danger">*</b>Ghi chú</h3>
+                <textarea class="ghiChu w-100" (blur)="getGhiChu($event)" ></textarea>
+                <button class="btn btn-success mt-2 w-100"  type="button" (click)="xacNhanDon(invoiceDetail.id)">Chờ lấy hàng</button>
+                <button class="btn btn-danger mt-2 w-100"  type="button" (click)="huyDon(invoiceDetail.id)">Hủy đơn</button>
+                <button class="btn btn-info mt-2 w-100" type="submit">Cập nhật</button>
+
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5"></div>
+</div>
+</form>
+
+<!-- chi tiết chờ lấy hàng -->
+<div class="container" *ngIf="invoiceDetail.trangThai === 3">
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between">
+            <h2 *ngIf="invoiceDetail.nhanVien === null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Chờ lấy hàng |
+                {{invoiceDetail.ngayCapNhat}}</h2>
+            <h2 *ngIf="invoiceDetail.nhanVien !== null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Chờ lấy hàng |
+                {{invoiceDetail.ngayCapNhat}} | {{invoiceDetail.nhanVien.hoTen}}</h2>
+        </div>
+    </div>
+    <div class="row border">
+        <div class="row mt-3">
+            <h2>Thông tin khách hàng </h2>
+        </div>
+        <div class="row">
+            <div class="col-2 mt-2">
+                <p>Tên khách hàng:</p>
+                <p>Số điện thoại:</p>
+                <p>Địa chỉ: </p>
+                <p>Ghi chú:</p>
+            </div>
+            <div class="col-5 mt-2">
+                <p>{{invoiceDetail.tenKhachHang}}</p>
+                <p>{{invoiceDetail.soDienThoai}}</p>
+                <p>{{invoiceDetail.diaChi}}, {{invoiceDetail.phuongXa}}, {{invoiceDetail.quanHuyen}},
+                    {{invoiceDetail.tinhThanh}}</p>
+                <p>{{invoiceDetail.ghiChu}}</p>
+            </div>
+            <div class="col-3 mt-2">
+                <p>Ngày giao hàng:</p>
+                <p>Trạng thái:</p>
+                <p>Phương thức thanh toán: </p>
+            </div>
+            <div class="col-2 mt-2">
+                <p>{{invoiceDetail.ngayCapNhat}}</p>
+                <p *ngIf="invoiceDetail.trangThai === 1">Hoàn thành</p>
+                <p *ngIf="invoiceDetail.trangThai === 2">Chờ xác nhận</p>
+                <p *ngIf="invoiceDetail.trangThai === 3">Chờ lấy hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 4">Đang giao hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 5">Đã giao hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 6">Đã hủy</p>
+                <p *ngIf="invoiceDetail.phuongThucThanhToan === 0">Khi nhận hàng</p>
+                <p *ngIf="invoiceDetail.phuongThucThanhToan === 1">Thanh toán VNpay</p>
+            </div>
+        </div>
+    </div>
+    <div class="row border mt-3 mb-5">
+        <div class="row">
+            <div class="col-8">
+                <div class="row mt-4">
+                    <div class="col-10">
+                        <h2>Thông tin đơn hàng</h2>
+        
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-success  " type="button" (click)="openLichSu(invoiceDetail.id)">Lịch sử</button>
+                    </div>
+                </div>
+                
+                <hr>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Tổng tiền</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of invoiceDetail.listHoaDonChiTiet; let i = index">
+                            <td>
+                                <div class="table-product-detail">
+                                    <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                    <div>
+                                        <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                        <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                        <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                        <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                        <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                        <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{c.soLuong}} </td>
+                            <td>{{c.donGia | vnd}}</td>
+                            <td>{{c.soLuong*c.donGia | vnd}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4 mb-5">
+                <h2 class="mt-3">Thông tin thanh toán</h2>
+                <hr>
+                <h3><b>Tổng giá hàng gốc:</b> {{invoiceDetail.tongTien | vnd}}</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
+                <h3
+                    *ngIf=" invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === false ">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau}}%</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === true">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau | vnd}}</h3>
+                <h3><b>Phí vận chuyển:</b> {{invoiceDetail.phiVanChuyen | vnd}}</h3>
+                <h3><b>Tổng tiền thanh toán:</b> {{invoiceDetail.tongTienSauGiam + invoiceDetail.phiVanChuyen | vnd}}
+                </h3>
+                <!-- <h3><b>Tổng giá hàng trả:</b> {{tongGiaSanPhamTra | vnd}}</h3> -->
+                <hr>
+                <!-- <h3><b>Tổng tiền trả khách</b> {{tongTienTraKhach | vnd}}</h3> -->
+                <h3><b class="text-danger">*</b>Ghi chú</h3>
+                <textarea class="ghiChu w-100" (blur)="getGhiChu($event)" ></textarea>
+                <button class="btn btn-success mt-2 w-100" (click)="dangGiaoHang(invoiceDetail.id)">Giao hàng</button>
+                <button class="btn btn-danger mt-2 w-100" (click)="choXacNhan(invoiceDetail.id)">Chờ xác nhận</button>
+
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5"></div>
+</div>
+
+<!-- chi tiết đang giao hàng -->
+<div class="container" *ngIf="invoiceDetail.trangThai === 4">
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between">
+            <h2 *ngIf="invoiceDetail.nhanVien === null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Đang giao hàng |
+                {{invoiceDetail.ngayCapNhat}}</h2>
+            <h2 *ngIf="invoiceDetail.nhanVien !== null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Đang giao hàng |
+                {{invoiceDetail.ngayCapNhat}} | {{invoiceDetail.nhanVien.hoTen}}</h2>
+        </div>
+    </div>
+    <div class="row border">
+        <div class="row mt-3">
+            <h2>Thông tin khách hàng</h2>
+        </div>
+        <div class="row">
+            <div class="col-2 mt-2">
+                <p>Tên khách hàng:</p>
+                <p>Số điện thoại:</p>
+                <p>Địa chỉ: </p>
+                <p>Ghi chú:</p>
+            </div>
+            <div class="col-5 mt-2">
+                <p>{{invoiceDetail.tenKhachHang}}</p>
+                <p>{{invoiceDetail.soDienThoai}}</p>
+                <p>{{invoiceDetail.diaChi}}, {{invoiceDetail.phuongXa}}, {{invoiceDetail.quanHuyen}},
+                    {{invoiceDetail.tinhThanh}}</p>
+                <p>{{invoiceDetail.ghiChu}}</p>
+            </div>
+            <div class="col-3 mt-2">
+                <p>Ngày giao hàng:</p>
+                <p>Trạng thái:</p>
+                <p>Phương thức thanh toán: </p>
+            </div>
+            <div class="col-2 mt-2">
+                <p>{{invoiceDetail.ngayCapNhat}}</p>
+                <p *ngIf="invoiceDetail.trangThai === 1">Hoàn thành</p>
+                <p *ngIf="invoiceDetail.trangThai === 2">Chờ xác nhận</p>
+                <p *ngIf="invoiceDetail.trangThai === 3">Chờ lấy hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 4">Đang giao hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 5">Đã giao hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 6">Đã hủy</p>
+                <p *ngIf="invoiceDetail.phuongThucThanhToan === 0">Khi nhận hàng</p>
+                <p *ngIf="invoiceDetail.phuongThucThanhToan === 1">Thanh toán VNpay</p>
+            </div>
+        </div>
+    </div>
+    <div class="row border mt-3 mb-5">
+        <div class="row">
+            <div class="col-8">
+                <div class="row mt-4">
+                    <div class="col-10">
+                        <h2>Thông tin đơn hàng</h2>
+        
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-success  " type="button" (click)="openLichSu(invoiceDetail.id)">Lịch sử</button>
+                    </div>
+                </div>
+                <hr>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Tổng tiền</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of invoiceDetail.listHoaDonChiTiet; let i = index">
+                            <td>
+                                <div class="table-product-detail">
+                                    <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                    <div>
+                                        <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                        <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                        <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                        <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                        <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                        <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{c.soLuong}} </td>
+                            <td>{{c.donGia | vnd}}</td>
+                            <td>{{c.soLuong*c.donGia | vnd}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4 mb-5">
+                <h2 class="mt-3">Thông tin thanh toán</h2>
+                <hr>
+                <h3><b>Tổng giá hàng gốc:</b> {{invoiceDetail.tongTien | vnd}}</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
+                <h3
+                    *ngIf=" invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === false ">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau}}%</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === true">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau | vnd}}</h3>
+                <h3><b>Phí vận chuyển:</b> {{invoiceDetail.phiVanChuyen | vnd}}</h3>
+                <h3><b>Tổng tiền thanh toán:</b> {{invoiceDetail.tongTienSauGiam + invoiceDetail.phiVanChuyen | vnd}}
+                </h3>
+                <!-- <h3><b>Tổng giá hàng trả:</b> {{tongGiaSanPhamTra | vnd}}</h3> -->
+                <hr>
+                <!-- <h3><b>Tổng tiền trả khách</b> {{tongTienTraKhach | vnd}}</h3> -->
+                <h3><b class="text-danger">*</b>Ghi chú</h3>
+                <textarea class="ghiChu w-100" (blur)="getGhiChu($event)" ></textarea>
+                <button class="btn btn-success mt-2 w-100" (click)="hoanThanh(invoiceDetail.id)">Hoàn thành</button>
+                <button class="btn btn-danger mt-2 w-100" (click)="choLayHang(invoiceDetail.id)">Chờ lấy hàng</button>
+
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5"></div>
+</div>
+
+<!-- chi tiết đã giao hàng -->
+<div class="container" *ngIf="invoiceDetail.trangThai === 5">
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between">
+            <h2 *ngIf="invoiceDetail.nhanVien === null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Đã giao hàng |
+                {{invoiceDetail.ngayCapNhat}}</h2>
+            <h2 *ngIf="invoiceDetail.nhanVien !== null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Đã giao hàng |
+                {{invoiceDetail.ngayCapNhat}} | {{invoiceDetail.nhanVien.hoTen}}</h2>
+        </div>
+    </div>
+    <div class="row border">
+        <div class="row mt-3">
+            <h2>Thông tin khách hàng</h2>
+        </div>
+        <div class="row">
+            <div class="col-2 mt-2">
+                <p>Tên khách hàng:</p>
+                <p>Số điện thoại:</p>
+                <p>Địa chỉ: </p>
+                <p>Ghi chú:</p>
+            </div>
+            <div class="col-5 mt-2">
+                <p>{{invoiceDetail.tenKhachHang}}</p>
+                <p>{{invoiceDetail.soDienThoai}}</p>
+                <p>{{invoiceDetail.diaChi}}, {{invoiceDetail.phuongXa}}, {{invoiceDetail.quanHuyen}},
+                    {{invoiceDetail.tinhThanh}}</p>
+                <p>{{invoiceDetail.ghiChu}}</p>
+            </div>
+            <div class="col-3 mt-2">
+                <p>Ngày giao hàng:</p>
+                <p>Trạng thái:</p>
+                <p>Phương thức thanh toán: </p>
+            </div>
+            <div class="col-2 mt-2">
+                <p>{{invoiceDetail.ngayCapNhat}}</p>
+                <p *ngIf="invoiceDetail.trangThai === 1">Hoàn thành</p>
+                <p *ngIf="invoiceDetail.trangThai === 2">Chờ xác nhận</p>
+                <p *ngIf="invoiceDetail.trangThai === 3">Chờ lấy hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 4">Đang giao hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 5">Đã giao hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 6">Đã hủy</p>
+                <p *ngIf="invoiceDetail.phuongThucThanhToan === 0">Khi nhận hàng</p>
+                <p *ngIf="invoiceDetail.phuongThucThanhToan === 1">Thanh toán VNpay</p>
+            </div>
+        </div>
+    </div>
+    <div class="row border mt-3">
+        <div class="row mt-3">
+            <!-- <div class="row mt-4"> -->
+                <div class="col-10">
+                    <h2>Thông tin đơn hàng</h2>
+    
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-success  " type="button" (click)="openLichSu(invoiceDetail.id)">Lịch sử</button>
+                </div>
+            <!-- </div> -->
+        </div>
+        <hr>
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of invoiceDetail.listHoaDonChiTiet; let i = index">
+                        <td>
+                            <div class="table-product-detail">
+                                <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                <div>
+                                    <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                    <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                    <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                    <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                    <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                    <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{c.soLuong }}</td>
+                        <td>{{c.donGia | vnd}}</td>
+                        <td>{{c.soLuong*c.donGia | vnd}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row border mt-3 mb-5">
+        <div class="row">
+            <div class="col-8">
+                <h2 class="mt-3" *ngIf="traHang !== undefined">Thông tin đơn hàng trả </h2>
+                <hr *ngIf="traHang !== undefined">
+                <table class="table table-hover" *ngIf="traHang !== undefined">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Tổng tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of traHang.listTraHangChiTiet; let i = index">
+                            <td>
+                                <div class="table-product-detail">
+                                    <img class="table-image"
+                                        src="{{c.hoaDonChiTiet.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                    <div>
+                                        <p>Tên: {{c.hoaDonChiTiet.chiTietSanPham.sanPham.ten}}</p>
+                                        <p>Mã: {{c.hoaDonChiTiet.chiTietSanPham.ma}}</p>
+                                        <p>Size: {{c.hoaDonChiTiet.chiTietSanPham.kichCo.size}}</p>
+                                        <p>Màu sắc: {{c.hoaDonChiTiet.chiTietSanPham.mauSac.ten}}</p>
+                                        <p>Chất liệu: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                        <p>Loại đế: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{c.hoaDonChiTiet.soLuong}}</td>
+                            <td>{{c.hoaDonChiTiet.donGia | vnd}}</td>
+                            <td>{{c.soLuong*c.donGia | vnd}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4 mb-5">
+                <h2 class="mt-3">Thông tin thanh toán</h2>
+                <hr>
+                <h3><b>Tổng giá hàng gốc:</b> {{invoiceDetail.tongTien | vnd}}</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
+                <h3
+                    *ngIf=" invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === false ">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau}}%</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === true">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau | vnd}}</h3>
+                <h3><b>Phí vận chuyển:</b> {{invoiceDetail.phiVanChuyen | vnd}}</h3>
+                <h3 *ngIf="traHang !== undefined"><b>Tổng giá hàng trả:</b> {{tongGiaHangTra | vnd}}</h3>
+                <hr>
+                <h3 *ngIf="traHang === undefined"><b>Tổng tiền thanh toán:</b> {{invoiceDetail.tongTienSauGiam +
+                    invoiceDetail.phiVanChuyen | vnd}}</h3>
+                <h3 *ngIf="traHang !== undefined"><b>Tổng tiền thanh toán:</b> {{invoiceDetail.tongTienSauGiam | vnd}}
+                </h3>
+                <!-- <h3><b>Tổng tiền trả khách</b> {{tongTienTraKhach | vnd}}</h3> -->
+                <h3><b class="text-danger">*</b>Ghi chú</h3>
+                <textarea class="ghiChu w-100" (blur)="getGhiChu($event)" ></textarea>
+                <button class="btn btn-danger mt-2 w-100" (click)="dangGiaoHang(invoiceDetail.id)">Đang giao
+                    hàng</button>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5"></div>
+</div>
+
+<!-- chi tiết đã hủy -->
+<div class="container" *ngIf="invoiceDetail.trangThai === 6">
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between">
+            <h2 *ngIf="invoiceDetail.nhanVien === null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Đã hủy |
+                {{invoiceDetail.ngayCapNhat}}</h2>
+            <h2 *ngIf="invoiceDetail.nhanVien !== null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Đã hủy |
+                {{invoiceDetail.ngayCapNhat}} | {{invoiceDetail.nhanVien.hoTen}}</h2>
+        </div>
+    </div>
+    <div class="row border">
+        <div class="row mt-3">
+            <h2>Thông tin khách hàng</h2>
+        </div>
+        <div class="row">
+            <div class="col-2 mt-2">
+                <p>Tên khách hàng:</p>
+                <p>Số điện thoại:</p>
+                <p>Địa chỉ: </p>
+                <p>Ghi chú:</p>
+            </div>
+            <div class="col-5 mt-2">
+                <p>{{invoiceDetail.tenKhachHang}}</p>
+                <p>{{invoiceDetail.soDienThoai}}</p>
+                <p>{{invoiceDetail.diaChi}}, {{invoiceDetail.phuongXa}}, {{invoiceDetail.quanHuyen}},
+                    {{invoiceDetail.tinhThanh}}</p>
+                <p>{{invoiceDetail.ghiChu}}</p>
+            </div>
+            <div class="col-3 mt-2">
+                <p>Ngày hủy đơn:</p>
+                <p>Trạng thái:</p>
+                <p>Phương thức thanh toán: </p>
+            </div>
+            <div class="col-2 mt-2">
+                <p>{{invoiceDetail.ngayCapNhat}}</p>
+                <p *ngIf="invoiceDetail.trangThai === 1">Hoàn thành</p>
+                <p *ngIf="invoiceDetail.trangThai === 2">Chờ xác nhận</p>
+                <p *ngIf="invoiceDetail.trangThai === 3">Chờ lấy hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 4">Đang giao hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 5">Đã giao hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 6">Đã hủy</p>
+                <p *ngIf="invoiceDetail.phuongThucThanhToan === 0">Khi nhận hàng</p>
+                <p *ngIf="invoiceDetail.phuongThucThanhToan === 1">Thanh toán VNpay</p>
+            </div>
+        </div>
+    </div>
+    <div class="row border mt-3 mb-5">
+        <div class="row">
+            <div class="col-8">
+                <div class="row mt-4">
+                    <div class="col-10">
+                        <h2>Thông tin đơn hàng</h2>
+        
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-success  " type="button" (click)="openLichSu(invoiceDetail.id)">Lịch sử</button>
+                    </div>
+                </div>
+                <hr>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Tổng tiền</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of invoiceDetail.listHoaDonChiTiet; let i = index">
+                            <td>
+                                <div class="table-product-detail">
+                                    <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                    <div>
+                                        <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                        <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                        <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                        <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                        <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                        <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{c.soLuong}} </td>
+                            <td>{{c.donGia | vnd}}</td>
+                            <td>{{c.soLuong*c.donGia | vnd}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4 mb-5">
+                <h2 class="mt-3">Thông tin thanh toán</h2>
+                <hr>
+                <h3><b>Tổng giá hàng gốc:</b> {{invoiceDetail.tongTien | vnd}}</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
+                <h3
+                    *ngIf=" invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === false ">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau}}%</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === true">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau | vnd}}</h3>
+                <h3><b>Phí vận chuyển:</b> {{invoiceDetail.phiVanChuyen | vnd}}</h3>
+                <h3><b>Tổng tiền thanh toán:</b> {{invoiceDetail.tongTienSauGiam + invoiceDetail.phiVanChuyen | vnd}}
+                </h3>
+                <!-- <h3><b>Tổng giá hàng trả:</b> {{tongGiaSanPhamTra | vnd}}</h3> -->
+                <hr>
+                <!-- <h3><b>Tổng tiền trả khách</b> {{tongTienTraKhach | vnd}}</h3> -->
+                <h3><b class="text-danger">*</b>Ghi chú</h3>
+                <textarea class="ghiChu w-100" (blur)="getGhiChu($event)" ></textarea>
+                <button class="btn btn-danger mt-2 w-100" (click)="choXacNhan(invoiceDetail.id)">Chờ xác nhận</button>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5"></div>
+</div>
+
+<!-- chi tiết trả hàng -->
+<div class="container" *ngIf="invoiceDetail.trangThai === 7">
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between">
+            <h2 *ngIf="invoiceDetail.nhanVien === null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Trả hàng |
+                {{invoiceDetail.ngayCapNhat}} </h2>
+            <h2 *ngIf="invoiceDetail.nhanVien !== null">Chi tiết đơn hàng: {{invoiceDetail.maHoaDon}} | Trả hàng |
+                {{invoiceDetail.ngayCapNhat}} | {{invoiceDetail.nhanVien.hoTen}}</h2>
+        </div>
+    </div>
+    <div class="row border">
+        <div class="row mt-3">
+            <h2>Thông tin khách hàng</h2>
+        </div>
+        <div class="row">
+            <div class="col-2 mt-2">
+                <p>Tên khách hàng:</p>
+                <p>Số điện thoại:</p>
+                <p>Địa chỉ: </p>
+                <p>Ghi chú:</p>
+            </div>
+            <div class="col-5 mt-2">
+                <p>{{invoiceDetail.tenKhachHang}}</p>
+                <p>{{invoiceDetail.soDienThoai}}</p>
+                <p>{{invoiceDetail.diaChi}}, {{invoiceDetail.phuongXa}}, {{invoiceDetail.quanHuyen}},
+                    {{invoiceDetail.tinhThanh}}</p>
+                <p>{{invoiceDetail.ghiChu}}</p>
+            </div>
+            <div class="col-3 mt-2">
+                <p>Ngày giao hàng:</p>
+                <p>Trạng thái:</p>
+                <p>Phương thức thanh toán: </p>
+            </div>
+            <div class="col-2 mt-2">
+                <p>{{invoiceDetail.ngayCapNhat}}</p>
+                <p *ngIf="invoiceDetail.trangThai === 1">Hoàn thành</p>
+                <p *ngIf="invoiceDetail.trangThai === 2">Chờ xác nhận</p>
+                <p *ngIf="invoiceDetail.trangThai === 3">Chờ lấy hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 4">Đang giao hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 5">Đã giao hàng</p>
+                <p *ngIf="invoiceDetail.trangThai === 6">Đã hủy</p>
+                <p *ngIf="invoiceDetail.phuongThucThanhToan === 0">Tiền mặt</p>
+                <p *ngIf="invoiceDetail.phuongThucThanhToan === 1">Thanh toán VNpay</p>
+            </div>
+        </div>
+    </div>
+    <div class="row border mt-3">
+        <div class="row mt-3">
+            <!-- <div class="row mt-4"> -->
+                <div class="col-10">
+                    <h2>Thông tin đơn hàng</h2>
+    
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-success  " type="button" (click)="openLichSu(invoiceDetail.id)">Lịch sử</button>
+                </div>
+            <!-- </div> -->
+        </div>
+        <hr>
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of invoiceDetail.listHoaDonChiTiet; let i = index">
+                        <td>
+                            <div class="table-product-detail">
+                                <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                <div>
+                                    <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                    <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                    <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                    <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                    <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                    <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{c.soLuong }}</td>
+                        <td>{{c.donGia | vnd}}</td>
+                        <td>{{c.soLuong*c.donGia | vnd}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row border mt-3 mb-5">
+        <div class="row">
+            <div class="col-8">
+                <h2 class="mt-3" *ngIf="traHang !== undefined">Thông tin đơn hàng trả </h2>
+                <hr *ngIf="traHang !== undefined">
+                <table class="table table-hover" *ngIf="traHang !== undefined">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Tổng tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of traHang.listTraHangChiTiet; let i = index">
+                            <td>
+                                <div class="table-product-detail">
+                                    <img class="table-image"
+                                        src="{{c.hoaDonChiTiet.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                    <div>
+                                        <p>Tên: {{c.hoaDonChiTiet.chiTietSanPham.sanPham.ten}}</p>
+                                        <p>Mã: {{c.hoaDonChiTiet.chiTietSanPham.ma}}</p>
+                                        <p>Size: {{c.hoaDonChiTiet.chiTietSanPham.kichCo.size}}</p>
+                                        <p>Màu sắc: {{c.hoaDonChiTiet.chiTietSanPham.mauSac.ten}}</p>
+                                        <p>Chất liệu: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                        <p>Loại đế: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{c.hoaDonChiTiet.soLuong}}</td>
+                            <td>{{c.hoaDonChiTiet.donGia | vnd}}</td>
+                            <td>{{c.soLuong*c.donGia | vnd}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4 mb-5">
+                <h2 class="mt-3">Thông tin thanh toán</h2>
+                <hr>
+                <h3><b>Tổng giá hàng gốc:</b> {{invoiceDetail.tongTien | vnd}}</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
+                <h3
+                    *ngIf=" invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === false ">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau}}%</h3>
+                <h3 *ngIf="invoiceDetail.phieuGiamGia !== null && invoiceDetail.phieuGiamGia.hinhThucGiamGia === true">
+                    <b>Voucher đã sử dụng:</b>
+                    {{invoiceDetail.phieuGiamGia.chietKhau | vnd}}</h3>
+                <h3><b>Phí vận chuyển:</b> {{invoiceDetail.phiVanChuyen | vnd}}</h3>
+                <h3 *ngIf="traHang !== undefined"><b>Tổng giá hàng trả:</b> {{tongGiaHangTra | vnd}}</h3>
+                <hr>
+                <h3 *ngIf="traHang === undefined"><b>Tổng tiền thanh toán:</b> {{invoiceDetail.tongTienSauGiam +
+                    invoiceDetail.phiVanChuyen | vnd}}</h3>
+                <h3 *ngIf="traHang !== undefined"><b>Tổng tiền thanh toán:</b> {{invoiceDetail.tongTienSauGiam | vnd}}
+                </h3>
+                <!-- <h3><b>Tổng tiền trả khách</b> {{tongTienTraKhach | vnd}}</h3> -->
+                <h3><b class="text-danger">*</b>Ghi chú</h3>
+                <textarea class="ghiChu w-100" value="{{invoiceDetail.ghiChu}}" disabled></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5"></div>
+</div>

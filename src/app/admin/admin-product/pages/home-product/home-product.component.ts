@@ -13,6 +13,7 @@ import { OriginService } from 'src/libs/service/project/origin/origin.service';
 import * as XLSX from 'xlsx';
 import { IProductExportExcel } from '../../service/productExportExcel.module';
 import { IProductImportExcel } from '../../service/productIportExcel.module';
+import { IProductDetailImportExcel } from 'src/app/admin/product-detail/services/ProductDetailImportExcel.module';
 @Component({
   selector: 'app-home-product',
   templateUrl: './home-product.component.html',
@@ -31,6 +32,8 @@ export class HomeProductComponent implements OnInit {
   ExcelData: any;
   selectedStatus: number | null = null;
   selectedBrand: number | null = null;
+  chiTietSanPhams!: IProductDetailImportExcel[];
+  // chiTietSanPhams!: IProductImportExcel[];
 
   iconSortName = 'pi pi-sort-amount-up';
   constructor(
@@ -84,75 +87,75 @@ export class HomeProductComponent implements OnInit {
     });
   }
 
-  ReadExcel(event: any) {
-    // Khởi tạo danh sách (list) để lưu trữ các đối tượng ChiTietSanPham
-    const danhSachSanPham: IProductImportExcel[] = [];
-    // lấy file được chọn bên view
-    let file = event.target.files[0];
-    // Lấy đuôi của file
-    const extension = file.name.split('.').pop().toLowerCase();
-    // Kiểm tra đuôi có phải là .xlsx không
-    if (extension === 'xlsx') {
-      // đọc dữ liệu file
-      let fileReader = new FileReader();
-      fileReader.readAsBinaryString(file);
+  // ReadExcel(event: any) {
+  //   // Khởi tạo danh sách (list) để lưu trữ các đối tượng ChiTietSanPham
+  //   const danhSachSanPham: IProductImportExcel[] = [];
+  //   // lấy file được chọn bên view
+  //   let file = event.target.files[0];
+  //   // Lấy đuôi của file
+  //   const extension = file.name.split('.').pop().toLowerCase();
+  //   // Kiểm tra đuôi có phải là .xlsx không
+  //   if (extension === 'xlsx') {
+  //     // đọc dữ liệu file
+  //     let fileReader = new FileReader();
+  //     fileReader.readAsBinaryString(file);
 
-      fileReader.onload = (e) => {
-        //  chuyển đổi fileReader thành một đối tượng Workbook
-        var workBook = XLSX.read(fileReader.result, { type: 'binary' });
-        // đọc tiêu đề của Workbook
-        var sheetNames = workBook.SheetNames;
+  //     fileReader.onload = (e) => {
+  //       //  chuyển đổi fileReader thành một đối tượng Workbook
+  //       var workBook = XLSX.read(fileReader.result, { type: 'binary' });
+  //       // đọc tiêu đề của Workbook
+  //       var sheetNames = workBook.SheetNames;
 
-        // chuyển đổi sang json
-        this.ExcelData = XLSX.utils.sheet_to_json(
-          workBook.Sheets[sheetNames[0]]
-        );
+  //       // chuyển đổi sang json
+  //       this.ExcelData = XLSX.utils.sheet_to_json(
+  //         workBook.Sheets[sheetNames[0]]
+  //       );
 
-        // sử dụng for để chuyển đổi sang đối tượng chitietsanpham
-        for (let i = 0; i < this.ExcelData.length; i++) {
-          const sanpham: IProductImportExcel = {
-            stt: this.ExcelData[i].stt,
-            tenSanPham: this.ExcelData[i].ten,
-            anhChinh: this.ExcelData[i].anhChinh,
-            moTa: this.ExcelData[i].moTa,
-            trangThai: this.ExcelData[i].trangThai,
-            thuongHieu: this.ExcelData[i].thuongHieu,
-            xuatXu: this.ExcelData[i].xuatXu,
-            danhMuc: this.ExcelData[i].danhMuc,
-          };
-          // Thêm đối tượng vào danh sách
-          danhSachSanPham.push(sanpham);
-        }
-        // call api
-        this.productService.create(danhSachSanPham).subscribe(
-          (data) => {
-            // kiểm tra nếu có data có phải là array
-            if (Array.isArray(data)) {
-              // gán data = this.chiTietSanPhams
-              this.sanPham = data;
-            }
+  //       // sử dụng for để chuyển đổi sang đối tượng chitietsanpham
+  //       for (let i = 0; i < this.ExcelData.length; i++) {
+  //         const sanpham: IProductImportExcel = {
+  //           stt: this.ExcelData[i].stt,
+  //           tenSanPham: this.ExcelData[i].ten,
+  //           anhChinh: this.ExcelData[i].anhChinh,
+  //           moTa: this.ExcelData[i].moTa,
+  //           trangThai: this.ExcelData[i].trangThai,
+  //           thuongHieu: this.ExcelData[i].thuongHieu,
+  //           xuatXu: this.ExcelData[i].xuatXu,
+  //           danhMuc: this.ExcelData[i].danhMuc,
+  //         };
+  //         // Thêm đối tượng vào danh sách
+  //         danhSachSanPham.push(sanpham);
+  //       }
+  //       // call api
+  //       this.productService.create(danhSachSanPham).subscribe(
+  //         (data) => {
+  //           // kiểm tra nếu có data có phải là array
+  //           if (Array.isArray(data)) {
+  //             // gán data = this.chiTietSanPhams
+  //             this.sanPham = data;
+  //           }
 
-            // kiểm tra this.chiTietSanPhams nếu > 0 thì xuất file excel sản phẩm lỗi
-            if (this.sanPham.length > 0) {
-              // get data
-              const wr: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.sanPham);
+  //           // kiểm tra this.chiTietSanPhams nếu > 0 thì xuất file excel sản phẩm lỗi
+  //           if (this.sanPham.length > 0) {
+  //             // get data
+  //             const wr: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.sanPham);
 
-              //generate workbook and add the worksheet
-              const wb: XLSX.WorkBook = XLSX.utils.book_new();
-              XLSX.utils.book_append_sheet(wb, wr, 'Sheet1');
+  //             //generate workbook and add the worksheet
+  //             const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  //             XLSX.utils.book_append_sheet(wb, wr, 'Sheet1');
 
-              // save to file
-              XLSX.writeFile(wb, 'productImportError.xlsx');
-            }
-          },
-          (error) => console.log(error)
-        );
-      };
-    } else {
-      // Nếu đuôi không phải .xlsx, thông báo
-      alert('Chỉ được chọn file có đuôi .xlsx');
-    }
-  }
+  //             // save to file
+  //             XLSX.writeFile(wb, 'productImportError.xlsx');
+  //           }
+  //         },
+  //         (error) => console.log(error)
+  //       );
+  //     };
+  //   } else {
+  //     // Nếu đuôi không phải .xlsx, thông báo
+  //     alert('Chỉ được chọn file có đuôi .xlsx');
+  //   }
+  // }
 
   // xuất dữ liệu ra file excel
   exportexcel() {
@@ -258,6 +261,83 @@ export class HomeProductComponent implements OnInit {
   searchByName() {
     this.searchQuery['keyword'] = this.searchQuery.keyword;
     this.getAll();
+  }
+
+  ReadExcel(event: any) {
+    // Khởi tạo danh sách (list) để lưu trữ các đối tượng ChiTietSanPham
+    const danhSachChiTietSanPham: IProductDetailImportExcel[] = [];
+    // const danhSachChiTietSanPham: IProductImportExcel[] = [];
+
+    // lấy file được chọn bên view
+    let file = event.target.files[0];
+
+    // Lấy đuôi của file
+    const extension = file.name.split('.').pop().toLowerCase();
+
+    // Kiểm tra đuôi có phải là .xlsx không
+    if (extension === 'xlsx') {
+      // đọc dữ liệu file
+      let fileReader = new FileReader();
+      fileReader.readAsBinaryString(file);
+
+      fileReader.onload = (e) => {
+        //  chuyển đổi fileReader thành một đối tượng Workbook
+        var workBook = XLSX.read(fileReader.result, { type: 'binary' });
+        // đọc tiêu đề của Workbook
+        var sheetNames = workBook.SheetNames;
+
+        // chuyển đổi sang json
+        this.ExcelData = XLSX.utils.sheet_to_json(
+          workBook.Sheets[sheetNames[0]]
+        );
+
+        // sử dụng for để chuyển đổi sang đối tượng chitietsanpham
+        for (let i = 0; i < this.ExcelData.length; i++) {
+          const chitietsanpham: IProductDetailImportExcel = {
+            stt: this.ExcelData[i].stt,
+            // tenSanPham: this.ExcelData[i].tenSanPham,
+            soLuong: this.ExcelData[i].soLuong,
+            giaBan: this.ExcelData[i].giaBan,
+            mauSac: this.ExcelData[i].mauSac,
+            kichCo: this.ExcelData[i].kichCo,
+            chatLieuGiay: this.ExcelData[i].chatLieuGiay,
+            chatLieuDeGiay: this.ExcelData[i].chatLieuDeGiay,
+          };
+          // Thêm đối tượng vào danh sách
+          danhSachChiTietSanPham.push(chitietsanpham);
+        }
+
+        // call api
+        this.productService.create(danhSachChiTietSanPham).subscribe(
+          (data) => {
+            // kiểm tra nếu có data có phải là array
+            if (Array.isArray(data)) {
+              // gán data = this.chiTietSanPhams
+              this.chiTietSanPhams = data;
+            }
+
+            // kiểm tra this.chiTietSanPhams nếu > 0 thì xuất file excel sản phẩm lỗi
+            if (this.chiTietSanPhams.length > 0) {
+              // get data
+              const wr: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+                this.chiTietSanPhams
+              );
+
+              //generate workbook and add the worksheet
+              const wb: XLSX.WorkBook = XLSX.utils.book_new();
+              XLSX.utils.book_append_sheet(wb, wr, 'Sheet1');
+
+              // save to file
+              XLSX.writeFile(wb, 'productImportError.xlsx');
+            }
+          },
+          (error) => console.log(error)
+        );
+      };
+    } else {
+      // Nếu đuôi không phải .xlsx, thông báo
+      alert('Chỉ được chọn file có đuôi .xlsx');
+    }
   }
 
   openDialog() {

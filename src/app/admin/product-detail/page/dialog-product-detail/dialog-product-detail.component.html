@@ -6,7 +6,7 @@
       <button mat-button mat-dialog-close>Close</button>
   </div>
 </div>
-<ng-container *ngIf="(type && type==='add' )|| type==='' ">
+<ng-container *ngIf="(type && type==='add' ) ">
   <mat-dialog-content class="mat-typography">
       <div class="container-fluid">
           <form [formGroup]="productDetailForm" class="row">
@@ -84,7 +84,12 @@
                       </span>
                     </div>
                     </div>
-                    <input type="file" formControlName="anhSanPhams" (change)="onFileChange($event)" accept="image/*" multiple />
+                    <label for="images" class="drop-container" id="dropcontainer">
+                      <span class="drop-title">Ảnh Sản Phẩm</span>
+
+                      <input type="file" id="images"
+                       (change)="onFileChange($event)" accept="image/*" multiple />
+                    </label>
 
 
                   </div>
@@ -257,16 +262,22 @@
               </div>
 
             <div *ngIf="validUrls">
-              <i class="fa fa-2x fa-camera"></i>
+
                 <h4>Ảnh đã tải lên</h4>
                 <div class="image-container-horizontal">
                 <span *ngFor="let gh of validUrls" class="image-wrapper">
-                <img [src]="gh"  name="anhSanPhams" alt="Uploaded Image" style="width: 50px; height: auto;">
+                <img [src]="gh"  alt="Uploaded Image" style="width: 50px; height: auto;">
                 </span>
                 </div>
               </div>
 
-            <input type="file" formControlName="anhSanPhams" name="anhSanPhams" (change)="onFileChange($event)" accept="image/*" multiple />
+              <label for="images" class="drop-container" id="dropcontainer">
+                <span class="drop-title">Ảnh Sản Phẩm</span>
+
+                <input type="file" id="images" formControlName="anhSanPhams" (change)="onFileChange($event)"
+                 accept="image/*" multiple />
+              </label>
+
 
                   </div>
 
