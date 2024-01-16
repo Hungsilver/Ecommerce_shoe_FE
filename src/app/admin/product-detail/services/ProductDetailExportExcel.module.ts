@@ -1,4 +1,4 @@
-export class ProductDetailExportExcel{
+export class IProductDetailExportExcel{
   stt?:number;
   maSanPham?:string;
   soLuong?:string;
