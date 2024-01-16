@@ -283,7 +283,7 @@ export class TraHangComponent implements OnInit {
         this.notificationService.error("Đơn hàng đã quá thời gian trả hàng !")
       } else if (t.length === 0) {
         this.loiGhiChu = false;
-        if (this.ghiChu === '' || this.ghiChu.length < 1 || this.ghiChu.length > 200) {
+        if (this.ghiChu.trim() === '' || this.ghiChu.length < 1 || this.ghiChu.length > 200) {
           this.loiGhiChu = true;
         } else if (this.loiSoLuong === true) {
           this.notificationService.error("Số lượng trả hàng không hợp lệ ");
@@ -351,7 +351,7 @@ export class TraHangComponent implements OnInit {
           this.notificationService.error("Đơn hàng đã hoàn trả !");
         }else{
           this.loiGhiChu = false;
-            if (this.ghiChu === '' || this.ghiChu.length < 1 || this.ghiChu.length > 200) {
+            if (this.ghiChu.trim() === '' || this.ghiChu.length < 1 || this.ghiChu.length > 200) {
               this.loiGhiChu = true;
             } else if (this.loiSoLuong === true) {
               this.notificationService.error("Số lượng trả hàng không hợp lệ ");

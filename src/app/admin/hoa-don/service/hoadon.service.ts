@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { IHoaDonChiTiet } from '../../sales/service/hoadonchitiet/hoadonchitiet.module';
 import { IHoaDons } from './hoadon.module';
 import { Observable } from 'rxjs';
+import { IGhiChus } from './ghichu.module';
 
 @Injectable({
   providedIn: 'root',
@@ -32,14 +33,25 @@ export class HoaDonService {
 
   findByMaHoaDon(ma?: any): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-        this.BaseRequestService.get('invoice/code/' + ma).subscribe(
-            (result) => {
-                return resolve(result)
-            },
-            (err) => reject(err)
-        );
+      this.BaseRequestService.get('invoice/code/' + ma).subscribe(
+        (result) => {
+          return resolve(result)
+        },
+        (err) => reject(err)
+      );
     });
-}
+  }
+
+  addGhiChu(ghiChu?: any): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.BaseRequestService.get('ghi-chu/add' , ghiChu).subscribe(
+        (result) => {
+          return resolve(result)
+        },
+        (err) => reject(err)
+      );
+    });
+  }
 
   exportPdf(id: number): Observable<Blob> {
     const url = `${this.url}/export/giao-hang/${id}`;
@@ -120,14 +132,14 @@ export class HoaDonService {
 
   updateInvoice(body: any): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-        this.BaseRequestService.put('invoice/update', body).subscribe(
-            (result) => {
-                return resolve(result)
-            },
-            (err) => reject(err)
-        );
+      this.BaseRequestService.put('invoice/update', body).subscribe(
+        (result) => {
+          return resolve(result)
+        },
+        (err) => reject(err)
+      );
     });
-}
+  }
 
   findByIdInvoice(idHoaDon: any): Promise<any> {
     // const apiUrl = `${this.url}/code/${ma}`;
@@ -146,6 +158,17 @@ export class HoaDonService {
   getInvoice(params?: any): Promise<IReqApi<IHoaDons>> {
     return new Promise<IReqApi<IHoaDons>>((resolve, reject) => {
       this.BaseRequestService.get(`${this.url}`, params).subscribe(
+        (result) => {
+          return resolve(result);
+        },
+        (err) => reject(err)
+      );
+    });
+  }
+
+  getGhiChu(params?: any): Promise<IReqApi<IGhiChus>> {
+    return new Promise<IReqApi<IGhiChus>>((resolve, reject) => {
+      this.BaseRequestService.get('ghi-chu', params).subscribe(
         (result) => {
           return resolve(result);
         },
