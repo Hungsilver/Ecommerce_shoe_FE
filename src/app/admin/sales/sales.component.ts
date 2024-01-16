@@ -145,7 +145,10 @@ export class SalesComponent implements OnInit {
   idProductDetail!: number;
   maPhieu: string = '';
   tabCustomers: { [key: number]: ICustomer } = {};
-  addCustomerForm!: FormGroup;
+  // addCustomerForm!: FormGroup;
+  addCustomerForm: FormGroup | null = null;
+
+  isFormVisible = false;
 
   constructor(
     private toast: NgToastService,
@@ -231,11 +234,6 @@ export class SalesComponent implements OnInit {
       });
   }
 
-  // updateTab(idHoaDon: any) {
-  //   this.idHDGlobal = idHoaDon;
-  //   alert(idHoaDon);
-  // }
-
   getAllDataHD() {
     this.hoadonService.getAllHd({ status: 0 }).then((res) => {
       if (res) {
@@ -287,11 +285,13 @@ export class SalesComponent implements OnInit {
     }
   }
 
-  isFormVisible = false;
   toggleForm() {
     this.isFormVisible = !this.isFormVisible;
   }
 
+  closeFormCustomer(): void {
+    this.isFormVisible = true;
+  }
   getAll(action?: 'prev' | 'next' | 'active'): void {
     // const activeStatus = 1;
     if (action) {
@@ -367,33 +367,123 @@ export class SalesComponent implements OnInit {
     });
     console.log(this.searchQuery);
   }
-
   initAddCustomerForm(): void {
     this.addCustomerForm = this.formBuilder.group({
       hoTen: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      soDienThoai: ['', Validators.required],
+      email: [
+        '',
+        [Validators.required, Validators.email],
+        this.duplicateValidator('email'),
+      ],
+      soDienThoai: [
+        '',
+        Validators.required,
+        this.duplicateValidator('soDienThoai'),
+      ],
       ngaySinh: [''],
     });
   }
 
-  onSubmitAddCustomer(): void {
-    if (this.addCustomerForm.valid) {
-      const newCustomer = this.addCustomerForm.value;
+  // onSubmitAddCustomer(): void {
+  //   if (this.addCustomerForm && this.addCustomerForm.valid) {
+  //     const newCustomer = this.addCustomerForm.value;
 
-      // Gọi hàm service để thêm mới khách hàng
-      this.customerService.createCustomer(newCustomer).then(
-        (result) => {
-          console.log('Khách hàng đã được thêm mới:', result);
-          this.addCustomerForm.reset(); // Đặt form về trạng thái rỗng
-          this.toggleForm();
-        },
-        (error) => {
-          console.error('Lỗi khi thêm mới khách hàng:', error);
-        }
-      );
+  //     if (this.addCustomerForm.value.email) {
+
+  //     }
+  //     this.customerService.createCustomer(newCustomer).then(
+  //       (result) => {
+  //         console.log('Khách hàng đã được thêm mới:', result);
+  //         if (this.addCustomerForm) {
+  //           this.addCustomerForm.reset();
+  //         }
+  //         this.toggleForm();
+  //       },
+  //       (error) => {
+  //         console.error('Lỗi khi thêm mới khách hàng:', error);
+  //       }
+  //     );
+  //   }
+  // }
+
+  // duplicateValidator(fieldName: string) {
+  //   return async (control: FormControl) => {
+  //     const value = control.value;
+  //     if (!value) {
+  //       return null;
+  //     }
+
+  //     try {
+  //       const isDuplicate = await this.customerService.checkDuplicate(
+  //         fieldName,
+  //         value
+  //       );
+  //       return isDuplicate ? { duplicate: true } : null;
+  //     } catch (error) {
+  //       console.error('Lỗi khi kiểm tra trùng lặp:', error);
+  //       this.notification.error('Lỗi khi kiểm tra trùng lặp');
+  //       return;
+  //     }
+  //   };
+  // }
+
+  onSubmitAddCustomer(): void {
+    if (this.addCustomerForm && this.addCustomerForm.valid) {
+      const emailControl = this.addCustomerForm.get('email');
+      const soDienThoaiControl = this.addCustomerForm.get('soDienThoai');
+
+      if (
+        emailControl &&
+        soDienThoaiControl &&
+        !emailControl.hasError('duplicate') &&
+        !soDienThoaiControl.hasError('duplicate')
+      ) {
+        const newCustomer = this.addCustomerForm.value;
+
+        this.customerService.createCustomer(newCustomer).then(
+          (result) => {
+            console.log('Khách hàng đã được thêm mới:', result);
+            if (this.addCustomerForm) {
+              this.addCustomerForm.reset();
+            }
+            // Thực hiện các bước khác sau khi thêm mới thành công
+          },
+          (error) => {
+            console.error('Lỗi khi thêm mới khách hàng:', error);
+          }
+        );
+      }
     }
   }
+
+  duplicateValidator(fieldName: string) {
+    return async (control: FormControl) => {
+      const value = control.value;
+      if (!value) {
+        return null;
+      }
+
+      try {
+        const isDuplicate = await this.customerService.checkDuplicate(
+          fieldName,
+          value
+        );
+
+        if (isDuplicate) {
+          const error = { duplicate: true };
+          control.setErrors(error);
+          return error;
+        } else {
+          control.setErrors(null);
+          return null;
+        }
+      } catch (error) {
+        console.error('Lỗi khi kiểm tra trùng lặp:', error);
+        return null;
+      }
+    };
+  }
+
   getTotalPageCustomer(totalPages: number) {
     let listTotalPage = [];
 

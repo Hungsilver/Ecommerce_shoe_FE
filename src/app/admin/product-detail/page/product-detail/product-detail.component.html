@@ -8,11 +8,6 @@
         [(ngModel)]="searchQuery.keyword"
         (keyup.enter)="getAll()"
       />
-      <p-dropdown
-        [options]="listTotalPage"
-        [(ngModel)]="searchQuery.page"
-        optionLabel="name"
-      ></p-dropdown>
     </span>
   </div>
 
@@ -84,11 +79,6 @@
 <!-- <ul class="nav nav-tabs">
  <ul class="nav nav-tabs">
 
-<<<<<<< HEAD
-
-  <!-- <ul class="nav nav-tabs">
-=======
->>>>>>> develop
   <li class="nav-item">
     <a class="nav-link" (click)="changeTab('active')" [class.active]="activeTab === 'active'" href="#">Hoạt Động</a>
   </li>

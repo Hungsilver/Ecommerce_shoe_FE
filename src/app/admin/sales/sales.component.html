@@ -299,13 +299,12 @@
                   style="width: 223px"
                   (change)="findByCodeVoucher($event)"
                 />
-                <!-- </div> -->
-              </div>
-              <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === false">
-                {{ chietKhau }}% - {{ tienGiam }}đ
-              </div>
-              <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === true">
-                {{ chietKhau | currency : "VND" }}
+                <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === false">
+                  {{ chietKhau }}% - {{ tienGiam }}đ
+                </div>
+                <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === true">
+                  {{ chietKhau | currency : "VND" }}
+                </div>
               </div>
 
               <div class="col">
@@ -570,7 +569,12 @@
         <div class="col-4">
           <span class="p-input-icon-left">
             <i class="pi pi-search"></i>
-            <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+            <input
+              type="text"
+              pInputText
+              [(ngModel)]="searchQuery.keyword"
+              (keyup.enter)="getAllCustomer()"
+            />
             <!-- <p-dropdown
               [options]="listTotalPage"
               [(ngModel)]="searchQuery.page"
@@ -588,7 +592,7 @@
               #floatingForm
               (mousedown)="preventFormClose($event)"
             >
-              <form
+              <!-- <form
                 [formGroup]="addCustomerForm"
                 (ngSubmit)="onSubmitAddCustomer()"
               >
@@ -612,6 +616,9 @@
                     formControlName="email"
                     required
                   />
+                  <div *ngIf="addCustomerForm.get('email').hasError('duplicate')">
+                    Số điện thoại đã tồn tại.
+                  </div>
                 </div>
 
                 <div class="mb-3">
@@ -625,6 +632,9 @@
                     formControlName="soDienThoai"
                     required
                   />
+                  <div *ngIf="addCustomerForm?.get('soDienThoai')?.hasError('duplicate')">
+                    Số điện thoại đã tồn tại.
+                  </div>
                 </div>
 
                 <div class="mb-3">
@@ -638,6 +648,77 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Thêm mới</button>
+                <button class="btn btn-outline-danger" (click)="toggleForm()">
+                  Đóng
+                </button>
+              </form>
+             -->
+              <form
+                *ngIf="addCustomerForm"
+                [formGroup]="addCustomerForm"
+                (ngSubmit)="onSubmitAddCustomer()"
+              >
+                <div class="mb-3">
+                  <label for="hoTen" class="form-label">Họ Tên:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="hoTen"
+                    formControlName="hoTen"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email:</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    formControlName="email"
+                    required
+                  />
+                  <div
+                    *ngIf="addCustomerForm.get('email')?.hasError('duplicate')"
+                  >
+                    Email đã tồn tại.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="soDienThoai" class="form-label"
+                    >Số điện thoại:</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="soDienThoai"
+                    formControlName="soDienThoai"
+                    required
+                  />
+                  <div
+                    *ngIf="
+                      addCustomerForm.get('soDienThoai')?.hasError('duplicate')
+                    "
+                  >
+                    Số điện thoại đã tồn tại.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="ngaySinh" class="form-label">Ngày sinh:</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="ngaySinh"
+                    formControlName="ngaySinh"
+                  />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                <button class="btn btn-outline-danger" (click)="toggleForm()">
+                  Đóng
+                </button>
               </form>
             </div>
           </div>
