@@ -10,7 +10,7 @@ export class AuthAdminService {
 
     loginAdmin(body: IBodyLogin): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            this.baseService.post('/auth/admin/login', body).subscribe(
+            this.baseService.post('auth/admin/login', body).subscribe(
                 (result) => {
                     return resolve(result);
                 },
@@ -21,7 +21,7 @@ export class AuthAdminService {
 
     logoutAdmin(): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            this.baseService.get('/auth/admin/logout').subscribe(
+            this.baseService.get('auth/admin/logout').subscribe(
                 (result) => {
                     return resolve(result);
                 },

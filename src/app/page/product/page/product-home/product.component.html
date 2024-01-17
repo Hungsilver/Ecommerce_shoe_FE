@@ -103,8 +103,8 @@
             <a [routerLink]="[product.id]">
               <h4>{{product.ten}}</h4>
             </a>
-            <span>{{product.listChiTietSanPham[0].giaBan|vndPage }}đ - {{
-              product.listChiTietSanPham[product.listChiTietSanPham.length - 1].giaBan| currency:'VND' }}đ</span>
+            <span>{{product.listChiTietSanPham[0].giaBan|vndPage }} - {{
+              product.listChiTietSanPham[product.listChiTietSanPham.length - 1].giaBan| vndPage }}</span>
           </div>
         </div>
 

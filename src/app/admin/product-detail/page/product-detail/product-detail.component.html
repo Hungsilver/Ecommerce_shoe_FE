@@ -21,7 +21,7 @@
             [(ngModel)]="selectedProduct"
             (selectionChange)="filterByProduct()"
           >
-            <mat-option [value]="null">select Product</mat-option>
+            <mat-option [value]="null">Sản Phẩm</mat-option>
             <mat-option
               *ngFor="let products of product"
               [value]="products.id"
@@ -37,7 +37,7 @@
             [(ngModel)]="selectedSize"
             (selectionChange)="filterBySize()"
           >
-            <mat-option [value]="null">select size</mat-option>
+            <mat-option [value]="null">Kích Cỡ</mat-option>
             <mat-option *ngFor="let sizes of size" [value]="sizes.id">{{
               sizes.size
             }}</mat-option>
@@ -69,11 +69,11 @@
   </div> -->
 </div>
 
+
 <div class="col-2">
   <button mat-button (click)="openDialog()">Thêm CT Sản Phẩm</button>
   <button (click)="exportexcel()">Export Excel</button>
-  <button (click)="exportexcel()">Import Excel</button>
-
+  <!-- <button (click)="exportexcel()">Import Excel</button> -->
   <!-- <input type="file" (change)="readExcel($event)"> -->
 </div>
 
@@ -96,7 +96,7 @@
       <tr>
         <th>STT</th>
         <th>Mã</th>
-        <th>anh</th>
+        <th>Ảnh</th>
         <th>Sản Phẩm</th>
         <th>Giá</th>
         <th>Màu Sắc</th>
