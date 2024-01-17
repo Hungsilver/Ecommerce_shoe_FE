@@ -1,4 +1,41 @@
 <main>
+    <div class="row mt-3">
+        <div class="col-4">
+            <input type="search" [(ngModel)]="timKiem" class="form-control" placeholder="Mã hóa đơn...">
+        </div>
+        <div class="col-8">
+            <button class="btn btn-primary" (click)="timKiemHoaDon()">Tìm kiếm</button>
+            <!-- <button class="btn btn-primary ms-3" (click)="showQRCode()">QR code</button> -->
+        </div>
+        <div class="row mt-2" *ngIf="show === true">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Mã hóa đơn</th>
+                        <th scope="col">Khách hàng</th>
+                        <th scope="col">Ngày tạo</th>
+                        <th scope="col">Tiền hoàn trả</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let h of listTraHang ">
+                       <td>{{h?.hoaDon?.maHoaDon}}</td>
+                       <td>{{h?.hoaDon?.tenKhachHang}}</td>
+                       <td>{{h?.ngayTao}}</td>
+                       <td>{{h?.tienTraKhach}}</td>
+                       <td *ngIf="h?.trangThai === 0">Chờ xác nhận</td>
+                       <td *ngIf="h?.trangThai === 1">Chờ xử lý</td>
+                       <td *ngIf="h?.trangThai === 2">Đã trả hàng</td>
+                       <td *ngIf="h?.trangThai === 3">Đã hủy</td>
+                        <td ><button class="btn btn-primary" (click)="openDialog(h)">Chi tiết</button></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div class="card p-4 mt-3">
         <p-tabView>
             <p-tabPanel header="Tất cả">

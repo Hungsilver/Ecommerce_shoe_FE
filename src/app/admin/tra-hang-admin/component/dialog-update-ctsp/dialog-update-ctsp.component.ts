@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { TraHangService } from '../../service/tra-hang.service';
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dialog-update-ctsp',
@@ -36,7 +37,19 @@ export class DialogUpdateCtspComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listTraHangChiTiet = this.listSanPhamTra;
+    if(this.openDialog === 1){
+      this.listSanPhamTra.forEach((key:any)=>{
+        this.listTraHangChiTiet.push(key.hoaDonChiTiet);
+      })
+      console.log(this.listSanPhamTra);
+      
+    }
+    
+    if(this.openDialog === 0){
+      console.log(this.traHangChiTiet)
+      this.listTraHangChiTiet = this.listSanPhamTra
+    }
+
 
   }
 
@@ -44,19 +57,32 @@ export class DialogUpdateCtspComponent implements OnInit {
   // trả hàng tại quầy
   capNhatSoLuong($event: any, index: number) {
     this.loiSoLuong = false;
-    const idHdct = this.listTraHangChiTiet[index].hoaDonChiTiet.id;
+    let idHdct = 0;
+    console.log(this.listTraHangChiTiet);
+    
+    if(this.openDialog === 1){
+      idHdct = this.listTraHangChiTiet[index].id;
+    }
+    if(this.openDialog === 0){
+     idHdct = this.listTraHangChiTiet[index].id;
+    }
+
+
     this.traHangService.findByIdHDCT(idHdct).then(c => {
       if ($event.target.value > c.soLuong || $event.target.value < 1) {
         this.notificationService.error("Số lượng cập nhật không hơp lệ !")
         this.loiSoLuong = true;
       } else {
 
-        if (this.listCapNhatCTSP.length > 0) {
+
+        if (this.listCapNhatCTSP.length > 0 ) {
           this.traHangChiTiet = c;
           this.traHangChiTiet.soLuong = $event.target.value;
 
           this.listCapNhatCTSP = this.listCapNhatCTSP.filter((item: { id: number; }) => item.id !== idHdct);
           this.listCapNhatCTSP.splice(index, 0, this.traHangChiTiet);
+          console.log(this.listCapNhatCTSP);
+          
         }
       }
     })
@@ -73,10 +99,12 @@ export class DialogUpdateCtspComponent implements OnInit {
       this.checked.delete(itemId);
     } else {
       this.checked.add(itemId);
-      this.listSanPhamTra.forEach((key: any) => {
+      this.listTraHangChiTiet.forEach((key: any) => {
         this.checkedItems.push(key.id);
         this.listCapNhatCTSP.push(key);
-      })
+        console.log(this.listCapNhatCTSP);
+        
+      })      
     }
   }
 
@@ -89,12 +117,13 @@ export class DialogUpdateCtspComponent implements OnInit {
 
   onCheckboxChange(event: any, itemId: number) {
     this.loiSoLuong = false;
+ 
+    
     if (event.target.checked) {
       // Nếu checkbox được chọn, thêm giá trị vào mảng
-      this.listSanPhamTra.forEach((key: any) => {
+      this.listTraHangChiTiet.forEach((key: any) => {
         if (key.id === itemId) {
           this.listCapNhatCTSP.push(key);
-
           return;
         }
       })
@@ -119,25 +148,43 @@ export class DialogUpdateCtspComponent implements OnInit {
 
   capNhatCTSP() {
     this.listUpdateCTSP = [];
-    
-    if(this.listCapNhatCTSP.length = 0){
+    console.log(this.listCapNhatCTSP);
+    if (this.listCapNhatCTSP.length === 0) {
       this.notificationService.error('Vui lòng chọn sản phẩm cập nhật !')
     } else if (this.loiSoLuong === true) {
       this.notificationService.error('Số lượng cập nhật không hợp lệ !')
     } else {
-      this.listCapNhatCTSP.forEach((key: any) => {
-        this.listUpdateCTSP.push({
-          idChiTietSanPham: key.hoaDonChiTiet.chiTietSanPham.id,
-          soLuong: key.soLuong
-        })
-      })
+      
 
-      this.traHangService.capNhatCTSP(this.listUpdateCTSP).then(c => {
-        this.notificationService.success('Cập nhật sản phẩm thành công !')
-        this.closeDialog();
-      }, err => {
-        this.notificationService.success('Cập nhật sản phẩm không thành công !')
-      })
+        this.listCapNhatCTSP.forEach((key: any) => {
+          this.listUpdateCTSP.push({
+            idChiTietSanPham: key.chiTietSanPham.id,
+            soLuong: key.soLuong
+          })
+        })
+  
+        Swal.fire(
+          {
+            title: 'Cập nhật số lượng sản phẩm trả hàng',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy'
+          }
+        ).then((result) => {
+          if (result.isConfirmed) {// check confirm
+            this.traHangService.capNhatCTSP(this.listUpdateCTSP).then(c => {
+              this.notificationService.success('Cập nhật sản phẩm thành công !')
+              this.closeDialog();
+            }, err => {
+              this.notificationService.success('Cập nhật sản phẩm không thành công !')
+            })
+          }
+        })
+      
+
     }
 
   }
@@ -149,6 +196,6 @@ export class DialogUpdateCtspComponent implements OnInit {
     }, 1000);
   }
 
-  
+
 
 }

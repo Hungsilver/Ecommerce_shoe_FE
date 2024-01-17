@@ -67,6 +67,28 @@ export class TraHangService {
         });
     }
 
+    findByIdTHCT(id?: number): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.abstractService.get('return-product/detail/' + id).subscribe(
+                (result) => {
+                    return resolve(result)
+                },
+                (err) => reject(err)
+            );
+        });
+    }
+
+    findByTraHangMaHoaDon(maHoaDon?: any): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.abstractService.get('return-product/ma-hoa-don', maHoaDon).subscribe(
+                (result) => {
+                    return resolve(result)
+                },
+                (err) => reject(err)
+            );
+        });
+    }
+
     delelteTHCT(id?: number): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             this.abstractService.delete('return-product/detail/' + id).subscribe(
