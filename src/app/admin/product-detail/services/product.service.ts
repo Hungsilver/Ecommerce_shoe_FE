@@ -32,8 +32,9 @@ export class ProductDetailService {
   create(chitietsanpham: IProductDetailImportExcel[]) {
     return this.httpClient.post(`${this.importUrl}`, chitietsanpham);
   }
-  getAll(): Observable<IProductDetailExportExcel[]> {
-    return this.httpClient.get<IProductDetailExportExcel[]>(`${this.baseUrl}`);
+  
+  getAll(): Observable<IProductDetail[]> {
+    return this.httpClient.get<IProductDetail[]>(`${this.baseUrl}`);
   }
 
   getProducts(

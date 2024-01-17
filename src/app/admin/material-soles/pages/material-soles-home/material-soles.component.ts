@@ -106,6 +106,8 @@ export class MaterialSolesComponent implements OnInit {
         material: materialSoles,
       }
     })
+
+    
     dialogRef.afterClosed().subscribe(data => {
       this.getAll();
     })
