@@ -182,6 +182,7 @@ import { DialogLichSuComponent } from './hoa-don/component/dialog-lich-su/dialog
     DialogTraHangComponent,
     DialogUpdateCtspComponent,
     // NavbarComponent
+    VndPipe,
 
     InvoiceComponent,
     InvoiceDetailComponent,
@@ -203,12 +204,10 @@ import { DialogLichSuComponent } from './hoa-don/component/dialog-lich-su/dialog
     InvoiceTraHangComponent,
     DialogLichSuComponent,
 
-    VndPipe
-    
 
 
 
- 
+
 
   ],
   providers: [],

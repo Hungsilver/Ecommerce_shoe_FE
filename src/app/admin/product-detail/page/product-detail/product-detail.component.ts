@@ -13,7 +13,9 @@ import { IProductDetailExportExcel } from '../../services/ProductDetailExportExc
 import * as XLSX from 'xlsx';
 // import { IProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
 
+
 // import { ProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
+
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
