@@ -10,6 +10,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dialog-product-detail',
@@ -157,47 +158,62 @@ export class dialogProductDetailComponent implements OnInit {
   }
 
   addProduct(): void {
-    const formValue = this.productDetailForm.value;
-    this.productDetail = {
-      soLuong: formValue.soLuong,
-      giaBan: formValue.giaBan,
-      sanPham: formValue.sanPham,
-      kichCo: formValue.kichCo,
-      mauSac: formValue.mauSac,
-      chatLieuGiay: formValue.chatLieuGiay,
-      chatLieuDeGiay: formValue.chatLieuDeGiay,
-      trangThai: formValue.trangThai,
-      anhSanPhams: this.validUrls ? [...this.validUrls] : [],
-    };
-    this.productDetail.anhSanPhams = this.validUrls;
-
-    if (this.productDetailForm.valid) {
-      if (this.productDetail.anhSanPhams.length > 0) {
-        this.productDetailService.createProduct(this.productDetail).then(
-          (res) => {
-            console.log('Data created', res);
-            this.notification.success('Thêm thành công');
-            this.dialog.closeAll();
-          },
-          (error) => {
-            if (error.status === 409) {
-              // Xử lý trường hợp sản phẩm đã tồn tại
-              this.notification.error(
-                'Sản phẩm đã tồn tại. Vui lòng kiểm tra lại.'
-              );
-            } else {
-              // Xử lý các trường hợp lỗi khác
-              console.error('Error while adding product:', error);
-              this.notification.error('Đã xảy ra lỗi khi thêm sản phẩm.');
-            }
-          }
-        );
-      } else {
-        this.notification.error('Ảnh không được để trống');
+    Swal.fire(
+      {
+        title: 'Xác nhận thêm sản phẩm',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: 'Hủy'
       }
-    } else {
-      console.error('Image URLs are null or empty. Product not added.');
-    }
+    ).then((result) => {
+      if (result.isConfirmed) {
+        const formValue = this.productDetailForm.value;
+        this.productDetail = {
+          soLuong: formValue.soLuong,
+          giaBan: formValue.giaBan,
+          sanPham: formValue.sanPham,
+          kichCo: formValue.kichCo,
+          mauSac: formValue.mauSac,
+          chatLieuGiay: formValue.chatLieuGiay,
+          chatLieuDeGiay: formValue.chatLieuDeGiay,
+          trangThai: formValue.trangThai,
+          anhSanPhams: this.validUrls ? [...this.validUrls] : [],
+        };
+        this.productDetail.anhSanPhams = this.validUrls;
+
+        if (this.productDetailForm.valid) {
+          if (this.productDetail.anhSanPhams.length > 0) {
+            this.productDetailService.createProduct(this.productDetail).then(
+              (res) => {
+                console.log('Data created', res);
+                this.notification.success('Thêm thành công');
+                this.dialog.closeAll();
+              },
+              (error) => {
+                if (error.status === 409) {
+                  // Xử lý trường hợp sản phẩm đã tồn tại
+                  this.notification.error(
+                    'Sản phẩm đã tồn tại. Vui lòng kiểm tra lại.'
+                  );
+                } else {
+                  // Xử lý các trường hợp lỗi khác
+                  console.error('Error while adding product:', error);
+                  this.notification.error('Đã xảy ra lỗi khi thêm sản phẩm.');
+                }
+              }
+            );
+          } else {
+            this.notification.error('Ảnh không được để trống');
+          }
+        } else {
+          console.error('Image URLs are null or empty. Product not added.');
+        }
+      }
+
+    })
   }
 
   // addProduct(): void {
@@ -237,70 +253,101 @@ export class dialogProductDetailComponent implements OnInit {
   //   }
   // }
   updateProduct() {
-    const formValue = this.productDetailForm.value;
-    console.log('anh cap nhat:', this.validUrls);
-
-    this.productDetail = {
-      soLuong: formValue.soLuong,
-      giaBan: formValue.giaBan,
-      sanPham: formValue.sanPham,
-      kichCo: formValue.kichCo,
-      mauSac: formValue.mauSac,
-      chatLieuGiay: formValue.chatLieuGiay,
-      chatLieuDeGiay: formValue.chatLieuDeGiay,
-      trangThai: formValue.trangThai,
-      anhSanPhams: this.validUrls ? [...this.validUrls] : [],
-    };
-
-    // Sử dụng đường dẫn ảnh mới nếu có
-    // if (this.uploadedUrl) {
-    // this.product.anhChinh = this.uploadedUrl;
-
-    this.validUrls = new Array(3);
-
-    if (this.validUrls.length < 4) {
-      this.productDetail.anhSanPhams.ten = [];
-      // // this.productDetail.anhSanPhams = [];
-
-      this.productDetail.anhSanPhams.ten = this.validUrls;
-      console.log('ảnh 1228', this.productDetail.anhSanPhams);
-
-      this.productDetailService
-        .updateProduct(this.productDetail, this.data.productDetail.id)
-        .then(
-          //   (res) => {
-          //   console.log('data updated', res.content);
-          //   if (res) {
-          //     this.notification.success('cap nhat thanh cong');
-          //     this.dialog.closeAll();
-          //   }
-          // }
-          (res) => {
-            console.log('Data created', res);
-            this.notification.success('Cập nhật thành công');
-            this.dialog.closeAll();
-          },
-          (error) => {
-            if (error.status === 409) {
-              // Xử lý trường hợp sản phẩm đã tồn tại
-              this.notification.error(
-                'Sản phẩm đã tồn tại. Vui lòng kiểm tra lại.'
-              );
-            } else {
-              // Xử lý các trường hợp lỗi khác
-              console.error('Error while adding product:', error);
-              this.notification.error('Đã xảy ra lỗi khi thêm sản phẩm.');
+    Swal.fire(
+      {
+        title: 'Xác nhận cập nhật sản phẩm',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: 'Hủy'
+      }
+    ).then((result) => {
+      if (result.isConfirmed) {
+        const formValue = this.productDetailForm.value;
+        console.log('anh cap nhat:', this.validUrls);
+  
+        this.productDetail = {
+          soLuong: formValue.soLuong,
+          giaBan: formValue.giaBan,
+          sanPham: formValue.sanPham,
+          kichCo: formValue.kichCo,
+          mauSac: formValue.mauSac,
+          chatLieuGiay: formValue.chatLieuGiay,
+          chatLieuDeGiay: formValue.chatLieuDeGiay,
+          trangThai: formValue.trangThai,
+          anhSanPhams: this.validUrls ? [...this.validUrls] : [],
+        };
+  
+        // Sử dụng đường dẫn ảnh mới nếu có
+        // if (this.uploadedUrl) {
+        // this.product.anhChinh = this.uploadedUrl;
+  
+        this.validUrls = new Array(3);
+  
+        if(this.validUrls.length < 4) {
+        this.productDetail.anhSanPhams.ten = [];
+        // // this.productDetail.anhSanPhams = [];
+  
+        this.productDetail.anhSanPhams.ten = this.validUrls;
+        console.log('ảnh 1228', this.productDetail.anhSanPhams);
+  
+        this.productDetailService
+          .updateProduct(this.productDetail, this.data.productDetail.id)
+          .then(
+            //   (res) => {
+            //   console.log('data updated', res.content);
+            //   if (res) {
+            //     this.notification.success('cap nhat thanh cong');
+            //     this.dialog.closeAll();
+            //   }
+            // }
+            (res) => {
+              console.log('Data created', res);
+              this.notification.success('Cập nhật thành công');
+              this.dialog.closeAll();
+            },
+            (error) => {
+              if (error.status === 409) {
+                // Xử lý trường hợp sản phẩm đã tồn tại
+                this.notification.error(
+                  'Sản phẩm đã tồn tại. Vui lòng kiểm tra lại.'
+                );
+              } else {
+                // Xử lý các trường hợp lỗi khác
+                console.error('Error while adding product:', error);
+                this.notification.error('Đã xảy ra lỗi khi thêm sản phẩm.');
+              }
             }
-          }
-        );
-    } else {
-      alert('Chỉ được cập nhật thêm 4 ảnh !');
-    }
+          );
+      } else {
+        alert('Chỉ được cập nhật thêm 4 ảnh !');
+      }
+      }
+    })
+      
   }
+
   deleteProduct() {
-    console.log('xoa');
-    this.productDetailService.deleteProduct(this.productDetail.id);
-    this.dialog.closeAll();
+    Swal.fire(
+      {
+        title: 'Xác nhận xóa sản phẩm',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: 'Hủy'
+      }
+    ).then((result) => {
+      if (result.isConfirmed) {
+        console.log('xoa');
+        this.productDetailService.deleteProduct(this.productDetail.id);
+        this.dialog.closeAll();
+      }
+    })
+    
   }
 }
 
