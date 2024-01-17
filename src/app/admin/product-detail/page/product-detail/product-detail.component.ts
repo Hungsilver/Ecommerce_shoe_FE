@@ -11,6 +11,7 @@ import { MaterialService } from 'src/app/admin/material/service/material.service
 import { MaterialSolesService } from 'src/app/admin/material-soles/service/material-soles.service';
 import { IProductDetailExportExcel } from '../../services/ProductDetailExportExcel.module';
 import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
 // import { IProductDetailImportExcel } from '../../services/ProductDetailImportExcel.module';
 
 
@@ -37,7 +38,7 @@ export class ProductDetailComponent implements OnInit {
 
   selectedSize: number | null = null;
   selectedColor: number | null = null;
-  ChiTietSanPham!: IProductDetailExportExcel[];
+  ChiTietSanPham!: any[];
   fileName = 'ExcelSheet.xlsx';
   ExcelData: any;
 
@@ -81,17 +82,39 @@ export class ProductDetailComponent implements OnInit {
   }
 
   private getAllByexcel() {
+   
     this.productDetailService.getAll().subscribe((data) => {
-      this.ChiTietSanPham = data;
-    });
+          this.ChiTietSanPham = data;
+          console.log(data);
+        });
+        
+    
   }
-  exportexcel() {
-    const wr: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.ChiTietSanPham);
 
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, wr, 'Sheet1');
-    XLSX.writeFile(wb, this.fileName);
+  exportexcel() {
+    Swal.fire(
+      {
+        title: 'Xác nhận export excel',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: 'Hủy'
+      }
+    ).then((result) => {
+      if (result.isConfirmed) {
+        const wr: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.ChiTietSanPham);
+
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, wr, 'Sheet1');
+        XLSX.writeFile(wb, this.fileName);
+      }
+    })
+    
+    
   }
+
   readExcel(event: any) {
     // Khởi tạo danh sách (list) để lưu trữ các đối tượng ChiTietSanPham
     const danhSachCTSanPham: IProductDetailImportExcel[] = [];
@@ -110,7 +133,7 @@ export class ProductDetailComponent implements OnInit {
           workBook.Sheets[sheetNames[0]]
         );
 
-        for (let i = 0; i < this.ExcelData.length; i++) {
+        for (let i = 0; i < this.ExcelData?.length; i++) {
           const chitietsanpham: IProductDetailImportExcel = {
             stt: this.ExcelData[i].stt,
             // maSanPham:this.ExcelData[i].ma,
@@ -135,7 +158,7 @@ export class ProductDetailComponent implements OnInit {
             if (Array.isArray(data)) {
               this.ChiTietSanPham = data;
             }
-            if (this.ChiTietSanPham.length > 0) {
+            if (this.ChiTietSanPham?.length > 0) {
               const wr: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
                 this.ChiTietSanPham
               );
@@ -180,7 +203,7 @@ export class ProductDetailComponent implements OnInit {
       }
       if (
         action === 'next' &&
-        Number(this.searchQuery.page) + 1 <= this.listTotalPage.length
+        Number(this.searchQuery.page) + 1 <= this.listTotalPage?.length
       ) {
         this.searchQuery.page = this.searchQuery.page + 1;
       }

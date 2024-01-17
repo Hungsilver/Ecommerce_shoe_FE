@@ -57,6 +57,7 @@ import { CacheService } from 'src/libs/service/request/cache.service';
 import { IVoucher } from '../voucher/service/voucher.module';
 import { VoucherSevice } from '../voucher/service/voucher.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProductService } from '../admin-product/service/product.service';
 
 //! start ban hang tai quay
 
@@ -126,8 +127,10 @@ export class SalesComponent implements OnInit {
   currentCustomerName: string = 'Khách Lẻ';
   color: any = [];
   size: any = [];
-  selectedSize: number | null = null;
-  selectedColor: number | null = null;
+  product: any = [];
+  selectedSize: string | null = null;
+  selectedColor: string | null = null;
+  selectedProduct: string | null = null;
   selectedHoaDonId: number | undefined;
 
   selectedCustomer: ICustomer | null = null;
@@ -150,6 +153,8 @@ export class SalesComponent implements OnInit {
 
   isFormVisible = false;
 
+  selectAllSize: any = undefined;
+
   constructor(
     private toast: NgToastService,
     private ctspService: CTSPService,
@@ -163,6 +168,7 @@ export class SalesComponent implements OnInit {
     private BaseRequestService: BaseRequestService,
     private colorService: ColorService,
     private sizeService: SizeService,
+    private productService: ProductService,
     private customerService: CustomerService,
     private caseService: CacheService,
     private voucherService: VoucherSevice,
@@ -197,6 +203,9 @@ export class SalesComponent implements OnInit {
     });
     this.sizeService.getSize().then((data) => {
       this.size = data.content;
+    });
+    this.productService.getProduct().then((data) => {
+      this.product = data.content;
     });
     // this.calculateGrandTotal();
     // this.findByCodeVoucher(this.maPhieu);
@@ -314,8 +323,13 @@ export class SalesComponent implements OnInit {
       if (this.selectedColor !== null) {
         this.searchQuery.color = this.selectedColor;
       }
+      if (this.selectedProduct !== null) {
+        this.searchQuery.product = this.selectedProduct;
+      }
 
       Object.keys(this.searchQuery).forEach((key) => {
+        console.log('key', key);
+
         if (
           this.searchQuery[key] === null ||
           this.searchQuery[key] === '' ||
@@ -324,21 +338,46 @@ export class SalesComponent implements OnInit {
           delete this.searchQuery[key];
         }
       });
+      // if (this.searchQuery.size === null) {
+      //   delete this.searchQuery;
+      // }
+      console.log('param ', this.searchQuery);
     }
-    console.log('param ', this.searchQuery);
 
     this.ctspService.getProducts(this.searchQuery).then((product) => {
       if (product && product.content) {
         this.productsDetail = product.content;
         this.listTotalPage = this.getTotalPage(product.totalPages);
-        console.log(product);
         this.productCodes;
       }
     });
+  }
 
-    console.log(this.searchQuery);
-    console.log(this.selectedColor);
-    console.log(this.selectedSize);
+  onSelectSize() {
+    if (this.selectedSize === null || this.selectedSize === '') {
+      delete this.searchQuery.size;
+    } else {
+      this.searchQuery.size = this.selectedSize;
+    }
+    this.getAll();
+  }
+
+  onSelectProduct() {
+    if (this.selectedProduct === null || this.selectedProduct === '') {
+      delete this.searchQuery.product;
+    } else {
+      this.searchQuery.product = this.selectedProduct;
+    }
+    this.getAll();
+  }
+
+  onSelectColor() {
+    if (this.selectedColor === null || this.selectedColor === '') {
+      delete this.searchQuery.color;
+    } else {
+      this.searchQuery.color = this.selectedColor;
+    }
+    this.getAll();
   }
 
   getAllCustomer(action?: 'prev' | 'next'): void {
@@ -399,36 +438,6 @@ export class SalesComponent implements OnInit {
       );
     }
   }
-
-  // onSubmitAddCustomer(): void {
-  //   // if (this.addCustomerForm && this.addCustomerForm.valid) {
-  //   // const emailControl = this.addCustomerForm.get('email');
-  //   // const soDienThoaiControl = this.addCustomerForm.get('soDienThoai');
-
-  //   // if (
-  //   //   emailControl &&
-  //   //   soDienThoaiControl &&
-  //   //   !emailControl.hasError('duplicate') &&
-  //   //   !soDienThoaiControl.hasError('duplicate')
-  //   // )
-
-  //   const newCustomer = this.addCustomerForm.value;
-
-  //   this.customerService.createCustomer(newCustomer).then(
-  //     (result) => {
-  //       console.log('Khách hàng đã được thêm mới:', result);
-  //       if (this.addCustomerForm) {
-  //         this.addCustomerForm.reset();
-  //       }
-  //       // Thực hiện các bước khác sau khi thêm mới thành công
-  //     },
-  //     (error) => {
-  //       console.error('Lỗi khi thêm mới khách hàng:', error);
-  //     }
-  //   );
-  // }
-  // }
-  // }
 
   duplicateValidator(fieldName: string) {
     return async (control: FormControl) => {
@@ -495,31 +504,22 @@ export class SalesComponent implements OnInit {
   }
 
   // filterBySize(): void {
-  //   if (this.selectedSize === null) {
-  //     delete this.searchQuery.size;
-  //   } else {
+  //   if (this.selectedSize !== null) {
   //     this.searchQuery.size = this.selectedSize;
+  //   } else {
+  //     delete this.searchQuery.size;
   //   }
   //   this.getAll();
   // }
 
-  filterBySize(): void {
-    if (this.selectedSize !== null) {
-      this.searchQuery.size = this.selectedSize;
-    } else {
-      delete this.searchQuery.size;
-    }
-    this.getAll();
-  }
-
-  filterByColors(): void {
-    if (this.selectedColor !== null) {
-      this.searchQuery.color = this.selectedColor;
-    } else {
-      delete this.searchQuery.color;
-    }
-    this.getAll();
-  }
+  // filterByColors(): void {
+  //   if (this.selectedColor !== null) {
+  //     this.searchQuery.color = this.selectedColor;
+  //   } else {
+  //     delete this.searchQuery.color;
+  //   }
+  //   this.getAll();
+  // }
 
   public config: ScannerQRCodeConfig = {
     constraints: {

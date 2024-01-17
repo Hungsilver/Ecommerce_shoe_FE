@@ -12,29 +12,6 @@ export class MaterialSolesDialogComponent implements OnInit {
   type: any;
 
   materialSolesForm: FormGroup = new FormGroup({});
-
-
-  ngOnInit(): void {
-    this.materialSolesForm = this.fb.group({
-      ten: ['', [Validators.required,Validators.pattern(/[a-zA-Z]+/)]], // Tên là bắt buộc và ít nhất 3 ký tự
-      trangThai: [1,Validators.required],
-    });
-
-    if(this.data.materialSloes && this.data.materialSloes.ten
-       && this.data.materialSloes.trangThai){
-        this.materialSolesForm.patchValue({
-          ten: this.data.materialSloes.ten,
-          trangThai: this.data.materialSloes.trangThai,
-        });
-       }
-
-  //   this.type = this.data.type;
-  // if (this.type === 'update') {
-  //   this.materialSolesForm.patchValue(this.data.materialSloes);
-  // }
-
-  }
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private materialSoles: MaterialSolesService,
@@ -43,8 +20,30 @@ export class MaterialSolesDialogComponent implements OnInit {
   ) {
     // this.materialSoles
     this.type = data.type;
-    this.materialSloes = data.materialSloes;
+    this.materialSloes = data.material;
   }
+
+  ngOnInit(): void {
+    this.materialSolesForm = this.fb.group({
+      ten: ['', [Validators.required,Validators.pattern(/[a-zA-Z]+/)]], // Tên là bắt buộc và ít nhất 3 ký tự
+      trangThai: [1,Validators.required],
+    });
+
+    if(this.materialSloes ){
+        
+      this.materialSolesForm.patchValue({
+       ten: this.materialSloes?.ten,
+       trangThai: this.materialSloes?.trangThai,
+     });
+       }
+  //   this.type = this.data.type;
+  // if (this.type === 'update') {
+  //   this.materialSolesForm.patchValue(this.data.materialSloes);
+  // }
+
+  }
+
+ 
   addMaterial() {
     const materialSolesData = this.materialSolesForm.value;
     this.materialSoles.createMaterial(materialSolesData).then(res => {

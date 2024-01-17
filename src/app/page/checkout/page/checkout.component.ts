@@ -178,7 +178,7 @@ export class CheckoutComponent implements OnInit {
         this.ngayHetHan = new Date(p.thoiGianKetThuc);
         this.idPhieuGiamGia = p.id;
 
-        if (p.trangThai === 1) {
+        if (p.trangThai === 1 && differenceInDays( this.ngayHetHan,this.ngayHienTai) >= 0) {
           if (p.hinhThucGiamGia === false) {
             this.hinhThucGiamGia = p.hinhThucGiamGia;
             this.chietKhau = p.chietKhau;

@@ -950,6 +950,11 @@ export class InvoiceChiTietComponent implements OnInit {
           }
         ).then((result) => {
           if (result.isConfirmed) {
+            this.ghiChu.idHoaDon = history.state.detailData.id;
+            this.ghiChu.trangThai = 8;
+            this.hoaDonService.addGhiChu(this.ghiChu).then(c=>{
+
+            })
             this.hoaDonService.updateInvoice(this.form.value).then(c => {
               this.notification.success('Cập nhật đơn hàng thành công !');
               this.hoaDonService.findByInvice(history.state.detailData.id).then(key => {

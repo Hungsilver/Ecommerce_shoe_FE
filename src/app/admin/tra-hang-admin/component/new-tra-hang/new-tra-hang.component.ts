@@ -163,13 +163,17 @@ export class NewTraHangComponent implements OnInit {
         this.traHangService.findTraHangByIdHD(c.id).then(t => {
           if (t.length === 0) {
             this.ngayGiaoHang = new Date(c.ngayCapNhat)
+            console.log(c);
+            
             if (c === null) {
+              console.log(123);
+              
               this.notificationService.error("Hóa đơn không hợp lệ !")
               this.hienThi = false;
             } else if (differenceInDays(this.ngayHienTai, this.ngayGiaoHang) > 5 || differenceInDays(this.ngayHienTai, this.ngayGiaoHang) < 0) {
               this.notificationService.error("Hóa đơn đã quá hạn trả hàng !")
               this.hienThi = false;
-            } else if (c !== null && c.trangThai === 5) {
+            } else if (c !== null && (c.trangThai === 5 || c.trangThai === 1)) {
               c.listHoaDonChiTiet.forEach((key: any) => {
                 this.tongSoLuongBanDau += key.soLuong;
               })
@@ -477,7 +481,7 @@ export class NewTraHangComponent implements OnInit {
       data: {
         type: "add",
         listSanPhamTra: listSanPhamTra,
-        openDialog: 4
+        openDialog: 0
       },
     })
   }

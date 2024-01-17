@@ -493,7 +493,7 @@ export class DialogTraHangComponent implements OnInit {
       if (result.isConfirmed) {
         this.traHangService.updateStatus(id, 2).then(c => {
           this.notificationService.success('Xác nhận hoàn thành đơn hàng trả thành công !')
-          this.exportPDF(this.traHangDialog.id);
+          // this.exportPDF(this.traHangDialog.id);
           this.dialog.closeAll();
           this.openDialogs(this.traHangDialog.listTraHangChiTiet, this.traHangDialog);
           // this.traHangService.updateTongTien(this.traHangDialog.id).then(c => {
@@ -515,7 +515,7 @@ export class DialogTraHangComponent implements OnInit {
         type: "add",
         listSanPhamTra: listSanPhamTra,
         traHang: traHang,
-        openDialog: 4
+        openDialog: 1
       },
     })
   }
