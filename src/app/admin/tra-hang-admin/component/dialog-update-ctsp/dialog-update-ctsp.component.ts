@@ -44,7 +44,7 @@ export class DialogUpdateCtspComponent implements OnInit {
       console.log(this.listSanPhamTra);
       
     }
-    
+
     if(this.openDialog === 0){
       console.log(this.traHangChiTiet)
       this.listTraHangChiTiet = this.listSanPhamTra
@@ -59,7 +59,7 @@ export class DialogUpdateCtspComponent implements OnInit {
     this.loiSoLuong = false;
     let idHdct = 0;
     console.log(this.listTraHangChiTiet);
-    
+
     if(this.openDialog === 1){
       idHdct = this.listTraHangChiTiet[index].id;
     }
@@ -82,7 +82,7 @@ export class DialogUpdateCtspComponent implements OnInit {
           this.listCapNhatCTSP = this.listCapNhatCTSP.filter((item: { id: number; }) => item.id !== idHdct);
           this.listCapNhatCTSP.splice(index, 0, this.traHangChiTiet);
           console.log(this.listCapNhatCTSP);
-          
+
         }
       }
     })
@@ -103,8 +103,8 @@ export class DialogUpdateCtspComponent implements OnInit {
         this.checkedItems.push(key.id);
         this.listCapNhatCTSP.push(key);
         console.log(this.listCapNhatCTSP);
-        
-      })      
+
+      })
     }
   }
 
@@ -117,8 +117,8 @@ export class DialogUpdateCtspComponent implements OnInit {
 
   onCheckboxChange(event: any, itemId: number) {
     this.loiSoLuong = false;
- 
-    
+
+
     if (event.target.checked) {
       // Nếu checkbox được chọn, thêm giá trị vào mảng
       this.listTraHangChiTiet.forEach((key: any) => {
@@ -154,7 +154,7 @@ export class DialogUpdateCtspComponent implements OnInit {
     } else if (this.loiSoLuong === true) {
       this.notificationService.error('Số lượng cập nhật không hợp lệ !')
     } else {
-      
+
 
         this.listCapNhatCTSP.forEach((key: any) => {
           this.listUpdateCTSP.push({
@@ -162,7 +162,7 @@ export class DialogUpdateCtspComponent implements OnInit {
             soLuong: key.soLuong
           })
         })
-  
+
         Swal.fire(
           {
             title: 'Cập nhật số lượng sản phẩm trả hàng',
@@ -183,7 +183,7 @@ export class DialogUpdateCtspComponent implements OnInit {
             })
           }
         })
-      
+
 
     }
 

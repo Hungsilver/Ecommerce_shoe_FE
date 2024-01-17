@@ -78,7 +78,7 @@
                                         </td>
                                         <td>{{c.donGia | currency:'VND'}}</td>
                                         <td>{{c.soLuong*c.donGia | currency:'VND'}}</td>
-                                        
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -810,9 +810,9 @@
                                     <h4>Voucher:</h4>
                                 </div>
                                 <div class="col-6">
-                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===true">
-                                        {{invoice.phieuGiamGia.chietKhau}}%</div>
                                     <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===false">
+                                        {{invoice.phieuGiamGia.chietKhau}}%</div>
+                                    <div style="margin-left: 77%;" *ngIf="invoice.phieuGiamGia !== null && invoice.phieuGiamGia.hinhThucGiamGia===true">
                                         {{invoice.phieuGiamGia.chietKhau| currency:'VND'}}</div>
                                 </div>
                             </div>
@@ -1059,7 +1059,7 @@
                                             <input type="checkbox"
                                             name="someCheckbox"
                                             id="someCheckbox"
-                                            
+
                                             >
                                         </td>
                                         <td>
@@ -1148,7 +1148,7 @@
                             </div>
                             <hr>
                         </div>
-                    
+
                 </div>
 
             </form>

@@ -35,25 +35,25 @@
                         </td>
                         <td>
                             <div class="table-product-detail">
-                                <img class="table-image" src="{{c.hoaDonChiTiet.chiTietSanPham.anhSanPhams[0]?.ten}}"
+                                <img class="table-image" src="{{c?.chiTietSanPham?.anhSanPhams[0]?.ten}}"
                                     alt="">
                                 <div>
-                                    <p>Tên: {{c.hoaDonChiTiet.chiTietSanPham.sanPham.ten}}</p>
-                                    <p>Mã: {{c.hoaDonChiTiet.chiTietSanPham.ma}}</p>
-                                    <p>Size: {{c.hoaDonChiTiet.chiTietSanPham.kichCo.size}}</p>
-                                    <p>Màu sắc: {{c.hoaDonChiTiet.chiTietSanPham.mauSac.ten}}</p>
-                                    <p>Chất liệu: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuGiay.ten}}</p>
-                                    <p>Loại đế: {{c.hoaDonChiTiet.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                    <p>Tên: {{c?.chiTietSanPham?.sanPham?.ten}}</p>
+                                    <p>Mã: {{c?.chiTietSanPham?.ma}}</p>
+                                    <p>Size: {{c?.chiTietSanPham?.kichCo?.size}}</p>
+                                    <p>Màu sắc: {{c?.chiTietSanPham?.mauSac?.ten}}</p>
+                                    <p>Chất liệu: {{c?.chiTietSanPham?.chatLieuGiay?.ten}}</p>
+                                    <p>Loại đế: {{c?.chiTietSanPham?.chatLieuDeGiay?.ten}}</p>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <input type="number" min="1" max="{{c.soLuong}}" value="{{c.soLuong}}"
-                                (blur)="capNhatSoLuong($event,i)"> /{{c.soLuong}}
+                            <input type="number" min="1" max="{{c?.soLuong}}" value="{{c?.soLuong}}"
+                                (blur)="capNhatSoLuong($event,i)"> /{{c?.soLuong}}
                         </td>
-                        <td>{{c.donGia | vnd}}</td>
-                        <td>{{c.soLuong*c.donGia | vnd}}</td>
-                        
+                        <td>{{c?.donGia | vnd}}</td>
+                        <td>{{c?.soLuong*c?.donGia | vnd}}</td>
+
                     </tr>
                 </tbody>
             </table>

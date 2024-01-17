@@ -21,7 +21,7 @@
             [(ngModel)]="selectedProduct"
             (selectionChange)="filterByProduct()"
           >
-            <mat-option [value]="null">Sản Phẩm</mat-option>
+            <mat-option [value]="null">select Product</mat-option>
             <mat-option
               *ngFor="let products of product"
               [value]="products.id"
@@ -37,7 +37,7 @@
             [(ngModel)]="selectedSize"
             (selectionChange)="filterBySize()"
           >
-            <mat-option [value]="null">Kích Cỡ</mat-option>
+            <mat-option [value]="null">select size</mat-option>
             <mat-option *ngFor="let sizes of size" [value]="sizes.id">{{
               sizes.size
             }}</mat-option>
@@ -68,6 +68,7 @@
     </div>
   </div> -->
 </div>
+
 
 
 <div class="col-2">
@@ -121,7 +122,7 @@
         <td>
           <img
             class="table-image"
-            src="{{ product.anhSanPhams[0]?.ten }}"
+            src="{{ product?.anhSanPhams[0]?.ten }}"
             width="100px"
             height="120px"
             alt=""
