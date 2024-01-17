@@ -36,6 +36,8 @@ export class DialogUpdateCtspComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.listSanPhamTra);
+
     this.listTraHangChiTiet = this.listSanPhamTra;
 
   }
@@ -119,7 +121,7 @@ export class DialogUpdateCtspComponent implements OnInit {
 
   capNhatCTSP() {
     this.listUpdateCTSP = [];
-    
+
     if(this.listCapNhatCTSP.length = 0){
       this.notificationService.error('Vui lòng chọn sản phẩm cập nhật !')
     } else if (this.loiSoLuong === true) {
@@ -149,6 +151,6 @@ export class DialogUpdateCtspComponent implements OnInit {
     }, 1000);
   }
 
-  
+
 
 }

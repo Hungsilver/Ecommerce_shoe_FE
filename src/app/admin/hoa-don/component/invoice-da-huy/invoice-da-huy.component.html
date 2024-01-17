@@ -20,8 +20,22 @@
                     <td>{{invoice.maHoaDon}}</td>
                     <td *ngIf="invoice.nhanVien === null"></td>
                     <td *ngIf="invoice.nhanVien !== null">{{invoice.nhanVien.hoTen}}</td>
-                    <td>{{invoice.tenKhachHang}}</td>
-                    <td>{{invoice.soDienThoai}}</td>
+                    <!-- <td>{{invoice.tenKhachHang}}</td>
+                    <td>{{invoice.soDienThoai}}</td> -->
+                    <td>
+                      {{
+                        invoice.trangThai === 0 || invoice.trangThai === 1
+                          ? invoice.khachHang?.hoTen || "Khách lẻ"
+                          : invoice.tenKhachHang
+                      }}
+                    </td>
+                    <td>
+                      {{
+                        invoice.trangThai === 0 || invoice.trangThai === 1
+                          ? invoice.khachHang?.soDienThoai || ""
+                          : invoice.soDienThoai
+                      }}
+                    </td>
                     <td>{{invoice.tongTienSauGiam + invoice.phiVanChuyen | vnd}}</td>
                     <td>{{invoice.ngayTao}}</td>
                     <td *ngIf="invoice.trangThai === 1">Hoàn thành</td>
