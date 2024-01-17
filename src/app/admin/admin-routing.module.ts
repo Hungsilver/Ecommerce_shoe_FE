@@ -30,7 +30,9 @@ import { InvoiceChiTietComponent } from './hoa-don/component/invoice-chi-tiet/in
 
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent },
+  { path: '', redirectTo: 'sales', pathMatch: 'full' },
+  { path: 'sales', component: SalesComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'product', component: ProductDetailComponent },
   { path: 'mau-sac', component: ColorComponent },
   { path: 'xuat-xu', component: OriginComponent },
@@ -50,7 +52,6 @@ const routes: Routes = [
   { path: 'nhan-vien', component: StaffHomeComponent },
   { path: 'test-p', component: TestNewComponent },
   { path: 'test-n', component: NComponent },
-  { path: 'sales', component: SalesComponent },
   { path: 'phieu-giam-gia', component: VoucherHomeComponent },
   { path: 'payment-success', component: PaymentSuccessComponent },
   { path: 'tra-hang', component: TraHangAdminComponent },

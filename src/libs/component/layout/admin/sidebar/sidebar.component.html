@@ -2,7 +2,7 @@
   <div class="box">
     <Label>ADMIN</Label>
     <ul>
-      <a routerLink="dashboard">
+      <a *ngIf="isAdmin" routerLink="dashboard">
         <li>
           <span>
             <i class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -21,7 +21,7 @@
           <span>Bán Hàng</span>
         </li>
       </a>
-      <a routerLink="nhan-vien">
+      <a *ngIf="isAdmin" routerLink="nhan-vien">
         <li>
           <span class="pi pi-user"></span>
           <span>Nhân Viên</span>
