@@ -283,6 +283,7 @@
                 </div>
               </div>
 
+
               <div class="col">
                 <label class="form-label">Phương thức thanh toán:</label>
                 <select
@@ -545,12 +546,7 @@
         <div class="col-4">
           <span class="p-input-icon-left">
             <i class="pi pi-search"></i>
-            <input
-              type="text"
-              pInputText
-              [(ngModel)]="searchQuery.keyword"
-              (keyup.enter)="getAllCustomer()"
-            />
+            <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
             <!-- <p-dropdown
               [options]="listTotalPage"
               [(ngModel)]="searchQuery.page"
@@ -568,69 +564,7 @@
               #floatingForm
               (mousedown)="preventFormClose($event)"
             >
-              <!-- <form
-                [formGroup]="addCustomerForm"
-                (ngSubmit)="onSubmitAddCustomer()"
-              >
-                <div class="mb-3">
-                  <label for="hoTen" class="form-label">Họ Tên:</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="hoTen"
-                    formControlName="hoTen"
-                    required
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email:</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="email"
-                    formControlName="email"
-                    required
-                  />
-                  <div *ngIf="addCustomerForm.get('email').hasError('duplicate')">
-                    Số điện thoại đã tồn tại.
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <label for="soDienThoai" class="form-label"
-                    >Số điện thoại:</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="soDienThoai"
-                    formControlName="soDienThoai"
-                    required
-                  />
-                  <div *ngIf="addCustomerForm?.get('soDienThoai')?.hasError('duplicate')">
-                    Số điện thoại đã tồn tại.
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <label for="ngaySinh" class="form-label">Ngày sinh:</label>
-                  <input
-                    type="date"
-                    class="form-control"
-                    id="ngaySinh"
-                    formControlName="ngaySinh"
-                  />
-                </div>
-
-                <button type="submit" class="btn btn-primary">Thêm mới</button>
-                <button class="btn btn-outline-danger" (click)="toggleForm()">
-                  Đóng
-                </button>
-              </form>
-             -->
               <form
-                *ngIf="addCustomerForm"
                 [formGroup]="addCustomerForm"
                 (ngSubmit)="onSubmitAddCustomer()"
               >
@@ -643,6 +577,7 @@
                     formControlName="hoTen"
                     required
                   />
+
                 </div>
 
                 <div class="mb-3">
@@ -654,11 +589,9 @@
                     formControlName="email"
                     required
                   />
-                  <div
-                    *ngIf="addCustomerForm.get('email')?.hasError('duplicate')"
-                  >
-                    Email đã tồn tại.
-                  </div>
+                  <mat-error *ngIf="addCustomerForm?.get('email')?.hasError('required') && (addCustomerForm?.get('email')?.dirty || addCustomerForm?.get('email')?.touched)">
+                    <small class="text-danger">Vui lòng nhập email.</small>
+                  </mat-error>
                 </div>
 
                 <div class="mb-3">
@@ -672,13 +605,9 @@
                     formControlName="soDienThoai"
                     required
                   />
-                  <div
-                    *ngIf="
-                      addCustomerForm.get('soDienThoai')?.hasError('duplicate')
-                    "
-                  >
-                    Số điện thoại đã tồn tại.
-                  </div>
+                  <mat-error *ngIf="addCustomerForm?.get('soDienThoai')?.hasError('required') && (addCustomerForm?.get('soDienThoai')?.dirty || addCustomerForm?.get('soDienThoai')?.touched)">
+                    <small class="text-danger">Vui lòng nhập số điện thoai.</small>
+                  </mat-error>
                 </div>
 
                 <div class="mb-3">
@@ -692,55 +621,9 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Thêm mới</button>
-                <button class="btn btn-outline-danger" (click)="toggleForm()">
-                  Đóng
-                </button>
               </form>
             </div>
           </div>
-
-          <!-- <div
-            class="floating-form"
-            *ngIf="isFormVisible"
-            #floatingForm
-            (mousedown)="preventFormClose($event)"
-          >
-
-            <form>
-              <div class="mb-3">
-                <label for="" class="form-label">Họ Tên:</label>
-                <input type="text" class="form-control" aria-describedby="emailHelp" style="width: 250px" />
-              </div>
-
-              <div class="mb-3">
-                <label for="" class="form-label">Email:</label>
-                <input type="email" class="form-control" aria-describedby="emailHelp" style="width: 250px" />
-              </div>
-
-              <div class="mb-3">
-                <label for="" class="form-label">Số điện thoại:</label>
-                <input type="text" class="form-control" aria-describedby="emailHelp" style="width: 250px" />
-              </div>
-              <div class="mb-3">
-                <label for="" class="form-label">Ngày sinh:</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  aria-describedby="emailHelp"
-                  style="width: 250px"
-                />
-              </div>
-              <button type="submit" class="btn btn-primary">Thêm</button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                (click)="toggleForm()"
-              >
-                Hủy
-              </button>
-            </form>
-            <br />
-          </div> -->
         </div>
 
         <br />

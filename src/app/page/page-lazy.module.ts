@@ -46,7 +46,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
 // import { DialogComponent } from './order/component/dialog/dialog.component';
-
+import { CalendarModule } from 'primeng/calendar';
+import { VndPipePage } from 'src/libs/common/pipe/changeVNDPage.pipe';
 
 
 
@@ -76,6 +77,7 @@ import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
         TabViewModule,
         MatDatepickerModule,
         MatFormFieldModule,
+        CalendarModule
         // MatInputModule
     ],
     exports: [],
@@ -90,6 +92,7 @@ import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
         blogdetail,
         ChinhSachComponent,
         VoucherComponent,
+        VndPipePage,
 
         ChoXacNhanComponent,
         ChoLayHangComponent,

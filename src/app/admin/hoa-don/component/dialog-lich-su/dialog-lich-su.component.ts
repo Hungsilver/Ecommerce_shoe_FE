@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { HoaDonService } from '../../service/hoadon.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-invoice-hoan-thanh',
-  templateUrl: './invoice-hoan-thanh.component.html',
-  styleUrls: ['./invoice-hoan-thanh.component.scss']
+  selector: 'app-dialog-lich-su',
+  templateUrl: './dialog-lich-su.component.html',
+  styleUrls: ['./dialog-lich-su.component.scss']
 })
-export class InvoiceHoanThanhComponent implements OnInit {
-  invoices !: any;
+export class DialogLichSuComponent implements OnInit {
+  ghiChu !: any;
   searchQuery: any = {};
   listTotalPage: any = [];
 
@@ -17,16 +18,21 @@ export class InvoiceHoanThanhComponent implements OnInit {
   // currentStatus: number = 0;
   currentStatus: number | undefined;
 
+  idHoaDon:number | undefined;
 
-  constructor(private hoadonService: HoaDonService,
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private hoadonService: HoaDonService,
     private notification: ToastrService,
     private router: Router,
+    private dialog: MatDialog,
   ) {
     this.searchQuery.page = 1;
     this.searchQuery.pageSize = 10;
+    this.searchQuery.idHoaDon = data.idHoaDon;
   }
   ngOnInit(): void {
-    this.currentStatus = 1;
     this.getAll();
   }
 
@@ -36,11 +42,11 @@ export class InvoiceHoanThanhComponent implements OnInit {
     //   ...this.searchQuery,
     //   status: this.currentStatus
     // }
-    // const params: any = { ...this.searchQuery };
+    const params: any = { ...this.searchQuery };
 
-    if (this.currentStatus !== undefined) {
-      this.searchQuery.status = this.currentStatus;
-    }
+    // if (this.currentStatus !== undefined) {
+    //   params.status = this.currentStatus;
+    // }
 
 
 
@@ -60,13 +66,13 @@ export class InvoiceHoanThanhComponent implements OnInit {
       });
 
     }
-    if (this.currentStatus === undefined) {
-      delete this.searchQuery.status;
-    }
-    this.hoadonService.getInvoice(this.searchQuery).then(hoadon => {
-      if (hoadon && hoadon.content) {
-        this.invoices = hoadon.content;
-        this.listTotalPage = this.getTotalPage(hoadon.totalPages)
+    // if (this.currentStatus === undefined) {
+    //   delete params.status;
+    // }
+    this.hoadonService.getGhiChu(this.searchQuery).then(c => {
+      if (c && c.content) {
+        this.ghiChu = c.content;
+        this.listTotalPage = this.getTotalPage(c.totalPages)
       }
 
     })
@@ -81,17 +87,8 @@ export class InvoiceHoanThanhComponent implements OnInit {
     return listTotalPage;
   }
 
-  redirectToDetail(id: number) {
-
-    this.hoadonService.findByInvice(id).then(
-      (detailData) => {
-        this.router.navigate(['/admin/hoa-don', id], { state: { detailData } });
-      },
-      (error) => {
-        console.error('Error fetching detail:', error);
-      }
-    );
+  closeDialog() {
+    this.dialog.closeAll();
   }
-
-
 }
+

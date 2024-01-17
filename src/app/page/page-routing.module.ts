@@ -27,7 +27,6 @@ const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
   // { path: 'checkout', canActivate: [authUserGuard], component: CheckoutComponent },
   { path: 'product/:id', component: DetailComponent },
-  { path: 'order', component: OrderComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'chinh-sach', component: ChinhSachComponent },
   { path: 'voucher', component: VoucherComponent },
