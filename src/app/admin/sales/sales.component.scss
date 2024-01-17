@@ -1,6 +1,37 @@
-// table {
-//     width: 100%;
-// }
+
+:host :ng-deep  {
+ .mat-grid-tile-content{
+
+   
+   align-items: flex-start;
+  }
+  // .mat-grid-tile{
+  //   padding-top: calc(24% - 0.5px);
+  // }
+
+  
+}
+
+.row-change-quantity{
+  // transition: translate(0,3px);
+  display: flex;
+  align-items: center;
+}
+.row-change-quantity__sl{
+  margin: 0 2px;
+}
+
+
+//  .mat-mdc-tab-body-wrapper{
+//     margin-top: 10px;
+//   }
+.page-sale .table {
+    width: 100%;
+    border-collapse: collapse;
+    height: fit-content;
+   
+    // margin-top: -1240px;
+  }
 
 .custom-margin {
     margin-left: -50px;
@@ -16,6 +47,11 @@
 mat-grid-list {
     width: 100%;
 }
+// :host ::ng-deep .row-change-quantity{
+//  .mat-mdc-icon-button.mat-mdc-button-base {
+//     --mdc-icon-button-state-layer-size: 32px;
+//   }
+// }
 
 
 .close-icon {
@@ -41,8 +77,12 @@ mat-grid-list {
     height: 1500px;
 }
 
+.girl-1{
+  height: 1500px;
+}
+
 .form-test {
-    margin-top: -1080px;
+    // margin-top: -1080px;
     // height: -1400px;
 }
 
@@ -72,7 +112,7 @@ mat-grid-list {
 
 :host ::ng-deep {
     .mat-icon {
-        height: 16px !important;
+        height: 19px !important;
     }
 
     .mat-mdc-tab-body-content {
@@ -93,73 +133,42 @@ mat-grid-list {
     margin-right: 50px;
 }
 
-.mat-grid-tile {
-    display: grid;
-    grid-template-rows: 1fr auto; /* 1fr cho bảng, auto cho thông tin khách hàng */
-  }
-  
-  .table {
-    /* CSS của bảng */
-  }
-  
-  .infomationCustomer {
-    margin-top: 20px; /* Độ lệch từ trên xuống */
-    padding: 10px; /* Khoảng cách đường viền từ nội dung bên trong */
-    border: 1px solid #ccc; /* Đường viền với màu xám nhạt */
-    border-radius: 5px; /* Góc bo tròn */
-  }
-  
-  .infomationCustomer h2 {
-    color: #333; /* Màu chữ của tiêu đề */
-    font-size: 18px; /* Kích thước chữ của tiêu đề */
-    margin-bottom: 10px; /* Khoảng cách giữa tiêu đề và nội dung bên dưới */
-  }
-  
-  
-
-.sales-header_search {
-    display: flex;
-    align-items: center;
-    border-radius: 20px;
-    background: rgb(214, 207, 207);
-    padding: 5px 15px;
-
-    input {
-        border: none;
-        background: transparent;
-        outline: none;
-        color: black
-    }
-
-    button {
-        border: none;
-        background: transparent;
-        position: relative;
-
-        span {
-            position: absolute;
-            bottom: -7px;
-            left: 0;
-        }
-    }
+.mat-grid-list {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
+
+.mat-grid-tile {
+  flex: 1;
+  // padding: 15px;
+}
+
+
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+
+
+
+.form-test {
+  padding: 15px;
+}
+
+.mat-icon-button {
+  margin-right: 5px;
+}
+  
 
 .modal-xl-custom-height {
     max-width: 75%;
     max-height: 130vh;
   }
 
-//   #exampleModal {
-//     width: 800px;
-//     max-width: 800px;
-//     margin: auto;
-//     height: 1000px;
-//   }
-  
-//   .modal-dialog {
-//     height: auto;
-//     min-height: 400px;
-//   }
   
   .modal-content {
     // height: 100%;
@@ -173,10 +182,7 @@ mat-grid-list {
     border-radius: 15px 15px 0 0;
     padding: 10px;
   }
-  
-//   .modal-body {
-//     padding: 20px;
-//   }
+
   
   .modal-footer {
     border-radius: 0 0 15px 15px;
@@ -204,8 +210,4 @@ mat-grid-list {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     z-index: 1000;
   }
-  
-  
-//   #exampleModalLabel {
-//     z-index: 1050; /* Số này có thể được điều chỉnh tùy thuộc vào nhu cầu của bạn */
-//   }
+ /* Reset margin and padding for all elements */

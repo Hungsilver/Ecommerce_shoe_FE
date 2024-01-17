@@ -1,230 +1,218 @@
-<button class="createOrder" mat-raised-button (click)="addTab()">
-  Tạo hóa đơn
-</button>
-<br />
-<br />
+<div class="page-sale">
+  <button class="createOrder" mat-raised-button (click)="addTab()">
+    Tạo hóa đơn
+  </button>
+  <br />
+  <br />
 
-<mat-tab-group (selectedTabChange)="onTabChange($event)" class="buttonTab">
-  <ng-container *ngIf="tabs">
-    <mat-tab *ngFor="let tab of tabs; let i = index" class="buttonTab1">
-      <ng-template mat-tab-label class="test">
-        <div class="tab-label-container">
-          <span>HD{{ tab.id }}</span>
+  <mat-tab-group (selectedTabChange)="onTabChange($event)" class="buttonTab">
+    <ng-container *ngIf="tabs">
+      <mat-tab *ngFor="let tab of tabs; let i = index" class="buttonTab1">
+        <ng-template mat-tab-label class="test">
+          <div class="tab-label-container">
+            <span>HD{{ tab.id }}</span>
 
-          <button
-            mat-icon-button
-            class="close-button"
-            (click)="cancelInvoice()"
+            <button
+              mat-icon-button
+              class="close-button"
+              (click)="cancelInvoice()"
+            >
+              <mat-icon aria-label="Xóa" class="close-icon">close</mat-icon>
+            </button>
+          </div>
+        </ng-template>
+
+        <div class="sales-header d-flex justify-content-between mt-3">
+          <div class="d-flex align-items-center">
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              (click)="showQRCode()"
+            >
+              Open qr code
+            </button>
+          </div>
+
+          <div
+            *ngIf="showQuantityInput"
+            class="floating-form"
+            #floatingForm
+            (mousedown)="preventFormClose($event)"
           >
-            <mat-icon aria-label="Xóa" class="close-icon">close</mat-icon>
-          </button>
-        </div>
-      </ng-template>
-
-      <div class="sales-header d-flex justify-content-between">
-        <div class="d-flex align-items-center">
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            (click)="showQRCode()"
-          >
-            Open qr code
-          </button>
-        </div>
-
-        <div
-          *ngIf="showQuantityInput"
-          class="floating-form"
-          #floatingForm
-          (mousedown)="preventFormClose($event)"
-        >
-          <p>Mã: {{ productsDetail.ma }}</p>
-          <p>Số lượng: {{ productsDetail.soLuong }}</p>
-          <label for="quantity">Nhập số lượng:</label>
-          <input
-            type="number"
-            [(ngModel)]="quantityInvoice"
-            placeholder="Nhập
+            <p>Mã: {{ productsDetail.ma }}</p>
+            <p>Số lượng: {{ productsDetail.soLuong }}</p>
+            <label for="quantity">Nhập số lượng:</label>
+            <input
+              type="number"
+              [(ngModel)]="quantityInvoice"
+              placeholder="Nhập
             số lượng"
-            class="form-control"
-            style="width: 300px"
-            [min]="1"
-            [max]="productsDetail.soLuong"
-          />
-          <br />
+              class="form-control"
+              style="width: 300px"
+              [min]="1"
+              [max]="productsDetail.soLuong"
+            />
+            <br />
+            <button
+              class="btn btn-outline-primary"
+              (click)="addOrderDetailFromQR(productsDetail, quantityInvoice)"
+              [disabled]="quantityInvoice > productsDetail.soLuong"
+            >
+              Xác nhận thêm
+            </button>
+            <button
+              class="btn btn-outline-danger"
+              (click)="closeFloatingForm()"
+            >
+              Đóng
+            </button>
+          </div>
+
+          <div class="addProduct">
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Thêm sản phẩm
+            </button>
+          </div>
+          <div>
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModalCustomer"
+            >
+              Chọn khách hàng
+            </button>
+          </div>
+        </div>
+
+        <!-- ! QR Code -->
+        <div class="qr-container" *ngIf="isShowQrCode">
+          <div class="d-flex justify-content-center mt-5">
+            <ngx-scanner-qrcode
+              #action="scanner"
+              [config]="config"
+              (event)="onEvent($event, action)"
+            ></ngx-scanner-qrcode>
+          </div>
+
           <button
-            class="btn btn-outline-primary"
-            (click)="addOrderDetailFromQR(productsDetail, quantityInvoice)"
-            [disabled]="quantityInvoice > productsDetail.soLuong"
+            class="btn"
+            [class.btn-info]="!action.isStart"
+            [class.btn-warning]="action.isStart"
+            (click)="handle(action, action.isStart ? 'stop' : 'start')"
           >
-            Xác nhận thêm
+            <img
+              [src]="
+                action.isStart
+                  ? 'https://id1945.github.io/images/svg/camera-off.svg'
+                  : 'https://id1945.github.io/images/svg/camera-on.svg'
+              "
+              width="30px"
+            />
           </button>
-          <button class="btn btn-outline-danger" (click)="closeFloatingForm()">
-            Đóng
+
+          <!-- play/pause -->
+          <button
+            class="btn"
+            [class.btn-info]="!action.isStart"
+            [class.btn-warning]="action.isStart"
+            [disabled]="!action.isStart"
+            (click)="handle(action, action.isPause ? 'play' : 'pause')"
+            *ngIf="!result"
+          >
+            <img
+              [src]="
+                action.isPause
+                  ? 'https://id1945.github.io/images/svg/play.svg'
+                  : 'https://id1945.github.io/images/svg/pause.svg'
+              "
+              width="30px"
+            />
+          </button>
+          <button (click)="turnOfQRCode()" class="btn btn-outline-primary">
+            Tắt mã QR
           </button>
         </div>
 
-        <div class="addProduct">
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-          >
-            Thêm sản phẩm
-          </button>
+        <br />
+
+        <!-- !bang ctsp -->
+        <br />
+        <div class="text-container">
+          <span class="left-text">Giỏ hàng</span>
+          <span class="right-text">Thông tin đơn hàng</span>
         </div>
-        <div>
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModalCustomer"
-          >
-            Chọn khách hàng
-          </button>
-        </div>
-      </div>
 
-      <!-- ! QR Code -->
-      <div class="qr-container" *ngIf="isShowQrCode">
-        <div class="d-flex justify-content-center mt-5">
-          <ngx-scanner-qrcode
-            #action="scanner"
-            [config]="config"
-            (event)="onEvent($event, action)"
-          ></ngx-scanner-qrcode>
-        </div>
-        <!-- loading -->
-        <!-- <p *ngIf="action.isLoading">⌛ Loading...</p> -->
-        <!-- Thêm phần hiển thị kết quả -->
-        <!-- <div *ngIf="showQuantityInput">
-          <button
-            class="btn btn-primary"
-            data-bs-target="#exampleModalToggle"
-            data-bs-toggle="modal"
-            [attr.data-bs-target]="'#' + modal?.nativeElement.id"
-          >
-            Xác nhận thêm
-          </button>
-        </div> -->
-        <!-- <div *ngIf="result">
-          <h2>Success!</h2>
-          <p>
-            <a href="{{ result }}">{{ result }}</a>
-          </p>
-        </div> -->
-        <!-- [disabled]="action.isLoading" -->
-        <button
-          class="btn"
-          [class.btn-info]="!action.isStart"
-          [class.btn-warning]="action.isStart"
-          (click)="handle(action, action.isStart ? 'stop' : 'start')"
-        >
-          <img
-            [src]="
-              action.isStart
-                ? 'https://id1945.github.io/images/svg/camera-off.svg'
-                : 'https://id1945.github.io/images/svg/camera-on.svg'
-            "
-            width="30px"
-          />
-        </button>
+        <br />
 
-        <!-- play/pause -->
-        <button
-          class="btn"
-          [class.btn-info]="!action.isStart"
-          [class.btn-warning]="action.isStart"
-          [disabled]="!action.isStart"
-          (click)="handle(action, action.isPause ? 'play' : 'pause')"
-          *ngIf="!result"
-        >
-          <img
-            [src]="
-              action.isPause
-                ? 'https://id1945.github.io/images/svg/play.svg'
-                : 'https://id1945.github.io/images/svg/pause.svg'
-            "
-            width="30px"
-          />
-        </button>
-        <button (click)="turnOfQRCode()" class="btn btn-outline-primary">
-          Tắt mã QR
-        </button>
-      </div>
-
-      <br />
-
-      <!-- !bang ctsp -->
-      <br />
-      <div class="text-container">
-        <span class="left-text">Giỏ hàng</span>
-        <span class="right-text">Thông tin đơn hàng</span>
-      </div>
-
-      <br />
-
-      <mat-grid-list cols="2" rowHeight="2:1">
-        <!-- ! hoa don chi tiet -->
-        <mat-grid-tile>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">STT</th>
-                <th scope="col">Tên Sản Phẩm</th>
-                <th scope="col">Số lượng</th>
-                <th scope="col">Đơn giá</th>
-                <th scope="col">Thành tiền</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let chiTiet of tab.listHoaDonChiTiet; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
-                <td>
-                  <button
-                    mat-icon-button
-                    (click)="truSoLuong(chiTiet.id, -1, chiTiet)"
+        <mat-grid-list cols="2" rowHeight="1:1">
+          <div class="d-flex">
+            <!-- ! hoa don chi tiet -->
+            <div class="mt-3">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Tên Sản Phẩm</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Đơn giá</th>
+                    <th scope="col">Thành tiền</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let chiTiet of tab.listHoaDonChiTiet; let i = index"
                   >
-                    <mat-icon aria-label="Trừ số lượng">remove</mat-icon>
-                  </button>
-                  {{ chiTiet.soLuong }}
-                  <button
-                    mat-icon-button
-                    (click)="congSoLuong(chiTiet.id, 1, chiTiet)"
-                  >
-                    <mat-icon aria-label="Thêm số lượng">add</mat-icon>
-                  </button>
-                </td>
-                <td>{{ chiTiet.donGia }}</td>
-                <td>{{ calculateTotal(chiTiet) }}</td>
-                <td>
-                  <button
-                    mat-icon-button
-                    (click)="
-                      chiTiet.id !== undefined && deleteOrderDetail(chiTiet.id)
-                    "
-                  >
-                    <mat-icon aria-label="Xóa khỏi hóa đơn">delete</mat-icon>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ chiTiet.chiTietSanPham?.sanPham?.ten }}</td>
+                    <td class="row-change-quantity">
+                      <span
+                        mat-icon-button
+                        (click)="truSoLuong(chiTiet.id, -1, chiTiet)"
+                      >
+                        <mat-icon aria-label="Trừ số lượng">remove</mat-icon>
+                      </span>
+                      <span class="row-change-quantity__sl">
+                        {{ chiTiet.soLuong }}
+                      </span>
+                      <span
+                        mat-icon-button
+                        (click)="congSoLuong(chiTiet.id, 1, chiTiet)"
+                      >
+                        <mat-icon aria-label="Thêm số lượng">add</mat-icon>
+                      </span>
+                    </td>
+                    <td>{{ chiTiet.donGia }}</td>
+                    <td>{{ calculateTotal(chiTiet) }}</td>
+                    <td>
+                      <span
+                        mat-icon-button
+                        (click)="
+                          chiTiet.id !== undefined &&
+                            deleteOrderDetail(chiTiet.id)
+                        "
+                      >
+                        <mat-icon aria-label="Xóa khỏi hóa đơn"
+                          >delete</mat-icon
+                        >
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-          <!-- <div class="infomationCustomer">
-            <hr />
-            <h2>Thông tin khách hàng:</h2>
-          </div> -->
-        </mat-grid-tile>
-
-        <!-- ! thong tin hoa don -->
-        <mat-grid-tile class="test">
-          <form class="form-test">
-            <div class="row mb-3">
-              <!-- <div class="col">
+            <!-- ! thong tin hoa don -->
+            <div class="">
+              <form class="form-test">
+                <div class="row mb-3">
+                  <!-- <div class="col">
                 <label class="form-label">Search:</label>
                 <input
                   type="text"
@@ -233,7 +221,7 @@
                   placeholder="search by phone or email"
                 />
               </div> -->
-              <!-- <div class="col">
+                  <!-- <div class="col">
 
                 <label class="form-label">Khách hàng:</label>
                 <input
@@ -243,450 +231,285 @@
                   disabled
                 />
               </div> -->
-              <div class="col" *ngIf="!tabCustomers[tab.id]">
-                <label class="form-label">Khách hàng:</label>
-                <span class="form-control">{{ currentCustomerName }}</span>
-              </div>
-              <div class="col" *ngIf="tabCustomers[tab.id]">
-                <label class="form-label">Khách hàng:</label>
-                <span class="form-control">{{
-                  tabCustomers[tab.id].hoTen
-                }}</span>
-                <span class="form-control">{{
-                  tabCustomers[tab.id].email
-                }}</span>
-                <span class="form-control">{{
-                  tabCustomers[tab.id].soDienThoai
-                }}</span>
-              </div>
-            </div>
-
-            <div class="row mb-3">
-              <div class="col">
-                <label class="form-label">Mã HĐ:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  [id]="'exampleInputHD_' + i"
-                  [value]="tab.maHoaDon || 'hi'"
-                  style="width: 223px"
-                  disabled
-                />
-              </div>
-
-              <div class="col">
-                <label class="form-label">Người bán:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  [value]="tab.nhanVien?.hoTen || ''"
-                  style="width: 223px"
-                  disabled
-                />
-              </div>
-            </div>
-
-            <div class="row mb-3">
-              <div class="col">
-                <!-- <div class="input-group"> -->
-                <label class="form-label">Khuyến mãi:</label>
-
-                <input
-                  type="search"
-                  class="form-control"
-                  id="input-money"
-                  placeholder="Mã voucher..."
-                  style="width: 223px"
-                  (change)="findByCodeVoucher($event)"
-                />
-                <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === false">
-                  {{ chietKhau }}% - {{ tienGiam }}đ
-                </div>
-                <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia === true">
-                  {{ chietKhau | currency : "VND" }}
-                </div>
-              </div>
-
-
-              <div class="col">
-                <label class="form-label">Phương thức thanh toán:</label>
-                <select
-                  class="form-select"
-                  aria-label="Default select example"
-                  style="width: 223px"
-                  [(ngModel)]="selectedPaymentMethod"
-                  name="paymentMethod"
-                  [ngModelOptions]="{ standalone: true }"
-                >
-                  <option value="0">Tiền mặt</option>
-                  <option value="1">Online</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="row mb-3">
-              <div class="col" id="a">
-                <div class="input-group">
-                  <label class="form-label">Tổng tiền sản phẩm:</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    value="{{ tongTien !== undefined ? tongTien : 0 }}"
-                    id="input-money"
-                    aria-label="Dollar amount (with dot and two decimal places)"
-                    readonly
-                  />
-                  <span class="input-group-text">VNĐ</span>
-                </div>
-              </div>
-
-              <div class="col">
-                <div class="input-group">
-                  <label class="form-label">Tổng tiền sau giảm:</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    value="{{
-                      tongTienSauGiam !== undefined ? tongTienSauGiam : 0
-                    }}"
-                    id="input-money"
-                    aria-label="Dollar amount (with dot and two decimal places)"
-                    readonly
-                  />
-                  <span class="input-group-text">VNĐ</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="row mb-3">
-              <div class="col">
-                <ng-container
-                  *ngIf="
-                    tab.listHoaDonChiTiet && tab.listHoaDonChiTiet.length > 0
-                  "
-                >
-                  <button
-                    (click)="notificationInvoice(tab)"
-                    class="btn btn-primary"
-                  >
-                    Thanh toán
-                  </button>
-                </ng-container>
-
-                <button class="btn btn-primary" (click)="cancelInvoice()">
-                  Hủy hóa đơn
-                </button>
-              </div>
-            </div>
-          </form>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </mat-tab>
-  </ng-container>
-</mat-tab-group>
-
-<!-- !modal -->
-<div
-  class="modal fade"
-  id="exampleModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-xl-custom-height">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">
-          Danh sách sản phẩm
-        </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <br />
-        <!-- <div class="d-flex justify-content-between"> -->
-        <div class="col-4">
-          <span class="p-input-icon-left">
-            <i class="pi pi-search"></i>
-            <input
-              type="text"
-              pInputText
-              [(ngModel)]="searchQuery.keyword"
-              (keyup.enter)="getAll()"
-            />
-            <!-- <p-dropdown
-              [options]="listTotalPage"
-              [(ngModel)]="searchQuery.page"
-              optionLabel="name"
-            ></p-dropdown> -->
-          </span>
-        </div>
-
-        <div class="row">
-          <div class="col-6 sizesss">
-            <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <label class="fontsize">Lọc kích Cỡ</label>
-
-                  <select
-                    class="form-control"
-                    [(ngModel)]="selectedSize"
-                    (change)="filterBySize()"
-                    style="width: 200px"
-                  >
-                    <option *ngFor="let sizes of size" [value]="sizes.id">
-                      {{ sizes.size }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-group">
-                  <label class="fontsize">Lọc Màu Sắc</label>
-
-                  <select
-                    class="form-control"
-                    [(ngModel)]="selectedColor"
-                    (change)="filterByColors()"
-                  >
-                    <option [value]="">Chọn Màu</option>
-
-                    <option *ngFor="let colors of color" [value]="colors.id">
-                      {{ colors.ten }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <br />
-      <br />
-
-      <p-table [value]="productsDetail" [tableStyle]="{ 'min-width': '50rem' }">
-        <ng-template pTemplate="header">
-          <tr>
-            <th style="">STT</th>
-            <th style="">Mã</th>
-            <th style="">Sản Phẩm</th>
-            <th style="">Ảnh</th>
-            <th style="">Màu Sắc</th>
-            <th style="">Kích Cỡ</th>
-            <th style="">Số Lượng</th>
-            <th style="">Giá</th>
-            <th></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
-          <tr *ngIf="product.trangThai === 1">
-            <td>
-              {{
-                productsDetail.indexOf(product) +
-                  1 +
-                  searchQuery.pageSize * (searchQuery.page - 1)
-              }}
-            </td>
-            <td>{{ product.ma }}</td>
-            <td>{{ product.sanPham?.ten }}</td>
-            <td>
-              <img
-                src="{{ product.sanPham?.anhChinh }}"
-                style="width: 60px; height: 75px"
-              />
-            </td>
-            <td>{{ product.mauSac?.ten }}</td>
-            <td>{{ product.kichCo?.size }}</td>
-            <td>{{ product.soLuong }}</td>
-            <td>{{ product.giaBan }}</td>
-            <td>
-              <button
-                mat-icon-button
-                (click)="addProductToOrderDetail(product)"
-              >
-                <i class="material-icons">shopping_cart_checkout</i>
-              </button>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-
-      <div>
-        <div class="d-flex justify-content-end gap-1">
-          <p-dropdown
-            (onChange)="onPageChange()"
-            [options]="listTotalPage"
-            [(ngModel)]="searchQuery.page"
-          ></p-dropdown>
-
-          <div class="button-pagination" (click)="getAll('prev')">
-            <i class="pi pi-angle-left"></i>
-          </div>
-          <div class="button-pagination" (click)="getAll('next')">
-            <i class="pi pi-angle-right"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-        Close
-      </button>
-      <button type="button" class="btn btn-primary">Save changes</button>
-    </div>
-  </div>
-</div>
-
-<!-- ! modal khach hang -->
-
-<div
-  class="modal fade"
-  id="exampleModalCustomer"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel1"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-xl-custom-height">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">
-          Danh sách Khách hàng
-        </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <br />
-        <div class="col-4">
-          <span class="p-input-icon-left">
-            <i class="pi pi-search"></i>
-            <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
-            <!-- <p-dropdown
-              [options]="listTotalPage"
-              [(ngModel)]="searchQuery.page"
-              optionLabel="name"
-            ></p-dropdown> -->
-          </span>
-
-          <button type="button" class="btn btn-primary" (click)="toggleForm()">
-            Thêm mới
-          </button>
-
-          <div class="col" *ngIf="isFormVisible">
-            <div
-              class="floating-form"
-              #floatingForm
-              (mousedown)="preventFormClose($event)"
-            >
-              <form
-                [formGroup]="addCustomerForm"
-                (ngSubmit)="onSubmitAddCustomer()"
-              >
-                <div class="mb-3">
-                  <label for="hoTen" class="form-label">Họ Tên:</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="hoTen"
-                    formControlName="hoTen"
-                    required
-                  />
-
+                  <div class="col" *ngIf="!tabCustomers[tab.id]">
+                    <label class="form-label">Khách hàng:</label>
+                    <span class="form-control">{{ currentCustomerName }}</span>
+                  </div>
+                  <div class="col" *ngIf="tabCustomers[tab.id]">
+                    <label class="form-label">Khách hàng:</label>
+                    <span class="form-control">{{
+                      tabCustomers[tab.id].hoTen
+                    }}</span>
+                    <span class="form-control">{{
+                      tabCustomers[tab.id].email
+                    }}</span>
+                    <span class="form-control">{{
+                      tabCustomers[tab.id].soDienThoai
+                    }}</span>
+                  </div>
                 </div>
 
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email:</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="email"
-                    formControlName="email"
-                    required
-                  />
-                  <mat-error *ngIf="addCustomerForm?.get('email')?.hasError('required') && (addCustomerForm?.get('email')?.dirty || addCustomerForm?.get('email')?.touched)">
-                    <small class="text-danger">Vui lòng nhập email.</small>
-                  </mat-error>
+                <div class="row mb-3">
+                  <div class="col">
+                    <label class="form-label">Mã HĐ:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [id]="'exampleInputHD_' + i"
+                      [value]="tab.maHoaDon || 'hi'"
+                      style="width: 223px"
+                      disabled
+                    />
+                  </div>
+
+                  <div class="col">
+                    <label class="form-label">Người bán:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [value]="tab.nhanVien?.hoTen || ''"
+                      style="width: 223px"
+                      disabled
+                    />
+                  </div>
                 </div>
 
-                <div class="mb-3">
-                  <label for="soDienThoai" class="form-label"
-                    >Số điện thoại:</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="soDienThoai"
-                    formControlName="soDienThoai"
-                    required
-                  />
-                  <mat-error *ngIf="addCustomerForm?.get('soDienThoai')?.hasError('required') && (addCustomerForm?.get('soDienThoai')?.dirty || addCustomerForm?.get('soDienThoai')?.touched)">
-                    <small class="text-danger">Vui lòng nhập số điện thoai.</small>
-                  </mat-error>
+                <div class="row mb-3">
+                  <div class="col">
+                    <!-- <div class="input-group"> -->
+                    <label class="form-label">Khuyến mãi:</label>
+
+                    <input
+                      type="search"
+                      class="form-control"
+                      id="input-money"
+                      placeholder="Mã voucher..."
+                      style="width: 223px"
+                      (change)="findByCodeVoucher($event)"
+                    />
+                    <div
+                      class="hinhThucGiamGia"
+                      *ngIf="hinhThucGiamGia === false"
+                    >
+                      {{ chietKhau }}%
+                    </div>
+                    <div
+                      class="hinhThucGiamGia"
+                      *ngIf="hinhThucGiamGia === true"
+                    >
+                      {{ chietKhau | currency : "VND" }}
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <label class="form-label">Phương thức thanh toán:</label>
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                      style="width: 223px"
+                      [(ngModel)]="selectedPaymentMethod"
+                      name="paymentMethod"
+                      [ngModelOptions]="{ standalone: true }"
+                    >
+                      <option value="0">Tiền mặt</option>
+                      <option value="1">Online</option>
+                    </select>
+                  </div>
                 </div>
 
-                <div class="mb-3">
-                  <label for="ngaySinh" class="form-label">Ngày sinh:</label>
-                  <input
-                    type="date"
-                    class="form-control"
-                    id="ngaySinh"
-                    formControlName="ngaySinh"
-                  />
+                <div class="row mb-3">
+                  <div class="col" id="a">
+                    <div class="input-group">
+                      <label class="form-label">Tổng tiền sản phẩm:</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        value="{{ tongTien !== undefined ? tongTien : 0 }}"
+                        id="input-money"
+                        aria-label="Dollar amount (with dot and two decimal places)"
+                        readonly
+                      />
+                      <span class="input-group-text">VNĐ</span>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="input-group">
+                      <label class="form-label">Tổng tiền sau giảm:</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        value="{{
+                          tongTienSauGiam !== undefined ? tongTienSauGiam : 0
+                        }}"
+                        id="input-money"
+                        aria-label="Dollar amount (with dot and two decimal places)"
+                        readonly
+                      />
+                      <span class="input-group-text">VNĐ</span>
+                    </div>
+                  </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                <div class="row mb-3">
+                  <div class="col">
+                    <ng-container
+                      *ngIf="
+                        tab.listHoaDonChiTiet &&
+                        tab.listHoaDonChiTiet.length > 0
+                      "
+                    >
+                      <button
+                        (click)="notificationInvoice(tab)"
+                        class="btn btn-primary me-2"
+                      >
+                        Thanh toán
+                      </button>
+                    </ng-container>
+
+                    <button class="btn btn-primary" (click)="cancelInvoice()">
+                      Hủy hóa đơn
+                    </button>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
+        </mat-grid-list>
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
+
+  <!-- !modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl-custom-height">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            Danh sách sản phẩm
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <br />
+          <!-- <div class="d-flex justify-content-between"> -->
+          <div class="col-4">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input
+                type="text"
+                pInputText
+                [(ngModel)]="searchQuery.keyword"
+                (keyup.enter)="getAll()"
+              />
+              <!-- <p-dropdown
+              [options]="listTotalPage"
+              [(ngModel)]="searchQuery.page"
+              optionLabel="name"
+            ></p-dropdown> -->
+            </span>
+          </div>
+
+          <div class="row">
+            <div class="col-6 sizesss">
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="fontsize">Lọc kích Cỡ</label>
+
+                    <select
+                      class="form-control"
+                      [(ngModel)]="selectedSize"
+                      (change)="filterBySize()"
+                      style="width: 200px"
+                    >
+                      <option [value]="null">Chọn Size</option>
+                      <option *ngFor="let sizes of size" [value]="sizes.id">
+                        {{ sizes.size }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label class="fontsize">Lọc Màu Sắc</label>
+
+                    <select
+                      class="form-control"
+                      [(ngModel)]="selectedColor"
+                      (change)="filterByColors()"
+                    >
+                      <option [value]="null">Chọn Màu</option>
+
+                      <option *ngFor="let colors of color" [value]="colors.id">
+                        {{ colors.ten }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <br />
         <br />
 
-        <p-table [value]="customers" [tableStyle]="{ 'min-width': '50rem' }">
+        <p-table
+          [value]="productsDetail"
+          [tableStyle]="{ 'min-width': '50rem' }"
+        >
           <ng-template pTemplate="header">
             <tr>
               <th style="">STT</th>
-              <th style="">Tên</th>
-              <th style="">Email</th>
-              <th style="">SDT</th>
-              <th style="">Ngày Sinh</th>
+              <th style="">Mã</th>
+              <th style="">Sản Phẩm</th>
+              <th style="">Ảnh</th>
+              <th style="">Màu Sắc</th>
+              <th style="">Kích Cỡ</th>
+              <th style="">Số Lượng</th>
+              <th style="">Giá</th>
               <th></th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
-            <tr>
+          <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+            <tr *ngIf="product.trangThai === 1">
               <td>
                 {{
-                  customers.indexOf(customer) +
+                  productsDetail.indexOf(product) +
                     1 +
                     searchQuery.pageSize * (searchQuery.page - 1)
                 }}
               </td>
-              <td>{{ customer.hoTen }}</td>
-              <td>{{ customer.email }}</td>
+              <td>{{ product.ma }}</td>
+              <td>{{ product.sanPham?.ten }}</td>
               <td>
-                {{ customer.soDienThoai }}
+                <img
+                  src="{{ product.sanPham?.anhChinh }}"
+                  style="width: 60px; height: 75px"
+                />
               </td>
-              <td>{{ customer.ngaySinh }}</td>
-
+              <td>{{ product.mauSac?.ten }}</td>
+              <td>{{ product.kichCo?.size }}</td>
+              <td>{{ product.soLuong }}</td>
+              <td>{{ product.giaBan }}</td>
               <td>
                 <button
-                  class="btn btn-outline-primary"
-                  (click)="onSelectCustomer(customer.id)"
-                  data-bs-dismiss="modal"
+                  mat-icon-button
+                  (click)="addProductToOrderDetail(product)"
                 >
-                  Chọn
+                  <i class="material-icons">shopping_cart_checkout</i>
                 </button>
               </td>
             </tr>
@@ -701,46 +524,207 @@
               [(ngModel)]="searchQuery.page"
             ></p-dropdown>
 
-            <div class="button-pagination" (click)="getAllCustomer('prev')">
+            <div class="button-pagination" (click)="getAll('prev')">
               <i class="pi pi-angle-left"></i>
             </div>
-            <div class="button-pagination" (click)="getAllCustomer('next')">
+            <div class="button-pagination" (click)="getAll('next')">
               <i class="pi pi-angle-right"></i>
             </div>
           </div>
         </div>
       </div>
-
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Close
         </button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ! modal khach hang -->
+
+  <div
+    class="modal fade"
+    id="exampleModalCustomer"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel1"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl-custom-height">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            Danh sách Khách hàng
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <br />
+          <div class="col-4">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input
+                type="text"
+                pInputText
+                [(ngModel)]="searchQuery.keyword"
+                (keyup.enter)="getAllCustomer()"
+              />
+            </span>
+
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="toggleForm()"
+            >
+              Thêm mới
+            </button>
+
+            <div class="col" *ngIf="isFormVisible">
+              <div
+                class="floating-form"
+                #floatingForm
+                (mousedown)="preventFormClose($event)"
+              >
+                <form
+                  [formGroup]="addCustomerForm"
+                  (ngSubmit)="onSubmitAddCustomer()"
+                >
+                  <div class="mb-3">
+                    <label for="hoTen" class="form-label">Họ Tên:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="hoTen"
+                      formControlName="hoTen"
+                      required
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      formControlName="email"
+                      required
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="soDienThoai" class="form-label"
+                      >Số điện thoại:</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="soDienThoai"
+                      formControlName="soDienThoai"
+                      required
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="ngaySinh" class="form-label">Ngày sinh:</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="ngaySinh"
+                      formControlName="ngaySinh"
+                    />
+                  </div>
+
+                  <button type="submit" class="btn btn-primary">
+                    Thêm mới
+                  </button>
+                  <button
+                    type="submit"
+                    (click)="toggleForm()"
+                    class="btn btn-primary"
+                  >
+                    Hủy
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <br />
+          <br />
+
+          <p-table [value]="customers" [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="">STT</th>
+                <th style="">Tên</th>
+                <th style="">Email</th>
+                <th style="">SDT</th>
+                <th style="">Ngày Sinh</th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
+              <tr>
+                <td>
+                  {{
+                    customers.indexOf(customer) +
+                      1 +
+                      searchQuery.pageSize * (searchQuery.page - 1)
+                  }}
+                </td>
+                <td>{{ customer.hoTen }}</td>
+                <td>{{ customer.email }}</td>
+                <td>
+                  {{ customer.soDienThoai }}
+                </td>
+                <td>{{ customer.ngaySinh }}</td>
+
+                <td>
+                  <button
+                    class="btn btn-outline-primary"
+                    (click)="onSelectCustomer(customer.id)"
+                    data-bs-dismiss="modal"
+                  >
+                    Chọn
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+
+          <div>
+            <div class="d-flex justify-content-end gap-1">
+              <p-dropdown
+                (onChange)="onPageChange()"
+                [options]="listTotalPage"
+                [(ngModel)]="searchQuery.page"
+              ></p-dropdown>
+
+              <div class="button-pagination" (click)="getAllCustomer('prev')">
+                <i class="pi pi-angle-left"></i>
+              </div>
+              <div class="button-pagination" (click)="getAllCustomer('next')">
+                <i class="pi pi-angle-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- <input
-                    type="text"
-                    class="form-control"
-                    [value]="
-                      totalAmounts[selectedTab] !== undefined
-                        ? totalAmounts[selectedTab]
-                        : 0
-                    "
-                    id="input-money"
-                    aria-label="Dollar amount (with dot and two decimal places)"
-                    disabled
-                  /> -->
-<!-- <input
-                    type="text"
-                    class="form-control"
-                    [value]="totalMoney !== undefined ? totalMoney : 0"
-                    id="input-money"
-                    aria-label="Dollar amount (with dot and two decimal places)"
-                    disabled
-                  />
-
-                  <span class="input-group-text">VNĐ</span> -->
-<!-- </div> -->

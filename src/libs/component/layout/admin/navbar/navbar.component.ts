@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthAdminService } from 'src/libs/component/account/serviceAuth/authAdminService.service';
 import { CacheService } from 'src/libs/service/request/cache.service';
 
@@ -15,6 +16,7 @@ export class NavbarAdminComponent implements OnInit {
     private cacheService: CacheService,
     private router: Router,
     private authAdminService: AuthAdminService,
+    private notification: ToastrService
 
   ) {
 
@@ -24,8 +26,9 @@ export class NavbarAdminComponent implements OnInit {
   }
 
   logout() {
-    this.authAdminService.logoutAdmin();
+    // this.authAdminService.logoutAdmin().
     this.cacheService.remove('admin');
+    this.notification.success('đăng xuất thành công')
     this.admin = undefined;
     this.router.navigateByUrl('/')
   }
