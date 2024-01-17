@@ -1,18 +1,33 @@
 .payment-success {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 80vh;
-    // top: 300px;
-    /* Để đảm bảo căn giữa theo chiều cao của màn hình */
+    text-align: center;
+    padding: 20px;
+    background-color: #dff0d8; /* Màu nền xanh lá cây nhạt */
+    border: 1px solid #3c763d; /* Viền màu xanh lá cây sáng */
+    border-radius: 5px; /* Bo tròn viền */
+    // margin: 20px;
+    max-width: 400px; /* Giới hạn chiều rộng */
+    margin: 15% auto; /* Canh giữa trang */
 }
+
 
 .text {
-    font-size: 40px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #3c763d; /* Màu chữ xanh lá cây sáng */
+    margin-bottom: 15px;
 }
 
-.payment-success p {
-    margin-bottom: 20px;
-    /* Để tăng khoảng cách giữa đoạn văn bản và button */
+button {
+    background-color: #5bc0de; /* Màu nền xanh da trời */
+    color: #fff; /* Màu chữ trắng */
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển động màu nền */
+}
+
+button:hover {
+    background-color: #31b0d5; /* Màu nền xanh da trời sáng hơn khi hover */
 }

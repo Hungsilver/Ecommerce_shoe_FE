@@ -8,19 +8,19 @@
     <div class="row">
     <div class="col">
       <mat-form-field>
-        <mat-label>Filter by Status</mat-label>
+        <mat-label>Lọc Trạng Thái</mat-label>
         <mat-select [(ngModel)]="selectedStatus" (selectionChange)="filterByStatus()">
-          <mat-option [value]="null">Select status</mat-option>
-          <mat-option [value]="1">Active</mat-option>
-          <mat-option [value]="0">Inactive</mat-option>
+          <mat-option [value]="null">Trạng Thái</mat-option>
+          <mat-option [value]="1">Hoạt động</mat-option>
+          <mat-option [value]="0">Không hoạt động</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div class="col">
       <mat-form-field>
-        <mat-label>Filter by Brand</mat-label>
+        <mat-label>Lọc Thương Hiệu</mat-label>
         <mat-select [(ngModel)]="selectedBrand" (selectionChange)="filterByBrand()">
-          <mat-option [value]="null">Select Brand</mat-option>
+          <mat-option [value]="null">Thương Hiệu</mat-option>
           <mat-option *ngFor="let brands of brand" [value]="brands.id">{{
             brands.ten
           }}</mat-option>
