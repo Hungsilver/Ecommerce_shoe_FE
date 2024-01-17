@@ -56,7 +56,9 @@
             <button
               class="btn btn-outline-primary"
               (click)="addOrderDetailFromQR(productsDetail, quantityInvoice)"
-              [disabled]="quantityInvoice > productsDetail.soLuong"
+              [disabled]="
+                quantityInvoice > productsDetail.soLuong || quantityInvoice < 1
+              "
             >
               Xác nhận thêm
             </button>
@@ -413,55 +415,63 @@
                 [(ngModel)]="searchQuery.keyword"
                 (keyup.enter)="getAll()"
               />
-              <!-- <p-dropdown
-              [options]="listTotalPage"
-              [(ngModel)]="searchQuery.page"
-              optionLabel="name"
-            ></p-dropdown> -->
             </span>
           </div>
-
+          <br />
           <div class="row">
-            <div class="col-6 sizesss">
-              <div class="row">
-                <div class="col">
-                  <div class="form-group">
-                    <label class="fontsize">Lọc kích Cỡ</label>
-
-                    <select
-                      class="form-control"
-                      [(ngModel)]="selectedSize"
-                      (change)="filterBySize()"
-                      style="width: 200px"
-                    >
-                      <option [value]="null">Chọn Size</option>
-                      <option *ngFor="let sizes of size" [value]="sizes.id">
-                        {{ sizes.size }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-group">
-                    <label class="fontsize">Lọc Màu Sắc</label>
-
-                    <select
-                      class="form-control"
-                      [(ngModel)]="selectedColor"
-                      (change)="filterByColors()"
-                    >
-                      <option [value]="null">Chọn Màu</option>
-
-                      <option *ngFor="let colors of color" [value]="colors.id">
-                        {{ colors.ten }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="fontsize">Lọc Sản Phẩm</label>
+                <select
+                  [(ngModel)]="selectedProduct"
+                  (change)="onSelectProduct()"
+                  class="form-control"
+                >
+                  <option value="" selected>Sản phẩm</option>
+                  <option *ngFor="let p of product" [ngValue]="p.id">
+                    {{ p.ten }}
+                  </option>
+                </select>
               </div>
             </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="fontsize">Lọc Màu Sắc</label>
+                <select
+                  [(ngModel)]="selectedColor"
+                  (change)="onSelectColor()"
+                  class="form-control"
+                >
+                  <option value="" selected>Màu sắc</option>
+                  <option *ngFor="let c of color" [ngValue]="c.id">
+                    {{ c.ten }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="fontsize">Lọc Kích Cỡ</label>
+                <select
+                  [(ngModel)]="selectedSize"
+                  (change)="onSelectSize()"
+                  class="form-control"
+                >
+                  <option value="" selected>Kích cỡ</option>
+                  <option *ngFor="let s of size" [ngValue]="s.id">
+                    {{ s.size }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <!--  -->
+            <!-- </div> -->
           </div>
         </div>
+        <!-- </div> -->
 
         <br />
         <br />

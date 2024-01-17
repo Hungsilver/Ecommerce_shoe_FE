@@ -14,9 +14,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class ProfileComponent implements OnInit {
   profile: any = undefined;
   profileForm: FormGroup;
-  isShowOrder: boolean = false;
+  isShowOrder: boolean = true;
   isShowChangePass: boolean = false;
-  isShowInfo: boolean = true;
+  isShowInfo: boolean = false;
   infoUpdate: any = {}
   isDisableUpdate: boolean = true;
   hostGHN = "https://online-gateway.ghn.vn/shiip/public-api/master-data/";
@@ -104,7 +104,7 @@ export class ProfileComponent implements OnInit {
   //   const date = moment('1/1/2001', 'D/M/YYYY');
   //   const formatted = date.format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (z)');
   //   formatted.replace('GMT', 'GMT+0700 (Indochina Time)');
-  //   return 
+  //   return
   // }
 
   changeTab(numTab: number) {
