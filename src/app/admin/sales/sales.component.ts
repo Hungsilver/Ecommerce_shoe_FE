@@ -370,91 +370,65 @@ export class SalesComponent implements OnInit {
   initAddCustomerForm(): void {
     this.addCustomerForm = this.formBuilder.group({
       hoTen: ['', Validators.required],
-      email: [
-        '',
-        [Validators.required, Validators.email],
-        this.duplicateValidator('email'),
-      ],
-      soDienThoai: [
-        '',
-        Validators.required,
-        this.duplicateValidator('soDienThoai'),
-      ],
+      email: ['', [Validators.required, Validators.email]],
+      soDienThoai: ['', Validators.required],
       ngaySinh: [''],
     });
   }
 
-  // onSubmitAddCustomer(): void {
-  //   if (this.addCustomerForm && this.addCustomerForm.valid) {
-  //     const newCustomer = this.addCustomerForm.value;
-
-  //     if (this.addCustomerForm.value.email) {
-
-  //     }
-  //     this.customerService.createCustomer(newCustomer).then(
-  //       (result) => {
-  //         console.log('Khách hàng đã được thêm mới:', result);
-  //         if (this.addCustomerForm) {
-  //           this.addCustomerForm.reset();
-  //         }
-  //         this.toggleForm();
-  //       },
-  //       (error) => {
-  //         console.error('Lỗi khi thêm mới khách hàng:', error);
-  //       }
-  //     );
-  //   }
-  // }
-
-  // duplicateValidator(fieldName: string) {
-  //   return async (control: FormControl) => {
-  //     const value = control.value;
-  //     if (!value) {
-  //       return null;
-  //     }
-
-  //     try {
-  //       const isDuplicate = await this.customerService.checkDuplicate(
-  //         fieldName,
-  //         value
-  //       );
-  //       return isDuplicate ? { duplicate: true } : null;
-  //     } catch (error) {
-  //       console.error('Lỗi khi kiểm tra trùng lặp:', error);
-  //       this.notification.error('Lỗi khi kiểm tra trùng lặp');
-  //       return;
-  //     }
-  //   };
-  // }
-
   onSubmitAddCustomer(): void {
+    console.log('vao ham add customer1');
+
     if (this.addCustomerForm && this.addCustomerForm.valid) {
-      const emailControl = this.addCustomerForm.get('email');
-      const soDienThoaiControl = this.addCustomerForm.get('soDienThoai');
+      const newCustomer = this.addCustomerForm.value;
+      console.log('vao ham add customer2');
 
-      if (
-        emailControl &&
-        soDienThoaiControl &&
-        !emailControl.hasError('duplicate') &&
-        !soDienThoaiControl.hasError('duplicate')
-      ) {
-        const newCustomer = this.addCustomerForm.value;
-
-        this.customerService.createCustomer(newCustomer).then(
-          (result) => {
-            console.log('Khách hàng đã được thêm mới:', result);
-            if (this.addCustomerForm) {
-              this.addCustomerForm.reset();
-            }
-            // Thực hiện các bước khác sau khi thêm mới thành công
-          },
-          (error) => {
-            console.error('Lỗi khi thêm mới khách hàng:', error);
+      this.customerService.createCustomer(newCustomer).then(
+        (result) => {
+          console.log('Khách hàng đã được thêm mới:', result);
+          if (this.addCustomerForm) {
+            this.addCustomerForm.reset();
           }
-        );
-      }
+          this.notification.success('Thêm thành công.');
+          this.toggleForm();
+        },
+        (error) => {
+          this.notification.success('Lỗi không thêm được!.');
+          console.error('Lỗi khi thêm mới khách hàng:', error);
+        }
+      );
     }
   }
+
+  // onSubmitAddCustomer(): void {
+  //   // if (this.addCustomerForm && this.addCustomerForm.valid) {
+  //   // const emailControl = this.addCustomerForm.get('email');
+  //   // const soDienThoaiControl = this.addCustomerForm.get('soDienThoai');
+
+  //   // if (
+  //   //   emailControl &&
+  //   //   soDienThoaiControl &&
+  //   //   !emailControl.hasError('duplicate') &&
+  //   //   !soDienThoaiControl.hasError('duplicate')
+  //   // )
+
+  //   const newCustomer = this.addCustomerForm.value;
+
+  //   this.customerService.createCustomer(newCustomer).then(
+  //     (result) => {
+  //       console.log('Khách hàng đã được thêm mới:', result);
+  //       if (this.addCustomerForm) {
+  //         this.addCustomerForm.reset();
+  //       }
+  //       // Thực hiện các bước khác sau khi thêm mới thành công
+  //     },
+  //     (error) => {
+  //       console.error('Lỗi khi thêm mới khách hàng:', error);
+  //     }
+  //   );
+  // }
+  // }
+  // }
 
   duplicateValidator(fieldName: string) {
     return async (control: FormControl) => {

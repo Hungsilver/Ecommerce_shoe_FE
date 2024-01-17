@@ -1,4 +1,37 @@
 
+:host :ng-deep  {
+ .mat-grid-tile-content{
+
+   
+   align-items: flex-start;
+  }
+  // .mat-grid-tile{
+  //   padding-top: calc(24% - 0.5px);
+  // }
+
+  
+}
+
+.row-change-quantity{
+  // transition: translate(0,3px);
+  display: flex;
+  align-items: center;
+}
+.row-change-quantity__sl{
+  margin: 0 2px;
+}
+
+
+//  .mat-mdc-tab-body-wrapper{
+//     margin-top: 10px;
+//   }
+.page-sale .table {
+    width: 100%;
+    border-collapse: collapse;
+    height: fit-content;
+   
+    // margin-top: -1240px;
+  }
 
 .custom-margin {
     margin-left: -50px;
@@ -14,6 +47,11 @@
 mat-grid-list {
     width: 100%;
 }
+// :host ::ng-deep .row-change-quantity{
+//  .mat-mdc-icon-button.mat-mdc-button-base {
+//     --mdc-icon-button-state-layer-size: 32px;
+//   }
+// }
 
 
 .close-icon {
@@ -44,7 +82,7 @@ mat-grid-list {
 }
 
 .form-test {
-    margin-top: -1080px;
+    // margin-top: -1080px;
     // height: -1400px;
 }
 
@@ -74,7 +112,7 @@ mat-grid-list {
 
 :host ::ng-deep {
     .mat-icon {
-        height: 16px !important;
+        height: 19px !important;
     }
 
     .mat-mdc-tab-body-content {
@@ -103,14 +141,10 @@ mat-grid-list {
 
 .mat-grid-tile {
   flex: 1;
-  padding: 15px;
+  // padding: 15px;
 }
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: -1350px;
-}
+
 
 .table th, .table td {
   border: 1px solid #ddd;
