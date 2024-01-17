@@ -432,12 +432,12 @@ export class SalesComponent implements OnInit {
       const emailControl = this.addCustomerForm.get('email');
       const soDienThoaiControl = this.addCustomerForm.get('soDienThoai');
 
-      if (
-        emailControl &&
-        soDienThoaiControl &&
-        !emailControl.hasError('duplicate') &&
-        !soDienThoaiControl.hasError('duplicate')
-      ) {
+      // if (
+      //   emailControl &&
+      //   soDienThoaiControl &&
+      //   !emailControl.hasError('duplicate') &&
+      //   !soDienThoaiControl.hasError('duplicate')
+      // ) {
         const newCustomer = this.addCustomerForm.value;
 
         this.customerService.createCustomer(newCustomer).then(
@@ -452,7 +452,7 @@ export class SalesComponent implements OnInit {
             console.error('Lỗi khi thêm mới khách hàng:', error);
           }
         );
-      }
+      // }
     }
   }
 
