@@ -21,10 +21,16 @@
           <span>Bán Hàng</span>
         </li>
       </a>
-      <a *ngIf="isAdmin" routerLink="nhan-vien">
+      <a routerLink="hoa-don">
         <li>
-          <span class="pi pi-user"></span>
-          <span>Nhân Viên</span>
+          <span class="pi pi-book"></span>
+          <span>Hóa đơn</span>
+        </li>
+      </a>
+      <a routerLink="tra-hang">
+        <li>
+          <span class="pi pi-shopping-cart"></span>
+          <span>Trả hàng</span>
         </li>
       </a>
       <a routerLink="san-pham">
@@ -48,16 +54,11 @@
 
         </li>
       </a>
-      <a routerLink="hoa-don">
+
+      <a *ngIf="isAdmin" routerLink="nhan-vien">
         <li>
-          <span class="pi pi-book"></span>
-          <span>Hóa đơn</span>
-        </li>
-      </a>
-      <a routerLink="tra-hang">
-        <li>
-          <span class="pi pi-shopping-cart"></span>
-          <span>Trả hàng</span>
+          <span class="pi pi-user"></span>
+          <span>Nhân Viên</span>
         </li>
       </a>
       <a routerLink="danh-muc">
