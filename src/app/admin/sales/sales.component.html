@@ -95,26 +95,7 @@
             (event)="onEvent($event, action)"
           ></ngx-scanner-qrcode>
         </div>
-        <!-- loading -->
-        <!-- <p *ngIf="action.isLoading">⌛ Loading...</p> -->
-        <!-- Thêm phần hiển thị kết quả -->
-        <!-- <div *ngIf="showQuantityInput">
-          <button
-            class="btn btn-primary"
-            data-bs-target="#exampleModalToggle"
-            data-bs-toggle="modal"
-            [attr.data-bs-target]="'#' + modal?.nativeElement.id"
-          >
-            Xác nhận thêm
-          </button>
-        </div> -->
-        <!-- <div *ngIf="result">
-          <h2>Success!</h2>
-          <p>
-            <a href="{{ result }}">{{ result }}</a>
-          </p>
-        </div> -->
-        <!-- [disabled]="action.isLoading" -->
+
         <button
           class="btn"
           [class.btn-info]="!action.isStart"
@@ -167,7 +148,7 @@
 
       <mat-grid-list cols="2" rowHeight="2:1">
         <!-- ! hoa don chi tiet -->
-        <mat-grid-tile>
+        <mat-grid-tile class="girl-1">
           <table class="table">
             <thead>
               <tr>
@@ -213,11 +194,6 @@
               </tr>
             </tbody>
           </table>
-
-          <!-- <div class="infomationCustomer">
-            <hr />
-            <h2>Thông tin khách hàng:</h2>
-          </div> -->
         </mat-grid-tile>
 
         <!-- ! thong tin hoa don -->

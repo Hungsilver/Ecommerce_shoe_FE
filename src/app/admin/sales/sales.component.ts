@@ -1012,6 +1012,9 @@ export class SalesComponent implements OnInit {
       })
       .catch((error) => {
         console.error('Error during addPhieuGiamGiaToHoaDon:', error);
+        this.idPhieuGiamGia = null;
+        this.tongTienSauGiam = this.tongTien;
+        this.chietKhau = 0;
         this.notification.error('Mã voucher không đúng hoặc phiếu đã hết hạn!');
       });
   }
