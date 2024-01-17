@@ -431,7 +431,7 @@
                 <h3><b>Tổng tiền trả khách</b> {{tongTienTraKhach | vnd}}</h3>
                 <h3><b class="text-danger">*</b>Ghi chú</h3>
                 <textarea class="ghiChu w-100" value="{{traHangDialog.lyDo}}" disabled></textarea>
-                <button class="btn btn-success mt-2 w-100" (click)="inHoaDon()">In hóa đơn</button>
+                <button class="btn btn-success mt-2 w-100" (click)="inHoaDon(traHangDialog.id)">In hóa đơn</button>
 
             </div>
         </div>
