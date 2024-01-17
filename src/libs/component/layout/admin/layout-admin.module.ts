@@ -10,6 +10,7 @@ import { MenuModule } from 'primeng/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatMenuModule,
     MatButtonModule,
     MenuModule,
+    CommonModule
   ],
   exports: [LayoutAdminComponent],
   declarations: [
