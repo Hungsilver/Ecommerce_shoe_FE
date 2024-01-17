@@ -496,8 +496,8 @@ export class DialogTraHangComponent implements OnInit {
           this.exportPDF(this.traHangDialog.id);
           this.dialog.closeAll();
           this.openDialogs(this.traHangDialog.listTraHangChiTiet, this.traHangDialog);
-          this.traHangService.updateTongTien(this.traHangDialog.id).then(c => {
-          })
+          // this.traHangService.updateTongTien(this.traHangDialog.id).then(c => {
+          // })
           // this.dialog.closeAll();
           // setTimeout(() => {
           //   window.location.reload();
@@ -520,8 +520,8 @@ export class DialogTraHangComponent implements OnInit {
     })
   }
 
-  inHoaDon(){
-    this.exportPDF(50);
+  inHoaDon(id:number){
+    this.exportPDF(id);
   }
 
   exportPDF(id: number): void {
