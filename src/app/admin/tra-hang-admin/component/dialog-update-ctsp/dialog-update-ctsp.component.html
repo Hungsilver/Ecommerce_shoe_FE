@@ -1,6 +1,6 @@
 
 <!-- dialog cập nhật sản phẩm -->
-<div class="container" *ngIf="openDialog===4">
+<div class="container" *ngIf="openDialog===1">
     <div class="content">
         <div class="row mt-3">
             <div class="d-flex justify-content-between">
@@ -30,7 +30,7 @@
                 <tbody>
                     <tr *ngFor="let c of listSanPhamTra; let i = index">
                         <td>
-                            <input type="checkbox" [checked]="isChecked(1)" (change)="onCheckboxChange($event, c.id)"
+                            <input type="checkbox" [checked]="isChecked(1)" (change)="onCheckboxChange($event, c.hoaDonChiTiet.id)"
                                 value="{{c.id}}">
                         </td>
                         <td>
@@ -72,3 +72,79 @@
         </div>
     </div>
 </div>
+
+
+<!-- dialog cập nhật sản phẩm -->
+<div class="container" *ngIf="openDialog===0">
+    <div class="content">
+        <div class="row mt-3">
+            <div class="d-flex justify-content-between">
+                <h2>Cập nhật sản phẩm</h2>
+                <div>
+                    <button type="button" class="btn " (click)="closeDialog()">
+                        <i class="pi pi-times" style="font-size: 1.5rem"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" name="allCheckbox" id="allCheckbox" (click)="toggleChecked(1)">
+                        </th>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Tổng tiền</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of listSanPhamTra; let i = index">
+                        <td>
+                            <input type="checkbox" [checked]="isChecked(1)" (change)="onCheckboxChange($event, c.id)"
+                                value="{{c.id}}">
+                        </td>
+                        <td>
+                            <div class="table-product-detail">
+                                <img class="table-image" src="{{c?.chiTietSanPham?.anhSanPhams[0]?.ten}}"
+                                    alt="">
+                                <div>
+                                    <p>Tên: {{c?.chiTietSanPham?.sanPham?.ten}}</p>
+                                    <p>Mã: {{c?.chiTietSanPham?.ma}}</p>
+                                    <p>Size: {{c?.chiTietSanPham?.kichCo?.size}}</p>
+                                    <p>Màu sắc: {{c?.chiTietSanPham?.mauSac?.ten}}</p>
+                                    <p>Chất liệu: {{c?.chiTietSanPham?.chatLieuGiay?.ten}}</p>
+                                    <p>Loại đế: {{c?.chiTietSanPham?.chatLieuDeGiay?.ten}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="number" min="1" max="{{c?.soLuong}}" value="{{c?.soLuong}}"
+                                (blur)="capNhatSoLuong($event,i)"> /{{c.soLuong}}
+                        </td>
+                        <td>{{c?.donGia | vnd}}</td>
+                        <td>{{c?.soLuong*c?.donGia | vnd}}</td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <div class="row mb-5">
+            <div class="col-2">
+                <button class="btn btn-primary mt-2 w-100" (click)="capNhatCTSP()">Cập nhật</button>
+
+            </div>
+            <div class="col-4"></div>
+            <div class="col-4"></div>
+            <div class="col-2">
+                <button class="btn btn-danger mt-2 w-100" (click)="huyCapNhat()">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+

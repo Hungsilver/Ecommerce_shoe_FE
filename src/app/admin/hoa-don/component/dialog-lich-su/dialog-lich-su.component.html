@@ -41,6 +41,8 @@
                           ? "Đã hủy"
                           : g.trangThai == 7
                           ? "Trả hàng"
+                          :g.trangThai == 8
+                          ? "Cập nhật đơn hàng"
                           : "Trạng thái không xác định"
                       }}</td>
                        <td *ngIf="g.ngayTao !== null">{{g.ngayTao | date: 'dd/MM/yyyy - h:mm a'}}</td>
