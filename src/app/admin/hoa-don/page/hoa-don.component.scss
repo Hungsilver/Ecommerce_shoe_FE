@@ -1,0 +1,12 @@
+:host ::ng-deep {
+    .p-tabview-nav li a {
+        text-decoration: none;
+        font-size: 14px;
+    }
+}
+
+.qr-container ngx-scanner-qrcode {
+    width: 500px;
+    height: 350px;
+    /* Điều chỉnh chiều cao theo ý muốn của bạn */
+}

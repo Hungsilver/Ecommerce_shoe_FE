@@ -1,0 +1,4 @@
+<div class="mt-2 d-flex flex-column gap-3 ">
+    <app-header-stats *ngIf="dataHeader||data" [dataHeaderStat]="dataHeader" />
+    <p-chart *ngIf="data||dataHeader" type="bar" [data]="data" [options]="options"></p-chart>
+</div>

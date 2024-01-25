@@ -1,0 +1,53 @@
+<app-header-stats-product *ngIf="dataHeaderStatsP" [dataHeaderStat]="dataHeaderStatsP" />
+<!-- <p-table [value]="dataTable" [tableStyle]="{ 'min-width': '50rem' }">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 20%;">STT</th>
+      <th style="width: 20%;">Tên sản phẩm</th>
+      <th style="width: 30%;">Số lượng</th>
+      <th style="width: 30%;">Doanh thu</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-p let-rowIndex="rowIndex">
+    <tr>
+      <td>
+        {{
+          dataTable.indexOf(p) +
+          1 +
+          searchQuery.pageSize * (searchQuery.page - 1)
+          }}
+        {{rowIndex+1}}
+      </td>
+      <td>{{ p.tenSanPham }}</td>
+      <td>{{ p.soLuong }}</td>
+      <td>{{ p.doanhThu |vnd}}</td>
+
+    </tr>
+  </ng-template>
+</p-table> -->
+
+<p-table [value]="dataTable" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+  [tableStyle]="{ 'min-width': '50rem' }" currentPageReportTemplate="{first} /{last} of {totalRecords} products">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:25%">STT</th>
+      <th style="width:25%">Tên sản phẩm</th>
+      <th style="width:25%">Số lượng</th>
+      <th style="width:25%">Doanh thu</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+    <tr>
+      <td>{{ rowIndex +1 }}</td>
+      <td>{{ product.tenSanPham }}</td>
+      <td>{{ product.soLuong }}</td>
+      <td>{{ product.doanhThu |vnd}}</td>
+    </tr>
+  </ng-template>
+
+</p-table>
+<!-- <pagination [totalPages]="totalPages" [currentPage]="currentPage" (pageChange)="setPage($event)"> -->
+<!-- </pagination> -->
+<div>
+
+</div>

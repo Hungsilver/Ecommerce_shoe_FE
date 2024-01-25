@@ -2,9 +2,9 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
 
-export class AbstractAPIService {
+export class BaseRequestAbstractService {
   baseUrl!: string;
-  constructor(protected http: HttpClient, protected route: Router) {}
+  constructor(protected http: HttpClient, protected route: Router) { }
 
   protected options(params: HttpParams): {
     headers: HttpHeaders;
@@ -30,7 +30,7 @@ export class AbstractAPIService {
   post(path: string, body: any, param?: any) {
     return this.http
       .post<any>(
-        `${this.baseUrl}/${path ? path : ''}`,
+        `${this.baseUrl}${path ?? ''}`,
         body,
         this.options(param)
       )
@@ -40,14 +40,14 @@ export class AbstractAPIService {
   put(path: string, body: any, param?: any) {
     return this.http
       .put<any>(
-        `${this.baseUrl}/${path ? path : ''}`,
+        `${this.baseUrl}${path ?? ''}`,
         body,
         this.options(param)
       )
       .pipe(map((res) => this.handlerResponse(res)));
   }
 
-  delete(path: string, param: any) {
-    return this.http.delete(`${this.baseUrl}/${path}`, this.options(param));
+  delete(path: string, param?: any) {
+    return this.http.delete(`${this.baseUrl}${path ?? ''}`, this.options(param));
   }
 }

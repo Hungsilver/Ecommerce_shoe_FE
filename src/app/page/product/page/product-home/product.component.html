@@ -1,0 +1,128 @@
+<main>
+  <!-- <div class="mt-5 mb-2">Home/Product</div> -->
+  <p-breadcrumb class="max-w-full mt-5 mb-2" [model]="items" [home]="home"></p-breadcrumb>
+  <div class="bg-info p-5 banner">
+    <h1>PRODUCT</h1>
+  </div>
+  <div class="row my-3">
+    <div class="col-xl-3">
+      <h3 class="my-3">SHOP BY</h3>
+      <div>
+        <h3>PRICE</h3>
+        <div class="d-flex justify-content-between">
+          <ng-container *ngIf="rangeValues && rangeValues.length===2">
+
+            <h5 class="">{{rangeValues[0] && rangeValues[0]| currency:'VND' }}</h5>
+            <h5 class="">{{ rangeValues[1]| currency:'VND' }}</h5>
+          </ng-container>
+          <!-- <h5 class="">{{ productDetail| currency:'VND' }}</h5> -->
+        </div>
+        <p-slider [(ngModel)]="rangeValues" [min]="minPrice" [max]="maxPrice" [range]="true"
+          (onSlideEnd)="getAll()"></p-slider>
+      </div>
+      <div class="my-3">
+        <h3>Màu sắc</h3>
+        <div class="flex flex-column gap-2">
+          <div *ngFor="let color of colors" class="field-checkbox">
+            <p-checkbox (onChange)="getAll()" name="color" [label]="color.ten" [value]="color.id"
+              [(ngModel)]="query.color" [inputId]="color.key"></p-checkbox>
+            <label [for]="color.key">{{ color.name }}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="my-3">
+        <h3>Xuất xứ</h3>
+        <div class="flex flex-column gap-2">
+          <div *ngFor="let origin of origins" class="field-checkbox">
+            <p-checkbox (onChange)="getAll()" name="origin" [label]="origin.ten" [value]="origin.id"
+              [(ngModel)]="query.origin" [inputId]="origin.key"></p-checkbox>
+            <label [for]="origin.key">{{ origin.name }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="my-3">
+        <h3>Thương hiệu</h3>
+        <div class="flex flex-column gap-2">
+          <div *ngFor="let brand of brands" class="field-checkbox">
+            <p-checkbox (onChange)="getAll()" name="brand" [label]="brand.ten" [value]="brand.id"
+              [(ngModel)]="query.brand" [inputId]="brand.key"></p-checkbox>
+            <label [for]="brand.key">{{ brand.name }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="my-3">
+        <h3>Chất liệu giày</h3>
+        <div class="flex flex-column gap-2">
+          <div *ngFor="let material of materials" class="field-checkbox">
+            <p-checkbox (onChange)="getAll()" name="material" [label]="material.ten" [value]="material.id"
+              [(ngModel)]="query.material" [inputId]="material.key"></p-checkbox>
+            <label [for]="material.key">{{ material.name }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="my-3">
+        <h3>Chất liệu đế giày</h3>
+        <div class="flex flex-column gap-2">
+          <div *ngFor="let materialSole of materialSoles" class="field-checkbox">
+            <p-checkbox (onChange)="getAll()" name="materialSole" [label]="materialSole.ten" [value]="materialSole.id"
+              [(ngModel)]="query.materialSole" [inputId]="materialSole.key"></p-checkbox>
+            <label [for]="materialSole.key">{{ materialSole.name }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="my-3">
+        <h3>Kích cỡ</h3>
+        <div class="flex flex-column gap-2">
+          <div *ngFor="let size of sizes" class="field-checkbox">
+            <p-checkbox (onChange)="getAll()" name="size" [label]="size.ten" [value]="size.id" [(ngModel)]="query.size"
+              [inputId]="size.key"></p-checkbox>
+            <label [for]="size.key">{{ size.size }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-9">
+      <div class="sort d-flex justify-content-end gap-3">
+        <!-- <span class="d-flex align-items-center"></span> -->
+        <div>
+          <!-- <p-dropdown [options]="typeSort" [(ngModel)]="query.isSortDesc" optionLabel="name"
+            placeholder="Sắp xếp theo giá" optionValue="value"></p-dropdown> -->
+          <span class="p-input-icon-right">
+            <input type="search" pInputText [(ngModel)]="query.keyword" />
+            <i class="pi pi-search" (click)="getAll()" style="cursor: pointer;"></i>
+          </span>
+        </div>
+      </div>
+      <div class="list-product mt-2">
+        <div class="product-item" *ngFor="let product of products;let i = index">
+          <a [routerLink]="[product.id]">
+            <img src="{{product.anhChinh}}" alt="img">
+          </a>
+          <div class="product-content">
+            <a [routerLink]="[product.id]">
+              <h4>{{product.ten}}</h4>
+            </a>
+            <span>{{product.listChiTietSanPham[0].giaBan|vndPage }} - {{
+              product.listChiTietSanPham[product.listChiTietSanPham.length - 1].giaBan| vndPage }}</span>
+          </div>
+        </div>
+
+      </div>
+      <div>
+        <div class="d-flex justify-content-center align-items-center gap-1">
+          <p-dropdown (onChange)="getAll()" [options]="listTotalPage" [(ngModel)]="query.page"></p-dropdown>
+
+          <div class="button-pagination" (click)="getAll('prev')">
+            <i class="pi pi-angle-left"></i>
+          </div>
+          <div class="button-pagination" (click)="getAll('next')">
+            <i class="pi pi-angle-right"></i>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</main>

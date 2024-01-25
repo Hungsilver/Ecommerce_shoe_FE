@@ -1,46 +1,106 @@
 <aside>
   <div class="box">
-    <label>QUICK LINK</label>
+    <Label>ADMIN</Label>
     <ul>
-      <a href="#">
+      <a *ngIf="isAdmin" routerLink="dashboard">
         <li>
-          <span class="pi pi-home"></span>
-          <span>DashBoard</span>
+          <span>
+            <i class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                aria-hidden="true">
+                <path
+                  d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                </path>
+              </svg></i>
+          </span>
+          <span>Thống kê</span>
         </li>
       </a>
-      <a href="#">
+      <a routerLink="sales">
         <li>
           <span class="pi pi-home"></span>
-          <a href="#">New Product</a>
+          <span>Bán Hàng</span>
         </li>
       </a>
-      <a href="#">
+      <a routerLink="hoa-don">
         <li>
-          <span class="pi pi-home"></span>
-          <a href="#">New Coupon</a>
+          <span class="pi pi-book"></span>
+          <span>Hóa đơn</span>
         </li>
       </a>
-    </ul>
-  </div>
-  <div class="box">
-    <label>CATALOG</label>
-    <ul>
-      <a href="#">
+      <a routerLink="tra-hang">
         <li>
-          <span class="pi pi-home"></span>
-          <a href="#">Product</a>
+          <span class="pi pi-shopping-cart"></span>
+          <span>Trả hàng</span>
         </li>
       </a>
-      <a href="#">
+      <a routerLink="san-pham">
         <li>
-          <span class="pi pi-home"></span>
-          <a href="#">Order</a>
+          <span class="pi-stop"></span>
+          <span>Sản Phẩm</span>
         </li>
       </a>
-      <a href="#">
+      <a routerLink="chi-tiet-san-pham">
         <li>
-          <span class="pi pi-home"></span>
-          <a href="#">Category</a>
+          <span>
+            <i class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                aria-hidden="true">
+                <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z"></path>
+                <path fill-rule="evenodd"
+                  d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"
+                  clip-rule="evenodd"></path>
+              </svg></i>
+          </span>
+          <span>Quản lí sản phẩm</span>
+
+        </li>
+      </a>
+
+      <a *ngIf="isAdmin" routerLink="nhan-vien">
+        <li>
+          <span class="pi pi-user"></span>
+          <span>Nhân Viên</span>
+        </li>
+      </a>
+      <a routerLink="danh-muc">
+        <li>
+          <span class="pi pi-clone"></span>
+          <span>Danh mục</span>
+        </li>
+      </a>
+      <a routerLink="mau-sac">
+        <li>
+          <span class="pi pi-cog"></span>
+          <span>Màu Sắc</span>
+        </li>
+      </a>
+      <a routerLink="xuat-xu">
+        <li>
+          <span class="pi pi-flag-fill"></span>
+          <span>Xuất xứ</span>
+        </li>
+      </a>
+      <a routerLink="phieu-giam-gia">
+        <li>
+          <span class="pi pi-file"></span>
+          <span>Phiếu Giảm Giá</span>
+        </li>
+      </a>
+      <a routerLink="thuong-hieu">
+        <li>
+          <span class="pi pi-th-large "></span>
+          <span>Thương Hiệu</span>
+        </li>
+      </a>
+      <a routerLink="kich-co">
+        <li>
+          <span class="pi pi-shield"></span>
+          <span>Kích Cỡ</span>
+        </li>
+      </a>
+      <a routerLink="chat-lieu-de-giay">
+        <li>
+          <span class="pi pi-clone"></span>
+          <span>Chất liệu đế giày</span>
         </li>
       </a>
     </ul>

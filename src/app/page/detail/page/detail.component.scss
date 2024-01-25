@@ -1,0 +1,41 @@
+main {
+  width: 75%;
+  margin: 0 auto;
+
+  .selectedBtn {
+    background-color: gray;
+    color: white;
+  }
+
+  .selectedBtnColor {
+    background-color: gray;
+    color: white;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  h3{
+    margin-top: 5px;
+    margin-bottom: 0px;
+  }
+
+  img{
+    border: 1px solid black;
+  }
+
+  .card-img-item{
+    margin-top: 5px;
+    width: 100px;
+    height: 100px;
+    margin-left: 10px;
+  }
+
+}
+
+:host ::ng-deep {
+  .p-breadcrumb {
+    border: none;
+  }
+}

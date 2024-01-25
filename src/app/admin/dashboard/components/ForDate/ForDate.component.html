@@ -1,0 +1,25 @@
+<div>
+  <p-tabView>
+    <p-tabPanel header="7 ngày trước">
+      <app-chart-column *ngIf="data7day" [dataChart]="data7day" />
+    </p-tabPanel>
+    <p-tabPanel header="28 ngày trước">
+      <app-chart-column *ngIf="data28day" [dataChart]="data28day" />
+    </p-tabPanel>
+    <p-tabPanel header="6 tháng trước">
+      <app-chart-column *ngIf="data6month" [dataChart]="data6month" />
+    </p-tabPanel>
+    <p-tabPanel header="trong 1 năm">
+      <app-chart-column *ngIf="data1nam" [dataChart]="data1nam" />
+    </p-tabPanel>
+    <p-tabPanel header="Thống kê theo khoảng ngày">
+      <div class="d-flex gap-3">
+        <p-calendar [(ngModel)]="startDate" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+        <p-calendar [(ngModel)]="endDate" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+        <button pButton type="button" (click)="getAll()">Xem</button>
+      </div>
+      <app-chart-column *ngIf="dataForDate" [dataChart]="dataForDate" />
+    </p-tabPanel>
+  </p-tabView>
+
+</div>

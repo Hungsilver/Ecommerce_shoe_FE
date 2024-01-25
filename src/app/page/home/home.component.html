@@ -3,64 +3,70 @@
 </div>
 <main>
   <div class="product-show">
-    <div class="card">
-      <img
-        class="card-img-top"
-        src="https://demo.evershop.io/assets/homepage/banner/men-shoes.jpeg"
-      />
+    <div class="product-show__top" *ngFor="let product1 of products1">
+      <div class="product-show__top-img">
+        <img src={{product1?.anhChinh}} />
+      </div>
       <!-- ../../../assets/image/image-home/kid-shoes.png -->
-      <div class="card-body">
-        <h3 class="card-title">MEN SHOES COLLECTION</h3>
-        <p class="card-text">
-          Constructed from luxury nylons, leathers, and custom hardware,
-          featuring sport details such as hidden breathing vents, waterproof +
-          antimicrobial linings, and more.
-        </p>
-      </div>
-    </div>
-    <div class="card">
-      <img
-        class="card-img-top"
-        src="https://demo.evershop.io/assets/homepage/banner/men-shoes.jpeg"
-      />
-      <div class="card-body">
-        <h3 class="card-title">MEN SHOES COLLECTION</h3>
-        <p class="card-text">
-          Constructed from luxury nylons, leathers, and custom hardware,
-          featuring sport details such as hidden breathing vents, waterproof +
-          antimicrobial linings, and more.
-        </p>
-      </div>
-    </div>
-    <div class="card">
-      <img
-        class="card-img-top"
-        src="https://demo.evershop.io/assets/homepage/banner/men-shoes.jpeg"
-      />
-      <div class="card-body">
-        <h3 class="card-title">MEN SHOES COLLECTION</h3>
-        <p class="card-text">
-          Constructed from luxury nylons, leathers, and custom hardware,
-          featuring sport details such as hidden breathing vents, waterproof +
-          antimicrobial linings, and more.
+      <div class="product-show__top-body">
+        <h3 class="product-show__top-name">{{product1.ten}}</h3>
+        <p class="product-show__top-description">
+          {{product1.moTa}}
         </p>
       </div>
     </div>
   </div>
   <div class="featured-product">
-    <h3 class="product-title">FEATURED PRODUCTS</h3>
+    <h3 class="product-title">Sản phẩm nổi bật</h3>
     <div class="list-product">
-      <div class="card" *ngFor="let p of products">
+      <div class="cards" *ngFor="let p of products">
         <a [routerLink]="['product', p.id]">
-          <img class="card-img-top" src="{{ p.image }}" />
+          <img class="img-all-product" src="{{ p.anhChinh }}" />
         </a>
         <div class="card-body">
           <a href="product/{{ p.id }}">
-            <h3 class="card-title">{{ p.name }}</h3>
+            <h3 class="card-title">{{ p.ten }}</h3>
+            <p>{{p.listChiTietSanPham[0].giaBan| currency:'VND'}} -
+              {{p.listChiTietSanPham[p.listChiTietSanPham.length-1].giaBan| currency:'VND'}}</p>
           </a>
-          <p class="card-text">${{ p.price }}</p>
         </div>
       </div>
     </div>
+  </div>
+  <div class="featured-product">
+    <h3 class="product-title">Sản phẩm bán chạy</h3>
+    <div class="list-product">
+      <div class="cards" *ngFor="let p of products">
+        <a [routerLink]="['product', p.id]">
+          <img class="img-all-product" src="{{ p.anhChinh }}" />
+        </a>
+        <div class="card-body">
+          <a href="product/{{ p.id }}">
+            <h3 class="card-title">{{ p.ten }}</h3>
+            <p>{{p.listChiTietSanPham[0].giaBan| currency:'VND'}} -
+              {{p.listChiTietSanPham[p.listChiTietSanPham.length-1].giaBan| currency:'VND'}}</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="featured-product">
+    <h3 class="text-center">Sản phẩm mới nhất</h3>
+    <p-carousel [value]="productsNew" [numVisible]="4" [numScroll]="4" [circular]="true"
+      [autoplayInterval]="timeAutoPlay">
+      <ng-template let-product pTemplate="item">
+        <a [routerLink]="['product', product.id]"
+          class="border-1 surface-border border-round m-2 text-center py-5 px-3">
+          <div class="mb-3">
+            <img src={{product.anhChinh}} [alt]="product.name" class="w-6 shadow-2 img-all-product" />
+          </div>
+          <div>
+            <h4 class="mb-1 ">{{ product.ten }}</h4>
+            <h6>{{product.listChiTietSanPham[0].giaBan| currency:'VND'}} -
+              {{product.listChiTietSanPham[product.listChiTietSanPham.length-1].giaBan| currency:'VND'}}</h6>
+          </div>
+        </a>
+      </ng-template>
+    </p-carousel>
   </div>
 </main>

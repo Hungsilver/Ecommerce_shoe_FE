@@ -1,0 +1,224 @@
+<main>
+    <div class="container">
+        <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+        <div class="content">
+            <div class="invoice">
+                <form class="" [formGroup]="form" (submit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row formInvoice">
+                                <h2 class="mt-5">Chi tiết hóa đơn</h2>
+                                <hr>
+                                <div class="col-6 mb-3">
+                                    <h4 class="mt-3">Họ và Tên*</h4>
+                                    <input type="text" name="tenKhachHang" formControlName="tenKhachHang"
+                                        class="form-control" />
+                                    <div class="text-danger" *ngIf="
+                                      form.get('tenKhachHang')?.hasError('required') &&
+                                      (form.touched || form.dirty)
+                                    ">
+                                        *Vui lòng nhập thông tin!
+                                    </div>
+                                    <div class="text-danger" *ngIf="
+                                      form.get('tenKhachHang')?.hasError('maxlength') &&
+                                      (form.touched || form.dirty)
+                                    ">
+                                        *Vui lòng không nhập quá 50 ký tự!
+                                    </div>
+                                    <div class="text-danger" *ngIf="
+                                      form.get('tenKhachHang')?.hasError('pattern') &&
+                                      (form.touched || form.dirty)
+                                    ">
+                                        *Vui lòng nhập đúng định dạng!
+                                    </div>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h4 class="mt-3">Số điện thoại*</h4>
+                                    <input type="text" formControlName="soDienThoai" class="form-control" required />
+                                    <div class="text-danger" *ngIf="
+                                    form.get('soDienThoai')?.hasError('required') &&
+                                    (form.touched || form.dirty)
+                                  ">
+                                        *Vui lòng nhập thông tin!
+                                    </div>
+                                    <div class="text-danger" *ngIf="
+                                    form.get('soDienThoai')?.hasError('minlength') &&
+                                    (form.touched || form.dirty)
+                                  ">
+                                        *Vui lòng nhập đủ 10 kí tự!
+                                    </div>
+                                    <div class="text-danger" *ngIf="
+                                    form.get('soDienThoai')?.hasError('maxlength') &&
+                                    (form.touched || form.dirty)
+                                  ">
+                                        *Vui lòng nhập đúng 10 kí tự!
+                                    </div>
+                                    <div class="text-danger" *ngIf="
+                                    form.get('soDienThoai')?.hasError('pattern') &&
+                                    (form.touched || form.dirty)
+                                  ">
+                                        *Vui lòng nhập đúng định dạng!
+                                    </div>
+                                </div>
+
+                                <div class="col-6 mb-3">
+                                    <h4 class="mt-3">Tỉnh / Thành phố*</h4>
+                                    <select id="city" formControlName="tinhThanh" (change)="onProvinceChange($event)"
+                                        class="form-control">
+                                        <option *ngFor="let province of provinces" [value]="province.ProvinceID
+                                            ">{{province.ProvinceName}}</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h4 class="mt-3">Quận / Huyện*</h4>
+                                    <select id="district" formControlName="quanHuyen"
+                                        (change)="onDistrictChange($event)" class="form-control">
+                                        <option *ngFor="let district of districts" [value]="district.DistrictID">
+                                            {{district.DistrictName}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h4 class="mt-3">Xã / Phường*</h4>
+                                    <select id="ward" formControlName="phuongXa" (change)="onWardChange($event)"
+                                        class="form-control">
+                                        <option *ngFor="let ward of wards" [value]="ward.WardCode">
+                                            {{ward.WardName}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h4 class="mt-3">Địa chỉ chi tiết*</h4>
+                                    <input type="text" formControlName="diaChi" class="form-control" required />
+                                    <div class="text-danger" *ngIf="
+                                    form.get('diaChi')?.hasError('required') &&
+                                    (form.touched || form.dirty)
+                                  ">
+                                        *Vui lòng nhập thông tin!
+                                    </div>
+                                    <div class="text-danger" *ngIf="
+                                    form.get('diaChi')?.hasError('maxlength') &&
+                                    (form.touched || form.dirty)
+                                  ">
+                                        *Vui lòng không nhập quá 100 ký tự!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="row invoiceDetail">
+                                <h2 class="mt-5">Hóa đơn của bạn</h2>
+                                <hr>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Sản phẩm</th>
+                                            <th scope="col">Số lượng</th>
+                                            <th scope="col">Đơn giá</th>
+                                            <th scope="col">Tổng tiền</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let c of cartDetails ">
+                                            <td>
+                                                <div class="table-product-detail">
+                                                    <img class="table-image"
+                                                        src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                                    <div>
+                                                        <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                                        <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                                        <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                                        <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                                        <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                                        <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{{c.soLuong}}</td>
+                                            <td>{{c.chiTietSanPham.giaBan| currency:'VND'}}</td>
+                                            <td>{{c.soLuong * c.chiTietSanPham.giaBan| currency:'VND'}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4>Tổng tiền sản phẩm: </h4>
+                                    </div>
+                                    <div class="col-6">
+                                        <p style="margin-left: 214px;">{{tongTienSanPham| currency:'VND'}}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4>Phí vận chuyển:</h4>
+                                    </div>
+                                    <div class="col-6">
+                                        <p style="margin-left: 214px;">{{phiShip| currency:'VND'}}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4>Mã Voucher:</h4>
+                                    </div>
+                                    <div class="col-6">
+                                        <input class="input-voucher" type="search" placeholder="Mã voucher..."
+                                            (change)="findByCodeVoucher($event)">
+                                        <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia===false">{{chietKhau}}%
+                                        </div>
+                                        <div class="hinhThucGiamGia" *ngIf="hinhThucGiamGia===true">{{chietKhau|
+                                            currency:'VND'}}</div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-6 mt-1">
+                                        <h4>Đơn vị vận chuyển:</h4>
+                                    </div>
+                                    <div class="col-6">
+                                        <img class="logoGHN"
+                                            src="https://firebasestorage.googleapis.com/v0/b/duantotnghiep-7b9e5.appspot.com/o/images%2FLogo-GHN-Slogan-VN-768x280.png?alt=media&token=7b40de14-ece3-4841-a3f3-7472cb336e0c"
+                                            alt="">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-6 ">
+                                        <h3><b>Tổng thanh toán:</b></h3>
+                                    </div>
+                                    <div class="col-6 ">
+                                        <h3 style="margin-left: 214px;"><b>{{tongTienThanhToan| currency:'VND'}}</b>
+                                        </h3>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="phuongThucThanhToan"
+                                            formControlName="phuongThucThanhToan" id="exampleRadios1" value="0" checked>
+                                        <label class="form-check-label" for="exampleRadios1">
+                                            Thanh toán khi nhận hàng
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="phuongThucThanhToan"
+                                            formControlName="phuongThucThanhToan" id="exampleRadios2" value="1">
+                                        <label class="form-check-label" for="exampleRadios2">
+                                            Thanh toán online
+                                        </label>
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <button type="submit" class="btn w-100 text-white">Thanh toán</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</main>

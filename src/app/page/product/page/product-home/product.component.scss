@@ -1,0 +1,66 @@
+main {
+  width: 75%;
+  margin: 0 auto;
+
+  .banner {}
+
+  .sort {
+    display: flex;
+  }
+
+  .list-product {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+
+    .product-item {
+      // background-color: rgb(231, 237, 226);
+      height: 349px;
+
+      a {
+        img {
+          width: 100%;
+          background: #f6f6f6;
+        }
+      }
+
+      .product-content {
+        padding: 10px;
+
+        a {
+          text-decoration: none;
+          color: black;
+
+          &:hover {
+            color: rgb(79, 153, 200);
+          }
+
+          h4 {
+            width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin: 0;
+          }
+        }
+
+        span {}
+      }
+    }
+  }
+
+  .button-pagination {
+    border: 1px solid rgb(163, 149, 149);
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+
+}
+
+:host ::ng-deep {
+  .p-breadcrumb {
+    border: none;
+  }
+}

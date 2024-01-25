@@ -1,0 +1,75 @@
+<div class="container" >
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between">
+            <h2>Lịch sử </h2>
+            <div>
+                <button type="button" class="btn " (click)="closeDialog()">
+                    <i class="pi pi-times" style="font-size: 1.5rem"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row border mt-3" >
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col">Ngày </th>
+                        <th scope="col">Người xác nhận</th>
+                        <th scope="col">Ghi chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let g of ghiChu; let i = index">
+                       <td>{{i+1}}</td>
+                       <td>{{
+                        g.trangThai === 0
+                          ? "Chờ thanh toán"
+                          : g.trangThai === 1
+                          ? "Hoàn thành"
+                          : g.trangThai === 2
+                          ? "Chờ xác nhận"
+                          : g.trangThai === 3
+                          ? "Chờ lấy hàng"
+                          : g.trangThai === 4
+                          ? "Đang giao hàng"
+                          : g.trangThai === 5
+                          ? "Đã giao hàng"
+                          : g.trangThai == 6
+                          ? "Đã hủy"
+                          : g.trangThai == 7
+                          ? "Trả hàng"
+                          :g.trangThai == 8
+                          ? "Cập nhật đơn hàng"
+                          : "Trạng thái không xác định"
+                      }}</td>
+                       <td *ngIf="g.ngayTao !== null">{{g.ngayTao | date: 'dd/MM/yyyy - h:mm a'}}</td>
+                       <td *ngIf="g.ngayTao === null"></td>
+                       <td *ngIf="g.nhanVien !== null">{{g.nhanVien.hoTen}}</td>
+                       <td *ngIf="g.nhanVien === null"></td>
+                       <td>{{g.ghiChu}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row phanTrang" *ngIf="ghiChu !== undefined">
+        <div class="col-2"></div>
+        <div class="col-4">
+            <div>
+                <div class="d-flex justify-content-end gap-1">
+                    <div class="button-pagination" (click)="getAll('prev')">
+                        <i class="pi pi-angle-left" style="font-size: 2rem"></i>
+                    </div>
+                    <h2>{{searchQuery.page}}</h2>
+                    <div class="button-pagination" (click)="getAll('next')">
+                        <i class="pi pi-angle-right" style="font-size: 2rem"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6"></div>
+    </div>
+</div>

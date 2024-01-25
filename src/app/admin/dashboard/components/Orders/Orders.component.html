@@ -1,0 +1,60 @@
+<div class="stats mt-5">
+  <ng-container *ngIf="stat">
+    <div class="stats-header">
+      <div class="stats-header__box">
+        <div class="stats-header__box-header">
+          <h3>Tổng đơn hàng</h3>
+        </div>
+        <div class="ps-1 text-center text-center">
+          <span>{{stat.tongDonHang}}</span>
+        </div>
+      </div>
+
+      <div class="stats-header__box">
+        <div class="stats-header__box-header">
+          <h3>Đã giao hàng</h3>
+        </div>
+        <div class="ps-1 text-center">
+          <span>{{stat.daGiaoHang}}</span>
+        </div>
+      </div>
+
+      <div class="stats-header__box">
+        <div class="stats-header__box-header">
+          <h3>Đơn hàng đang giao</h3>
+        </div>
+        <div class="ps-1 text-center">
+          <span>{{stat.dangGiaoHang}}</span>
+        </div>
+      </div>
+
+      <div class="stats-header__box">
+        <div class="stats-header__box-header">
+          <h3>Đơn hàng đã hủy</h3>
+        </div>
+        <div class="ps-1 text-center">
+          <span>{{stat.daHuy}}</span>
+        </div>
+      </div>
+
+      <div class="stats-header__box">
+        <div class="stats-header__box-header">
+          <h3>Chờ xác nhận</h3>
+        </div>
+        <div class="ps-1 text-center">
+          <span>{{stat.choXacNhan}}</span>
+        </div>
+      </div>
+      <div class="stats-header__box">
+        <div class="stats-header__box-header">
+          <h3>Chờ vận chuyển</h3>
+        </div>
+        <div class="ps-1 text-center">
+          <span>{{stat.choVanChuyen}}</span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+
+</div>

@@ -1,0 +1,67 @@
+<br>
+<div class="d-flex justify-content-between">
+    <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText [(ngModel)]="searchQuery.keyword" />
+        <!-- <p-dropdown [options]="listTotalPage" [(ngModel)]="searchQuery.page" optionLabel="name"></p-dropdown> -->
+    </span>
+    <button mat-button (click)="openDialog()">Thêm Nhân Viên</button>
+</div>
+
+
+<div class="card">
+    <p-table [value]="staffs" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 10%;">STT</th>
+                <th (click)="sortByName()" style="width: 20%;cursor: pointer;">Tên <i [ngClass]="iconSortName"></i></th>
+                <th style="width: 10%;">Image</th>
+                <th style="width: 10%;">email</th>
+                <th style="width: 10%;">SDT</th>
+                <th style="width: 10%;">Giới tính</th>
+                <th style="width: 10%;">Trạng thái</th>
+                <th style="width: 10%;"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-staff let-rowIndex="rowIndex">
+            <tr>
+                <td>
+                    {{
+                    staffs.indexOf(staff) +
+                    1 +
+                    searchQuery.pageSize * (searchQuery.page - 1)
+                    }}
+                </td>
+                <td>{{ staff.hoTen }}</td>
+                <td>
+                    <img src="{{ staff.anhDaiDien }}" alt="" width="100px" height="120px">
+                </td>
+                <td>{{ staff.email }}</td>
+                <td>{{ staff.soDienThoai }}</td>
+                <td>{{ staff.gioiTinh?'Nam':'Nữ' }}</td>
+                <td>{{ staff.trangThai?'Hoạt động':'Không hoạt động' }}</td>
+                <td>
+                    <span (click)="openDialogEdit(staff)">
+                        <i class="pi pi-file-edit"></i>
+                    </span>
+                    <span (click)="openDialogDelete(staff)">
+                        <i class="pi pi-delete-left"></i>
+                    </span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <div>
+        <div class="d-flex justify-content-end gap-1">
+            <p-dropdown (onChange)="onPageChange()" [options]="listTotalPage"
+                [(ngModel)]="searchQuery.page"></p-dropdown>
+
+            <div class="button-pagination" (click)="getAll( 'prev')">
+                <i class="pi pi-angle-left"></i>
+            </div>
+            <div class="button-pagination" (click)="getAll( 'next')">
+                <i class="pi pi-angle-right"></i>
+            </div>
+        </div>
+    </div>
+</div>

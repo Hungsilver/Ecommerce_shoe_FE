@@ -1,0 +1,178 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <input type="search" [(ngModel)]="timKiem" class="form-control" placeholder="Mã hóa đơn...">
+        </div>
+        <div class="col-8">
+            <button class="btn btn-primary" (click)="timKiemMaHoaDon()">Tìm kiếm</button>
+            <button class="btn btn-primary ms-3" (click)="showQRCode()">QR code</button>
+        </div>
+    </div>
+    <hr>
+    <div class="row" *ngIf="hienThiQrcode === true">
+        <div class="qr-container" *ngIf="isShowQrCode">
+            <div class="d-flex justify-content-center mt-5">
+                <ngx-scanner-qrcode #action="scanner" [config]="config"
+                    (event)="onEvent($event, action)"></ngx-scanner-qrcode>
+            </div>
+            <!-- loading -->
+            <p *ngIf="action.isLoading">⌛ Loading...</p>
+            <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
+                [disabled]="action.isLoading" (click)="handle(action, action.isStart ? 'stop' : 'start')">
+                <img [src]="action.isStart ? 'https://id1945.github.io/images/svg/camera-off.svg' : 'https://id1945.github.io/images/svg/camera-on.svg'"
+                    width="30px" />
+            </button>
+
+            <!-- play/pause -->
+            <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
+                [disabled]="!action.isStart" (click)="handle(action, action.isPause ? 'play' : 'pause')"
+                *ngIf="!result">
+                <!-- Thêm điều kiện để ẩn nút khi đã có kết quả -->
+                <img [src]="action.isPause ? 'https://id1945.github.io/images/svg/play.svg': 'https://id1945.github.io/images/svg/pause.svg'"
+                    width="30px" />
+            </button>
+            <!-- <button (click)="startScanning()">Quét mã QR</button> -->
+            <button (click)="turnOfQRCode()" class="btn btn-outline-primary">Tắt mã QR</button>
+
+        </div>
+
+    </div>
+    <div class="row border" *ngIf="hienThi === true">
+        <div class="row mt-3">
+            <h2>Thông tin khách hàng</h2>
+        </div>
+        <div class="row">
+            <div class="col-2 mt-2">
+                <p>Tên khách hàng:</p>
+                <p>Số điện thoại:</p>
+                <p>Địa chỉ: </p>
+                <p>Ghi chú:</p>
+            </div>
+            <div class="col-5 mt-2">
+                <p>{{hoaDon.tenKhachHang}}</p>
+                <p>{{hoaDon.soDienThoai}}</p>
+                <p>{{hoaDon.diaChi}}, {{hoaDon.phuongXa}}, {{hoaDon.quanHuyen}}, {{hoaDon.tinhThanh}}</p>
+                <p>{{hoaDon.ghiChu}}</p>
+            </div>
+            <div class="col-3 mt-2">
+                <p>Ngày giao hàng:</p>
+                <p>Trạng thái:</p>
+                <p>Phương thức thanh toán: </p>
+            </div>
+            <div class="col-2 mt-2">
+                <p>{{hoaDon.ngayCapNhat}}</p>
+                <p *ngIf="hoaDon.trangThai === 1 || hoaDon.trangThai === 5">Hoàn thành</p>
+                <p *ngIf="hoaDon.phuongThucThanhToan === 0">Khi nhận hàng</p>
+                <p *ngIf="hoaDon.phuongThucThanhToan === 1">Thanh toán VNpay</p>
+                <p *ngIf="hoaDon.trangThai === 1">Thanh toán tại quầy</p>
+            </div>
+        </div>
+    </div>
+    <div class="row border mt-3" *ngIf="hienThi === true">
+        <div class="row mt-3">
+            <h2>Thông tin đơn hàng</h2>
+        </div>
+        <hr>
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" name="allCheckbox" id="allCheckbox" (click)="toggleChecked(1)">
+                        </th>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of hoaDon.listHoaDonChiTiet">
+                        <td>
+                            <input type="checkbox" [checked]="isChecked(1)" (change)="onCheckboxChange($event, c.id)"
+                                value="{{c.id}}">
+                        </td>
+                        <td>
+                            <div class="table-product-detail">
+                                <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                <div>
+                                    <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                    <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                    <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                    <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                    <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                    <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{c.soLuong }}</td>
+                        <td>{{c.donGia | vnd}}</td>
+                        <td>{{c.soLuong*c.donGia | vnd}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row border mt-3" *ngIf="hienThi === true">
+        <div class="row">
+            <div class="col-8">
+                <h2 class="mt-3">Thông tin đơn hàng trả</h2>
+                <hr>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Tổng tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of listSanPhamTra; let i = index">
+                            <td>
+                                <div class="table-product-detail">
+                                    <img class="table-image" src="{{c.chiTietSanPham.anhSanPhams[0]?.ten}}" alt="">
+                                    <div>
+                                        <p>Tên: {{c.chiTietSanPham.sanPham.ten}}</p>
+                                        <p>Mã: {{c.chiTietSanPham.ma}}</p>
+                                        <p>Size: {{c.chiTietSanPham.kichCo.size}}</p>
+                                        <p>Màu sắc: {{c.chiTietSanPham.mauSac.ten}}</p>
+                                        <p>Chất liệu: {{c.chiTietSanPham.chatLieuGiay.ten}}</p>
+                                        <p>Loại đế: {{c.chiTietSanPham.chatLieuDeGiay.ten}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="number" min="1" max="{{c.soLuong}}" value="{{c.soLuong}}"
+                                    (blur)="capNhatSoLuong($event,i)">
+                            </td>
+                            <td>{{c.donGia | vnd}}</td>
+                            <td>{{c.soLuong*c.donGia | vnd}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4 mb-5">
+                <h2 class="mt-3">Thông tin thanh toán</h2>
+                <hr>
+                <h3><b>Tổng giá hàng gốc:</b> {{hoaDon.tongTien | vnd}}</h3>
+                <h3 *ngIf="hoaDon.phieuGiamGia === null"><b>Voucher đã sử dụng:</b> </h3>
+                <h3 *ngIf=" hoaDon.phieuGiamGia !== null && hoaDon.phieuGiamGia.hinhThucGiamGia === false "><b>Voucher đã sử dụng:</b>
+                    {{hoaDon.phieuGiamGia.chietKhau}}%</h3>
+                <h3 *ngIf="hoaDon.phieuGiamGia !== null && hoaDon.phieuGiamGia.hinhThucGiamGia === true"><b>Voucher đã sử dụng:</b>
+                    {{hoaDon.phieuGiamGia.chietKhau | vnd}}</h3>
+                <h3><b>Phí vận chuyển:</b> {{hoaDon.phiVanChuyen | vnd}}</h3>
+                <h3><b>Tổng tiền thanh toán:</b> {{hoaDon.tongTienSauGiam + hoaDon.phiVanChuyen | vnd}}</h3>
+                <h3><b>Tổng giá hàng trả:</b> {{tongTienHangTra | vnd}}</h3>
+                <hr>
+                <h3><b>Tổng tiền trả khách</b> {{tienTraKhach| vnd}}</h3>
+                <h3><b class="text-danger">*</b>Ghi chú</h3>
+                <textarea class="ghiChu w-100" [(ngModel)]="ghiChu"></textarea>
+                <div class="text-danger" *ngIf="loiGhiChu === true">
+                    *Ghi chú phải nhiều hơn 0 ký tự và ít hơn 200 ký tự !
+                </div>
+                <button class="btn btn-success mt-2 w-100" (click)="trahang()">Trả hàng</button>
+            </div>
+        </div>
+    </div>
+</div>

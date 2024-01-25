@@ -1,0 +1,57 @@
+main {
+    width: 75%;
+    margin: 0 auto;
+    height: auto;
+    margin-bottom: 100px;
+
+    .content {
+        display: flex;
+        gap: 20px;
+
+        .cards {
+            width: 80%;
+
+            .table-product-detail {
+                display: flex;
+                gap: 5px;
+
+                p {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table-image {
+                    width: 100px;
+                }
+            }
+        }
+
+        div {
+            button {
+                padding: 8px 12px;
+                background: #3a3a3a;
+                color: #fff;
+                border-radius: 5px;
+                width: 150px;
+
+                &:hover {
+                    background: #006e52;
+                }
+            }
+        }
+    }
+
+    button {
+        margin-top: 15px;
+        margin-left: 5%;
+    }
+
+    .table-action {
+        .table-icon-action {
+            i {
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+}

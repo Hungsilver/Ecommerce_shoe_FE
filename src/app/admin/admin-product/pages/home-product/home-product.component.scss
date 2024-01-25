@@ -1,0 +1,70 @@
+.button-pagination {
+    border: 1px solid rgb(210, 203, 203);
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+        font-size: 22px;
+    }
+}
+
+.shorten-text {
+    max-width: 200px;
+    max-height: 150px;
+    /* Đặt chiều rộng tối đa cho đoạn văn bản */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Thêm dấu ba chấm (...) nếu văn bản vượt quá chiều rộng */
+    white-space: nowrap;
+    /* Ngăn chặn quá trình xuống dòng */
+}
+
+.custom-button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .custom-button:hover {
+    background-color: #2980b9;
+  }
+  .search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  }
+  
+  .search-input {
+    flex: 1;
+  }
+  
+  .p-input-icon-left {
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+  }
+  
+  input {
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    text-align: left;
+    width: 300px;
+  }

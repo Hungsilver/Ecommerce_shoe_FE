@@ -1,0 +1,373 @@
+<div class="d-flex justify-content-between">
+  <h2 mat-dialog-title>Phiếu Giảm Giá</h2>
+  <div mat-dialog-title mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+  </div>
+</div>
+<ng-container *ngIf="(type && type === 'add')">
+  <mat-dialog-content class="mat-tyqpography">
+    <div class="container-fluid">
+      <!-- <div class="row"> -->
+        <form [formGroup]="voucherFrom" class="row">
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Tên</mat-label>
+              <input matInput type="text" formControlName="ten"  />
+              <!-- <mat-error *ngIf="voucherFrom?.get('ten')?.hasError('minlength') && (voucherFrom?.get('ten')?.dirty || voucherFrom?.get('voucherName')?.touched)">
+                Tên phải có ít nhất 10 ký tự
+              </mat-error> -->
+              <mat-error
+                        *ngIf="(voucherFrom?.get('ten')?.hasError('required') || voucherFrom?.get('ten')?.hasError('minlength'))
+                         && (voucherFrom?.get('ten')?.dirty || voucherFrom?.get('ten')?.touched)">
+                             <ng-container *ngIf="voucherFrom?.get('ten')?.hasError('minlength')">
+                              tên voucher phải đủ 10 ký tự
+                           </ng-container>
+                          <ng-container *ngIf="voucherFrom?.get('ten')?.hasError('required')">
+                            Tên không được để trống
+                         </ng-container>
+                      </mat-error>
+
+                        <button *ngIf="voucherFrom?.get('ten')?.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="voucherFrom.get('ten')?.setValue('')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <!-- <mat-form-field class="example-form-field"> -->
+            <mat-label>Thời Gian Bắt Đầu</mat-label>
+
+            <input class="styleInputAdd" type="datetime-local" formControlName="thoiGianBatDau" name="thoiGianBatDau" >
+            <mat-error
+            *ngIf="(voucherFrom?.get('thoiGianBatDau')?.invalid
+             )
+            && (voucherFrom?.get('thoiGianBatDau')?.dirty || voucherFrom?.get('thoiGianBatDau')?.touched)">
+
+           <ng-container *ngIf="voucherFrom?.get('thoiGianBatDau')?.invalid">
+            không được để trống
+        </ng-container>
+          </mat-error>
+           <!-- <button *ngIf="voucherFrom?.get('thoiGianBatDau')?.value" matSuffix mat-icon-button aria-label="Clear"
+           (click)="voucherFrom?.get('thoiGianBatDau')?.setValue('')">
+           <mat-icon>close</mat-icon>
+       </button> -->
+      <!-- </mat-form-field> -->
+        </div>
+          <div class="col-6 ">
+            <!-- <mat-form-field class="example-form-field"> -->
+            <mat-label>Thời Gian Kết Thúc</mat-label>
+            <input  class="styleInputAdd"  type="datetime-local"  formControlName="thoiGianKetThuc" name="thoiGianKetThuc">
+            <mat-error  *ngIf="(voucherFrom?.get('thoiGianKetThuc')?.invalid)
+            && (voucherFrom?.get('thoiGianKetThuc')?.dirty || voucherFrom?.get('thoiGianKetThuc')?.touched)">
+
+           <ng-container *ngIf="voucherFrom?.get('thoiGianKetThuc')?.invalid">
+            không được để trống
+        </ng-container>
+          </mat-error>
+          <!-- </mat-form-field> -->
+        </div>
+
+
+
+        </div>
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Chiết Khấu</mat-label>
+              <input matInput type="text" formControlName="chietKhau" >
+              <!-- <mat-error
+              *ngIf="voucherFrom?.get('chietKhau')?.invalid && (voucherFrom?.get('chietKhau')?.dirty || voucherFrom?.get('chietKhau')?.touched)">
+              chiết khấu không được để trống</mat-error> -->
+              <mat-error *ngIf="(voucherFrom?.get('chietKhau')?.invalid || voucherFrom?.get('chietKhau')?.hasError('min')
+
+              || voucherFrom?.get('chietKhau')?.hasError('pattern')
+              || voucherFrom?.get('chietKhau')?.hasError('max')) && (voucherFrom?.get('chietKhau')?.dirty || voucherFrom?.get('chietKhau')?.touched)">
+              <ng-container *ngIf="voucherFrom?.get('chietKhau')?.hasError('pattern')">
+                Chiết khấu không phù hợp
+            </ng-container>
+
+                <ng-container *ngIf="voucherFrom?.get('chietKhau')?.hasError('min')">
+                  Chiết khấu không được nhỏ hơn 0% hoặc 10.000đ
+              </ng-container>
+                <ng-container *ngIf="voucherFrom?.get('chietKhau')?.invalid">
+                    Chiết khấu không được để trống
+                </ng-container>
+
+                <ng-container *ngIf="voucherFrom?.get('chietKhau')?.hasError('max')">
+                    Chiết khấu không được lớn hơn 10% hoặc 800.000đ
+                </ng-container>
+                <!-- <mat-error *ngIf="voucherFrom?.get('chietKhau')?.hasError('customError')">
+                  {{ voucherFrom?.get('chietKhau').errors?.customError }}
+                </mat-error> -->
+            </mat-error>
+            <!-- <mat-error *ngIf="voucherFrom?.get('chietKhau')?.hasError('max')">
+                Chiết khấu không được lớn hơn 100%
+            </mat-error> -->
+              <button *ngIf="voucherFrom?.get('chietKhau')?.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="voucherFrom.get('chietKhau')?.setValue('')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Hình Thức Giảm Giá</mat-label>
+              <mat-select formControlName="hinhThucGiamGia" >
+                <mat-option [value]="true">Tiền Mặt</mat-option>
+                <mat-option [value]="false">Phần Trăm</mat-option>
+              </mat-select>
+              <mat-error
+              *ngIf="(voucherFrom?.get('hinhThucGiamGia')?.invalid) &&
+               (voucherFrom?.get('hinhThucGiamGia')?.dirty || voucherFrom?.get('hinhThucGiamGia')?.touched)">
+              Vui lòng chọn hình thức
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Chọn trạng thái</mat-label>
+              <mat-select formControlName="trangThai" >
+                <!-- <mat-option [value]="1">Còn hạn Sử dụng</mat-option> -->
+                <mat-option [value]="2">Sắp diễn ra</mat-option>
+                <!-- <mat-option [value]="0">Hết hạn sử dụng</mat-option> -->
+              </mat-select>
+              <div
+              *ngIf="voucherFrom?.get('trangThai')?.invalid && (voucherFrom?.get('trangThai')?.dirty || voucherFrom?.get('trangThai')?.touched)">
+              Vui lòng chọn trạng thái
+          </div>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Mô Tả</mat-label>
+              <textarea matInput type="text" formControlName="moTa" rows="6" ></textarea>
+
+              <mat-error
+              *ngIf="(voucherFrom?.get('moTa')?.hasError('required') || voucherFrom?.get('moTa')?.hasError('minlength'))
+               && (voucherFrom?.get('moTa')?.dirty || voucherFrom?.get('moTa')?.touched)">
+                <ng-container *ngIf="voucherFrom?.get('moTa')?.hasError('minlength')">
+                  Mô tả phải ít nhất 10 ký tự
+               </ng-container>
+               <ng-container *ngIf="voucherFrom?.get('moTa')?.hasError('required')">
+                Mô tả không được để trống
+             </ng-container>
+
+            </mat-error>
+
+              <button *ngIf="voucherFrom?.get('moTa')?.value" matSuffix mat-icon-button aria-label="Clear"
+              (click)="voucherFrom.get('moTa')?.setValue('')">
+              <mat-icon>close</mat-icon>
+          </button>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+      </div>
+
+    <!-- </div> -->
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <ng-container *ngIf="type && type === 'add'">
+      <button mat-button (click)="addVoucher()" [disabled]="!voucherFrom.valid">Xác nhận add</button>
+    </ng-container>
+
+  </mat-dialog-actions>
+
+</ng-container>
+
+<!-- UPDATE -->
+<ng-container *ngIf="(type && type === 'update')">
+  <mat-dialog-content class="mat-tyqpography">
+    <div class="container-fluid">
+      <!-- <div class="row"> -->
+        <form [formGroup]="voucherFrom" class="row">
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Tên</mat-label>
+              <input matInput type="text" formControlName="ten"  />
+
+              <mat-error
+              *ngIf="(voucherFrom?.get('ten')?.hasError('required') || voucherFrom?.get('ten')?.hasError('minlength'))
+               && (voucherFrom?.get('ten')?.dirty || voucherFrom?.get('ten')?.touched)">
+                <ng-container *ngIf="voucherFrom?.get('ten')?.hasError('required')">
+                  Tên không được để trống
+               </ng-container>
+              <ng-container *ngIf="voucherFrom?.get('ten')?.hasError('minlength')">
+               tên voucher phải đủ 10 ký tự
+            </ng-container>
+
+            </mat-error>
+
+                        <!-- <button *ngIf="voucherFrom?.get('ten')?.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="voucherFrom.get('ten')?.setValue('')">
+                        <mat-icon>close</mat-icon>
+                    </button> -->
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Thời Gian Bắt Đầu</mat-label>
+              <input matInput type="datetime" name="thoiGianBatDau"   readonly [value]="tgbd"  >
+
+              <!-- Thẻ input kiểu datetime-local để chỉnh sửa khi đang trong quá trình chỉnh sửa -->
+
+            <input   class="styleInputUpdate" type="datetime-local" formControlName="thoiGianBatDau" name="thoiGianBatDau">
+            <mat-error
+            *ngIf="(voucherFrom?.get('thoiGianBatDau')?.hasError('required') )
+            && (voucherFrom?.get('thoiGianBatDau')?.dirty || voucherFrom?.get('thoiGianBatDau')?.touched)">
+           <ng-container *ngIf="voucherFrom?.get('thoiGianBatDau')?.invalid">
+            không được để update trống
+        </ng-container>
+          </mat-error>
+        </mat-form-field>
+
+           <!-- <button *ngIf="voucherFrom?.get('thoiGianBatDau')?.value" matSuffix mat-icon-button aria-label="Clear"
+           (click)="voucherFrom?.get('thoiGianBatDau')?.setValue('')">
+           <mat-icon>close</mat-icon>
+       </button> -->
+        </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Thời Gian Kết Thúc</mat-label>
+              <input matInput  type="datetime" name="thoiGianKetThuc" readonly  [value]="tgkt" >
+              <input  class="styleInputUpdate" type="datetime-local" formControlName="thoiGianKetThuc" name="thoiGianKetThuc">
+              <mat-error
+              *ngIf="(voucherFrom?.get('thoiGianKetThuc')?.invalid )
+              && (voucherFrom?.get('thoiGianKetThuc')?.dirty || voucherFrom?.get('thoiGianKetThuc')?.touched)">
+             <ng-container *ngIf="voucherFrom?.get('thoiGianKetThuc')?.invalid">
+              không được để trống
+          </ng-container>
+            </mat-error>
+            </mat-form-field>
+        </div>
+
+
+
+        </div>
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Chiết Khấu</mat-label>
+              <input matInput type="text" formControlName="chietKhau" name="chietKhau" >
+              <!-- <mat-error
+              *ngIf="voucherFrom?.get('chietKhau')?.invalid && (voucherFrom?.get('chietKhau')?.dirty || voucherFrom?.get('chietKhau')?.touched)">
+              chiết khấu không được để trống</mat-error> -->
+              <mat-error *ngIf="(voucherFrom?.get('chietKhau')?.hasError('required') || voucherFrom?.get('chietKhau')?.hasError('min')
+
+              || voucherFrom?.get('chietKhau')?.hasError('pattern')
+              || voucherFrom?.get('chietKhau')?.hasError('max')) && (voucherFrom?.get('chietKhau')?.dirty || voucherFrom?.get('chietKhau')?.touched)">
+
+                <ng-container *ngIf="voucherFrom?.get('chietKhau')?.hasError('max')">
+                  Chiết khấu không được lớn hơn 10% hoặc 800.000đ
+                </ng-container>
+              <ng-container *ngIf="voucherFrom?.get('chietKhau')?.hasError('pattern')">
+                Chiết khấu không phù hợp
+            </ng-container>
+
+                <ng-container *ngIf="voucherFrom?.get('chietKhau')?.hasError('min')">
+                  Chiết khấu không được nhỏ hơn 0% hoặc 10.000đ
+              </ng-container>
+                <ng-container *ngIf="voucherFrom?.get('chietKhau')?.hasError('required')">
+                    Chiết khấu không được để trống
+                </ng-container>
+
+
+                <!-- <mat-error *ngIf="voucherFrom?.get('chietKhau')?.hasError('customError')">
+                  {{ voucherFrom?.get('chietKhau').errors?.customError }}
+                </mat-error> -->
+            </mat-error>
+            <!-- <mat-error *ngIf="voucherFrom?.get('chietKhau')?.hasError('max')">
+                Chiết khấu không được lớn hơn 100%
+            </mat-error> -->
+              <!-- <button *ngIf="voucherFrom?.get('chietKhau')?.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="voucherFrom.get('chietKhau')?.setValue('')">
+                        <mat-icon>close</mat-icon>
+                    </button> -->
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Hình Thức Giảm Giá</mat-label>
+              <mat-select formControlName="hinhThucGiamGia" >
+                <mat-option [value]="true">Tiền Mặt</mat-option>
+                <mat-option [value]="false">Phần Trăm</mat-option>
+              </mat-select>
+              <div
+              *ngIf="voucherFrom?.get('hinhThucGiamGia')?.invalid && (voucherFrom?.get('hinhThucGiamGia')?.dirty || voucherFrom?.get('hinhThucGiamGia')?.touched)">
+              Vui lòng chọn hình thức
+          </div>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Chọn trạng thái</mat-label>
+              <mat-select formControlName="trangThai" >
+                <mat-option [value]="1">còn Hạn sử dụng</mat-option>
+                <mat-option [value]="0">Hết hạn sử dụng</mat-option>
+                <mat-option [value]="2">Sắp diễn ra</mat-option>
+              </mat-select>
+              <div
+              *ngIf="voucherFrom?.get('trangThai')?.invalid && (voucherFrom?.get('trangThai')?.dirty || voucherFrom?.get('trangThai')?.touched)">
+              Vui lòng chọn trạng thái
+          </div>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="col-6">
+            <mat-form-field class="example-form-field">
+              <mat-label>Mô Tả</mat-label>
+              <textarea matInput type="text" formControlName="moTa" rows="6" ></textarea>
+
+              <mat-error
+              *ngIf="(voucherFrom?.get('moTa')?.hasError('required') || voucherFrom?.get('moTa')?.hasError('minlength'))
+               && (voucherFrom?.get('moTa')?.dirty || voucherFrom?.get('moTa')?.touched)">
+                <ng-container *ngIf="voucherFrom?.get('moTa')?.hasError('minlength')">
+                  Mô tả phải ít nhất 10 ký tự
+               </ng-container>
+               <ng-container *ngIf="voucherFrom?.get('moTa')?.hasError('required')">
+                Mô tả không được để trống
+             </ng-container>
+
+            </mat-error>
+
+              <!-- <button *ngIf="voucherFrom?.get('moTa')?.value" matSuffix mat-icon-button aria-label="Clear"
+              (click)="voucherFrom.get('moTa')?.setValue('')">
+              <mat-icon>close</mat-icon>
+          </button> -->
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+      </div>
+
+    <!-- </div> -->
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <ng-container *ngIf="type && type === 'update'">
+      <button mat-button (click)="updateVoucher()" [disabled]="!voucherFrom.valid">Xác nhận update</button>
+    </ng-container>
+
+  </mat-dialog-actions>
+
+</ng-container>
+<ng-container *ngIf="type === 'delete'">
+  <mat-dialog-content>
+    <h1>Bạn xác nhận xóa !</h1>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="deleteVoucher()">Xác nhận</button>
+    <button mat-button mat-dialog-close>Hủy</button>
+  </mat-dialog-actions>
+</ng-container>
+
+
+
+
+

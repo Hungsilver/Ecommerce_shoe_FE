@@ -1,26 +1,15 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
-import { ChartModule } from 'primeng/chart';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { CommonModule } from '@angular/common';
+import { AdminRoutingModule } from './admin-routing.module';
+import { AdminLazyModule } from './admin-lazy.module';
+import { VndPipe } from 'src/libs/common/pipe/changeVND.pipe';
 
-const routes: Routes = [
-  { path: '', component: DashboardComponent },
-  { path: 'product-detail', component: ProductDetailComponent },
-];
+
 @NgModule({
   imports: [
-    RouterModule.forChild(routes),
-    ChartModule,
-    TableModule,
-    ButtonModule,
-    CommonModule,
+    AdminLazyModule,
+    AdminRoutingModule,
   ],
-  exports: [RouterModule],
-  declarations: [DashboardComponent, ProductDetailComponent],
-  providers: [],
+  exports: [AdminLazyModule],
+  declarations: [],
 })
-export class AdminModule {}
+export class AdminModule { }
